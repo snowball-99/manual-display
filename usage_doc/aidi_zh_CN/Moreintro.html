@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>软件介绍 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="工具使用介绍" href="moduleintro.html" />
+    <link rel="prev" title="产品简介" href="AIDIintroduce.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">软件安装说明</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">软件介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">功能布局</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">术语概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">工程管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">工程管理示范使用方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">图像操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">导入图像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">数据导出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">数据导入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">不同模块之间标注互相支持：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">兼容旧版本标注</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">兼容说明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">操作步骤</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">第三方标注导入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">图像列表功能</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">添加工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">数据标注</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">画笔工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">多边形绘制工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">矩形绘制工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">单点绘制工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">属性系统：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">标注模式</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">缺陷标注模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">重点学习区域绘制模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">不学习区域绘制模式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id27">标签管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id28">标注筛选</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">标注分布</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tag">Tag管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id30">视图操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id31">视图过滤</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">视图变换</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">视图掩膜</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">视图转换-图像列表筛选</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id35">添加训练集</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id36">自动划分（模型训练助手）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id37">数据划分</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">训练集推荐</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">手动划分：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id40">训练</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id41">训练调参</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">执行训练</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">推理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">推理调参</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">执行推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id46">评估结果</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id47">混淆矩阵</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">类别概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">模型详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">训练过程曲线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">更多</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id52">图像筛选</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id53">筛选</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">排序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">列表右键菜单</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id56">菜单栏</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id57">文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">工具</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">图像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">训练推理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">视窗</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">帮助</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id66">版本升级工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id67">使用方法：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">实操教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最优性能指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次开发指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">业务联系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律声明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">软件介绍</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Moreintro.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>软件介绍<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>功能布局<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-18.png" /></p>
+</section>
+<section id="id3">
+<h2>术语概念<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>● 数据集：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 训练集：参与训练的数据集
+○ 测试集：参与模型自动评价的数据集
+○ 未标注：可用于人工模型评价
+</pre></div>
+</div>
+<p>● 视图：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 视图：基于原始图像的矩形框（ROI），框内图像称为视图
+○ 视图变换：视图框的变换设置
+○ 视图掩模：绘制干扰区域，干扰区域将被置黑，不参与训练
+○ 视图过滤：通过过滤设置，保留需要的视图
+</pre></div>
+</div>
+<p>● OK图与NG图：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ OK图：良品图
+○ NG图：缺陷图
+</pre></div>
+</div>
+<p>● 指标：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 漏检率 = 未检出NG数量 / NG总数
+○ 过检率 = OK判为NG数量 / OK总数
+○ 精确率 = 检测为NG的NG数量 / 检测为NG数量
+○ 召回率 = 检测为NG的NG数量 / NG总数
+○ 准确率 = 正确分类数量 / 总数
+○ 混淆矩阵：混淆矩阵是一种常用的模型评估工具，纵向是人工标注、横向是推理结果。混淆矩阵可以直观地了解模型在哪一类样本里面表现不佳，与其他哪些类别容易混淆。
+</pre></div>
+</div>
+<p>● Tag：
+○ 图像Tag：用于标识图像，可以标识图像的属性（批次、采集时间、何种缺陷等）；
+○ 视图Tag：视图的标记，可以标识视图的特征</p>
+<p>● 基础操作：
+○ 标注：在图片中绘制缺陷区域。
+○ 标签：缺陷的类别。
+○ 不学习区域/掩膜：不希望模型关注的区域。
+○ 重点学习区域：希望模型重点关注的区域。</p>
+</section>
+<section id="id4">
+<h2>工程管理<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>（1）入口</p>
+<p><img alt="Alt text" src="_images/image-19.png" /></p>
+<p>（2）创建工作区
+用户可以选择加载本地目录或者选择在已有工作区下新建子工作区</p>
+<p><img alt="Alt text" src="_images/image-20.png" /></p>
+<p>（3）创建工程</p>
+<p><img alt="Alt text" src="_images/image-21.png" /></p>
+<p>选择所需工程类型，并输入工程名称</p>
+<p><img alt="Alt text" src="_images/image-22.png" /></p>
+<p>（4）工作区支持的操作</p>
+<p><img alt="Alt text" src="_images/image-23.png" /></p>
+<p>1.工作区重命名
+2.工作区另存为
+3.新建工程
+4.工程列表
+5.打开全部工程
+6.查看工作区信息
+7.删除工作区</p>
+<p>（5）工程支持的操作</p>
+<p><img alt="Alt text" src="_images/image-24.png" /></p>
+<p>1.缩略图
+2.工程重命名
+3.工程信息
+4.备注信息编辑
+5.删除工程
+6.打开工程</p>
+<section id="id5">
+<h3>工程管理示范使用方法<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-25.png" /></p>
+</section>
+</section>
+<section id="id6">
+<h2>图像操作<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>导入图像<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>（1）以图像为单位导入</p>
+<p><img alt="Alt text" src="_images/image-26.png" /></p>
+<p>（2）以文件夹为单位导入</p>
+<p><img alt="Alt text" src="_images/image-27.png" /></p>
+</section>
+<section id="id8">
+<h3>数据导出<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>如果是导出算法模块的图像，导出的步骤如下：
+1.首先在图像列表中选择对应图像
+2.点击当前模块图像IO区中的导出按钮或者图像列表右键选择“导出选中图像/标注”</p>
+<p><img alt="Alt text" src="_images/image-28.png" />
+<img alt="Alt text" src="_images/image-29.png" /></p>
+<p>3.选择导出原图/标注，也可以选择导出渲染图</p>
+<p><img alt="Alt text" src="_images/image-30.png" /></p>
+<p>4.如果选择导出原图/标注，可以在原图和标注中进行复选（可以自由选择只导出标注/原图或者全部导出）
+5.选择想要的导出路径，点击确定即可完成数据导出
+6.在指定路径下可以看到本次存储的数据包文件</p>
+</section>
+<section id="id9">
+<h3>数据导入<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-31.png" /></p>
+<p>1.点击主界面右上角导入图像
+2.选择3.0导出的数据包文件</p>
+<p><img alt="Alt text" src="_images/image-32.png" /></p>
+<p>3.进入数据包面板</p>
+<p><img alt="Alt text" src="_images/image-33.png" /></p>
+<p>4.可以根据图像Tag进行进一步的数据筛选，Tag筛选之间的连接条件为且，最多添加3个</p>
+<p><img alt="Alt text" src="_images/image-34.png" /></p>
+<p>5.可以复选原图和标注，可以复选图像
+6.点击确定即可
+另外，如果当前模块已经有图像，导入数据包是可以只选择与已有图像对应的标注，可以实现自动对应</p>
+</section>
+<section id="id10">
+<h3>不同模块之间标注互相支持：<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p>分割和检测的标注互相支持</p></li>
+<li><p>分割和非监督分割的标注互相支持</p></li>
+<li><p>OCR和检测的标注互相支持</p></li>
+<li><p>检测和定位（装配检查）的标注互相支持</p></li>
+</ol>
+</section>
+<section id="id11">
+<h3>兼容旧版本标注<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id12">
+<h4>兼容说明<a class="headerlink" href="#id12" title="Link to this heading"></a></h4>
+<p>2.3、2.4版本的标注可以导入3.2中使用（兼容aqlabel文件）</p>
+</section>
+<section id="id13">
+<h4>操作步骤<a class="headerlink" href="#id13" title="Link to this heading"></a></h4>
+<p>2.X首模块标注导入3.0
+(1) 要准备的数据：2.X首模块source文件夹和label文件夹，且这两个文件夹需要放在同级目录下
+(2) 3.0中新建工程
+(3) 在输入节点后面增加对应的首模块
+(4) 在首模块中点击添加图像，选择source里的图像，点击添加
+(5) 进入当前模块的视图转换器中，点击应用。即可看到保留的标注</p>
+</section>
+</section>
+<section id="id14">
+<h3>第三方标注导入<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<p>分割模块：
+● 支持Labelme：json格式标注文件
+检测模块：
+● 支持Labelme：json格式标注文件
+● 支持Labelimage：xml、json格式标注文件</p>
+</section>
+<section id="id15">
+<h3>图像列表功能<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>（1）右键功能：</p>
+<p><img alt="Alt text" src="_images/image-35.png" /></p>
+</section>
+</section>
+<section id="id16">
+<h2>添加工具<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<p>（1）点击添加按钮</p>
+<p><img alt="Alt text" src="_images/image-36.png" /></p>
+<p>（2）进入添加模块界面</p>
+<p><img alt="Alt text" src="_images/image-37.png" /></p>
+<p>1.点击可以添加对应的模块
+2.单击模块，可以查看介绍信息
+（3）并联模块
+在模块后面继续添加其他工具，即可完成模块并联</p>
+<p><img alt="Alt text" src="_images/image-38.png" />
+<img alt="Alt text" src="_images/image-40.png" /></p>
+<p>（4）串联模块
+在模块后面继续添加模块，即可完成模块串联</p>
+<p><img alt="Alt text" src="_images/image-41.png" />
+<img alt="Alt text" src="_images/image-42.png" /></p>
+</section>
+<section id="id17">
+<h2>数据标注<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>画笔工具<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<section id="id19">
+<h4>多边形绘制工具：<a class="headerlink" href="#id19" title="Link to this heading"></a></h4>
+<p>多边形绘制工具分别为：圆形笔、方形笔、圆线形笔、方线形笔、钢笔、铅笔、两点画圆工具、魔棒工具、快速标注工具。</p>
+<p>（1）圆形笔和方形笔：圆形画笔工具，直径为画笔大小。方形画笔工具，边长为画笔大小。键盘A键画笔增大，D键画笔缩小。</p>
+<p><img alt="Alt text" src="_images/image-43.png" /></p>
+<p>（2）圆线形笔和方形线笔：圆线形笔工具，鼠标左键设定起点后，可以连续左键点击画出多段直线标注，双击鼠标左键结束标注。直径为画笔大小。方形线笔笔形为方形，鼠标左键设定起点后，可以连续左键点击画出多段直线标注，双击鼠标左键结束标注。线宽为画笔大小。</p>
+<p><img alt="Alt text" src="_images/image-44.png" /></p>
+<p>（3）钢笔填充鼠标左键设定起点后，连续左键点击画出多段线段轮廓，双击鼠标左键封闭轮廓，轮廓围成的区域自动填充为标注，不受画笔大小影响，使用时应避免轮廓线段交叉。
+铅笔填充长按鼠标左键，绘制标注轮廓，松开鼠标左键自动填充为标注，不受画笔大小影响，使用时应避免轮廓线段交叉。</p>
+<p><img alt="Alt text" src="_images/image-45.png" /></p>
+<p>（4）两点画圆：鼠标左键设定起点后，拖动鼠标绘制圆形，双击鼠标左键封闭轮廓，轮廓围成的区域自动填充为标注，不受画笔大小影响。</p>
+<p><img alt="Alt text" src="_images/image-46.png" /></p>
+<p>（5）魔棒：对于一些分界线比较明显的图像，通过魔棒工具可以很快速的将图像抠出，魔棒的作用是可以知道你点击的位置的颜色，并自动获取附近区域相同的颜色，使它们处于选择状态。不受画笔大小影响。并且你可以设置魔棒的生效范围（ROI）。另外，还可以选择在使用魔棒工具时是否填孔空洞</p>
+<p><img alt="Alt text" src="_images/image-47.png" />
+<img alt="Alt text" src="_images/image-48.png" /></p>
+<p>（6）快速标注：通过增加工具笔添加区域和删除工具笔删除区域来完成区域的选取,增加工具笔圈住区域则该区域被选中，删除工具笔在已选中区域进行标注，未被删除笔圈住的区域则不再被选中，完成绘制后点击应用，标注完成。不受画笔大小影响。*缺陷边界与产品背景有一定对比度时推荐使用，细条形的缺陷，小于3个像素建议使用其他工具。</p>
+<p><img alt="Alt text" src="_images/image-49.png" />
+<img alt="Alt text" src="_images/image-50.png" /></p>
+<p>（7）智能标注：对象边界清晰、对比度较高的缺陷，智能标注能够快速识别并勾勒出这些缺陷的轮廓。并且有效提高标注效率。首次使用会出现加载弹窗，提示需要4-5分钟执行初始化（具体耗时会根据显卡计算能力有所变化）。首先使用选中笔<img alt="Alt text" src="_images/image-314.png" />标注目标区域，然后使用删除笔<img alt="Alt text" src="_images/image-315.png" />删除多余目标区域。</p>
+<p><img alt="Alt text" src="_images/image-316.png" /></p>
+<p><img alt="Alt text" src="_images/image-317.png" /></p>
+<p>（8）橡皮擦：</p>
+<p>圆形橡皮擦直径为画笔大小，用于擦除标注。
+方形橡皮擦边长为画笔大小，用于擦除标注。
+线性橡皮擦笔形为圆形，鼠标左键设定起点后，可以连续左键点击画出多段直线标注，双击鼠标左键结束标注，线宽为画笔大小，用于擦除标注。
+*橡皮擦可以选择橡皮擦的形状和要擦除的缺陷类型。</p>
+<p>（9）画笔大小：显示画笔大小，单位为像素。键盘“A”键放大画笔，“D”键缩小画笔。
+（10）反选：点击反选，原有缺陷标注区域与没有缺陷标注区域相互转换。
+（11）标注腐蚀膨胀：
+①　选择想要进行腐蚀膨胀的标注类别
+②　填入膨胀或者腐蚀的具体像素值，点击确定即可</p>
+<p><img alt="Alt text" src="_images/image-51.png" /></p>
+</section>
+<section id="id20">
+<h4>矩形绘制工具：<a class="headerlink" href="#id20" title="Link to this heading"></a></h4>
+<p>【应用场景：检测工具】</p>
+<ol class="simple">
+<li><p>自由框：单击后斜拉画出任意矩形框标注。弹出标签框后选择标签名称，标注完成。</p></li>
+<li><p>标准框：点击直接放置固定大小的矩形框标注，可以调整矩形框的宽、高。弹出标签框后选择标签名称，标注完成。
+*目标大小固定时推荐使用标准模式进行标注</p></li>
+</ol>
+</section>
+<section id="id21">
+<h4>单点绘制工具：<a class="headerlink" href="#id21" title="Link to this heading"></a></h4>
+<p>【应用场景：定位工具】</p>
+<ol class="simple">
+<li><p>精确点定位工具：在图片精确标注出带类别标签的定位特征点，需要进行精确标注。
+*标注点由之前的圆形改为了方形，扩展了使用用场景。另外，方形标注同样适用于圆形目标，可以正常检出。
+*使用单点定位时，建议使用复制（ctrl+C）粘贴（ctrl+V），进行快速标注。</p></li>
+<li><p>快速标注工具：
+（1）首先画一条与目标的高或者宽平行的线段</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-52.png" /></p>
+<p>（2）然后鼠标左键按住绘制</p>
+<p><img alt="Alt text" src="_images/image-53.png" /></p>
+</section>
+<section id="id22">
+<h4>属性系统：<a class="headerlink" href="#id22" title="Link to this heading"></a></h4>
+<p>（1）设置标注&amp;推理结果颜色属性唯一，不能重复设置同种颜色属性，已经选择的颜色不能再选择。
+（2）设置绘制过程的颜色属性。
+（3）设置边线的宽度。</p>
+<p><img alt="Alt text" src="_images/image-54.png" /></p>
+</section>
+</section>
+<section id="id23">
+<h3>标注模式<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-55.png" /></p>
+<section id="id24">
+<h4>缺陷标注模式<a class="headerlink" href="#id24" title="Link to this heading"></a></h4>
+<p>缺陷标注：用于标识缺陷特征或者提取产品位置
+在此模式下，可以对图像视图内的区域进行标注</p>
+<p><img alt="Alt text" src="_images/image-56.png" /></p>
+</section>
+<section id="id25">
+<h4>重点学习区域绘制模式<a class="headerlink" href="#id25" title="Link to this heading"></a></h4>
+<p>【仅分割工具有此功能】
+重点学习区域：希望模型重点关注的区域
+在此模式下，可以对图像视图内的区域进行重点学习区域的绘制</p>
+</section>
+<section id="id26">
+<h4>不学习区域绘制模式<a class="headerlink" href="#id26" title="Link to this heading"></a></h4>
+<p>不学习区域：不希望模型关注的区域
+在此模式下，可以对图像视图内的区域进行不学习区域的绘制</p>
+</section>
+</section>
+</section>
+<section id="id27">
+<h2>标签管理<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-57.png" /></p>
+</section>
+<section id="id28">
+<h2>标注筛选<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-58.png" />
+<img alt="Alt text" src="_images/image-59.png" /></p>
+<p>筛选项有：类别、类别属性、集合、位置、宽度、高度、角度、面积等
+标注筛选结果与画布可对应：单击某一行可直接跳转对应图像的对应标注</p>
+<p><img alt="Alt text" src="_images/image-60.png" /></p>
+</section>
+<section id="id29">
+<h2>标注分布<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-61.png" /></p>
+<p>当查看的分布类型为类别时：</p>
+<p><img alt="Alt text" src="_images/image-62.png" /></p>
+<p>当查看的分布类型为位置时：</p>
+<p><img alt="Alt text" src="_images/image-63.png" /></p>
+<p>当查看的分布类型为宽度/高度/角度等时：</p>
+<p><img alt="Alt text" src="_images/image-64.png" /></p>
+</section>
+<section id="tag">
+<h2>Tag管理<a class="headerlink" href="#tag" title="Link to this heading"></a></h2>
+<p>Tag类型：图像Tag、视图Tag
+图像Tag：用于标识图像，可以标识图像的属性（批次、采集时间、何种缺陷等）；
+视图Tag：视图的标记，可以标识视图的特征</p>
+<ol class="simple">
+<li><p>设置Tag
+入口：图像列表右键、快捷键直接对图像设置Tag、</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-65.png" /><img alt="Alt text" src="_images/image-66.png" /></p>
+<p>点击之后出现设置模块Tag窗口，可以集中对所选图像进行Tag的增删改操作</p>
+<p><img alt="Alt text" src="_images/image-67.png" /></p>
+<p>点击图像信息中的Tag标识中的删除按钮，可以快速删除当前图像的对应视图Tag或者图像Tag</p>
+<p><img alt="Alt text" src="_images/image-68.png" /></p>
+</section>
+<section id="id30">
+<h2>视图操作<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<p>视图转换是什么？
+用来根据上一模块的检测结果选取当前模块有效图像范围。这个范围内的图像区域就是视图</p>
+<section id="id31">
+<h3>视图过滤<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-69.png" /></p>
+<p>视图默认保留所有NG种类，用户可以手动选择保留指定类别的缺陷作为视图来源，也可以选择OK图作为视图来源
+选中代表保留视图，取消勾选代表不保留视图</p>
+<p><img alt="Alt text" src="_images/image-70.png" /></p>
+</section>
+<section id="id32">
+<h3>视图变换<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<p>（1）可以绘制新的视图</p>
+<p><img alt="Alt text" src="_images/image-71.png" /></p>
+<p>（2）可以修改已生成视图的大小、位置、角度、腐蚀膨胀。推荐手动拖动视图框来快速编辑</p>
+<p><img alt="Alt text" src="_images/image-72.png" /></p>
+<p>（3）可以删除已有视图</p>
+<p><img alt="Alt text" src="_images/image-73.png" /></p>
+<p>（4）视图可以划分、合并</p>
+<p><img alt="Alt text" src="_images/image-74.png" /></p>
+<p>可以定义划分的横向纵向数量以及划分间隔，点击划分生效，支持撤回和重做</p>
+<p><img alt="Alt text" src="_images/image-75.png" /></p>
+<p>按住键盘ctrl依次单击可以多选视图，右键选择合并即可执行视图合并操作
+<strong>其他：</strong>
+参数初始化</p>
+<p><img alt="Alt text" src="_images/image-76.png" /></p>
+<p>撤回、重做</p>
+<p><img alt="Alt text" src="_images/image-77.png" />
+当前视图变换标识
+<img alt="Alt text" src="_images/image-78.png" /></p>
+</section>
+<section id="id33">
+<h3>视图掩膜<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<p>（1）自动生成：点击之后，会自动将上一模块的检出结果作为掩膜。同样支持反选，可以把除了检出区域之外的区域作为掩膜</p>
+<p><img alt="Alt text" src="_images/image-79.png" /></p>
+<p>（2）手动绘制：支持手动框定新的视图区域</p>
+<p><img alt="Alt text" src="_images/image-80.png" /></p>
+</section>
+<section id="id34">
+<h3>视图转换-图像列表筛选<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-81.png" /></p>
+<p>支持的筛选项：
+按照图像名称搜索
+按照图像Tag搜索</p>
+</section>
+</section>
+<section id="id35">
+<h2>添加训练集<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<section id="id36">
+<h3>自动划分（模型训练助手）<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-82.png" /></p>
+<p>模型训练助手主界面：
+共分为两个功能板块：数据划分和训练集推荐。</p>
+<p><img alt="Alt text" src="_images/image-83.png" />
+<img alt="Alt text" src="_images/image-84.png" /></p>
+<section id="id37">
+<h4>数据划分<a class="headerlink" href="#id37" title="Link to this heading"></a></h4>
+<p>比例划分：所有的已标注数据按照指定的比例划分训练集和测试集
+数量划分：所有的已标注数据按照指定的数量划分训练集和测试集</p>
+</section>
+<section id="id38">
+<h4>训练集推荐<a class="headerlink" href="#id38" title="Link to this heading"></a></h4>
+<p>根据现有基础模型，自动挑选训练推荐的数据。建议训练基础模型时：训练集/全集&gt;=5%，涵盖各类型缺陷。挑选比例=挑选数量/全集，建议取5%</p>
+<p>注意事项：只要当前模型发生变化（切换模型，再训练等），所有训练推荐集将被清空</p>
+</section>
+</section>
+<section id="id39">
+<h3>手动划分：<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<p>在图像列表中选中图像右键，可以加入/移出训练集。支持多选。</p>
+<p><img alt="Alt text" src="_images/image-85.png" /></p>
+</section>
+</section>
+<section id="id40">
+<h2>训练<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<section id="id41">
+<h3>训练调参<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-86.png" /></p>
+</section>
+<section id="id42">
+<h3>执行训练<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-87.png" /></p>
+</section>
+</section>
+<section id="id43">
+<h2>推理<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<section id="id44">
+<h3>推理调参<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-88.png" /></p>
+</section>
+<section id="id45">
+<h3>执行推理<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-89.png" /></p>
+</section>
+</section>
+<section id="id46">
+<h2>评估结果<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-90.png" /></p>
+<p>综合指标</p>
+<p><img alt="Alt text" src="_images/image-91.png" /></p>
+<p>训练集精确率：训练集中的TP/(TP+FP)</p>
+<p>训练集召回率：训练集中的TP/(TP+FN)</p>
+<p>测试集精确率：测试集中的TP/(TP+FP)</p>
+<p>测试集召回率：测试集中的TP/(TP+FN)</p>
+<p>精确率：精确率越高，区域级过检越少；精确率是相对于预测结果而言的，它表示的是预测为正的样本（缺陷样本）中有多少是对的，因此精确率即：P=TP/(TP+FP)</p>
+<p>召回率：召回率越高，区域级漏检越少；召回率是相对于样本而言的，即样本中有多少正样本（缺陷样本）被预测正确了，这样的有TP个，所有的正样本有两个去向，一个是被判为正的，另一个是错判为负的，因此总共有TP+FN个，所以，召回率 R= TP / (TP+FN)</p>
+<p>正确预测：图像级正确预测图像占全部参与评估的图像的比例，鼠标点击可以跳转到对应的图像范围。</p>
+<p>错误预测：图像级错误预测图像占全部参与评估的图像的比例，鼠标点击可以跳转到对应的图像范围。</p>
+<p>总漏检缺陷数：漏检缺陷的个数（区域级），鼠标点击可以跳转到对应的图像范围。</p>
+<p>总过检缺陷数：过检缺陷的个数（区域级），鼠标点击可以跳转到对应的图像范围。</p>
+<section id="id47">
+<h3>混淆矩阵<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<p>混淆矩阵是一种常用的模型评估工具，纵向是人工标注、横向是推理结果。混淆矩阵可以直观地了解模型在哪一类样本里面表现不佳，与其他哪些类别容易混淆。
+<strong>使用规则：</strong>
+（1）首先筛选数据集范围：</p>
+<p>所有：所有图片的混淆矩阵。</p>
+<p>名称检索：只显示根据图像存储名称进行过滤后图片的混淆矩阵。</p>
+<p>视图Tag检索：只显示根据视图Tag进行过滤后图片的混淆矩阵。</p>
+<p>图像Tag检索：只显示根据图像Tag进行过滤后图片的混淆矩阵</p>
+<p>训练集：只显示训练集的混淆矩阵。</p>
+<p>测试集：只显示测试集的混淆矩阵。</p>
+<p><img alt="Alt text" src="_images/image-92.png" /></p>
+<p>（2）选择数据集之后，可以选择查看图片级矩阵还是区域级矩阵：</p>
+<p>图片级是以整张图像定性的结果。</p>
+<p>区域级是以每张图的区域定性的结果。</p>
+<p><img alt="Alt text" src="_images/image-93.png" /></p>
+<p>（3）继而可以选择查看数量矩阵还是概率矩阵</p>
+<p>数量矩阵是按照个数进行统计的结果。</p>
+<p>概率矩阵是按照比例进行统计的结果。</p>
+<p><img alt="Alt text" src="_images/image-94.png" /></p>
+<p>（4）在筛选到想看的结果之后，可以点击矩阵中的任意一格，图像列表会根据筛选规则自动跳转对应的图像。可以核查每一张图像的结果，从而有针对性的继续优化模型。</p>
+<p><img alt="Alt text" src="_images/image-95.png" /></p>
+</section>
+<section id="id48">
+<h3>类别概览<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<p>提供了：每个缺陷类别的：漏检数（漏检的缺陷个数）、过检数（过检的缺陷个数）、精确率（该类别的TP/(TP+FP)）、召回率（该类别的TP/(TP+FN)）</p>
+</section>
+<section id="id49">
+<h3>模型详情<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<p>提供了三组模型耗时信息，分别是总耗时、单图测试耗时（平均值+最大值）、单轮迭代耗时（平均值+最大值）</p>
+<p><img alt="Alt text" src="_images/image-96.png" /></p>
+</section>
+<section id="id50">
+<h3>训练过程曲线<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<p>在训练过程中，用户可以观察损失曲线，用以帮助观察训练过程的进展情况。</p>
+</section>
+<section id="id51">
+<h3>更多<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<p>模型的详细信息，包含：训练集、测试集分别的召回率、精确率、标注数、召回数、区域精确率、区域召回率</p>
+<p><img alt="Alt text" src="_images/image-97.png" /></p>
+<p>区域精确率：以缺陷区域为单位计算的精确率</p>
+<p>区域召回率：以缺陷区域为单位计算的召回率</p>
+</section>
+</section>
+<section id="id52">
+<h2>图像筛选<a class="headerlink" href="#id52" title="Link to this heading"></a></h2>
+<section id="id53">
+<h3>筛选<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<p>筛选条件支持：</p>
+<p><img alt="Alt text" src="_images/image-98.png" />
+<img alt="Alt text" src="_images/image-99.png" />
+<img alt="Alt text" src="_images/image-100.png" />
+<img alt="Alt text" src="_images/image-101.png" /></p>
+<p>筛选条件支持与、或、非连接</p>
+<p><img alt="Alt text" src="_images/image-102.png" /></p>
+<p>一键重置：点击列表顶部的重置按钮，可以快速回到初始状态</p>
+<p><img alt="Alt text" src="_images/image-103.png" /></p>
+</section>
+<section id="id54">
+<h3>排序<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-104.png" /></p>
+</section>
+<section id="id55">
+<h3>列表右键菜单<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-105.png" /></p>
+</section>
+</section>
+<section id="id56">
+<h2>菜单栏<a class="headerlink" href="#id56" title="Link to this heading"></a></h2>
+<section id="id57">
+<h3>文件<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<p>新建工程：在当前工作区下新建工程</p>
+<p>最近打开工程：最近打开的工程</p>
+<p>关闭当前工程：关闭当前在主页面上的工程</p>
+<p>关闭所有工程：关闭当前打开的所有工程</p>
+<p>删除当前工程：删除当前在主页面上的工程，需要谨慎操作</p>
+<p><img alt="img" src="_images/cdl_wj.png" /></p>
+</section>
+<section id="id58">
+<h3>版本<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<ul>
+<li><p>保存当前为版本：保存当前工程的当前状态为版本</p></li>
+<li><p>回退至最近版本：回退至当前工程曾经保存过的版本</p></li>
+<li><p>管理已有版本：管理当前工程的所有版本</p>
+<p><img alt="img" src="_images/cdl_bb.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id59">
+<h3>工具<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<ul>
+<li><p>工厂模式：进入当前工程的工厂模式</p></li>
+<li><p>综合判定工具：给当前工程增加综合判定工具。如果已经建立了综合判定工具，则需要先删除再重新新建</p></li>
+<li><p>导出报表：给当前工程的当前模块编辑报表&amp;导出报表</p>
+<p><img alt="img" src="_images/cdl_gj.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id60">
+<h3>图像<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
+<ul>
+<li><p>导入图像：当前工程以图为单位导入图像</p></li>
+<li><p>导入文件夹：当前工程以文件夹为单位导入图像</p>
+<p><img alt="img" src="_images/cdl_tx.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id61">
+<h3>训练推理<a class="headerlink" href="#id61" title="Link to this heading"></a></h3>
+<ul>
+<li><p>训练当前模块：当前工程当前模块加入训练/训练队列</p></li>
+<li><p>推理当前模块：当前工程当前模块加入推理</p></li>
+<li><p>训练任务管理：查看/管理当前训练任务</p></li>
+<li><p>一键推理所有图像：将当前工程的所有图像按照树流程推理一遍</p></li>
+<li><p>一键推理新增图像：将当前新增图像按照树流程推理一遍</p>
+<p><img alt="img" src="_images/cdl_xltl.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id62">
+<h3>模型<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
+<ul>
+<li><p>模型导出：当前工程模型导出</p></li>
+<li><p>训练过程曲线：查看当前工程当前模块的训练过程曲线</p></li>
+<li><p>模型耗时：查看当前工程当前模块的模型耗时信息</p></li>
+<li><p>模型信息：查看当前工程当前模块的模型详细信息</p>
+<p><img alt="img" src="_images/cdl_mx.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id63">
+<h3>设置<a class="headerlink" href="#id63" title="Link to this heading"></a></h3>
+<ul>
+<li><p>首选项：打开首选项设置</p></li>
+<li><p>硬件选择：选择工程训练以及推理分别的最大GPU数量以及GPU优先级</p></li>
+<li><p>判定标准函数管理：管理综合判定节点的判定标准函数</p></li>
+<li><p>工程体积优化：清理工程临时文件，以达到大幅缩减工程体积的目的</p>
+<p><img alt="img" src="_images/cdl_sz.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id64">
+<h3>视窗<a class="headerlink" href="#id64" title="Link to this heading"></a></h3>
+<ul>
+<li><p>标尺：开启/关闭标尺</p></li>
+<li><p>辅助线：开启/关闭辅助线</p></li>
+<li><p>坐标值：开启/关闭坐标值</p></li>
+<li><p>图像信息：开启/关闭图像信息展示</p></li>
+<li><p>显示高级参数：开启/关闭高级参数</p></li>
+<li><p>启用OK/NG显示：开启/关闭画布左下角结果的展示</p>
+<p><img alt="img" src="_images/cdl_sc.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id65">
+<h3>帮助<a class="headerlink" href="#id65" title="Link to this heading"></a></h3>
+<ul>
+<li><p>使用文档</p></li>
+<li><p>开发文档</p></li>
+<li><p>示例工程</p></li>
+<li><p>显卡小工具</p></li>
+<li><p>查看日志</p></li>
+<li><p>快捷键信息</p></li>
+<li><p>关于AIDI</p>
+<p><img alt="img" src="_images/cdl_bz.png" /></p>
+</li>
+</ul>
+</section>
+</section>
+<section id="id66">
+<h2>版本升级工具<a class="headerlink" href="#id66" title="Link to this heading"></a></h2>
+<section id="id67">
+<h3>使用方法：<a class="headerlink" href="#id67" title="Link to this heading"></a></h3>
+<p>1.AIDI安装目录下找到Tools文件夹
+2.找到2To3工具，并双击打开
+<img alt="Alt text" src="_images/image-271.png" />
+3.选择旧的2.4工程，以及转化后存储路径
+<img alt="Alt text" src="_images/image-272.png" />
+保留的旧工程的数据范围包含以下内容：
+（1）图
+（2）标注
+（3）数据集划分
+（4）视图Tag
+适用模块范围：
+快检+分割
+分割+分割
+各单模块（除了定位、区域提取）</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="AIDIintroduce.html" class="btn btn-neutral float-left" title="产品简介" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="moduleintro.html" class="btn btn-neutral float-right" title="工具使用介绍" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

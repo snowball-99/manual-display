@@ -1,0 +1,831 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>軟體介紹 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="工具使用介紹" href="moduleintro.html" />
+    <link rel="prev" title="產品簡介" href="AIDIintroduce.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">產品簡介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">軟體安裝說明</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">軟體介紹</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">功能佈局</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">術語概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">專案管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">專案管理示範使用方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">圖像操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">導入圖像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">數據匯出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">數據導入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">不同模組之間標註互相支援：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">相容舊版本標註</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">相容說明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">操作步驟</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">協力廠商標註導入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">圖像列表功能</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">添加工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">數據標註</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">畫筆工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">多邊形繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">矩形繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">單點繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">內容系統：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">標註模式</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">缺陷標註模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">重點學習區域繪製模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">不學習區域繪製模式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id27">標籤管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id28">標註篩選</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">標註分佈</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tag">Tag管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id30">視圖操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id31">視圖過濾</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">視圖變換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">視圖掩膜</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">視圖轉換-圖像列表篩選</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id35">添加訓練集</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id36">自動劃分（模型訓練助手）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id37">數據劃分</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">訓練集推薦</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">手動劃分：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id40">訓練</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id41">訓練調參</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">執行訓練</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">推理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">推理調參</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">執行推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id46">評估結果</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id47">混淆矩陣</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">類別概覽</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">模型詳情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">訓練過程曲線</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">更多</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id52">圖像篩選</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id53">篩選</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">排序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">清單右鍵菜單</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id56">功能表列</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id57">文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">工具</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">圖像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">訓練推理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">視窗</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">幫助</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id66">版本升級工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id67">使用方法：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介紹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">實操教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最優效能指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次開發指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">業務聯繫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律聲明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">軟體介紹</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Moreintro.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>軟體介紹<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>功能佈局<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-18.png" /></p>
+</section>
+<section id="id3">
+<h2>術語概念<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>● 數據集：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 訓練集：參與訓練的數據集
+○ 測試集：參與模型自動評價的數據集
+○ 未標註：可用於人工模型評估
+</pre></div>
+</div>
+<p>● 視圖：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 視圖：基於原始影像的矩形框（ROI），框內圖像稱為視圖
+○ 視圖變換：視圖框的變換設定
+○ 視圖掩模：繪製干擾區域，干擾區域將被置黑，不參與訓練
+○ 視圖過濾：通過過濾設定，保留需要的視圖
+</pre></div>
+</div>
+<p>● OK圖與NG圖：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ OK圖：良品圖
+○ NG圖：缺陷圖
+</pre></div>
+</div>
+<p>● 指標：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>○ 漏檢率 = 未檢出NG數量 / NG總數
+○ 過檢率 = OK判為NG數量 / OK總數
+○ 精確率 = 檢測為NG的NG數量 / 檢測為NG數量
+○ 召回率 = 檢測為NG的NG數量 / NG總數
+○ 準確率 = 正確分類數量 / 總數
+○ 混淆矩陣：混淆矩陣是一種常用的模型評估工具，縱向是人工標註、橫向是推理結果。混淆矩陣可以直觀地瞭解模型在哪一類樣本裡面表現不佳，與其他哪些類別容易混淆。
+</pre></div>
+</div>
+<p>● Tag：
+○ 圖像Tag：用於標識圖像，可以標識圖像的屬性（批次、採集時間、何種缺陷等）；
+○ 視圖Tag：視圖的標記，可以標識視圖的特徵</p>
+<p>● 基礎操作：
+○ 標註：在圖片中繪製缺陷區域。
+○ 標籤：缺陷的類別。
+○ 不學習區域/掩膜：不希望模型關注的區域。
+○ 重點學習區域：希望模型重點關注的區域。</p>
+</section>
+<section id="id4">
+<h2>專案管理<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>（1）入口</p>
+<p><img alt="Alt text" src="_images/image-19.png" /></p>
+<p>（2）創建工作區
+用戶可以選擇加載本地目錄或者選擇在已有工作區下新建子工作區</p>
+<p><img alt="Alt text" src="_images/image-20.png" /></p>
+<p>（3）創建專案</p>
+<p><img alt="Alt text" src="_images/image-21.png" /></p>
+<p>選擇所需專案類型，並輸入專案名稱</p>
+<p><img alt="Alt text" src="_images/image-22.png" /></p>
+<p>（4）工作區支援的操作</p>
+<p><img alt="Alt text" src="_images/image-23.png" /></p>
+<p>1.工作區重命名
+2.工作區另存為
+3.新建專案
+4.專案清單
+5.打開全部專案
+6.查看工作區資訊
+7.刪除工作區</p>
+<p>（5）專案支援的操作</p>
+<p><img alt="Alt text" src="_images/image-24.png" /></p>
+<p>1.縮略圖
+2.專案重命名
+3.專案資訊
+4.備註資訊編輯
+5.刪除專案
+6.打開專案</p>
+<section id="id5">
+<h3>專案管理示範使用方法<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-25.png" /></p>
+</section>
+</section>
+<section id="id6">
+<h2>圖像操作<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>導入圖像<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>（1）以圖像為單位導入</p>
+<p><img alt="Alt text" src="_images/image-26.png" /></p>
+<p>（2）以資料夾為單位導入</p>
+<p><img alt="Alt text" src="_images/image-27.png" /></p>
+</section>
+<section id="id8">
+<h3>數據匯出<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>如果是匯出演算法模組的圖像，匯出的步驟如下：</p>
+<ol class="simple">
+<li><p>首先在圖像列表中選擇對應圖像</p></li>
+<li><p>點擊當前模組圖像IO區中的匯出按鈕或者圖像清單右鍵選擇“匯出選中圖像/標註”</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-28.png" />
+<img alt="Alt text" src="_images/image-29.png" /></p>
+<ol class="simple">
+<li><p>選擇匯出原圖/標註，也可以選擇匯出渲染圖</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-30.png" /></p>
+<ol class="simple">
+<li><p>如果選擇匯出原圖/標註，可以在原圖和標註中進行複選（可以自由選擇只匯出標註/原圖或者全部匯出）</p></li>
+<li><p>選擇想要的匯出路徑，點擊確定即可完成數據匯出</p></li>
+<li><p>在指定路徑下可以看到本次存儲的數據包檔案</p></li>
+</ol>
+</section>
+<section id="id9">
+<h3>數據導入<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-31.png" /></p>
+<ol class="simple">
+<li><p>點擊主介面右上角導入圖像</p></li>
+<li><p>選擇3.0匯出的數據包檔案</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-32.png" /></p>
+<ol class="simple">
+<li><p>進入數據包面板</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-33.png" /></p>
+<ol class="simple">
+<li><p>可以根據圖像Tag進行進一步的數據篩選，Tag篩選之間的連接條件為且，最多添加3個</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-34.png" /></p>
+<ol class="simple">
+<li><p>可以複選原圖和標註，可以複選圖像</p></li>
+<li><p>點擊確定即可
+另外，如果當前模組已經有圖像，導入資料包是可以只選擇與已有圖像對應的標註，可以實現自動對應</p></li>
+</ol>
+</section>
+<section id="id10">
+<h3>不同模組之間標註互相支援：<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p>分割和檢測的標註互相支援</p></li>
+<li><p>分割和非監督分割的標註互相支援</p></li>
+<li><p>OCR和檢測的標註互相支援</p></li>
+<li><p>檢測和定位（裝配檢查）的標註互相支援</p></li>
+</ol>
+</section>
+<section id="id11">
+<h3>相容舊版本標註<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id12">
+<h4>相容說明<a class="headerlink" href="#id12" title="Link to this heading"></a></h4>
+<p>2.3、2.4版本的標註可以導入3.2中使用（相容aqlabel檔）</p>
+</section>
+<section id="id13">
+<h4>操作步驟<a class="headerlink" href="#id13" title="Link to this heading"></a></h4>
+<p>2.X首模組標註導入3.0
+(1) 要準備的數據：2.X首模組source資料夾和label資料夾，且這兩個資料夾需要放在相同目錄下
+(2) 3.0中新建專案
+(3) 在輸入節點後面增加對應的首模組
+(4) 在首模組中點擊添加圖像，選擇source裡的圖像，點擊添加
+(5) 進入當前模組的視圖轉換器中，點擊應用。即可看到保留的標註</p>
+</section>
+</section>
+<section id="id14">
+<h3>協力廠商標註導入<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<p>分割模組：
+● 支援Labelme：json格式標註文件
+檢測模組：
+● 支援Labelme：json格式標註文件
+● 支援Labelimage：xml、json格式標註文件</p>
+</section>
+<section id="id15">
+<h3>圖像列表功能<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>（1）右鍵功能：</p>
+<p><img alt="Alt text" src="_images/image-35.png" /></p>
+</section>
+</section>
+<section id="id16">
+<h2>添加工具<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<p>（1）點擊添加按鈕</p>
+<p><img alt="Alt text" src="_images/image-36.png" /></p>
+<p>（2）進入添加模組介面</p>
+<p><img alt="Alt text" src="_images/image-37.png" /></p>
+<p>1.點擊可以添加對應的模組
+2.按一下模組，可以查看介紹資訊
+（3）並聯模組
+在模組後面繼續添加其他工具，即可完成模組並聯</p>
+<p><img alt="Alt text" src="_images/image-38.png" />
+<img alt="Alt text" src="_images/image-40.png" /></p>
+<p>（4）串聯模組
+在模組後面繼續添加模組，即可完成模組串聯</p>
+<p><img alt="Alt text" src="_images/image-41.png" />
+<img alt="Alt text" src="_images/image-42.png" /></p>
+</section>
+<section id="id17">
+<h2>數據標註<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>畫筆工具<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<section id="id19">
+<h4>多邊形繪製工具：<a class="headerlink" href="#id19" title="Link to this heading"></a></h4>
+<p>多邊形繪製工具分別為：圓形筆、方形筆、圓線形筆、方線形筆、鋼筆、鉛筆、兩點畫圓工具、魔術棒工具、快速標註工具。
+（1）圓形筆和方形筆：圓形畫筆工具，直徑為畫筆大小。方形畫筆工具，邊長為畫筆大小。鍵盤A鍵畫筆增大，D鍵畫筆縮小。</p>
+<p><img alt="Alt text" src="_images/image-43.png" /></p>
+<p>（2）圓線形筆和方形線筆：圓線形筆工具，滑鼠左鍵設定起點後，可以連續左鍵點擊畫出多段直線標註，按兩下滑鼠左鍵結束標註。直徑為畫筆大小。方形線筆筆形為方形，滑鼠左鍵設定起點後，可以連續左鍵點擊畫出多段直線標註，按兩下滑鼠左鍵結束標註。線寬為畫筆大小。</p>
+<p><img alt="Alt text" src="_images/image-44.png" /></p>
+<p>（3）鋼筆填充滑鼠左鍵設定起點後，連續左鍵點擊畫出多段線段輪廓，按兩下滑鼠左鍵封閉輪廓，輪廓圍成的區域自動填充為標註，不受畫筆大小影響，使用時應避免輪廓線段交叉。
+鉛筆填充長按滑鼠左鍵，繪製標註輪廓，鬆開滑鼠左鍵自動填充為標註，不受畫筆大小影響，使用時應避免輪廓線段交叉。</p>
+<p><img alt="Alt text" src="_images/image-45.png" /></p>
+<p>（4）兩點畫圓：滑鼠左鍵設定起點後，拖動滑鼠繪製圓形，按兩下滑鼠左鍵封閉輪廓，輪廓圍成的區域自動填充為標註，不受畫筆大小影響。</p>
+<p><img alt="Alt text" src="_images/image-46.png" /></p>
+<p>（5）魔術棒：對於一些分界線比較明顯的圖像，通過魔術棒工具可以很快速的將圖像摳出，魔術棒的作用是可以知道你點擊的位置的顏色，並自動獲取附近區域相同的顏色，使它們處於選擇狀態。不受畫筆大小影響。並且你可以設定魔術棒的生效範圍（ROI）。另外，還可以選擇在使用魔術棒工具時是否填孔空洞</p>
+<p><img alt="Alt text" src="_images/image-47.png" />
+<img alt="Alt text" src="_images/image-48.png" /></p>
+<p>（6）快速標註：通過新增工具筆添加區域和刪除工具筆刪除區域來完成區域的選取,新增工具筆圈住區域則該區域被選中，刪除工具筆在已選中區域進行標註，未被刪除筆圈住的區域則不再被選中，完成繪製後點擊應用，標註完成。不受畫筆大小影響。*缺陷邊界與產品背景有一定對比度時推薦使用，細條形的缺陷，小於3個像素建議使用其他工具。</p>
+<p><img alt="Alt text" src="_images/image-49.png" />
+<img alt="Alt text" src="_images/image-50.png" /></p>
+<p>（7）智能標注：對象邊界清晰、對比度較高的缺陷，智能標注能夠快速識別並勾勒出這些缺陷的輪廓。並且有效提高標注效率。首次使用會出現加載彈窗，提示需要 4-5 分鐘執行初始化（具體耗時會根據顯卡計算能力有所變化）。首先使用選中筆<img alt="Alt text" src="_images/image-467.png" />標注目標區域，然後使用刪除筆<img alt="Alt text" src="_images/image-466.png" />刪除多餘目標區域。<br>
+<img alt="Alt text" src="_images/image-464.png" />
+<img alt="Alt text" src="_images/image-465.png" />
+（8）橡皮擦：
+圓形橡皮擦直徑為畫筆大小，用於擦除標註。
+方形橡皮擦邊長為畫筆大小，用於擦除標註。
+線性橡皮擦筆形為圓形，滑鼠左鍵設定起點後，可以連續左鍵點擊畫出多段直線標註，按兩下滑鼠左鍵結束標註，線寬為畫筆大小，用於擦除標註。
+*橡皮擦可以選擇橡皮擦的形狀和要擦除的缺陷類型。<br>
+（9）畫筆大小：顯示畫筆大小，單位為像素。鍵盤“A”鍵放大畫筆，“D”鍵縮小畫筆。<br>
+（10）反選：點擊反選，原有缺陷標註區域與沒有缺陷標註區域相互轉換。<br>
+（11）標註腐蝕膨脹：
+①　選擇想要進行腐蝕膨脹的標註類別
+②　填入膨脹或者腐蝕的具體像素值，點擊確定即可</p>
+<p><img alt="Alt text" src="_images/image-51.png" /></p>
+</section>
+<section id="id20">
+<h4>矩形繪製工具：<a class="headerlink" href="#id20" title="Link to this heading"></a></h4>
+<p>【應用場景：檢測工具】</p>
+<ol class="simple">
+<li><p>自由框：按一下後斜拉畫出任意矩形框標註。彈出標籤框後選擇標籤名稱，標註完成。</p></li>
+<li><p>標準框：點擊直接放置固定大小的矩形框標註，可以調整矩形框的寬、高。彈出標籤框後選擇標籤名稱，標註完成。
+*目標大小固定時推薦使用標準模式進行標註</p></li>
+</ol>
+</section>
+<section id="id21">
+<h4>單點繪製工具：<a class="headerlink" href="#id21" title="Link to this heading"></a></h4>
+<p>【應用場景：定位工具】</p>
+<ol class="simple">
+<li><p>精確點定位工具：在圖片精確標註出帶類別標籤的定位特徵點，需要進行精確標註。
+*標註點由之前的圓形改為了方形，擴展了使用用場景。另外，方形標註同樣適用於圓形目標，可以正常檢出。
+*使用單點定位時，建議使用複製（ctrl+C）黏貼（ctrl+V），進行快速標註。</p></li>
+<li><p>快速標註工具：
+（1）首先畫一條與目標的高或者寬平行的線段</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-52.png" /></p>
+<p>（2）然後滑鼠左鍵按住繪製</p>
+<p><img alt="Alt text" src="_images/image-53.png" /></p>
+</section>
+<section id="id22">
+<h4>內容系統：<a class="headerlink" href="#id22" title="Link to this heading"></a></h4>
+<p>（1）設定標註&amp;推理結果顏色屬性唯一，不能重複設定同種顏色內容，已經選擇的顏色不能再選擇。
+（2）設定繪製過程的顏色內容。
+（3）設定邊線的寬度。</p>
+<p><img alt="Alt text" src="_images/image-54.png" /></p>
+</section>
+</section>
+<section id="id23">
+<h3>標註模式<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-55.png" /></p>
+<section id="id24">
+<h4>缺陷標註模式<a class="headerlink" href="#id24" title="Link to this heading"></a></h4>
+<p>缺陷標註：用於標識缺陷特徵或者選取產品位置
+在此模式下，可以對圖像視圖內的區域進行標註</p>
+<p><img alt="Alt text" src="_images/image-56.png" /></p>
+</section>
+<section id="id25">
+<h4>重點學習區域繪製模式<a class="headerlink" href="#id25" title="Link to this heading"></a></h4>
+<p>【僅分割工具有此功能】
+重點學習區域：希望模型重點關注的區域
+在此模式下，可以對圖像視圖內的區域進行重點學習區域的繪製</p>
+</section>
+<section id="id26">
+<h4>不學習區域繪製模式<a class="headerlink" href="#id26" title="Link to this heading"></a></h4>
+<p>不學習區域：不希望模型關注的區域
+在此模式下，可以對圖像視圖內的區域進行不學習區域的繪製</p>
+</section>
+</section>
+</section>
+<section id="id27">
+<h2>標籤管理<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-57.png" /></p>
+</section>
+<section id="id28">
+<h2>標註篩選<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-58.png" />
+<img alt="Alt text" src="_images/image-59.png" /></p>
+<p>篩選項有：類別、類別屬性、集合、位置、寬度、高度、角度、面積等
+標註篩選結果與畫布可對應：按一下某一行可直接跳轉對應圖像的對應標註</p>
+<p><img alt="Alt text" src="_images/image-60.png" /></p>
+</section>
+<section id="id29">
+<h2>標註分佈<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<p><img alt="Alt text" src="_images/image-61.png" /></p>
+<p>當查看的分佈類型為類別時：</p>
+<p><img alt="Alt text" src="_images/image-62.png" /></p>
+<p>當查看的分佈類型為位置時：</p>
+<p><img alt="Alt text" src="_images/image-63.png" /></p>
+<p>當查看的分佈類型為寬度/高度/角度等時：</p>
+<p><img alt="Alt text" src="_images/image-64.png" /></p>
+</section>
+<section id="tag">
+<h2>Tag管理<a class="headerlink" href="#tag" title="Link to this heading"></a></h2>
+<p>Tag類型：圖像Tag、視圖Tag
+圖像Tag：用於標識圖像，可以標識圖像的屬性（批次、採集時間、何種缺陷等）；
+視圖Tag：視圖的標記，可以標識視圖的特徵</p>
+<ol class="simple">
+<li><p>設定Tag
+入口：圖像列表右鍵、快速鍵直接對圖像設定Tag、</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-65.png" /><img alt="Alt text" src="_images/image-66.png" /></p>
+<p>點擊之後出現設定模組Tag視窗，可以集中對所選圖像進行Tag的增刪進行操作</p>
+<p><img alt="Alt text" src="_images/image-67.png" /></p>
+<p>點擊圖像資訊中的Tag標識中的刪除按鈕，可以快速刪除當前圖像的對應視圖Tag或者圖像Tag</p>
+<p><img alt="Alt text" src="_images/image-68.png" /></p>
+</section>
+<section id="id30">
+<h2>視圖操作<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<p>視圖轉換是什麼？
+用來根據上一模組的檢測結果選取當前模組有效圖像範圍。這個範圍內的圖像區域就是視圖</p>
+<section id="id31">
+<h3>視圖過濾<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-69.png" /></p>
+<p>視圖默認保留所有NG種類，用戶可以手動選擇保留指定類別的缺陷作為視圖來源，也可以選擇OK圖作為視圖來源
+選中代表保留視圖，取消勾選代表不保留視圖</p>
+<p><img alt="Alt text" src="_images/image-70.png" /></p>
+</section>
+<section id="id32">
+<h3>視圖變換<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<p>（1）可以繪製新的視圖</p>
+<p><img alt="Alt text" src="_images/image-71.png" /></p>
+<p>（2）可以修改已生成視圖的大小、位置、角度、腐蝕膨脹。推薦手動拖動視圖框來快速編輯</p>
+<p><img alt="Alt text" src="_images/image-72.png" /></p>
+<p>（3）可以刪除已有視圖</p>
+<p><img alt="Alt text" src="_images/image-73.png" /></p>
+<p>（4）視圖可以劃分、合併</p>
+<p><img alt="Alt text" src="_images/image-74.png" /></p>
+<p>可以定義劃分的橫向縱向數量以及劃分間隔，點擊劃分生效，支援撤回和重做</p>
+<p><img alt="Alt text" src="_images/image-75.png" /></p>
+<p>按住鍵盤ctrl依次按一下可以多選視圖，右鍵選擇合併即可執行視圖合併操作
+<strong>其他：</strong>
+參數初始化</p>
+<p><img alt="Alt text" src="_images/image-76.png" /></p>
+<p>撤回、重做</p>
+<p><img alt="Alt text" src="_images/image-77.png" />
+當前視圖變換標識
+<img alt="Alt text" src="_images/image-78.png" /></p>
+</section>
+<section id="id33">
+<h3>視圖掩膜<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<p>（1）自動生成：點擊之後，會自動將上一模組的檢出結果作為掩膜。同樣支援反選，可以把除了檢出區域之外的區域作為掩膜</p>
+<p><img alt="Alt text" src="_images/image-79.png" /></p>
+<p>（2）手動繪製：支援手動框定新的視圖區域</p>
+<p><img alt="Alt text" src="_images/image-80.png" /></p>
+</section>
+<section id="id34">
+<h3>視圖轉換-圖像列表篩選<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-81.png" /></p>
+<p>支援的篩選項：
+按照圖像名稱蒐索
+按照圖像Tag蒐索</p>
+</section>
+</section>
+<section id="id35">
+<h2>添加訓練集<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<section id="id36">
+<h3>自動劃分（模型訓練助手）<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-82.png" /></p>
+<p>模型訓練助手主介面：
+共分為兩個功能板塊：數據劃分和訓練集推薦。</p>
+<p><img alt="Alt text" src="_images/image-83.png" />
+<img alt="Alt text" src="_images/image-84.png" /></p>
+<section id="id37">
+<h4>數據劃分<a class="headerlink" href="#id37" title="Link to this heading"></a></h4>
+<p>比例劃分：所有的已標註資料按照指定的比例劃分訓練集和測試集
+數量劃分：所有的已標註資料按照指定的數量劃分訓練集和測試集</p>
+</section>
+<section id="id38">
+<h4>訓練集推薦<a class="headerlink" href="#id38" title="Link to this heading"></a></h4>
+<p>根據現有基礎模型，自動挑選訓練推薦的數據。建議訓練基礎模型時：訓練集/全集&gt;=5%，涵蓋各類型缺陷。挑選比例=挑選數量/全集，建議取5%
+注意事項：只要當前模型發生變化（切換模型，再訓練等），所有訓練推薦集將被清空</p>
+</section>
+</section>
+<section id="id39">
+<h3>手動劃分：<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<p>在圖像列表中選中圖像右鍵，可以加入/移出訓練集。支援多選。</p>
+<p><img alt="Alt text" src="_images/image-85.png" /></p>
+</section>
+</section>
+<section id="id40">
+<h2>訓練<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<section id="id41">
+<h3>訓練調參<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-86.png" /></p>
+</section>
+<section id="id42">
+<h3>執行訓練<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-87.png" /></p>
+</section>
+</section>
+<section id="id43">
+<h2>推理<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<section id="id44">
+<h3>推理調參<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-88.png" /></p>
+</section>
+<section id="id45">
+<h3>執行推理<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-89.png" /></p>
+</section>
+</section>
+<section id="id46">
+<h2>評估結果<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<p>入口：</p>
+<p><img alt="Alt text" src="_images/image-90.png" /></p>
+<p>綜合指標</p>
+<p><img alt="Alt text" src="_images/image-91.png" /></p>
+<p>訓練集精確率：訓練集中的TP/(TP+FP)
+訓練集召回率：訓練集中的TP/(TP+FN)
+測試集精確率：測試集中的TP/(TP+FP)
+測試集召回率：測試集中的TP/(TP+FN)
+精確率：精確率越高，區域級過檢越少；精確率是相對於預測結果而言的，它表示的是預測為正的樣本（缺陷樣本）中有多少是對的，因此精確率即：P=TP/(TP+FP)
+召回率：召回率越高，區域級漏檢越少；召回率是相對於樣本而言的，即樣本中有多少正樣本（缺陷樣本）被預測正確了，這樣的有TP個，所有的正樣本有兩個去向，一個是被判為正的，另一個是錯判為負的，囙此總共有TP+FN個，所以，召回率 R= TP / (TP+FN)
+正確預測：圖像級正確預測圖像占全部參與評估的圖像的比例，滑鼠點擊可以跳轉到對應的圖像範圍。
+錯誤預測：圖像級錯誤預測圖像占全部參與評估的圖像的比例，滑鼠點擊可以跳轉到對應的圖像範圍。
+總漏檢缺陷數：漏檢缺陷的個數（區域級），滑鼠點擊可以跳轉到對應的圖像範圍。
+總過檢缺陷數：過檢缺陷的個數（區域級），滑鼠點擊可以跳轉到對應的圖像範圍。</p>
+<section id="id47">
+<h3>混淆矩陣<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<p>混淆矩陣是一種常用的模型評估工具，縱向是人工標註、橫向是推理結果。混淆矩陣可以直觀地瞭解模型在哪一類樣本裡面表現不佳，與其他哪些類別容易混淆。
+<strong>使用規則：</strong>
+（1）首先篩選數據集範圍：
+● 所有：所有圖片的混淆矩陣。
+● 名稱檢索：只顯示根據圖像存儲名稱進行過濾後圖片的混淆矩陣。
+● 視圖Tag檢索：只顯示根據視圖Tag進行過濾後圖片的混淆矩陣。
+● 圖像Tag檢索：只顯示根據圖像Tag進行過濾後圖片的混淆矩陣
+● 訓練集：只顯示訓練集的混淆矩陣。
+● 測試集：只顯示測試集的混淆矩陣。</p>
+<p><img alt="Alt text" src="_images/image-92.png" /></p>
+<p>（2）選擇數據集之後，可以選擇查看圖片級矩陣還是區域級矩陣：
+● 圖片級是以整張圖像定性的結果。
+● 區域級是以每張圖的區域定性的結果。</p>
+<p><img alt="Alt text" src="_images/image-93.png" /></p>
+<p>（3）繼而可以選擇查看數量矩陣還是概率矩陣
+● 數量矩陣是按照個數進行統計的結果。
+● 概率矩陣是按照比例進行統計的結果。</p>
+<p><img alt="Alt text" src="_images/image-94.png" /></p>
+<p>（4）在篩選到想看的結果之後，可以點擊矩陣中的任意一格，圖像清單會根據篩選規則自動跳轉對應的圖像。可以核查每一張圖像的結果，從而有針對性的繼續優化模型。</p>
+<p><img alt="Alt text" src="_images/image-95.png" /></p>
+</section>
+<section id="id48">
+<h3>類別概覽<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<p>提供了：每個缺陷類別的：漏檢數（漏檢的缺陷個數）、過檢數（過檢的缺陷個數）、精確率（該類別的TP/(TP+FP)）、召回率（該類別的TP/(TP+FN)）</p>
+</section>
+<section id="id49">
+<h3>模型詳情<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<p>提供了三組模型耗時資訊，分別是總耗時、單圖測試耗時（平均值+最大值）、單輪反覆運算耗時（平均值+最大值）</p>
+<p><img alt="Alt text" src="_images/image-96.png" /></p>
+</section>
+<section id="id50">
+<h3>訓練過程曲線<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<p>在訓練過程中，用戶可以觀察損失曲線，用以幫助觀察訓練過程的進展情況。</p>
+</section>
+<section id="id51">
+<h3>更多<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<p>模型的詳細資訊，包含：訓練集、測試集分別的召回率、精確率、標註數、召回數、區域精確率、區域召回率</p>
+<p><img alt="Alt text" src="_images/image-97.png" /></p>
+<p>區域精確率：以缺陷區域為單位計算的精確率
+區域召回率：以缺陷區域為單位計算的召回率</p>
+</section>
+</section>
+<section id="id52">
+<h2>圖像篩選<a class="headerlink" href="#id52" title="Link to this heading"></a></h2>
+<section id="id53">
+<h3>篩選<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<p>篩選條件支援：</p>
+<p><img alt="Alt text" src="_images/image-98.png" />
+<img alt="Alt text" src="_images/image-99.png" />
+<img alt="Alt text" src="_images/image-100.png" />
+<img alt="Alt text" src="_images/image-101.png" /></p>
+<p>篩選條件支援與、或、非連接</p>
+<p><img alt="Alt text" src="_images/image-102.png" /></p>
+<p>一鍵重置：點擊清單頂部的重置按鈕，可以快速回到初始狀態</p>
+<p><img alt="Alt text" src="_images/image-103.png" /></p>
+</section>
+<section id="id54">
+<h3>排序<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-104.png" /></p>
+</section>
+<section id="id55">
+<h3>清單右鍵菜單<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-105.png" /></p>
+</section>
+</section>
+<section id="id56">
+<h2>功能表列<a class="headerlink" href="#id56" title="Link to this heading"></a></h2>
+<section id="id57">
+<h3>文件<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<ul>
+<li><p>新建專案：在當前工作區下新建專案</p></li>
+<li><p>最近打開專案：最近打開的專案</p></li>
+<li><p>關閉當前專案：關閉當前在主頁面上的專案</p></li>
+<li><p>關閉所有專案：關閉當前打開的所有專案</p></li>
+<li><p>刪除當前專案：刪除當前在主頁面上的專案，需要謹慎操作</p>
+<p><img alt="img" src="_images/cdl_wj.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id58">
+<h3>版本<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<ul>
+<li><p>保存當前為版本：保存當前專案的當前狀態為版本</p></li>
+<li><p>回退至最近版本：回退至當前專案曾經保存過的版本</p></li>
+<li><p>管理已有版本：管理當前專案的所有版本</p>
+<p><img alt="img" src="_images/cdl_bb.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id59">
+<h3>工具<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<ul>
+<li><p>工廠模式：進入當前專案的工廠模式</p></li>
+<li><p>綜合判定工具：給當前專案增加綜合判定工具。如果已經建立了綜合判定工具，則需要先刪除再重新新建</p></li>
+<li><p>匯出報表：給當前專案的當前模組編輯報表&amp;匯出報表</p>
+<p><img alt="img" src="_images/cdl_gj.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id60">
+<h3>圖像<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
+<ul>
+<li><p>導入圖像：當前專案以圖為單位導入圖像</p></li>
+<li><p>導入資料夾：當前專案以資料夾為單位導入圖像</p>
+<p><img alt="img" src="_images/cdl_tx.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id61">
+<h3>訓練推理<a class="headerlink" href="#id61" title="Link to this heading"></a></h3>
+<ul>
+<li><p>訓練當前模組：當前專案當前模組加入訓練/訓練隊列</p></li>
+<li><p>推理當前模組：當前專案當前模組加入推理</p></li>
+<li><p>訓練任務管理：查看/管理當前訓練任務</p></li>
+<li><p>一鍵推理所有圖像：將當前專案的所有圖像按照樹狀流程推理一遍</p></li>
+<li><p>一鍵推理新增圖像：將當前新增圖像按照樹狀流程推理一遍</p>
+<p><img alt="img" src="_images/cdl_xltl.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id62">
+<h3>模型<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
+<ul>
+<li><p>模型匯出：當前專案模型匯出</p></li>
+<li><p>訓練過程曲線：查看當前專案當前模組的訓練過程曲線</p></li>
+<li><p>模型耗時：查看當前專案當前模組的模型耗時資訊</p></li>
+<li><p>模型資訊：查看當前專案當前模組的模型詳細資訊</p>
+<p><img alt="img" src="_images/cdl_mx.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id63">
+<h3>設定<a class="headerlink" href="#id63" title="Link to this heading"></a></h3>
+<ul>
+<li><p>首選項：打開首選項設定</p></li>
+<li><p>硬體選擇：選擇專案訓練以及推理分別的最大GPU數量以及GPU優先順序</p></li>
+<li><p>判定標準函數管理：管理綜合判定節點的判定標準函數</p></li>
+<li><p>專案體積優化：清理專案暫存檔案，以達到大幅縮減專案體積的目的</p>
+<p><img alt="img" src="_images/cdl_sz.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id64">
+<h3>視窗<a class="headerlink" href="#id64" title="Link to this heading"></a></h3>
+<ul>
+<li><p>尺規：開啟/關閉尺規</p></li>
+<li><p>輔助線：開啟/關閉輔助線</p></li>
+<li><p>座標值：開啟/關閉座標值</p></li>
+<li><p>圖像信息：開啟/關閉圖像資訊展示</p></li>
+<li><p>顯示高級參數：開啟/關閉高級參數</p></li>
+<li><p>啟用OK/NG顯示：開啟/關閉畫布左下角結果的展示</p>
+<p><img alt="img" src="_images/cdl_sc.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id65">
+<h3>幫助<a class="headerlink" href="#id65" title="Link to this heading"></a></h3>
+<ul>
+<li><p>使用檔案</p></li>
+<li><p>開發檔案</p></li>
+<li><p>範例專案</p></li>
+<li><p>顯卡小工具</p></li>
+<li><p>查看日誌</p></li>
+<li><p>快速鍵資訊</p></li>
+<li><p>關於AIDI</p>
+<p><img alt="img" src="_images/cdl_bz.png" /></p>
+</li>
+</ul>
+</section>
+</section>
+<section id="id66">
+<h2>版本升級工具<a class="headerlink" href="#id66" title="Link to this heading"></a></h2>
+<section id="id67">
+<h3>使用方法：<a class="headerlink" href="#id67" title="Link to this heading"></a></h3>
+<p>1.AIDI安裝目錄下找到Tools資料夾
+2.找到2To3工具，並按兩下打開
+<img alt="Alt text" src="_images/image-271.png" />
+3.選擇舊的2.4專案，以及轉化後存儲路徑
+<img alt="Alt text" src="_images/image-272.png" />
+保留的舊專案的數據範圍包含以下內容：
+（1）圖
+（2）標註
+（3）數據集劃分
+（4）視圖Tag
+適用模組範圍：
+快檢+分割
+分割+分割
+各單模組（除了定位、區域選取）</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="AIDIintroduce.html" class="btn btn-neutral float-left" title="產品簡介" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="moduleintro.html" class="btn btn-neutral float-right" title="工具使用介紹" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

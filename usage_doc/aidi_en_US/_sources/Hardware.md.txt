@@ -1,0 +1,5 @@
+# Hardware selection
+Entrance: Menu bar - Hardware selection
+Function introduction: You can select the number of GPUs for training and inference, as well as customize the priority of multiple cards. When the number of GPUs is set to 0, the CPU will be used for training/inference
+
+![Alt text](image-14.png)

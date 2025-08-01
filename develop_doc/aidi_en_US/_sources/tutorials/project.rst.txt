@@ -1,0 +1,172 @@
+工程的使用
+==================
+
+对工程的操作可以通过调用 :cpp:class:`visionflow::Project` 类的静态函数完成。
+
+调用这些函数时通常需要一个 :cpp:class:`visionflow::ProjectDescriptor` 类型的参数，
+并且设置其中的 ``workspace_token`` 和 ``project_name`` 字段，用于指定 :term:`Workspace` 路径和工程名称。
+
+.. note::
+    ``workspace_token`` 和 ``project_name`` 必须符合以下要求，
+    否则会抛出 :cpp:class:`visionflow::excepts::InvalidArgument` 类型的异常。
+
+``workspace_token`` 和 ``project_name`` 均须满足：
+
+1. 不为空字符串；
+#. 不以空白字符（空格、制表符等）开头或结尾；
+#. 不包含 ``* < > ? " |`` 中的任何一个字符。
+
+在以上要求之外， ``project_name`` 还须满足：
+
+#. 不超过200个字符；
+#. 不包含 ``\ / : * ? " < > |`` 中的任何一个字符。
+
+查看工程基本信息
+***********************************
+
+工程的基本信息可以使用 :cpp:func:`visionflow::Project::ReadProjectDescriptor`
+函数获取。
+
+该函数接收一个 :cpp:class:`visionflow::ProjectDescriptor` 类型的引用作为参数。
+传入参数时须设置 ``workspace_token`` ``project_name`` 两个字段以指定工程。
+
+如果工程不存在，函数返回 ``false``；
+如果工程存在，函数返回 ``true``，并且修改传入的 ``ProjectDescriptor``，写入以下字段：
+
+- ``created_time`` 工程创建的时间
+- ``last_modified_time`` 工程最后一次被修改的时间
+- ``remark`` 备注
+- ``sdk_version`` 创建工程时使用的VisionFlow SDK版本
+- ``brief_images`` 工程预览图，通常是数据集的前4张
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string workspace_token = "D:/path/to/workspace";
+        std::string project_name = "MyProject";
+        // 设置工程路劲等基本信息
+        auto project_descriptor = visionflow::ProjectDescriptor{workspace_token, project_name};
+        // 读取工程的描述信息以获得工程的详细信息
+        auto proj_desc = visionflow::Project::ReadProjectDescriptor(project_descriptor);
+
+
+创建、打开、删除工程
+********************************
+
+创建工程
+----------------
+
+工程可以使用 :cpp:func:`visionflow::Project::Create` 函数创建；该函数接收一个
+:cpp:class:`visionflow::ProjectDescriptor` 类型的参数。
+
+按上节所述的要求设置好参数的 ``workspace_token`` 和 ``project_name`` 字段。
+``remark`` 字段可选，用于设定工程的备注。其他字段被忽略。
+
+创建工程时，会创建工程目录，并且创建名为 ``default_main`` 的默认数据集。
+
+函数的返回值是一个新的 :cpp:class:`visionflow::ProjectDescriptor` 对象，其中的
+``created_time`` ``last_modified_time`` ``sdk_version`` 和 ``brief_images``
+字段会被正确填充。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string workspace_token = "D:/path/to/workspace";
+        std::string project_name = "MyProject";
+        std::string remark = "This is a remark";
+        auto project_descriptor = visionflow::ProjectDescriptor{workspace_token, project_name, remark};
+        auto created = visionflow::Project::Create(project_descriptor);
+
+.. note::
+
+    尝试创建已经存在的工程，将会抛出 :cpp:class:`visionflow::excepts::ProjectAlreadyExists`
+    类型的异常。
+
+.. note::
+
+    判断工程是否存在，可以使用 :cpp:func:`visionflow::Project::Exists` 函数。
+
+打开工程
+--------------
+
+工程可以使用 :cpp:func:`visionflow::Project::Open` 函数打开。
+
+该函数有2个参数，第1个为上述 :cpp:class:`visionflow::ProjectDescriptor` 对象，
+第2个参数（可选）为 :cpp:enum:`visionflow::ProjectOpenMode` 类型的值，用于指定打开模式。
+
+- ``kNormally`` 是默认的打开模式，打开的工程可读可写。
+- ``kReadOnly`` 以只读模式打开工程。
+- ``kForceWrite`` 和 ``kNormally`` 完全等价，仅为了兼容性而提供。
+
+返回值为 ``std::unique_ptr<Project>`` 类型的智能指针，指向打开的工程。
+当该 ``unique_ptr`` 析构时，工程会自动关闭。也可以通过手动调用 ``reset()`` 来关闭工程。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string workspace_token = "D:/path/to/workspace";
+        std::string project_name = "MyProject";
+        auto project_descriptor = visionflow::ProjectDescriptor{workspace_token, project_name};
+        std::unique_ptr<visionflow::Project> project = visionflow::Project::Open(project_descriptor);
+        // 工程会在该指针释放时自动关闭
+        // 也可以通过以下方式手动关闭
+        project.reset();
+        // 通过以下方式打开为只读模式
+        project = visionflow::Project::Open(project_descriptor, visionflow::kReadOnly);
+
+.. note::
+
+    已经打开的工程不能重复打开，否则将抛出 :cpp:class:`visionflow::excepts::ProjectLockExist`
+    类型的异常。
+
+.. note::
+
+    判断工程是否处于关闭状态，可以使用 :cpp:func:`visionflow::Project::Closed` 函数。
+
+另一种方法
+~~~~~~~~~~~~~~~~~~~~
+
+提供了一个重载的 :cpp:func:`visionflow::Project::Open` 函数，接收一个指向 ``.vflow``
+目录的路径字符串和一个可选的 :cpp:enum:`visionflow::ProjectOpenMode` 值。
+
+.. 这里的对于路径参数的要求比代码中更严格，这是因为：
+   1.带有vflow后缀的路径是真实存在的
+   2.给用户一个明确的指示，更有利于理解
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string path = "D:/path/to/MyProject.vflow";
+        auto project = visionflow::Project::Open(path);
+
+删除工程
+----------------
+
+工程可以使用 :cpp:func:`visionflow::Project::RemoveProject` 函数删除。
+
+在删除工程时，工程目录下所有由VisionFlow创建的文件或目录均被删除。如果工程目录下没有其他文件，
+工程目录也会被删除。
+
+.. warning::
+
+    放置在工程目录下的用户文件不会被删除，但由VisionFlow创建的二级目录下的文件均会随目录一起删除。
+
+    在删除工程前务必做好检查和备份。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string workspace_token = "D:/path/to/workspace";
+        std::string project_name = "MyProject";
+        auto project_descriptor = visionflow::ProjectDescriptor{workspace_token, project_name};
+        visionflow::Project::RemoveProject(project_descriptor);
+
+.. note::
+
+    在尝试删除时工程必须处于关闭状态，否则将抛出 :cpp:class:`visionflow::excepts::ProjectLockExist`
+    类型的异常。

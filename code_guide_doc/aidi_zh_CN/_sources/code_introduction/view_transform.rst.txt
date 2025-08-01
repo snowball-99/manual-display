@@ -1,0 +1,748 @@
+view transform Script Editing Guide
+######################################
+
+Basic instructions
+**********************
+
+The view transform script currently only supports Python language and supports Python versions 3.10 and above
+
+Basic Principles
+*****************
+
+The view transform script generates views based on the inference results of the pre order tools through the entry function
+
+How to write a view transform script
+*********************************************
+
+Determine the entry function:
+++++++++++++++++++++++++++++++++++++
+
+    .. code-block:: python
+
+        def view_transform(
+                params: vf.param.ViewTransformParameterList,
+                polys: vf.props.IRegionList,
+                img_info: vf.props.RawImageInfo
+            ) -> vf.props.ViewList
+
+Basic examples
++++++++++++++++++++++
+
+Requirement 1: A project consisting of unsupervised segmentation and classification tools, named UnsuperSeg and Cls. The results of unsupervised segmentation in the pre order need to be segmented differently based on the size of the area, with each block being 128 * 128.
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        import math
+        import visionflow as vf
+        from visionflow import img
+        from visionflow import geometry as geo
+        from visionflow import param, props
+        from typing import Dict, Tuple
+
+
+        def split_poly(
+            polys,
+            tg_width,
+            tg_height,
+            image_width=0,
+            image_height=0,
+            overlap_width=0,
+            overlap_height=0,
+            with_angle=False,
+            discard_out_range=False,
+            is_segment_mode=False,
+            enable_auto_mask = False,
+            erode_dilate_value = 0,
+            reverse_mask = False,
+            iou_thres=1.0,
+        ):
+
+            view_list = vf.props.ViewList()
+            ori_view_list = vf.props.ViewList()
+            rect_size = geo.Size2f(tg_width, tg_height)
+            image_rect_ring = geo.Rect2f(geo.Point2f(0, 0), image_width, image_height).to_ring()
+
+            # Convert deduplicated view boxes to views
+            cur_rect = geo.RotateRect2f(
+                geo.Point2f(tg_width / 2.0, tg_height / 2.0),
+                geo.Size2f(tg_width, tg_height),
+                geo.Radian(0.0),
+            )
+            cur_ring = cur_rect.to_ring()
+
+            # Obtain view boxes in the original image coordinate system
+            for id, region in polys:
+                if with_angle:
+                    rt_rect = region.polygon().min_area_box()
+                    if is_segment_mode:
+                        # RotateRect2f width w is along the angle direction, height h is perpendicular to the angle direction
+                        # To ensure segmentation angle points to the shorter side, rotate 90 when w < h
+                        # Rotation doesn't affect the result regardless of which side is chosen, so no need to worry about signs
+                        if rt_rect.size.w > rt_rect.size.h:
+                            region.set_angle(rt_rect.radian)
+                        else:
+                            rect_angle = geo.Radian(rt_rect.radian.radian + math.pi / 2.0)
+                            region.set_angle(rect_angle)
+
+                        if region.angle().radian <= - math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian + math.pi))
+                        if region.angle().radian > math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian - math.pi))
+                    # We want rt_rect to point in the direction of region.angle, so when actual rt_rect angle differs by 90 or 270
+                    # from region angle, we need to swap w and h
+                    angle_dis = int(
+                        round(
+                            abs(rt_rect.radian.radian - region.angle().radian) / math.pi * 2.0
+                        )
+                    )
+                    if angle_dis == 1 or angle_dis == 3:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.h, rt_rect.size.w),
+                            region.angle(),
+                        )
+                    else:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.w, rt_rect.size.h),
+                            region.angle(),
+                        )
+                else:
+                    rt_rect = region.polygon().min_area_box().bounding_box()
+                    rt_rect = geo.RotateRect2f(
+                        rt_rect.centroid(), rt_rect.size, geo.Radian(0.0)
+                    )
+
+                rect_ring = rt_rect.to_ring()
+                width, height = rt_rect.size.w, rt_rect.size.h
+
+                # View coordinates
+                view_rect = geo.RotateRect2f(
+                    geo.Point2f(width / 2.0, height / 2.0),
+                    geo.Size2f(width, height),
+                    geo.Radian(0.0),
+                )
+                # Transformation matrix from view coordinate system to original image coordinate system
+                view_ori_matrix = geo.get_affine_transform(view_rect.to_ring(), rect_ring)
+
+                # Calculate number of rows and columns
+                num_cols = (width - overlap_width) / (tg_width - overlap_width)
+                num_rows = (height - overlap_height) / (tg_height - overlap_height)
+                if discard_out_range:
+                    num_cols = max(math.floor(num_cols), 1)
+                    num_rows = max(math.floor(num_rows), 1)
+                else:
+                    num_cols = max(math.ceil(num_cols), 1)
+                    num_rows = max(math.ceil(num_rows), 1)
+
+                auto_mask_poly = geo.MultiPolygon2f()
+                if enable_auto_mask:
+                    auto_mask_poly = geo.buffer(region.polygon(), erode_dilate_value)
+
+                # Obtain view boxes in the original image coordinate system
+                for i in range(num_rows):
+                    for j in range(num_cols):
+                        # Calculate current rectangle and obtain coordinates on the original image
+                        center_point = geo.Point2f(
+                            (j + 0.5) * tg_width - j * overlap_width,
+                            (i + 0.5) * tg_height - i * overlap_height,
+                        )
+                        cur_view_rect = geo.RotateRect2f(
+                            center_point, geo.Size2f(tg_width, tg_height), geo.Radian(0.0)
+                        )
+                        ori_ring = geo.transform(cur_view_rect.to_ring(), view_ori_matrix)
+                        matrix = geo.get_affine_transform(ori_ring, cur_ring)
+                        # Add current rectangle to result list, matrix here transforms from original image coordinate system to current view coordinate system
+                        view = vf.View(matrix, rect_size)
+                        tagged_view = vf.TaggedView(view)
+                        mask_poly = geo.MultiPolygon2f()
+                        if not discard_out_range:
+                            mask_poly = geo.difference(tagged_view.polygon(), rect_ring)
+                            out_side_poly = geo.difference(tagged_view.polygon(), image_rect_ring)
+                            mask_poly = geo.union_areal(out_side_poly, mask_poly)
+                        if enable_auto_mask:
+                            current_auto_mask_poly = geo.intersection(tagged_view.polygon(), auto_mask_poly)
+                            if reverse_mask:
+                                current_auto_mask_poly = geo.difference(tagged_view.polygon(), current_auto_mask_poly)
+                            mask_poly = geo.union_areal(mask_poly, current_auto_mask_poly)
+                        tagged_view.set_view_masks(mask_poly)
+                        ori_view_list.add(tagged_view)
+                
+            view_list = vf.props.ViewList()
+            for id,view in ori_view_list:
+                keep_i = True
+                for keep_view_id,keep_view in view_list:
+                    iou = geo.iou(view.polygon(),keep_view.polygon())
+                    if iou > iou_thres:
+                        if geo.intersects_and_not_touches(keep_view.polygon(),view.polygon()):
+                            keep_i = False
+                            break
+                if keep_i:
+                    view_list.add(view)
+
+            return view_list
+
+
+        def view_transform(
+            params: vf.param.ViewTransformParameterList,
+            polys: vf.props.IRegionList,
+            img_info: vf.props.RawImageInfo,
+        ) -> vf.props.ViewList:
+
+            width = 128
+            height = 128
+            
+            result = split_poly(
+                    polys,
+                    width,
+                    height,
+                    img_info.image_size().w,
+                    img_info.image_size().h,
+                )
+            return result
+
+
+
+Requirement 2: The input image size varies. In order to achieve stable results for subsequent segmentation tools, it is necessary to divide the image into multiple 256 * 256 small blocks based on its size.
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        import math
+        import visionflow as vf
+        from visionflow import img
+        from visionflow import geometry as geo
+        from visionflow import param, props
+        from typing import Dict, Tuple
+
+
+        def split_poly(
+            polys,
+            tg_width,
+            tg_height,
+            image_width=0,
+            image_height=0,
+            overlap_width=0,
+            overlap_height=0,
+            with_angle=False,
+            discard_out_range=False,
+            is_segment_mode=False,
+            enable_auto_mask = False,
+            erode_dilate_value = 0,
+            reverse_mask = False,
+            iou_thres=1.0,
+        ):
+
+            view_list = vf.props.ViewList()
+            ori_view_list = vf.props.ViewList()
+            rect_size = geo.Size2f(tg_width, tg_height)
+            image_rect_ring = geo.Rect2f(geo.Point2f(0, 0), image_width, image_height).to_ring()
+
+            # Convert deduplicated view boxes to views
+            cur_rect = geo.RotateRect2f(
+                geo.Point2f(tg_width / 2.0, tg_height / 2.0),
+                geo.Size2f(tg_width, tg_height),
+                geo.Radian(0.0),
+            )
+            cur_ring = cur_rect.to_ring()
+
+            # Obtain view boxes in the original image coordinate system
+            for id, region in polys:
+                if with_angle:
+                    rt_rect = region.polygon().min_area_box()
+                    if is_segment_mode:
+                        # RotateRect2f width w is along the angle direction, height h is perpendicular to the angle direction
+                        # To ensure segmentation angle points to the shorter side, rotate 90 when w < h
+                        # Rotation doesn't affect the result regardless of which side is chosen, so no need to worry about signs
+                        if rt_rect.size.w > rt_rect.size.h:
+                            region.set_angle(rt_rect.radian)
+                        else:
+                            rect_angle = geo.Radian(rt_rect.radian.radian + math.pi / 2.0)
+                            region.set_angle(rect_angle)
+
+                        if region.angle().radian <= - math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian + math.pi))
+                        if region.angle().radian > math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian - math.pi))
+
+                    # We want rt_rect to point in the direction of region.angle, so when actual rt_rect angle differs by 90 or 270
+                    # from region angle, we need to swap w and h
+                    angle_dis = int(
+                        round(
+                            abs(rt_rect.radian.radian - region.angle().radian) / math.pi * 2.0
+                        )
+                    )
+                    if angle_dis == 1 or angle_dis == 3:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.h, rt_rect.size.w),
+                            region.angle(),
+                        )
+                    else:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.w, rt_rect.size.h),
+                            region.angle(),
+                        )
+                else:
+                    rt_rect = region.polygon().min_area_box().bounding_box()
+                    rt_rect = geo.RotateRect2f(
+                        rt_rect.centroid(), rt_rect.size, geo.Radian(0.0)
+                    )
+
+                rect_ring = rt_rect.to_ring()
+                width, height = rt_rect.size.w, rt_rect.size.h
+
+                # View coordinates
+                view_rect = geo.RotateRect2f(
+                    geo.Point2f(width / 2.0, height / 2.0),
+                    geo.Size2f(width, height),
+                    geo.Radian(0.0),
+                )
+                # Transformation matrix from view coordinate system to original image coordinate system
+                view_ori_matrix = geo.get_affine_transform(view_rect.to_ring(), rect_ring)
+
+                # Calculate number of rows and columns
+                num_cols = (width - overlap_width) / (tg_width - overlap_width)
+                num_rows = (height - overlap_height) / (tg_height - overlap_height)
+                if discard_out_range:
+                    num_cols = max(math.floor(num_cols), 1)
+                    num_rows = max(math.floor(num_rows), 1)
+                else:
+                    num_cols = max(math.ceil(num_cols), 1)
+                    num_rows = max(math.ceil(num_rows), 1)
+
+                auto_mask_poly = geo.MultiPolygon2f()
+                if enable_auto_mask:
+                    auto_mask_poly = geo.buffer(region.polygon(), erode_dilate_value)
+
+                # Obtain view boxes in the original image coordinate system
+                for i in range(num_rows):
+                    for j in range(num_cols):
+                        # Calculate current rectangle and obtain coordinates on the original image
+                        center_point = geo.Point2f(
+                            (j + 0.5) * tg_width - j * overlap_width,
+                            (i + 0.5) * tg_height - i * overlap_height,
+                        )
+                        cur_view_rect = geo.RotateRect2f(
+                            center_point, geo.Size2f(tg_width, tg_height), geo.Radian(0.0)
+                        )
+                        ori_ring = geo.transform(cur_view_rect.to_ring(), view_ori_matrix)
+                        matrix = geo.get_affine_transform(ori_ring, cur_ring)
+                        # Add current rectangle to result list, matrix here transforms from original image coordinate system to current view coordinate system
+                        view = vf.View(matrix, rect_size)
+                        tagged_view = vf.TaggedView(view)
+                        mask_poly = geo.MultiPolygon2f()
+                        if not discard_out_range:
+                            mask_poly = geo.difference(tagged_view.polygon(), rect_ring)
+                            out_side_poly = geo.difference(tagged_view.polygon(), image_rect_ring)
+                            mask_poly = geo.union_areal(out_side_poly, mask_poly)
+                        if enable_auto_mask:
+                            current_auto_mask_poly = geo.intersection(tagged_view.polygon(), auto_mask_poly)
+                            if reverse_mask:
+                                current_auto_mask_poly = geo.difference(tagged_view.polygon(), current_auto_mask_poly)
+                            mask_poly = geo.union_areal(mask_poly, current_auto_mask_poly)
+                        tagged_view.set_view_masks(mask_poly)
+                        ori_view_list.add(tagged_view)
+                
+            view_list = vf.props.ViewList()
+            for id,view in ori_view_list:
+                keep_i = True
+                for keep_view_id,keep_view in view_list:
+                    iou = geo.iou(view.polygon(),keep_view.polygon())
+                    if iou > iou_thres:
+                        if geo.intersects_and_not_touches(keep_view.polygon(),view.polygon()):
+                            keep_i = False
+                            break
+                if keep_i:
+                    view_list.add(view)
+
+            return view_list
+
+
+        def view_transform(
+            params: vf.param.ViewTransformParameterList,
+            polys: vf.props.IRegionList,
+            img_info: vf.props.RawImageInfo,
+        ) -> vf.props.ViewList:
+
+            width = 256
+            height = 256
+
+            result = split_poly(
+                    polys,
+                    width,
+                    height,
+                    img_info.image_size().w,
+                    img_info.image_size().h
+                )
+            return result
+
+Requirement 3: A certain project consists of a positioning tool followed by a segmentation tool, with input images of varying sizes. High resolution images need to be extracted by the positioning tool for ROI, while low resolution images need to be directly fed to the segmentation tool
+
+
+
+.. Tab:: Detection tool script
+
+    .. code-block:: python
+
+        import math
+        import visionflow as vf
+        from visionflow import img
+        from visionflow import geometry as geo
+        from visionflow import param, props
+        from typing import Dict, Tuple
+
+
+        def split_poly(
+            polys,
+            tg_width,
+            tg_height,
+            image_width=0,
+            image_height=0,
+            overlap_width=0,
+            overlap_height=0,
+            with_angle=False,
+            discard_out_range=False,
+            is_segment_mode=False,
+            enable_auto_mask = False,
+            erode_dilate_value = 0,
+            reverse_mask = False,
+            iou_thres=1.0,
+        ):
+
+            view_list = vf.props.ViewList()
+            ori_view_list = vf.props.ViewList()
+            rect_size = geo.Size2f(tg_width, tg_height)
+            image_rect_ring = geo.Rect2f(geo.Point2f(0, 0), image_width, image_height).to_ring()
+
+            # Convert deduplicated view boxes to views
+            cur_rect = geo.RotateRect2f(
+                geo.Point2f(tg_width / 2.0, tg_height / 2.0),
+                geo.Size2f(tg_width, tg_height),
+                geo.Radian(0.0),
+            )
+            cur_ring = cur_rect.to_ring()
+
+            # Obtain view boxes in the original image coordinate system
+            for id, region in polys:
+                if with_angle:
+                    rt_rect = region.polygon().min_area_box()
+                    if is_segment_mode:
+                        # RotateRect2f width w is along the angle direction, height h is perpendicular to the angle direction
+                        # To ensure segmentation angle points to the shorter side, rotate 90 when w < h
+                        # Rotation doesn't affect the result regardless of which side is chosen, so no need to worry about signs
+                        if rt_rect.size.w > rt_rect.size.h:
+                            region.set_angle(rt_rect.radian)
+                        else:
+                            rect_angle = geo.Radian(rt_rect.radian.radian + math.pi / 2.0)
+                            region.set_angle(rect_angle)
+
+                        if region.angle().radian <= - math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian + math.pi))
+                        if region.angle().radian > math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian - math.pi))
+
+                    # We want rt_rect to point in the direction of region.angle, so when actual rt_rect angle differs by 90 or 270
+                    # from region angle, we need to swap w and h
+                    angle_dis = int(
+                        round(
+                            abs(rt_rect.radian.radian - region.angle().radian) / math.pi * 2.0
+                        )
+                    )
+                    if angle_dis == 1 or angle_dis == 3:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.h, rt_rect.size.w),
+                            region.angle(),
+                        )
+                    else:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.w, rt_rect.size.h),
+                            region.angle(),
+                        )
+                else:
+                    rt_rect = region.polygon().min_area_box().bounding_box()
+                    rt_rect = geo.RotateRect2f(
+                        rt_rect.centroid(), rt_rect.size, geo.Radian(0.0)
+                    )
+
+                rect_ring = rt_rect.to_ring()
+                width, height = rt_rect.size.w, rt_rect.size.h
+
+                # View coordinates
+                view_rect = geo.RotateRect2f(
+                    geo.Point2f(width / 2.0, height / 2.0),
+                    geo.Size2f(width, height),
+                    geo.Radian(0.0),
+                )
+                # Transformation matrix from view coordinate system to original image coordinate system
+                view_ori_matrix = geo.get_affine_transform(view_rect.to_ring(), rect_ring)
+
+                # Calculate number of rows and columns
+                num_cols = (width - overlap_width) / (tg_width - overlap_width)
+                num_rows = (height - overlap_height) / (tg_height - overlap_height)
+                if discard_out_range:
+                    num_cols = max(math.floor(num_cols), 1)
+                    num_rows = max(math.floor(num_rows), 1)
+                else:
+                    num_cols = max(math.ceil(num_cols), 1)
+                    num_rows = max(math.ceil(num_rows), 1)
+
+                auto_mask_poly = geo.MultiPolygon2f()
+                if enable_auto_mask:
+                    auto_mask_poly = geo.buffer(region.polygon(), erode_dilate_value)
+
+                # Obtain view boxes in the original image coordinate system
+                for i in range(num_rows):
+                    for j in range(num_cols):
+                        # Calculate current rectangle and obtain coordinates on the original image
+                        center_point = geo.Point2f(
+                            (j + 0.5) * tg_width - j * overlap_width,
+                            (i + 0.5) * tg_height - i * overlap_height,
+                        )
+                        cur_view_rect = geo.RotateRect2f(
+                            center_point, geo.Size2f(tg_width, tg_height), geo.Radian(0.0)
+                        )
+                        ori_ring = geo.transform(cur_view_rect.to_ring(), view_ori_matrix)
+                        matrix = geo.get_affine_transform(ori_ring, cur_ring)
+                        # Add current rectangle to result list, matrix here transforms from original image coordinate system to current view coordinate system
+                        view = vf.View(matrix, rect_size)
+                        tagged_view = vf.TaggedView(view)
+                        mask_poly = geo.MultiPolygon2f()
+                        if not discard_out_range:
+                            mask_poly = geo.difference(tagged_view.polygon(), rect_ring)
+                            out_side_poly = geo.difference(tagged_view.polygon(), image_rect_ring)
+                            mask_poly = geo.union_areal(out_side_poly, mask_poly)
+                        if enable_auto_mask:
+                            current_auto_mask_poly = geo.intersection(tagged_view.polygon(), auto_mask_poly)
+                            if reverse_mask:
+                                current_auto_mask_poly = geo.difference(tagged_view.polygon(), current_auto_mask_poly)
+                            mask_poly = geo.union_areal(mask_poly, current_auto_mask_poly)
+                        tagged_view.set_view_masks(mask_poly)
+                        ori_view_list.add(tagged_view)
+                
+            view_list = vf.props.ViewList()
+            for id,view in ori_view_list:
+                keep_i = True
+                for keep_view_id,keep_view in view_list:
+                    iou = geo.iou(view.polygon(),keep_view.polygon())
+                    if iou > iou_thres:
+                        if geo.intersects_and_not_touches(keep_view.polygon(),view.polygon()):
+                            keep_i = False
+                            break
+                if keep_i:
+                    view_list.add(view)
+
+            return view_list
+
+
+        def view_transform(
+            params: vf.param.ViewTransformParameterList,
+            polys: vf.props.IRegionList,
+            img_info: vf.props.RawImageInfo,
+        ) -> vf.props.ViewList:
+
+            width = 256
+            height = 256
+
+            result = split_poly(
+                    polys,
+                    width,
+                    height,
+                    img_info.image_size().w,
+                    img_info.image_size().h
+                )
+            return result
+
+
+.. tab:: Splitting Tool Script
+
+    .. code-block:: python
+
+        import math
+        import visionflow as vf
+        from visionflow import img
+        from visionflow import geometry as geo
+        from visionflow import param, props
+        from typing import Dict, Tuple
+
+
+        def split_poly(
+            polys,
+            tg_width,
+            tg_height,
+            image_width=0,
+            image_height=0,
+            overlap_width=0,
+            overlap_height=0,
+            with_angle=False,
+            discard_out_range=False,
+            is_segment_mode=False,
+            enable_auto_mask = False,
+            erode_dilate_value = 0,
+            reverse_mask = False,
+            iou_thres=1.0,
+        ):
+
+            view_list = vf.props.ViewList()
+            ori_view_list = vf.props.ViewList()
+            rect_size = geo.Size2f(tg_width, tg_height)
+            image_rect_ring = geo.Rect2f(geo.Point2f(0, 0), image_width, image_height).to_ring()
+
+            # Convert deduplicated view boxes to views
+            cur_rect = geo.RotateRect2f(
+                geo.Point2f(tg_width / 2.0, tg_height / 2.0),
+                geo.Size2f(tg_width, tg_height),
+                geo.Radian(0.0),
+            )
+            cur_ring = cur_rect.to_ring()
+
+            # Obtain view boxes in the original image coordinate system
+            for id, region in polys:
+                if with_angle:
+                    rt_rect = region.polygon().min_area_box()
+                    if is_segment_mode:
+                        # RotateRect2f width w is along the angle direction, height h is perpendicular to the angle direction
+                        # To ensure segmentation angle points to the shorter side, rotate 90 when w < h
+                        # Rotation doesn't affect the result regardless of which side is chosen, so no need to worry about signs
+                        if rt_rect.size.w > rt_rect.size.h:
+                            region.set_angle(rt_rect.radian)
+                        else:
+                            rect_angle = geo.Radian(rt_rect.radian.radian + math.pi / 2.0)
+                            region.set_angle(rect_angle)
+                        if region.angle().radian <= - math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian + math.pi))
+                        if region.angle().radian > math.pi / 2.0:
+                            region.set_angle(geo.Radian(region.angle().radian - math.pi))
+
+                    # We want rt_rect to point in the direction of region.angle, so when actual rt_rect angle differs by 90 or 270
+                    # from region angle, we need to swap w and h
+                    angle_dis = int(
+                        round(
+                            abs(rt_rect.radian.radian - region.angle().radian) / math.pi * 2.0
+                        )
+                    )
+                    if angle_dis == 1 or angle_dis == 3:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.h, rt_rect.size.w),
+                            region.angle(),
+                        )
+                    else:
+                        rt_rect = geo.RotateRect2f(
+                            rt_rect.center,
+                            geo.Size2f(rt_rect.size.w, rt_rect.size.h),
+                            region.angle(),
+                        )
+                else:
+                    rt_rect = region.polygon().min_area_box().bounding_box()
+                    rt_rect = geo.RotateRect2f(
+                        rt_rect.centroid(), rt_rect.size, geo.Radian(0.0)
+                    )
+
+                rect_ring = rt_rect.to_ring()
+                width, height = rt_rect.size.w, rt_rect.size.h
+
+                # View coordinates
+                view_rect = geo.RotateRect2f(
+                    geo.Point2f(width / 2.0, height / 2.0),
+                    geo.Size2f(width, height),
+                    geo.Radian(0.0),
+                )
+                # Transformation matrix from view coordinate system to original image coordinate system
+                view_ori_matrix = geo.get_affine_transform(view_rect.to_ring(), rect_ring)
+
+                # Calculate number of rows and columns
+                num_cols = (width - overlap_width) / (tg_width - overlap_width)
+                num_rows = (height - overlap_height) / (tg_height - overlap_height)
+                if discard_out_range:
+                    num_cols = max(math.floor(num_cols), 1)
+                    num_rows = max(math.floor(num_rows), 1)
+                else:
+                    num_cols = max(math.ceil(num_cols), 1)
+                    num_rows = max(math.ceil(num_rows), 1)
+
+                auto_mask_poly = geo.MultiPolygon2f()
+                if enable_auto_mask:
+                    auto_mask_poly = geo.buffer(region.polygon(), erode_dilate_value)
+
+                # Obtain view boxes in the original image coordinate system
+                for i in range(num_rows):
+                    for j in range(num_cols):
+                        # Calculate current rectangle and obtain coordinates on the original image
+                        center_point = geo.Point2f(
+                            (j + 0.5) * tg_width - j * overlap_width,
+                            (i + 0.5) * tg_height - i * overlap_height,
+                        )
+                        cur_view_rect = geo.RotateRect2f(
+                            center_point, geo.Size2f(tg_width, tg_height), geo.Radian(0.0)
+                        )
+                        ori_ring = geo.transform(cur_view_rect.to_ring(), view_ori_matrix)
+                        matrix = geo.get_affine_transform(ori_ring, cur_ring)
+                        # Add current rectangle to result list, matrix here transforms from original image coordinate system to current view coordinate system
+                        view = vf.View(matrix, rect_size)
+                        tagged_view = vf.TaggedView(view)
+                        mask_poly = geo.MultiPolygon2f()
+                        if not discard_out_range:
+                            mask_poly = geo.difference(tagged_view.polygon(), rect_ring)
+                            out_side_poly = geo.difference(tagged_view.polygon(), image_rect_ring)
+                            mask_poly = geo.union_areal(out_side_poly, mask_poly)
+                        if enable_auto_mask:
+                            current_auto_mask_poly = geo.intersection(tagged_view.polygon(), auto_mask_poly)
+                            if reverse_mask:
+                                current_auto_mask_poly = geo.difference(tagged_view.polygon(), current_auto_mask_poly)
+                            mask_poly = geo.union_areal(mask_poly, current_auto_mask_poly)
+                        tagged_view.set_view_masks(mask_poly)
+                        ori_view_list.add(tagged_view)
+                
+            view_list = vf.props.ViewList()
+            for id,view in ori_view_list:
+                keep_i = True
+                for keep_view_id,keep_view in view_list:
+                    iou = geo.iou(view.polygon(),keep_view.polygon())
+                    if iou > iou_thres:
+                        if geo.intersects_and_not_touches(keep_view.polygon(),view.polygon()):
+                            keep_i = False
+                            break
+                if keep_i:
+                    view_list.add(view)
+
+            return view_list
+
+
+        def view_transform(
+            params: vf.param.ViewTransformParameterList,
+            polys: vf.props.IRegionList,
+            img_info: vf.props.RawImageInfo,
+        ) -> vf.props.ViewList:
+
+            view_width = 1024
+            view_height = 1024
+
+            width, height = img_info.image_size().w, img_info.image_size().h
+            if (width < 1000 and width > 100) or (height < 1000 and height > 100):
+                region = vf.PolygonRegion()
+                poly = geo.Polygon2f()
+                ring = geo.Ring2f([geo.Point2f(0.0, 0.0), geo.Point2f(0.0, height), geo.Point2f(width, height), geo.Point2f(width, 0.0)])
+                poly.outer = geo.return_correct(ring)
+                region.set_polygon(poly)
+                region.set_name("Default")
+                polys.add(region)
+
+                result = split_poly(
+                        polys,
+                        view_width,
+                        view_height,
+                        img_info.image_size().w,
+                        img_info.image_size().h
+                    )
+                return result
+
+List of commonly used functions
+++++++++++++++++++++++++++++++++++++++++
+List of commonly used functions during script editing process, please refer to :doc:`common use funtion list <../common_function>`

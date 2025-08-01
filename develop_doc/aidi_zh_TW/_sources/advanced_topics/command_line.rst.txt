@@ -1,0 +1,93 @@
+命令行工具
+#############
+
+VisionFlow 提供了两个简单的命令行工具: ``visionflow.exe`` 和 ``python.exe`` 。
+用于帮助用户无需编写代码和调用接口即可实现的VisionFlow的一些简单的功能。下面是关于
+这两个命令行工具的详细介绍
+
+``visionflow.exe``
+===================
+
+``visionflow.exe`` 中提供了一些常见的VisionFlow功能的操作命令，子命令说明如下：
+
+.. list-table::
+    :header-rows: 1
+
+    * - 子命令
+      - 功能说明
+    * - list-tools
+      - 列出VisionFlow提供的所有工具
+    * - proj-summary
+      - 查看工程的概要信息，包括工具清单、数据集等
+    * - proj-graph
+      - 以表格形式或 `Graphviz <https://dreampuf.github.io/GraphvizOnline/>`_ 语法表示的工程中工具及节点之间的连接关系图
+    * - proj-run
+      - 运行工程中的节点、工具或整个流程，支持训练和推理，并支持统计推理时各个节点和工具的耗时情况
+    * - proj-viewer
+      - 简单可视化查看工程中的数据，支持查看图像、视图、标注和检测结果区域等信息
+    * - proj-upgrade
+      - 将给定的工程升级到与当前库版本一致的数据版本
+    * - compatible
+      - 查看给定工程和当前库版本的兼容性信息及升级路径
+    * - compatibility
+      - 查看所有历史版本之间的兼容性信息
+
+你可以执行 ``visionflow.exe --help`` 查看所有命令，或执行 ``visionflow.exe <subcommand> --help``
+查看某个给定的子命令的详细信息及参数。
+
+.. note::
+
+    ``visionflow.exe`` 执行时需获得授权（加密狗权限），如果你的加密狗是以远程服务的形式运行的，你
+    需要指定授权服务的IP地址，此外，如果你的网络环境中存在多个授权设备时，你还需要指定授权设备的ID。
+    你可以通过设置环境变量 ``VFLOW_LICENSE_ID`` 和 ``VFLOW_LICENSE_ADDR`` 来使Visionflow
+    能够连接到远程授权服务，以下是设置VisionFlow授权环境变量的示例：
+
+    .. tab:: Powershell
+
+      .. code-block:: powershell
+
+          $env:VFLOW_LICENSE_ID="9733c801000702014f0d000200130023"
+          $env:VFLOW_LICENSE_ADDR="192.168.0.169"
+
+    .. tab:: Batch
+
+      .. code-block:: bat
+
+          set VFLOW_LICENSE_ID="9733c801000702014f0d000200130023"
+          set VFLOW_LICENSE_ADDR="192.168.0.169"
+
+    .. tab:: bash
+
+      .. code-block:: bat
+
+          export VFLOW_LICENSE_ID="9733c801000702014f0d000200130023"
+          export VFLOW_LICENSE_ADDR="192.168.0.169"
+
+``python.exe``
+===============
+
+VisionFlow中对标准的Python解释器进行了扩展，在保留全部原有的Python的能力的基础上，我们在其中引入了
+VisionFlow 依赖库（目前尚不完整），使得用户可以直接基于我们提供的Python解释器调用 VisionFlow （并
+结合其他Python库）完成任何用户需要的功能。
+
+你可以像下面这样给 VisionFlow 内附带的Python解释器安装依赖库：
+
+.. code-block:: bash
+
+    # 安装 regex包，或其他任何你需要使用的python包
+    ./python.exe -m pip install regex
+
+你可以直接使用Python解释器执行任意Python程序并在其中使用 VisionFlow 提供的类和函数：
+
+.. code-block:: bash
+
+    ./python.exe
+    Python 3.10.9 (main, Jan 16 2023, 20:57:53) [MSC v.1929 64 bit (AMD64)] on win32
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import visionflow
+    >>> visionflow.img.Image.FromFile("1.png").show()
+
+.. note::
+
+    当设置了环境变量 ``VFLOW_PYTHON_CLI=1`` 时， ``visionflow.exe`` 也会成为与 ``python.exe``
+    完全一致的 Python 解释器。

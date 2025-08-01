@@ -1,0 +1,666 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="算法工具白皮书" href="../whitepapers/index.html" /><link rel="prev" title="VisionFlow的数据包" href="datapack.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>脚本流程 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>脚本流程<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>脚本流程 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param14ScriptPipelineE" title="visionflow::param::ScriptPipeline"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline</span></code></a> 是测量工具等工具中，帮助用户自定义测量流程的参数接口类。
+它允许用户定义 <strong>预脚本</strong> 和 <strong>求解项</strong> ，以及为求解项添加依赖关系，并将这些定义转换为可执行的 Python 脚本。
+用户也能够从已定义的处理流程中反向解析出各个信息。</p>
+<section id="id2">
+<h2>脚本流程中数据表示规则<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>为了将处理流程关系和脚本的表达逻辑统一在一个数据源中，我们对表达脚本做了一定的规约，限制了用户的表达形式。</p>
+<section id="id3">
+<h3>预脚本<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>脚本流程支持用户设置 <strong>预脚本</strong>。
+你可以在预脚本中导入模块、定义一些全局变量或函数等以便后续使用。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">ScriptPipeline</span><span class="w"> </span><span class="n">pipeline</span><span class="p">;</span>
+<span class="c1">// 设置预脚本.</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_pre_script</span><span class="p">(</span><span class="s">&quot;import external</span><span class="se">\n\n</span><span class="s">global_info = external.data&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">external</span>
+
+<span class="n">global_info</span> <span class="o">=</span> <span class="n">external</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>求解项<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>脚本流程中支持用户自定义 <strong>求解项</strong> 作为处理流程中的基本单元。</p>
+<p>一个求解项可以是单条语句或一个 if-else 逻辑块。当它是单条语句时，它可以是一条表达式或一个函数调用。</p>
+<ol class="arabic">
+<li><p>单条语句：无条件被执行的表达式或函数调用。使用 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param14ScriptPipeline8add_itemENSt6stringENSt6stringE" title="visionflow::param::ScriptPipeline::add_item"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::add_item()</span></code></a> 以添加。</p>
+<ol class="arabic simple">
+<li><p>表达式：一个符合 Python 语法的表达式语句的变体。</p>
+<ul class="simple">
+<li><p>在表达式中，用户可以自行使用约定的符号 <code class="docutils literal notranslate"><span class="pre">${}</span></code> 标识出表达式中的参数部分。</p></li>
+<li><p>例如： <code class="docutils literal notranslate"><span class="pre">${line}.length()</span> <span class="pre">+</span> <span class="pre">${circle}.radius</span></code> 这个表达式中有两项参数，分别是 <code class="docutils literal notranslate"><span class="pre">line</span></code> 和 <code class="docutils literal notranslate"><span class="pre">circle</span></code> 。</p></li>
+</ul>
+</li>
+<li><p>函数调用：可调用的函数名。</p>
+<ul class="simple">
+<li><p>例如： <code class="docutils literal notranslate"><span class="pre">geo.find_line</span></code> ， <code class="docutils literal notranslate"><span class="pre">geo.find_circle</span></code> 。</p></li>
+<li><p><strong>用户应清楚各个函数的输入输出参数信息</strong>。包括参数名、参数类型类型、取值范围等信息。</p></li>
+</ul>
+</li>
+</ol>
+<p>在执行时会根据解决方法中是否含有符号 <code class="docutils literal notranslate"><span class="pre">$</span></code> 来区分两种不同的形式，并采取不同的参数填充形式。</p>
+</li>
+<li><p>if-else 逻辑块：包括3条表达式，分别为条件判断、条件为真时执行的表达式、条件为假时执行的表达式。使用 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param14ScriptPipeline20add_conditional_itemENSt6stringENSt6stringENSt6stringENSt6stringE" title="visionflow::param::ScriptPipeline::add_conditional_item"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::add_conditional_item()</span></code></a> 以添加。</p></li>
+</ol>
+<p><strong>我们约定求解项的结果总是通过字典方式被存储在特定变量中</strong> ，且后续使用时也通过特定变量直接读取数据。
+同时，为了优化代码结构和执行效率，我们会根据处理流程，在预脚本之后定义一个类 <code class="docutils literal notranslate"><span class="pre">VFLOW_GaugePipeline_8c95f1b51</span></code> ，并创建了这个类的实例对象 <code class="docutils literal notranslate"><span class="pre">vf_pipeline_8c95f1b5</span></code> 。
+在 <code class="docutils literal notranslate"><span class="pre">VFLOW_GaugePipeline_8c95f1b51</span></code> 中：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>会为每个求解项生成一个函数调用，代表该求解项的计算逻辑。</p></li>
+<li><p>会生成一个执行函数 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 用于计算处理流程中指定需要输出的求解项。</p></li>
+<li><p>字典 <code class="docutils literal notranslate"><span class="pre">vf_pipeline_8c95f1b5.outs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">vf_pipeline_8c95f1b5.internals</span></code> 用于存储求解项的结果。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outs</span></code> 存储被指定需要输出的求解项的结果， <code class="docutils literal notranslate"><span class="pre">internals</span></code> 存储这些被指定输出的求解项的中间依赖项的结果。</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;字符串x2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${arg} + ${arg}&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;字符串x2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;arg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">str</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;is_square&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${value}&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;is_square&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_conditional_item</span><span class="p">(</span><span class="s">&quot;矩形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${is_square}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${side} ** 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${width} * ${length}&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;矩形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;is_square&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;is_square&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;矩形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;side&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;矩形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;width&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;矩形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;length&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VFLOW_GaugePipeline_8c95f1b51</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_deps_has_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;is_square&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;is_square&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;is_square&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;字符串x2&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;字符串x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span> <span class="o">+</span> <span class="s2">&quot;str&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;字符串x2&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;直线1&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_line</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_deps_has_none</span><span class="p">([</span><span class="s2">&quot;is_square&quot;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;is_square&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;is_square&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;字符串x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_2</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;矩形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_3</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outs</span>
+</pre></div>
+</div>
+<section id="id5">
+<h4>可变参数和常量参数<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<p>求解项参数支持两种形式：可变参数和常量参数。</p>
+<ol class="arabic simple">
+<li><p>可变参数：用户明确取值来自前面其他求解项结果或者结果的某个属性。</p>
+<ul class="simple">
+<li><p>求解项的参数值依赖于其他求解项的结果。</p></li>
+<li><p>我们约定；通过 <code class="docutils literal notranslate"><span class="pre">$</span></code> 符号表示引用的求解项的对象变量。 <strong>这里的实现与表达式中的不同</strong> 。</p></li>
+<li><p>可以通过该符号重复引用同一个求解项。</p></li>
+</ul>
+</li>
+<li><p>常量参数：用户在参数设置阶段可以明确下来的参数。</p>
+<ul class="simple">
+<li><p>这些参数不依赖于其他求解项的结果，它可以是字面量或由预脚本导入的常量、变量或函数的调用。</p></li>
+<li><p>我们约定：始终以直接对应的 Python 代码字符串表示。</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+<span class="c1">// 添加常量参数.</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;arg1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">);</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;正方形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${width} ** 2&quot;</span><span class="p">);</span>
+<span class="c1">// 添加求解项可变参数</span>
+<span class="c1">// 传入参数依次为：本求解项、本求解项参数名、参数值、参数值中引用的求解项</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;正方形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;width&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$.length&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;直线1&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VFLOW_GaugePipeline_8c95f1b51</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_deps_has_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_deps_has_none</span><span class="p">([</span><span class="s2">&quot;直线1&quot;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;直线1&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_line</span><span class="p">(</span>
+            <span class="n">arg1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;直线1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outs</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h4>依赖关系<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<p>注意到以上两个例子中存在一些自动添加的条件判断： <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">self.check_deps_has_none([&quot;is_square&quot;])</span></code> 和 <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">self.check_deps_has_none([&quot;直线1&quot;])</span></code>。
+我们认为，对于依赖其他求解项的求解项而言，被依赖对象不为空是必要条件。但由于这一规则是普遍的，因此对于依赖的对象，
+总是会 <strong>自动判定依赖的求解项是否存在</strong> 。仅在依赖的求解项存在的情况下才执行对应的解决方法。</p>
+<p>对于 if-else 逻辑块的求解项，我们保证这些判断只添加在必要的分支。即，只在一个分支被依赖的其他求解项即使不存在也不影响另一分支的执行。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;依赖1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;依赖2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_conditional_item</span><span class="p">(</span><span class="s">&quot;正方形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${依赖1}.length ** 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${依赖2}.length ** 2&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;正方形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;依赖1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;依赖1&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">set_arg</span><span class="p">(</span><span class="s">&quot;正方形面积&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;依赖2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;依赖2&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VFLOW_GaugePipeline_8c95f1b51</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_deps_has_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;依赖1&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_line</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖1&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;依赖2&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_line</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖2&quot;</span><span class="p">]</span>
+
+    <span class="nd">@cached_item_res_8c95f1b5</span><span class="p">(</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vflow_item_func_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_deps_has_none</span><span class="p">([</span><span class="s2">&quot;依赖1&quot;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_deps_has_none</span><span class="p">([</span><span class="s2">&quot;依赖2&quot;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;依赖2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internals</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;依赖1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;依赖2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;正方形面积&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_2</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outs</span>
+</pre></div>
+</div>
+<p>同时我们也提供了 <a class="reference internal" href="../cpp_api/param.html#_CPPv4NK10visionflow5param14ScriptPipeline7deps_onERKNSt6stringEb" title="visionflow::param::ScriptPipeline::deps_on"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::deps_on()</span></code></a> 和
+<a class="reference internal" href="../cpp_api/param.html#_CPPv4NK10visionflow5param14ScriptPipeline7used_byERKNSt6stringEb" title="visionflow::param::ScriptPipeline::used_by"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::used_by()</span></code></a> 供用户获取变量之间的依赖关系。</p>
+</section>
+<section id="id7">
+<h4>用标签管理求解项<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<p>我们支持通过标签管理求解项。每个标签都是一个字符串键值对，有名称和值。同一个求解项可以有多个名称各不相同的标签。</p>
+<p>部分管理标签的接口（例如 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param14ScriptPipeline15item_remove_tagERKNSt6stringERKNSt6stringE" title="visionflow::param::ScriptPipeline::item_remove_tag"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::item_remove_tag()</span></code></a>
+和 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param14ScriptPipeline10remove_tagERKNSt6stringE" title="visionflow::param::ScriptPipeline::remove_tag"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::remove_tag()</span></code></a>）有两种重载：
+一种只要求参数 <code class="docutils literal notranslate"><span class="pre">tag</span></code>，在标签名匹配时就生效；另一种要求参数 <code class="docutils literal notranslate"><span class="pre">tag</span></code> 和 <code class="docutils literal notranslate"><span class="pre">value</span></code>，要求标签名和值都与参数匹配时才生效。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">item_add_tag</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tag1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value1.1&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">item_add_tag</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tag2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value2.1&quot;</span><span class="p">);</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="s">&quot;直线2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;find_line&quot;</span><span class="p">);</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">item_add_tag</span><span class="p">(</span><span class="s">&quot;直线2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tag1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value1.2&quot;</span><span class="p">);</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">item_tags</span><span class="p">(</span><span class="s">&quot;直线1&quot;</span><span class="p">);</span><span class="w">                     </span><span class="c1">// 返回 {&quot;tag1&quot;: &quot;value1.1&quot;, &quot;tag2&quot;: &quot;value2.1&quot;}</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">find_tagged_items</span><span class="p">(</span><span class="s">&quot;tag1&quot;</span><span class="p">);</span><span class="w">             </span><span class="c1">// 返回 {&quot;直线1&quot;, &quot;直线2&quot;}</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">find_tagged_items</span><span class="p">(</span><span class="s">&quot;tag1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value1.1&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 返回 {&quot;直线1&quot;}</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">all_tags</span><span class="p">();</span><span class="w">                            </span><span class="c1">// 返回 {&quot;tag1&quot;, &quot;tag2&quot;}</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">all_tag_values</span><span class="p">(</span><span class="s">&quot;tag1&quot;</span><span class="p">);</span><span class="w">                </span><span class="c1">// 返回 {&quot;value1.1&quot;, &quot;value1.2&quot;}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h3>脚本生成规则<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>用户通过 <a class="reference internal" href="../cpp_api/param.html#_CPPv4NK10visionflow5param14ScriptPipeline9to_scriptERKNSt6stringERKNSt6vectorINSt6stringEEE" title="visionflow::param::ScriptPipeline::to_script"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::ScriptPipeline::to_script()</span></code></a> 获取脚本流程对应的 Python 执行脚本。
+求解项流程总是生成在类的 <code class="docutils literal notranslate"><span class="pre">__call__(self,</span> <span class="pre">image,</span> <span class="pre">view)</span></code> 方法中，类名则由用户定义。例如：</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="p">.</span><span class="n">set_pre_script</span><span class="p">(</span><span class="s">&quot;import external&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipeline</span><span class="p">.</span><span class="n">to_script</span><span class="p">(</span><span class="s">&quot;Pipeline&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;outputted_item1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;outputted_item2&quot;</span><span class="p">});</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">external</span>
+
+<span class="k">class</span> <span class="nc">Pipeline</span><span class="p">:</span>
+
+    <span class="c1"># item functions ...</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">internals</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;outputted_item1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_0</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outs</span><span class="p">[</span><span class="s2">&quot;outputted_item2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vflow_item_func_1</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outs</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">__call__</span></code> 函数总是会将 <code class="docutils literal notranslate"><span class="pre">self.outs</span></code> 作为返回值，用户可以通过 <code class="docutils literal notranslate"><span class="pre">self.outs</span></code> 获取被指定输出的求解项的结果。</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../whitepapers/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">算法工具白皮书</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="datapack.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">VisionFlow的数据包</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">脚本流程</a><ul>
+<li><a class="reference internal" href="#id2">脚本流程中数据表示规则</a><ul>
+<li><a class="reference internal" href="#id3">预脚本</a></li>
+<li><a class="reference internal" href="#id4">求解项</a><ul>
+<li><a class="reference internal" href="#id5">可变参数和常量参数</a></li>
+<li><a class="reference internal" href="#id6">依赖关系</a></li>
+<li><a class="reference internal" href="#id7">用标签管理求解项</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">脚本生成规则</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

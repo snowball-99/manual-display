@@ -1,0 +1,443 @@
+运行时（Runtime）
+=================
+
+运行时 :cpp:class:`visionflow::Runtime` 是检测流程 :term:`FLow` 中若干算子 :term:`Operator` 执行的句柄。
+而运行时策略 :cpp:class:`visionflow::runtime::IStrategy` 是算子如何执行的配置，
+尤其是用户没有明确指定，但对于能正确执行又必须的配置。
+
+通过运行时和运行时策略，你可以在不清楚检测流程 :term:`FLow` 中算子细节和样本 :term:`Sample` 属性 :term:`Property` 细节的情况下推理样本。
+
+创建运行时
+----------
+
+例如，你有一个已经训练好的工程 :cpp:class:`visionflow::Project` `my_project`，
+通过预设的运行时策略，那么你可以方便创建对应的运行时。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 预设的运行时策略，下面会详细介绍。
+        visionflow::runtime::AllTools strategy;
+        // 大部分情况下这么配置即可。
+        strategy.options.allow_auto_update = true;
+
+        auto runtime = my_project->create_runtime(strategy);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+.. note::
+
+    运行时也可以在正确参数配置和完善样本数据下，自动依次完成训练和推理两部分，并不强制要求是已训练的工程。
+
+.. note::
+    create_runtime 在极速推理下耗时较多，:cpp:class:`visionflow::Project` 会自动缓存中间生成物，来加速下一次 create_runtime 的构建过程，
+    如果参数运行环境没有变化没有修改，使用 :cpp:class:`visionflow::Project` create_runtime 耗时明显小于第一次 create_runtime 的耗时。
+    但 :cpp:class:`visionflow::Model` 不会自动缓存中间生成物，所以需要在 create_runtime 后手动调用 :cpp:func:`visionflow::Model::resave_to`
+    缓存中间生成物，来加速下一次 create_runtime 过程;
+    由于缓存中间生成物会依据显卡或者参数修改等信息重新生成，所以需要辅助接口 :cpp:func:`visionflow::Model::is_changed` 来判断中间生成物是否重新生成，
+    进而决定是否调用 :cpp:func:`visionflow::Model::resave_to` 来保存中间生成物。
+
+.. _StrategyOptions:
+
+创建运行时的策略
+----------------
+
+`VisionFlow` 提供了若干预设策略方便用户使用，它们共同使用 :cpp:class:`visionflow::runtime::StrategyOptions` 来作为策略的共同部分:
+
+1. :cpp:var:`visionflow::runtime::StrategyOptions::ignore_update_time_requirement` 是否忽略参数更新时间。
+
+   - 运行时通过参数 :term:`Parameter` 更新时间来判断是否为最新的有效数据。
+   - 允许则忽略参数更新时间，运行时会采用旧数据或者空数据来执行。
+     对于空数据则会在创建运行时抛出异常 :cpp:class:`visionflow::excepts::CannotConstructRuntime` 。
+   - 否则会根据 :cpp:var:`visionflow::runtime::StrategyOptions::allow_auto_update` ，决定是否在运行时自动更新参数。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::allow_auto_update` 是否允许参数自动更新。
+
+   - 对于算子 :term:`Operator` 而言，依赖的参数 :term:`Parameter` 节点可能为空，或者因为依赖链上的节点更新而导致该节点失效。
+   - 允许则会在运行时对失效参数节点自动更新节点值。
+   - 否则会在创建运行时抛出异常 :cpp:class:`visionflow::excepts::NodeNotFullUpdated` 。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::allow_auto_update_rely_on_prop` 是否允许依赖属性的参数自动更新。
+
+   - 只有当 :cpp:var:`visionflow::runtime::StrategyOptions::allow_auto_update` 启用时才会生效。
+   - 对于依赖属性 :term:`Property` 的参数 :term:`Parameter` 节点，允许则会在运行时对失效参数节点自动更新节点值。
+   - 否则会在创建运行时抛出异常 :cpp:class:`visionflow::excepts::AutoExecuteRequirementsNotSatisfied` 。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::allow_unrealized_oper` 是否允许执行虚拟算子。
+
+   - 一次运行时允许执行多个算子，自然不乏 :ref:`虚拟算子 <virtual-operator>` 。
+     允许则创建运行时会跳过对于虚拟算子的检查。
+   - 否则会在创建运行时抛出异常 :cpp:class:`visionflow::excepts::UnregisteredOperator` 。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::allow_max_gpu_num` 允许使用的最大GPU数目。
+
+   - 如果GPU实际数量小于等于该值，运行时将使用全部GPU。
+   - 如果允许使用的GPU为0，或者实际GPU数量为0，
+     会根据 :cpp:var:`visionflow::runtime::StrategyOptions::allow_run_on_cpu` 来决定是否在CPU上运行。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::specified_gpu_ids` 指定优先使用的GPU编号。
+
+   - 对于无效的GPU编号会自动去除并输出对应日志信息。
+   - 如果 :cpp:var:`visionflow::runtime::StrategyOptions::allow_max_gpu_num` 数量超过了优先使用GPU的数量，
+     将自动查找并选择其他可用的GPU。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::allow_run_on_cpu` 是否允许在CPU上运行。
+
+   - 运行时会尽可能地在GPU上运行。
+   - 允许则当不能在GPU上运行时，会改为在CPU上运行。
+   - 否则会在创建运行时抛出异常 :cpp:class:`visionflow::excepts::CpuEnableError` 。
+   - 但在某些情况下用户可能希望强制在CPU上运行，
+     这时需要配置 :cpp:var:`visionflow::runtime::StrategyOptions::allow_max_gpu_num` 为0。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::call_back` 回调函数。
+
+   - 这里不做过多介绍，具体可以看 :cpp:class:`visionflow::util::IProgressCallback` 。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::infer_type` 设置全局推理类型 :cpp:enum:`visionflow::runtime::InferType` 。
+
+   - 当设置了全局推理类型，Runtime所执行的所有推理算子都将使用该推理类型。
+   - 该选项不影响工程或模型的原始参数数据。
+   -  :cpp:enumerator:`visionflow::runtime::InferType::kNonGlobal` 表示不使用全局推理类型，且继续使用各模块设置的推理类型参数。
+   - 具体可以看 :cpp:enum:`visionflow::param::InferType` :cpp:func:`visionflow::param::InferenceBatchSize::set_infer_mode` 。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::redirect_python_script_print_to_log` 是否将python脚本中的print输出到visionflow日志系统中。
+
+   - visionflow中某些算子允许执行python脚本，开启此选项将会把python脚本中的print重定向到visionflow的日志中。
+
+#. :cpp:var:`visionflow::runtime::StrategyOptions::oper_sink` 为算子自定义python脚本print重定向sink。
+
+   - visionflow中某些算子允许执行python脚本，此参数用于为某些特定算子自定义python print的重定向sink。
+   - 你需要继承接口类 :cpp:class:`visionflow::IScriptStdSink` ，自行实现 :cpp:func:`visionflow::IScriptStdSink::write` 和 :cpp:func:`visionflow::IScriptStdSink::flush` 方法，然后通过算子名称设置给特定的算子。
+
+.. _virtual-operator:
+
+.. note::
+
+    虚拟算子，即是未实现，未注册的算子 :term:`Operator` 。
+    `VisionFlow` 中有部分属性 :term:`Property` 依赖用户在使用时给出，例如图片和视窗等信息。
+    输出这类属性的算子即为虚拟算子。
+    `VisionFlow` 允许用户通过注册虚拟算子来在运行时自动输出对应属性，或者用户保证在创建运行时前给出该属性值即可。
+
+各种Runtime策略
+****************
+
+具体到每种策略，描述了运行时的执行算子的范围：
+
+1. :cpp:class:`visionflow::runtime::AllTools` 执行所有工具。
+
+   - 自动执行工程内所有工具的输出及其依赖链上的所有算子。
+   - 适用于大部分情况。
+
+#. :cpp:class:`visionflow::runtime::SingleTool` 执行单个工具。
+
+   - 自动执行指定工具输出及其依赖链上的工具内算子。
+   - 依赖链限定在指定工具内，因此不能自动处理对于工具与工具之间的输入输出依赖关系。
+   - 对于缺少输入的工具，会在运行时抛出异常 :cpp:class:`visionflow::excepts::DataNotFound` 。
+
+#. :cpp:class:`visionflow::runtime::ToolsAndDepends` 执行指定工具集及其依赖工具。
+
+   - 自动执行指定工具集输出及其依赖链上的所有算子。
+   - ToolsAndDepneds会自动找到并执行你输入的工具和这个工具直接或间接依赖的所有工具，因此只需要设置最后的工具即可，不用将依赖链上的全部工具都列出。
+
+#. :cpp:class:`visionflow::runtime::SingleNode` 执行指定算子。
+
+   - 单独执行指定算子。
+   - 有些算子的执行结果并不作为工具的输出，SingleTool、AllTools、ToolsAndDepends等策略不会执行这些算子，因此需要由用户创建SingleNode策略的Runtime来执行它们。例如各个模块用来计算评价指标的 ``visionflow::opers::RegionsMatcher`` 算子。
+   - 该算子需要的所有输入属性都需要用户输入。
+   - 否则会在运行时抛出异常 :cpp:class:`visionflow::excepts::DataNotFound` 。
+
+#. :cpp:class:`visionflow::runtime::Tools` 允许用户自行指定执行的工具。
+
+   - 用户自行设置想要执行哪些工具。
+   - 这些工具的输入属性需要用户提供。
+   - 对于缺少输入的工具(即用户无法提供某些的工具的输入，且这些输入也不能由此Tools策略中指定的其他工具产生)，则运行时会抛出异常 :cpp:class:`visionflow::excepts::DataNotFound` 。
+
+.. warning::
+
+    对于以工具为范围的策略而言，所需执行的算子为工具输出及其依赖链上的所有算子。
+    但如果某些算子并不在工具输出的依赖链上（例如只依赖某工具输出，却又不在其他工具输出的依赖链上），则不会自动执行。
+    这时候需要通过 :cpp:class:`visionflow::runtime::SingleNode` 来单独执行。
+
+.. note::
+
+    目前 `VisionFlow` 只支持上述预设策略，并不允许用户自定义实现注册运行时策略。
+
+获取运行时信息
+--------------
+
+成功创建运行时后， :cpp:class:`visionflow::Runtime` 还提供了方便获取相关信息的接口：
+
+1. :cpp:func:`visionflow::Runtime::used_device` 允许使用的GPU编号。
+
+#. :cpp:func:`visionflow::Runtime::input_properties` 运行时需要的输入属性，需要用户给出。
+
+#. :cpp:func:`visionflow::Runtime::virtual_output_properties` :ref:`虚拟算子 <virtual-operator>` 输出的属性，需要用户给出。
+
+#. :cpp:func:`visionflow::Runtime::final_output_properties` 运行时最终输出的属性，不包括中间结果。
+
+   - :cpp:func:`visionflow::Runtime::virtual_output_properties` 同样属于输出的属性。
+
+#. :cpp:func:`visionflow::Runtime::all_output_properties` 运行时输出的所有属性，包括中间结果。
+
+#. :cpp:func:`visionflow::Runtime::required_properties` 运行时所需的所有属性，
+   为 :cpp:func:`visionflow::Runtime::input_properties` 和 :cpp:func:`visionflow::Runtime::all_output_properties` 的并集。
+
+#. :cpp:func:`visionflow::Runtime::register_observer` 方便用户观察运行时。
+
+   - 例如评估算子和运行时的执行时间 :cpp:class:`visionflow::runtime::RuntimeProfiler` 。
+   - 具体可以看 :cpp:class:`visionflow::runtime::IRuntimeObserver` 。
+
+#. :cpp:func:`visionflow::Runtime::create_sample` 创建出一个满足运行时所需的样本 :term:`Sample` 。
+
+   - 即包含 :cpp:func:`visionflow::Runtime::required_properties` 的样本。
+   - 方便用户输入需要给出的属性。
+
+#. :cpp:func:`visionflow::Runtime::is_meeting_requirement` 判断样本是否满足运行时。
+
+   - 满足运行时即样本拥有所需的所有属性，并且需要用户给出的属性都已有数据。
+
+通过运行时信息，可以方便创建一个满足运行时要求的样本：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 创建满足运行时的样本，它需要用户输入图片。
+        auto sample = runtime.create_sample();
+        // 从外部读取图片。
+        auto image = visionflow::Image::FromFile("D:/path/to/image.png");
+        // 在样本中输入属性。
+        sample.get_or_create<visionflow::props::Image>({"Input", visionflow::Input::image})
+            ->set_image(image);
+        // 判断样本是否满足运行时。
+        if (runtime.is_meeting_requirement(sample))
+            runtime.execute(sample);
+
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+使用运行时进行推理
+------------------
+
+对于样本集 :term:`SampleSet` 而言，其中的样本可能并不同时满足同一个运行时，
+`VisionFlow` 提供了 :cpp:class:`visionflow::RuntimeSampleSetAdapter` 来帮助用户自动从样本集中过滤不符合运行时要求的样本。
+对于符合要求的样本，只读取运行时所需要的属性。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 这里以工程主数据集为例，推理自然也可以使用别的数据集。
+        auto dataset_name = my_project->main_sample_set_name();
+        auto sample_set = my_project->get_sample_set(dataset_name);
+
+        // 帮助用户直接适配数据集和运行时。
+        auto adapter = adapt(&sample_set, runtime);
+
+        // 简单遍历执行后将结果存回数据集即可。
+        for (auto [id, sample] : adapter) {
+            runtime.execute(sample);
+            adapter.update(id, sample);
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+超时机制
+----------------
+
+在产线上，有时你可能希望推理过程保持稳定的节拍，为了节拍稳定可以放弃部分超时的推理结果。为了支持这种情况，Runtime提供了样本推理的超时机制。
+你可以在每次推理样本时设置最大允许的超时时间。当推理时长超过给定的时间后，函数会放弃运行尚未开始推理的工具，尽快返回，超时返回后，
+样本中尚未推理的节点可能没有有效的推理结果数据，请注意检查是否超时再使用数据。如果你希望样本总是被推理完成，可以将超时时间设置为0，
+更多细节请查看 :cpp:func:`visionflow::Runtime::execute` 的接口说明。
+
+异步推理和多线程调用
+----------------------
+
+Runtime支持两种不同的推理模式：同步模式和异步模式。对于具有多个分支的流程，使用异步模式推理能够通过分支并行提高推理速度。对于仅有单个分支
+的处理流程而言，异步模式不能直接取得加速效果，并可能由于线程同步等问题发生轻微的速度退化。异步模式和同步模式的切换方法如下（我们已经将异步
+推理设置为默认的推理模式，更多细节请查看 :cpp:func:`visionflow::Runtime::execute` 的接口说明。）：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // Set the third argument to true to inferring the sample in asynchronous mode.
+      // Or set to false to inferring in synchronous mode
+      runtime.execute(sample /*, 0, true*/);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      # Set the second argument to True to inferring the sample in asynchronous mode.
+      # Or set to False to inferring in synchronous mode
+      runtime.execute(sample, 0, True)
+
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      // Set the third argument to true to inferring the sample in asynchronous mode.
+      // Or set to false to inferring in synchronous mode
+      runtime.execute(sample /*, 0, true*/);
+
+在异步模式下，你可以用多个线程同时调用同一个Runtime推理多个不同的样本：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      void infer_task(vflow::Runtime* runtime, int camera_id){
+
+         while(true) {
+            vflow::Sample sample = runtime->create_sample();
+
+            // get image from camera_id and put into sample
+
+            runtime->execute(sample, 0, true);
+         }
+      }
+
+      void task_dispatch(vflow::Runtime* runtime) {
+         std::thread th_1(infer_task, runtime, 1);
+         std::thread th_2(infer_task, runtime, 2);
+
+         th_1.join();
+         th_2.join();
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+.. note::
+
+   多个线程同时调用同一个Runtime推理不同的样本时，由于资源竞争和样本之间的乱序执行，对于单一样本的推理时间可能会产生波动。
+   但一般情况下，系统的整体吞吐量可以提升（实际情况取决于硬件配置）。
+
+.. warning::
+
+   同步模式下不建议使用多个不同的线程同时调用同一Runtime，尤其是 **禁止不断创建不同的线程通过同步模式调用同一Runtime** ，
+   否则可能发生资源泄露等影响系统稳定运行的问题。
+
+批量推理样本
+------------------
+从0.8.1版本开始，我们支持批量推理样本，以简化调用接口的复杂度和提升推理效率。你可以像下面这样调用相关接口：
+
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      void infer_task(vflow::Runtime* runtime){
+
+         std::vector<Sample> sample_vec;
+
+         for(int i = 0; i < 10; i++) {
+            auto sample = runtime->create_sample();
+
+            // get image from camera_id and put into sample
+            // add_image_to_sample(sample, image);
+
+            sample_vec.push_back(sample);
+         }
+
+         runtime->execute(sample_vec, 0);
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+.. note::
+
+   批量推理时，Runtime内部会自动使用异步推理，因此无需设置是否使用异步推理的参数。
+
+
+快速更新Runtime
+----------------------
+   visionflow支持在已有的Runtime上快速创建新的Runtime，新的Runtime会和原Runtime共享无需更新的算子。使用方法如下（更多细节请查看 :cpp:func:`visionflow::Project::update_runtime` 的接口说明）：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      void update_runtime_and_execute(visionflow::Project *proj) {
+
+         auto set_area_filter_param = [&](int l, int r) {
+            auto filter_param = proj->get_param({u8"分割", visionflow::Segmentation::filter_args})
+                                    ->as<visionflow::param::PolygonsFilterParameters>();
+            auto filter_map = filter_param.get_class_thresholds();
+            std::string label = u8"标注类别";
+            filter_map[label] =
+               filter_param.get_class_thresholds(label).set_area_range({l, r});
+            proj->set_param({u8"分割", visionflow::Segmentation::filter_args}, filter_param);
+         };
+
+         auto execute = [](const auto &runtime) {
+            auto sample = runtime.create_sample();
+            auto image = visionflow::Image::FromFile("image.png");
+            visionflow::helper::add_image_to_sample(sample, image, "输入");
+            runtime.execute(sample);
+            return sample;
+         };
+
+         auto check_sample = [](const auto &sample) {
+            auto pred_set = sample.get({u8"分割", visionflow::Segmentation::pred})
+                                 ->template as<visionflow::props::PolygonRegionList>();
+            std::cout << pred_set.size() << '\n';
+         };
+
+         // 设置过滤参数
+         set_area_filter_param(0, 10000000);
+
+         // 创建Runtime
+         visionflow::runtime::AllTools strategy({true, nullptr, true, true});
+         auto runtime = proj->create_runtime(strategy);
+         auto sample = execute(runtime);
+         check_sample(sample);
+
+         // 更新过滤参数
+         set_area_filter_param(0, 0);
+
+         // 更新Runtime
+         auto new_runtime = proj->update_runtime(runtime);
+         auto new_sample = execute(new_runtime);
+         check_sample(new_sample);
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp

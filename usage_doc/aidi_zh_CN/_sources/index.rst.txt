@@ -1,0 +1,17 @@
+AIDI3.2使用说明文档
+===============
+
+.. toctree::
+
+   Release
+   AQROSEintroduce
+   AIDIintroduce
+   Moreintro
+   moduleintro
+   opintro
+   UserGuide
+   SecondaryDevelopment
+   Shortcut
+   support
+   law
+   

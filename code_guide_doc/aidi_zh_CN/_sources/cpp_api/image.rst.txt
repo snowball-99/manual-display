@@ -1,0 +1,55 @@
+Image type and image algorithm interfaces
+=========================================
+
+Image type definition
+---------------------
+
+.. doxygenclass:: visionflow::img::Image
+   :members:
+
+.. doxygentypedef:: visionflow::Image
+
+.. doxygenclass:: visionflow::img::SubImage
+   :members:
+
+.. doxygentypedef:: visionflow::SubImage
+
+
+Image Algorithms
+-----------------
+
+.. doxygenenum:: visionflow::img::LineType
+
+.. doxygenfunction:: visionflow::img::transform(const visionflow::img::Image &image, const visionflow::View &view, int flags, int border_type, std::vector<int> border_color)
+
+.. doxygenfunction:: visionflow::img::transform(const visionflow::img::Image &image, const std::vector<visionflow::View> &views, int flags, int border_type, const std::vector<int> &border_color)
+
+.. doxygenfunction:: visionflow::img::similar
+
+.. doxygenenum:: visionflow::img::ColorType
+
+.. doxygenfunction:: visionflow::img::convert_color
+
+.. doxygenfunction:: visionflow::img::mean(const visionflow::img::Image &image)
+
+.. doxygenfunction:: visionflow::img::find_polygons
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::MultiPolygon2f &polygons, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::SubImage &sub_image, const visionflow::geometry::MultiPolygon2f &polygons, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::polar_transform
+
+.. doxygenfunction:: visionflow::img::fingerprint
+
+.. doxygenfunction:: visionflow::img::min
+
+.. doxygenfunction:: visionflow::img::max
+
+.. doxygenfunction:: visionflow::img::mean(const visionflow::img::Image &image, const visionflow::geometry::MultiPolygon2f &region, int channel)
+
+.. doxygenfunction:: visionflow::img::contrast
+
+.. doxygenfunction:: visionflow::img::min_gray
+
+.. doxygenfunction:: visionflow::img::max_gray

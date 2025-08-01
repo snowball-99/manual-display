@@ -1,0 +1,125 @@
+数据集
+#######
+数据集中主要包括：图像、标注和模型推理结果。
+
+主数据集和伴随测试集
+*********************
+在工程中有两种类型的数据集：主数据集和伴随测试集（也即主数据集以外的数据集）。
+
+主数据集
+==========
+创建工程时默认会创建出唯一一个主数据集，它可以用于训练和推理。
+
+伴随测试集
+=============
+有时候你可能会需要一个或多个仅仅用于推理测试的数据集，你可以通过 :cpp:func:`visionflow::Project::add_sample_set` 手动添加。伴随测试集与主数据、伴随测试集与伴随测试集之间彼此独立。
+
+数据集管理
+***********
+
+主数据集管理
+============
+通常你只会有一个主数据（也即没有额外的伴随测试集），你可通过以下接口来获取使用主数据集：
+
+- 获取主数据集的名称 :cpp:func:`visionflow::Project::main_sample_set_name`；
+- 获取主数据集 :cpp:func:`visionflow::Project::main_sample_set`；
+- 获取只读主数据集 :cpp:func:`visionflow::Project::readonly_main_sample_set`。
+
+下面是一些示例展示如何使用上面的接口：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // 获取主数据集的名称
+      std::string main_sample_set_name = project->main_sample_set_name();
+
+      // 获取主数据集
+      visionflow::SampleSet dataset_set = project->main_sample_set();
+
+      // 获取只读主数据集
+      visionflow::ReadOnlySampleSet readonly_dataset_set = project->readonly_main_sample_set();
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+更多关于 SampleSet 和 ReadOnlySampleSet 的信息，请参考：:cpp:type:`visionflow::SampleSet` 和 :cpp:type:`visionflow::ReadOnlySampleSet`。
+
+伴随测试集管理
+===============
+有时候你可能会需要用到伴随测试集，你可以通过下面的接口添加和移除伴随测试集：
+
+- 添加伴随测试集并指定数据集名称 :cpp:func:`visionflow::Project::add_sample_set`；
+- 通过数据集名称移除指定的伴随测试集 :cpp:func:`visionflow::Project::remove_sample_set`。
+
+下面是一些示例展示如何使用上面的接口：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // 添加伴随测试集
+      project->add_sample_set("dataset_name");
+
+      // 移除伴随测试集
+      project->remove_sample_set("dataset_name");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+数据集管理
+===========
+有时候你可能会需要获取到所有的数据集列表，和一些不区分主数据集和伴随测试集的通用接口。下面将为你介绍它们：
+
+- 通过数据集名称获取指定的数据集 :cpp:func:`visionflow::Project::get_sample_set`；
+- 通过数据集名称获取指定的只读数据集 :cpp:func:`visionflow::Project::get_readonly_sample_set`；
+- 获取所有的数据集名称 :cpp:func:`visionflow::Project::sample_sets_names`；
+- 更改数据集名称 :cpp:func:`visionflow::Project::rename_sampleset`。
+
+下面是一些具体示例来为你展示如何使用上面的接口：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // 通过数据集名称获取指定的数据集
+      visionflow::SampleSet dataset_set = project->get_sample_set("dataset_name");
+
+      // 通过数据集名称获取指定的只读数据集
+      visionflow::ReadOnlySampleSet readonly_dataset_set = project->get_readonly_sample_set("dataset_name");
+
+      // 获取所有的数据集名称
+      std::vector<std::string> dataset_names = project->sample_sets_names();
+
+      // 更改数据集名称
+      project->rename_sampleset("old_dataset_name", "new_dataset_name");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO

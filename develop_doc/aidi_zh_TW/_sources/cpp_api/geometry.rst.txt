@@ -1,0 +1,299 @@
+Geometry Structure and Algorithm
+===============================================================================
+
+
+Geometry Structure
+-------------------------------------------------------------------------------
+
+.. doxygenvariable:: kPi
+
+.. doxygenclass:: visionflow::geometry::IGeometry
+   :members:
+
+.. doxygenclass:: visionflow::geometry::ISurface
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Radian
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Vector2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Vector2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Point2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Point2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Segment2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Segment2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Line2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Ray2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Ray2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::LineString2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::LineString2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Ring2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Ring2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Size2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Size2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Rect2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Rect2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Polygon2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Polygon2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::RotateRect2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::RotateRect2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Ellipse2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Arc2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Circle2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::Circle2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::MultiPoint2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::MultiPoint2i
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::MultiSegment2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::MultiPolygon2f
+   :members:
+
+.. doxygenstruct:: visionflow::geometry::MultiPolygon2i
+   :members:
+
+.. doxygenclass:: visionflow::geometry::Matrix3f
+   :members:
+
+.. doxygenenum:: visionflow::geometry::GeoConvertToIntStrategy
+
+.. doxygenenum:: visionflow::geometry::GeoIsSampleFailType
+
+
+Geometry algorithms
+-------------------
+
+.. doxygengroup:: geo_append
+   :members:
+
+.. doxygengroup:: area
+
+.. doxygengroup:: equal_operator
+
+.. doxygengroup:: addition_operator
+
+.. doxygengroup:: subtraction_operator
+
+.. doxygengroup:: multiplication_operator
+
+.. doxygengroup:: add_point
+
+.. doxygengroup:: add_value
+
+.. doxygengroup:: cross_product
+
+.. doxygengroup:: divide_point
+
+.. doxygengroup:: divide_value
+
+.. doxygengroup:: dot_product
+
+.. doxygengroup:: multiply_point
+
+.. doxygengroup:: multiply_value
+
+.. doxygengroup:: subtract_point
+
+.. doxygengroup:: subtract_value
+
+.. doxygengroup:: min_angle
+
+.. doxygengroup:: azimuth
+
+.. doxygengroup:: center
+
+.. doxygengroup:: centroid
+
+.. doxygengroup:: clear
+
+.. doxygengroup:: convert
+
+.. doxygengroup:: convert_to_int
+
+.. doxygengroup:: convex_hull
+
+.. doxygengroup:: correct
+
+.. doxygengroup:: return_correct
+
+.. doxygengroup:: covered_by
+
+.. doxygengroup:: crosses
+
+.. doxygengroup:: difference
+
+.. doxygengroup:: discrete_frechet_distance
+
+.. doxygengroup:: disjoint
+
+.. doxygengroup:: distance
+
+.. doxygengroup:: distance_min
+
+.. doxygengroup:: distance_max
+
+.. doxygengroup:: envelope
+
+.. doxygengroup:: equals
+
+.. doxygengroup:: segment_sampling
+
+.. doxygengroup:: intersection
+
+.. doxygengroup:: intersection_points
+
+.. doxygengroup:: intersects
+
+.. doxygengroup:: intersects_and_not_touches
+
+.. doxygengroup:: iou
+
+.. doxygengroup:: is_empty
+
+.. doxygengroup:: is_rect
+
+.. doxygengroup:: is_axial_rect
+
+.. doxygengroup:: is_rotate_rect
+
+.. doxygengroup:: is_simple
+
+.. doxygengroup:: return_is_simple
+
+.. doxygengroup:: is_valid
+
+.. doxygengroup:: return_is_valid
+
+.. doxygengroup:: length
+
+.. doxygengroup:: line_interpolate
+
+.. doxygengroup:: min_area_rect
+
+.. doxygengroup:: overlaps
+
+.. doxygengroup:: overlaps_infinity_intersect_points
+
+.. doxygengroup:: perimeter
+
+.. doxygengroup:: reverse
+
+.. doxygengroup:: return_reverse
+
+.. doxygengroup:: simplify
+
+.. doxygengroup:: return_simplify
+
+.. doxygengroup:: sym_difference
+
+.. doxygengroup:: touches
+
+.. doxygengroup:: union_areal
+
+.. doxygengroup:: unique
+
+.. doxygengroup:: return_unique
+
+.. doxygengroup:: vertical
+
+.. doxygengroup:: within
+
+.. doxygengroup:: sampling
+
+.. doxygengroup:: buffer
+
+.. doxygengroup:: bounding_circle
+
+.. doxygengroup:: circularity
+
+.. doxygengroup:: transform_rotate
+
+.. doxygengroup:: transform_scale
+
+.. doxygengroup:: transform_translate
+
+.. doxygengroup:: transform
+
+.. doxygenfunction:: visionflow::geometry::get_affine_transform
+
+.. doxygenfunction:: visionflow::geometry::get_perspective_transform
+
+.. doxygenfunction:: visionflow::geometry::get_inverse_transform
+
+.. doxygenfunction:: visionflow::geometry::get_rotate_transform(const Radian &theta)
+
+.. doxygenfunction:: visionflow::geometry::get_rotate_transform(const Point2f &center, const Radian &theta)
+
+.. doxygenfunction:: visionflow::geometry::get_scale_transform(float s_x, float s_y)
+
+.. doxygenfunction:: visionflow::geometry::get_scale_transform(const Point2f &center, float s_x, float s_y)
+
+.. doxygenfunction:: visionflow::geometry::get_translate_transform(float offset_x, float offset_y)
+
+.. doxygenfunction:: visionflow::geometry::get_flip_transform(const Line2f &flip_axis)
+
+.. doxygentypedef:: visionflow::geometry::Rect2f::Size
+
+.. doxygentypedef:: visionflow::geometry::Rect2i::Size
+
+.. doxygentypedef:: visionflow::geometry::MultiPoint2f::Point
+
+.. doxygentypedef:: visionflow::geometry::MultiPoint2i::Point
+
+.. doxygentypedef:: visionflow::geometry::MultiPolygon2f::Polygon
+
+.. doxygentypedef:: visionflow::geometry::MultiPolygon2i::Polygon

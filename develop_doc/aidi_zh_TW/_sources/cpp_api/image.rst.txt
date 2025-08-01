@@ -1,0 +1,131 @@
+Image type and image algorithm interfaces
+=========================================
+
+Image type definition
+---------------------
+
+.. doxygenclass:: visionflow::img::Image
+   :members:
+
+.. doxygentypedef:: visionflow::Image
+
+.. doxygenclass:: visionflow::img::SubImage
+   :members:
+
+.. doxygentypedef:: visionflow::SubImage
+
+
+Image Algorithms
+-----------------
+
+.. doxygenenum:: visionflow::img::LineType
+
+.. doxygenfunction:: visionflow::img::transform(const visionflow::img::Image &image, const visionflow::View &view, int flags, int border_type, std::vector<int> border_color)
+
+.. doxygenfunction:: visionflow::img::transform(const visionflow::img::Image &image, const std::vector<visionflow::View> &views, int flags, int border_type, const std::vector<int> &border_color)
+
+.. doxygenfunction:: visionflow::img::similar
+
+.. doxygenenum:: visionflow::img::ColorType
+
+.. doxygenenum:: visionflow::img::ColorSpace
+
+.. doxygenfunction:: visionflow::img::data_to_image
+
+.. doxygenfunction:: visionflow::img::convert_color
+
+.. doxygenfunction:: visionflow::img::mean(const visionflow::img::Image &image)
+
+.. doxygenfunction:: visionflow::img::find_polygons
+
+.. _image-draw-geo:
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::MultiPolygon2f &polygons, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Line2f &line, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Polygon2f &polygon, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Circle2f &circle, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Point2f &point, std::vector<int> color, int thickness)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::MultiPoint2f &multi_points, const std::vector<int> &color, int thickness)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Ring2f &ring, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Ellipse2f &ellipse, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Rect2f &rect, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::LineString2f &line_string, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Segment2f &segment, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::MultiSegment2f &multi_seg, const std::vector<int> &color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Arc2f &arc, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::RotateRect2f &rotate_rect, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const visionflow::geometry::Ray2f &ray, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::SubImage &sub_image, const visionflow::geometry::MultiPolygon2f &polygons, std::vector<int> color, int thickness, LineType line_type)
+
+.. doxygenfunction:: visionflow::img::get_text_size(const std::string &u8str, uint32_t font_height_pixel, const std::string &font_name)
+
+.. _image-draw-text:
+
+.. doxygenfunction:: visionflow::img::draw(visionflow::img::Image &image, const std::string &u8str, std::vector<int> color, const visionflow::geometry::Point2f &pos, uint32_t font_height_pixel, const visionflow::geometry::Radian &angle, const std::string &font_name, int pos_mode)
+
+.. doxygenfunction:: visionflow::img::polar_transform
+
+.. doxygenfunction:: visionflow::img::fingerprint
+
+.. doxygenfunction:: visionflow::img::min
+
+.. doxygenfunction:: visionflow::img::max
+
+.. doxygenfunction:: visionflow::img::mean(const visionflow::img::Image &image, const visionflow::geometry::MultiPolygon2f &region, int channel)
+
+.. doxygenfunction:: visionflow::img::contrast
+
+.. doxygenfunction:: visionflow::img::min_gray
+
+.. doxygenfunction:: visionflow::img::max_gray
+
+.. doxygenenum:: visionflow::img::BorderTypes
+
+.. doxygenenum:: visionflow::img::MorphTypes
+
+.. doxygenenum:: visionflow::img::MorphShapes
+
+.. doxygenenum:: visionflow::img::FlipFlags
+
+.. doxygenenum:: visionflow::img::InterMethod
+
+.. doxygenfunction:: visionflow::img::gaussian_blur
+
+.. doxygenfunction:: visionflow::img::box_blur
+
+.. doxygenfunction:: visionflow::img::median_blur
+
+.. doxygenfunction:: visionflow::img::emphasize
+
+.. doxygenfunction:: visionflow::img::sobel
+
+.. doxygenfunction:: visionflow::img::gamma_transform
+
+.. doxygenfunction:: visionflow::img::filter2d
+
+.. doxygenfunction:: visionflow::img::morphology
+
+.. doxygenfunction:: visionflow::img::histogram_equalization
+
+.. doxygenfunction:: visionflow::img::lut
+
+.. doxygenfunction:: visionflow::img::flip
+
+.. doxygenfunction:: visionflow::img::warp_circle_spread
+
+.. doxygenfunction:: visionflow::img::resize

@@ -1,0 +1,201 @@
+设置参数及训练模型
+======================
+
+在Visionflow中，训练模型是通过执行一个叫训练器的配置器节点(:term:`Configurator`)来实现的。
+
+配置器节点需要经过参数节点(:term:`Parameter`)初始化，然后输入一些属性 (:term:`Property`)作为输入数据，并且创建出 **ConfigureRuntime** 来执行。
+与 **Runtime** 可以包含多个 **Operator** 相比， **ConfigureRuntime** 仅包含一个配置器算子。
+
+查看配置器需要配置哪些参数
+###############################################
+
+通过 :doc:`工具清单及详细流程图 <../auto_docs/tools>` 查看具体的配置器依赖的输入参数。
+
+除此之外，如果工程中已经加入了某个工具，可以通过接口 :cpp:func:`visionflow::Project::to_graphviz` 将流程图转换成Graphviz的dot语言查看。
+详见 :ref:`check_graphviz` 。
+
+你还可以通过接口：
+    :cpp:func:`visionflow::Project::tool_info`
+    :cpp:func:`visionflow::ToolInfo::compute_nodes`
+    :cpp:func:`visionflow::ComputeNode::param_nodes`
+    :cpp:func:`visionflow::DataEdge::type`
+
+查看 **Configurator** 节点的输入参数节点的类型。
+
+关于 **ToolInfo** 相关的内容详见：:ref:`tool_info`。
+
+为配置器配置参数
+########################################
+
+确定了配置器需要的参数类型后，需要将合适的值设置到参数节点内，以便配置器是按照你的要求进行初始化的。
+
+这里我们以分割工具的训练器节点"**Segmentation/trainer**"为例，介绍如何设置参数。
+
+节点"**Segmentation/trainer**"需要四个输入参数，分别是：
+1. BaseColor: 图片类型(灰度图或彩色图)；
+2. ImageMean: 图片各个通道的像素均值；
+3. LabelClasses: 标注类别；
+4. SegmentationTrainingParameters: 分割工具的训练参数，下文会稍作介绍： :ref:`分割工具的训练参数<seg-train-param>`；
+
+.. _seg-train-param:
+
+分割工具的训练参数示例
+##############################
+SegmentationTrainingParameters为分割工具的训练参数，包含了：
+1. 训练轮数 **epoch** ：模型的迭代次数；
+2. 训练批次 **batch size** ：每次迭代参与训练的图像数量；
+3. 训练模式 **TrainMode** ：普通训练或增量训练；
+4. 数据采样策略 **SegmentationTrainingSampleStrategy** ：包含难例采样的参数和图像缩放的参数；
+5. 模型参数 **SegmentationModelParameters** ：
+
+   - 模型架构 **model_arch** ：小缺陷模型或综合模型；
+   - 是否启用稳定变换 **shift_stable** ；
+
+6. 数据增广 **DataAugmentation**：
+
+   - 几何增广 **model_arch** ：小缺陷模型或综合模型；
+   - 图像增广 **shift_stable** ；
+
+更详细的训练参数介绍，请查阅具体工具的说明文档。
+
+以下示例代码展示了如何设置这四个参数：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 假设工程已打开，添加了Input工具和分割工具并正确地建立连接
+        // 加入图片后
+        auto segmentation_id = project->add_tool("Segmentation");
+
+        // 设置图片基准通道为彩色图
+        visionflow::param::BaseColor color;
+        color.set_color(visionflow::param::kBGR);
+        project->set_param({segmentation_id, visionflow::Segmentation::base_color}, color);
+
+        // 设置具体的类别
+        visionflow::param::LabelClasses classes;
+        classes.add("Ng");
+        classes.add("Ok");
+        project->set_param({segmentation_id, visionflow::Segmentation::classes}, classes);
+
+        // 设置训练参数.
+        visionflow::param::SegmentationTrainingParameters train_param;
+
+        // 由于接口返回的都是自身引用，所以可以进行连续赋值
+        train_param.set_epoch(100)=
+            .set_batch_size(4)
+            .get_augmentations()
+            .get_geometry_augmentation() // 数据增强
+            .set_flip_horizontal(true)
+            .set_flip_vertical(true);
+
+        // 设置采样策略
+        train_param->get_sampling_strategy()
+            .set_hard_case_rate(0.8)
+            .get_input_shape()
+            .set_enable(true)
+            .set_base_input_height(256)
+            .set_base_input_width(256);
+
+        // 将训练参数保存到工程中
+        project->set_param({segmentation_id, visionflow::Segmentation::trainer_args}, train_param);
+
+        // ImageMean参数一般需要通过ImageMeanConf计算得出
+        // 我们需要构建 ConfigureRuntime 来实现此目的
+        // 假设在此之前我们已经把图片以及视图加入到了工程，并且划分了视图的训练集测试集
+
+        // 设置ConfigureRuntime的策略(如何设置策略将在下面介绍)
+        visionflow::runtime::StrategyOptions strategy;
+        strategy.ignore_update_time_requirement = false;
+
+        // 创建计算图像均值的ConfigRuntime
+        auto img_mean_conf = project->create_config_runtime({segmentation_id, visionflow::Segmentation::image_mean_conf}, strategy);
+
+        // 为img_mean_conf的执行过程创建数据服务
+        auto conf_adapt = visionflow::adapt(project.get(), img_mean_conf);
+
+        // 初始化和执行计算图像均值，计算结果会通过数据服务自动保存到工程中
+        img_mean_conf.initialize(conf_adapt);
+        img_mean_conf.execute(conf_adapt);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+训练同时也是配置参数
+####################
+
+在上面的示例代码中，我们通过创建一个配置器运行时，计算出了图像均值 **ImageMean** 这个参数。
+图像均值又作为分割工具训练器的参数对配置器节点"**Segmentation/trainer**"进行初始化。
+
+与计算图像均值类似，训练也是在配置参数。通过训练，我们获得了一个模型。
+而模型又作为输入参数对推理的运行时进行初始化，因而训练就是在配置运行时的参数。
+
+训练模型
+####################
+
+正如上述示例代码所写的，执行配置器需要通过接口 :cpp:func:`visionflow::Project::create_config_runtime`
+创建出某个配置器节点的 **ConfigureRuntime** (配置器运行时)。
+
+创建训练节点的 **ConfigureRuntime** 与之前示例代码中计算图像均值类似，此处就不再赘述。
+
+设置创建的策略
+****************
+
+运行时策略包含很多参数，每个参数具体的功能详见： :ref:`StrategyOptions` 。
+
+创建 **ConfigureRuntime** 时一般需要设置的有如下参数：
+
+1. **ignore_update_time_requirement**
+
+   - 启用此项会自动帮你检查参数和属性的依赖关系是否满足节点连接的拓扑顺序；
+   - 如果你想确保你的训练结果是按照最新的数据产生的，而不是旧数据，那么请启用它(例如，当你本次训练时依赖了前序模块产生的视图，但是你又修改过前序模块的训练参数且没有重新进行训练，如果直接训练使用的视图将不是新的训练参数训出来的模型产生的)；
+
+2. **allow_auto_update** 启用此项可以自动帮你更新依赖链上的参数；
+3. **allow_auto_update_rely_on_prop** 此项是在启用 **allow_auto_update** 的情况下，允许依赖属性节点的参数也可以更新(属性不能为空，否则抛出异常 :cpp:class:`visionflow::excepts::CannotConstructRuntime` )；
+
+以下示例代码展示如何通过设置 **StrategyOptions** 省略之前示例代码中手动获得图像均值的逻辑：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 假设我们只剩 ImageMean 参数还没有设置
+        // BaseColor, LabelClasses 和 SegmentationTrainingParameters 都已经设置好了
+
+        // 配置允许ImageMean自动更新的策略
+        visionflow::runtime::StrategyOptions strategy_auto_update;
+        strategy_auto_update.allow_auto_update = true;              // 启用自动更新
+        strategy_auto_update.allow_auto_update_rely_on_prop = true; // 由于ImageMean依赖属性节点所以需要启用
+
+        // 此时我们无需创建 ImageMean 的ConfigureRuntime
+        // 直接创建分割工具训练器的ConfigRuntime将会自动帮你更新图像均值参数
+        auto trainer = project->create_config_runtime({segmentation_id, visionflow::Segmentation::trainer}, strategy_auto_update);
+
+        // 为训练执行器创建数据服务.
+        auto trainer_server = vflow::adapt(project.get(), trainer);
+
+        // 初始化和执行训练，训练成功后模型会自动保存到工程中.
+        trainer.initialize(trainer_server);
+        trainer.execute(trainer_server);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO

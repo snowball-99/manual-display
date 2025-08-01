@@ -1,0 +1,66 @@
+
+Constant String Node Names
+==========================================
+
+
+.. doxygenstruct:: visionflow::IDReader
+   :members:
+
+.. doxygenstruct:: visionflow::UnsuperSegmentation
+   :members:
+
+.. doxygenstruct:: visionflow::Input
+   :members:
+
+.. doxygenstruct:: visionflow::OCR
+   :members:
+
+.. doxygenstruct:: visionflow::Segmentation
+   :members:
+
+.. doxygenstruct:: visionflow::Integration
+   :members:
+
+.. doxygenstruct:: visionflow::GeometrySearch
+   :members:
+
+.. doxygenstruct:: visionflow::UnsuperClassification
+   :members:
+
+.. doxygenstruct:: visionflow::AssemblyVerification
+   :members:
+
+.. doxygenstruct:: visionflow::Location
+   :members:
+
+.. doxygenstruct:: visionflow::Classification
+   :members:
+
+.. doxygenstruct:: visionflow::ELClassification
+   :members:
+
+.. doxygenstruct:: visionflow::ELUnsuperClassification
+   :members:
+
+.. doxygenstruct:: visionflow::Detection
+   :members:
+
+.. doxygenstruct:: visionflow::CameraCalibration
+   :members:
+
+.. doxygenstruct:: visionflow::ViewTransformer
+   :members:
+
+.. doxygenstruct:: visionflow::RegionCalculation
+   :members:
+
+.. doxygenstruct:: visionflow::ELOCR
+   :members:
+
+.. doxygenstruct:: visionflow::ELUnsuperSegmentation
+   :members:
+
+.. doxygenstruct:: visionflow::Gauge
+   :members:
+
+

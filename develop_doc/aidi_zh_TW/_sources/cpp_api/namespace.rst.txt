@@ -1,0 +1,55 @@
+Namespace
+----------------------------------------------------------------------
+
+.. doxygennamespace:: visionflow
+   :desc-only:
+
+.. doxygennamespace:: visionflow::img
+   :desc-only:
+
+.. doxygennamespace:: visionflow::confs
+   :desc-only:
+
+.. doxygennamespace:: visionflow::data
+   :desc-only:
+
+.. doxygennamespace:: visionflow::detail
+   :desc-only:
+
+.. doxygennamespace:: visionflow::excepts
+   :desc-only:
+
+.. doxygennamespace:: visionflow::gauge
+   :desc-only:
+
+.. doxygennamespace:: visionflow::geometry
+   :desc-only:
+
+.. doxygennamespace:: visionflow::graph
+   :desc-only:
+
+.. doxygennamespace:: visionflow::graph::storage
+
+.. doxygennamespace:: visionflow::opers
+   :desc-only:
+
+.. doxygennamespace:: visionflow::param
+   :desc-only:
+
+.. doxygennamespace:: visionflow::props
+   :desc-only:
+
+.. doxygennamespace:: visionflow::runtime
+   :desc-only:
+
+.. doxygennamespace:: visionflow::util
+   :desc-only:
+
+.. doxygennamespace:: visionflow::compatible
+   :desc-only:
+
+.. doxygennamespace:: visionflow::helper
+   :desc-only:
+
+.. doxygennamespace:: visionflow::datapack
+   :desc-only:

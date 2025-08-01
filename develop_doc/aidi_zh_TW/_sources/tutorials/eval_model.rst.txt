@@ -1,0 +1,244 @@
+评估算法模型的效果
+====================
+通常，你需要一些指标来直观地量化模型的效果。下面将为你介绍如何来计算获取这些指标：
+
+模型效果评估其实是通过统计推理结果（实际效果）与标注（期望效果）之间的差异，并通过一些指标直观的将其量化出来的过程，所以准备好比较对象“推理结果集和标注集”是进行模型评估的前提条件。
+
+评估模型效果
+************
+通常我们需要一些指标能够较全面、系统的评估模型在整个数据集上的推理效果，例如：精确率、召回率、AP、mAP、混淆矩阵等。下面将为你介绍如何计算并获取这些指标：
+
+首先我们需要创建一个 ConfigRuntime 来从样本集中统计出这些指标，下面将会为你展示一个简单的示例：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 创建指标统计执行器的策略
+        visionflow::runtime::StrategyOptions strategy;
+        strategy.allow_auto_update = true;
+        strategy.allow_auto_update_rely_on_prop = true;
+        // 可以通过设置自定义的回调函数来接收计算的进度信息.
+        strategy.call_back = nullptr;
+
+        // 创建指标统计执行器.
+        auto statistician = project->create_config_runtime({"tool_id", "statistician"}, strategy);
+
+        // 为执行器创建数据服务.
+        auto data_server = visionflow::adapt(project_object, statistician);
+
+        // 初始化和执行指标统计，统计结果会自动保存到工程中.
+        statistician.initialize(data_server);
+        statistician.execute(data_server);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: python
+
+更多关于创建 ConfigRuntime 时的配置策略请参考 :cpp:class:`visionflow::runtime::StrategyOptions`。
+
+然后我们便可以从工程中获取到指标统计结果，具体示例如下：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/param/model_evaluation_metrics.hpp"
+
+        auto statistics_param = project.get_param({"tool_id", "statistics"})->as<visionflow::param::ModelEvaluationMetrics>();
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+在介绍指标统计结果的具体内容之前，我们先简单了解下指标统计的类型（也即是在什么数据集，什么精粒度下统计出的指标）：
+
+- 按照数据集类型划分，可分为：训练集、测试集以及总集（也即包含训练集、测试集和未划分集）
+- 按照精粒度划分，可分为：图像级、视图级、区域级和像素级
+
+综上所有的指标统计类型如下（共计十种）：
+
+- 图像级
+- 视图级
+   - 训练集
+   - 测试集
+   - 总集
+- 区域级
+   - 训练集
+   - 测试集
+   - 总集
+- 像素级
+   - 训练集
+   - 测试集
+   - 总集
+
+关于指标统计类型的更多信息请查看 :cpp:enum:`visionflow::param::MetricsEvaluationType`
+
+指标统计结果具体包括两种：混淆矩阵和精确率、召回率等
+
+下面我们首先介绍混淆矩阵的获取及使用：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 首先获取到所有的混淆矩阵类型
+        std::vector<visionflow::param::MetricsEvaluationType> types = statistics_param.table_keys();
+
+        // 遍历获取每一个混淆矩阵的具体数据
+        for(const auto& type : types){
+            visionflow::param::Table table = statistics_param.table(type);
+            // 获取到表格的行和列标题
+            std::vector<std::string> row_handle = table.row_header();
+            std::vector<std::string> col_handle = table.col_header();
+
+            // 遍历获取每一个网格中的具体数据
+            for(int i = 0; i < row_handle.size(); ++i){
+                for(int j = 0; j < col_handle.size(); ++j){
+                    const auto data = table.data(i, j);
+                }
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+关于混淆矩阵的更多信息请查看 :cpp:class:`visionflow::param::Table`
+
+下面为你介绍精确率、召回率、AP、mAp 的获取与使用：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 首先获取到所有的统计类型
+        std::vector<visionflow::param::MetricsEvaluationType> types = statistics_param.average_precision_keys();
+
+        // 遍历获取每一个指标的具体数据
+        for(const auto& type : types){
+            visionflow::param::AveragePrecision average_precision = statistics_param.average_precision(type);
+
+            // 获取到精确率
+            auto precision = average_precision.precision();
+
+            // 获取到召回率
+            auto recall = average_precision.recall();
+
+            // 获取到 mAp
+            auto m_ap = average_precision.mean_average_precision();
+
+            // 获取到标签列表
+            auto keys = average_precision.keys();
+            for(const auto& key : keys){
+                // 获取到每一个类别的 ap
+                auto ap = average_precision.average_precision(key);
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+最后对于定位模块，其还有一些额外的用于评估坐标和角度精确率的指标，比如：最大偏差、最小偏差、平均偏差和偏差的标准差。更多详细信息请查看 :cpp:class:`visionflow::param::DataMetrics`。
+
+下面将为你介绍 DataMetrics 的获取与使用：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/param/location_model_evaluation_metrics.hpp"
+
+        // 首先从工程中获取到指标统计结果，对于定位其有一个专属的参数类型 visionflow::param::LocationModelEvaluationMetrics
+        auto location_statistics_param = project.get_param({"tool_id", "statistics"})->as<visionflow::param::LocationModelEvaluationMetrics>();
+
+        // 首先获取到所有的精确度评估类型：位置 or 角度
+        std::set<visionflow::param::PrecisionEvaluationType> types = location_statistics_param.precision_evaluation_keys();
+
+        // 遍历获取每一个 DataMetrics
+        for(const auto& type : types){
+            visionflow::param::DataMetrics data_metrics = location_statistics_param.precision_evaluation(type);
+
+            // 获取最大偏差
+            auto maximum = data_metrics.maximum();
+
+            // 获取最小偏差
+            auto minimum = data_metrics.minimum();
+
+            // 获取平均偏差
+            auto average = data_metrics.average();
+
+            // 获取偏差的标准差
+            auto standard_deviation = data_metrics.standard_deviation();
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+设置推理参数
+*************
+有时，在进行模型效果评估前你可能还会想对推理结果进行一些细微的调整过滤（比如：你可能会想要过滤掉哪些你不想要的结果），下面将为你介绍如何进行过滤参数的设置以实现此目标：
+
+在过滤参数的设置中有一种最为灵活的方式是设置过滤脚本，关于过滤脚本下面将为你进行详细的介绍（在 visionflow 中我们提供了整个几何库和所有 property 类型的 C++ -> python 的对象转换，你尽可放心使用）：
+  - 首先其要遵守 python 的缩进语法规则，是一个完整可运行的 python 脚本；
+  - 然后其需要有一个名为 vflow_filter 的过滤函数：
+     - 该函数有且仅有一个类型为 :cpp:class:`visionflow::PolygonRegion` 的参数（命名没有要求）；
+     - 返回值为 True or False 用于判断目标对象是否满足过滤条件。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        visionflow::param::FilterScript filter_script;
+        filter_script.set_enable(true); // 启用脚本过滤
+
+        // 设置过滤脚本
+        // 在下面这个过滤脚本中：
+        // 1. 我们首先通过几何库的 min_area_rect 函数获取到区域的最小面积外接矩形
+        // 2. 设置过滤条件为 宽：0~5，高：0~10，面积: 大于 5，（满足返回 True，不满足则返回 False）
+        filter_script.set_filter_script(R"(
+        import visionflow
+        def vflow_filter(a):
+            rect = visionflow.geometry.min_area_rect(a.bounding_ring())
+            size = rect.size
+            return (size.w > 0 and size.w < 5) and (size.h > 0 and size.h < 10) and a.area() > 5 )");
+
+        visionflow::param::PolygonsFilterParameters filter_parameters;
+        filter_parameters.set_script_filter(filter_script);
+
+        // 设置过滤参数
+        project.set_param({"tool_id", "filter.args"}, filter_parameters);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+更多关于区域过滤参数的信息请参考 :cpp:class:`visionflow::param::PolygonsFilterParameters`。
+
+配置完推理参数后再重新执行遍推理即可获取到最新的推理结果了，然后再重新执行遍模型评估流程即可获取到最新的模型评估指标了。

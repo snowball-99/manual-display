@@ -1,0 +1,129 @@
+# Secondary Development Guidelines
+## 1. Introduction
+AIDI 3.2 provides a user-friendly secondary development assistance feature, allowing users to export customised sample code, models, and documentation based on their AI modules and parameter configurations through the GUI interface. This process not only simplifies the integration workflow, but also ensures that users can efficiently conduct secondary development tailored to their specific business needs, accelerating the deployment of AI technology in real-world industrial applications.
+
+## 2、Recommended Development Environment
+Development system: Win 10/11<br>
+Compilation tool: Visual Studio 2022 (minimum support for Visual Studio 2013)<br>
+Goal framework: Support NET Framework 4.5 or above
+
+## 3、Exporting "Visual Studio Sample Project" or "Sample Code"
+After completing model training, click on "Model - Model and Sample Code Export" in the software toolbar to export the "Visual Studio Sample Project" or "Sample Code".
+
+![Alt text](image-401.png)
+
+![Alt text](image-402.png)
+
+### 3.1 Exporting Sample Project
+
+In the pop-up window under "Export Format", select "Export Sample Project".
+
+![Alt text](image-403.png)
+
+3.1.2  Select the "Visual Studio version".
+
+![Alt text](image-404.png)
+
+3.1.3 Choose the "Select Programing Language", "Select Module" and "Select Export Path" Click the "Export Model" button.
+
+![Alt text](image-405.png)
+
+#### 3.1.1 Exporting C++ Sample Project
+
+1.  After completing the export, the Visual Studio sample project will include the following C++ project files.
+
+![](image-406.png)
+
+2.Open the solution file with the ".sln" extension. Then, open the "Project - Properties" window, ensure that the "Configuration" and "Platform" settings are correct, and change the C++ language standard to "ISO C++ 17 Standard."
+
+![Alt text](image-407.png)
+
+![Alt text](image-408.png)
+
+3.Click the "Local Windows Debugger" button, and the code will execute correctly.
+
+![Alt text](image-409.png)
+![Alt text](image-410.png)
+
+#### 3.1.2 Exporting C# Project
+
+1.After completing the export, the Visual Studio sample project will include the following C# project files.
+
+![Alt text](image-411.png)
+
+2.Open the solution file with the ".sln" extension, then select "Project - Properties" and uncheck "Build - Prefer 32-bit."
+
+![Alt text](image-412.png)
+![Alt text](image-413.png)
+
+3.Click "Start" and the code will execute correctly.
+
+![Alt text](image-414.png)
+![Alt text](image-415.png)
+
+### 3.2 Exporting Sample Code
+
+In the pop-up window, select "Export Sample Code - Development Language - Module - Path - Model Name," then click the "Export" button to complete the sample code export.
+
+![Alt text](image-416.png)
+
+#### 3.2.1 Exporting C++ Code
+
+1.After completing the C++ sample code export, the software will generate the following files.
+
+![Alt text](image-417.png)
+
+2.Open Visual Studio and create a C++ Console Application.
+
+![Alt text](image-418.png)
+
+3.In the project, select the x64  (AIDI does not support x32; the configuration manager must select 64-bit).
+
+![Alt text](image-419.png)
+
+4.Add the `example.cpp` file exported by AIDI to the "Source Files" folder.
+
+![Alt text](image-471.png)
+
+5.In "Project - Properties - Configuration Properties - VC++ Directories - Include Directories," add the required header file directory, as shown below，Example:
+
+"Installation Directory\AIDI-3.2.0-stable-20240822\develop\C++\include"
+
+"Installation Directory\AIDI-3.2.0-stable-20240822\develop\C++\lib"
+
+![Alt text](image-472.png)
+
+6.In "Project - Properties - Configuration - Linker - Input - Additional Dependencies," add "visionflow.if.lib"
+
+![Alt text](image-473.png)
+
+7.If using Debug mode, go to "Properties" -> "Linker" -> "Debugging" and ensure that the "Generate Debug Info" field is set to "Generate Debug Information (/DEBUG)."
+
+![Alt text](image-474.png)
+
+8.Click the Debugger button.
+
+
+![Alt text](image-475.png)
+
+9.The correct execution result is as follows.
+
+![Alt text](image-476.png)
+
+#### 3.2.2 Exporting C# Code
+
+1. After completing the C# sample code export, the software will generate the following files.
+
+![Alt text](image-477.png)
+
+2.Open Visual Studio and create a C# Console Application.
+
+![Alt text](image-478.png)
+
+3.In the project, select the x64  (AIDI does not support x32; the configuration manager must select 64-bit).
+
+![Alt text](image-479.png)
+
+4.In the "Solution Explorer", right - click on the project, select "Add", and then add the exported "example.cs" file and the AIDI file located at "Installation Directory/develop/csharp/visionflow.cs" to the project.
+
+![Alt text](image-480.png)

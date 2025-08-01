@@ -1,0 +1,9 @@
+AIDI3.2 Instruction Documentation
+===============
+
+.. toctree::
+
+   AIDIintroduce
+   opintro
+   SecondaryDevelopment
+   Reference

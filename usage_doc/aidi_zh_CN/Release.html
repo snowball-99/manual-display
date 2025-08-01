@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>版本更新说明 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="公司概述" href="AQROSEintroduce.html" />
+    <link rel="prev" title="AIDI3.2使用说明文档" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">版本更新说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.3.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">算法升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">软件升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">优化及易用性提升</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">3.2.2版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">软件升级</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">3.2.1版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">软件升级</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">3.2.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">二次开发升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">软件升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">算法升级</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">3.1.3版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">3.1.2版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">3.1.1版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">3.1.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">算法升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">重点软件升级：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">二次开发升级：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">3.0.2版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">3.0.1版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id23">3.0.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id24">重点算法优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">其他算法升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">重点软件功能升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">其他软件功能升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">二次开发升级</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">2.4.5版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id30">软件优化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">修复：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">2.4.4版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id33">算法优化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">软件优化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id35">修复：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36">二次开发：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id37">修复：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id38">2.4.3版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id39">优化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">修复：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id41">2.4.2版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id42">优化：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">2.4.1版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">优化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">修复：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id46">2.4.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id47">算法升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">算法流程升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">软件功能升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">二次开发更新</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">软件安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">软件介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">实操教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最优性能指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次开发指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">业务联系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律声明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">版本更新说明</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Release.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>版本更新说明<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>3.3.0版本更新<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>算法升级<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>1）检测算法新增复杂网络</p>
+<p>2）新增几何匹配工具（Beta）</p>
+<p>3）新增EL非监督分割工具（Beta）</p>
+<p>4）所有AI算法工具支持50系列显卡</p>
+</section>
+<section id="id4">
+<h3>软件升级<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>1）新增智能标注工具</p>
+<p>2）新增区域建模工具，解决小批量多品种检测问题</p>
+<p>3）视图支持模糊匹配：视图同名添加后缀过滤支持模糊匹配</p>
+<p>4）任意模块中导出数据包时均可选择输入工具的视图</p>
+<p>5）混合图工程支持指定子图进行训练推理</p>
+<p>6）增加反馈信息工具：一键生成反馈信息，便于分析现场问题</p>
+</section>
+<section id="id5">
+<h3>优化及易用性提升<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>1）优化万图以上工程操作不卡顿</p>
+<p>2）区域计算、综合判定工具所连接的工具可修改重连</p>
+<p>3）优化多屏不同尺寸显示效果</p>
+<p>4）优化显卡配置信息为用户相关,各用户配置独立</p>
+<p>5）图像列表中视图按在原图中位置顺序显示</p>
+<p>6）工厂模式下支持可修改推理参数</p>
+<p>7）图像显示区缩小后显示的缺陷标记点颜色：绿点为标注、红点为推理结果</p>
+<p>8）支持直接打开指定路径工程及双击直接打开单个工程</p>
+<p>9）所有导出到文件夹的内容，不再要求为空文件夹，同名文件用户可选择覆盖</p>
+<p>10）修复BUG若干</p>
+</section>
+</section>
+<section id="id6">
+<h2>3.2.2版本更新<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>软件升级<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>1）更新算法库</p>
+</section>
+</section>
+<section id="id8">
+<h2>3.2.1版本更新<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>软件升级<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p>1）视图转换器增加按统一尺寸切分</p>
+<p>2）优化2K\4K屏幕下的显示问题</p>
+<p>3）其他优化若干</p>
+</section>
+</section>
+<section id="id10">
+<h2>3.2.0版本更新<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>二次开发升级<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>1）支持根据可选规则导出调用的二次开发示例工程或示例代码</p>
+<p>2）新增版本切换工具</p>
+<p>3）新增环境监控工具</p>
+<p>4）优化接口- C++补充编码转换接口、解决一个Sample重复推理出错问题</p>
+<p>5）优化接口- 补充和完善图像格式转换接口</p>
+<p>6）优化接口- C#异常能够区分类型</p>
+<p>7）优化接口- C#支持自定义日志接收对象</p>
+<p>8）C#开发框架最低可支持net framework4.5</p>
+</section>
+<section id="id12">
+<h3>软件升级<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p>1）视图转换器支持Python脚本</p>
+<p>2）新增区域计算工具</p>
+<p>3）综合判定工具升级</p>
+<p>  综合判定结果可输出综合结果（单一结果），和详细算法结果</p>
+<p>  重构脚本编辑器</p>
+<p>4）新增版本转化工具</p>
+<p>5）优化标注保存速度、加载工程速度</p>
+<p>6）视图重新应用，标注保存逻辑优化</p>
+<p>7）支持多人协同训练同一工程的不同分支</p>
+</section>
+<section id="id13">
+<h3>算法升级<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>1）CPU推理效率较旧版本提升20倍</p>
+<p>2）优化OCR推理耗时增加问题，提升30%</p>
+</section>
+</section>
+<section id="id14">
+<h2>3.1.3版本更新<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<p>修复bug若干</p>
+</section>
+<section id="id15">
+<h2>3.1.2版本更新<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<p>修复bug若干</p>
+<p>上调模块面积过滤默认最大值</p>
+</section>
+<section id="id16">
+<h2>3.1.1版本更新<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<p>修复若干崩溃问题</p>
+<p>修复部分显示异常问题</p>
+<p>修复导入第三方标注，概率卡死问题</p>
+</section>
+<section id="id17">
+<h2>3.1.0版本更新<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>算法升级<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<p>一级：</p>
+<p>检测：新增高精度模式</p>
+<p>OCR：新增字符校正、模板校正</p>
+<p>分割：新增高精度模型</p>
+<p>所有模块：提升推理速度</p>
+<p>二级：</p>
+<p>非监督分割：检测精度提升至5*5</p>
+<p>分割、分类：新增按照数据集类型执行训练推荐</p>
+<p>多卡训练效率提升</p>
+<p>所有模块支持CPU训练推理</p>
+<p>优化分类、非监督分类显存占用</p>
+<p>三级：</p>
+<p>所有模块优化第一张图片的推理速度较慢的问题</p>
+<p>所有模块优化了标注越多训练启动越慢问题</p>
+<p>修复分割增量训练崩溃的问题</p>
+<p>修复分割分割样本推荐推荐效果差的问题</p>
+<p>优化分割复杂数据及标注过多时的训练速度</p>
+<p>修复非监督分割多卡比单卡慢的问题</p>
+<p>修复非监督分割边缘过检的问题</p>
+<p>新增OCR字符极性设置，重点优化黑底白字场景的OCR检出效果</p>
+<p>新增OCR单字符匹配字符串功能</p>
+<p>综合判定工具下，分割、非监督分割模块新增通过“相对灰度”“圆度”判定</p>
+</section>
+<section id="id19">
+<h3>重点软件升级：<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<p>一级：</p>
+<p>支持标注导入导出</p>
+<p>保存标注的速度巨幅提升</p>
+<p>综合判定节点支持推理结果渲染</p>
+<p>新增工程清理（体积可大幅缩减）</p>
+<p>AQCloud适配完成</p>
+<p>二级：</p>
+<p>常规模式支持一键全部推理</p>
+<p>工厂模式支持单分支推理</p>
+<p>综合判定节点：“其他”类别支持重命名</p>
+<p>新增魔棒孔洞填充功能</p>
+<p>训练信息显示自适应精度值</p>
+<p>三级：</p>
+<p>Tag支持快速删除</p>
+<p>综合指标支持点击跳转</p>
+<p>工厂模式图像列表增加重置功能</p>
+<p>切换模块自动记录列表位置</p>
+<p>算法模块主界面增加图像Tag管理功能</p>
+<p>工厂模式增加分类、非监督分类推理结果图元</p>
+<p>两点画圆工具优化</p>
+<p>标注支持腐蚀膨胀</p>
+<p>综合判定节点：新增判定函数管理，支持自定义预制函数</p>
+<p>综合判定节点条件连接默认为或</p>
+<p>增加&amp;优化预警信息、引导信息及提示若干</p>
+<p>优化显示若干：树状图、坐标值、混淆矩阵、快捷键信息、报表</p>
+<p>优化交互若干：弹窗支持enter、标注类型切换增加快捷键、图像列表拉伸时自动填充列数</p>
+<p>工程管理增加手动刷新功能</p>
+<p>OCR模块混淆矩阵隐藏全0行列</p>
+<p>新增模块名称自动匹配语言设置</p>
+</section>
+<section id="id20">
+<h3>二次开发升级：<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<p>C++支持VS2013以上编译器版本</p>
+<p>C++支持debug模式运行</p>
+<p>二次开发支持C语言</p>
+<p>二次开发支持异步推理</p>
+<p>新增Labview二次开发工具包</p>
+</section>
+</section>
+<section id="id21">
+<h2>3.0.2版本更新<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<p>显卡驱动安装链接适应系统语言</p>
+<p>增加英文版本的使用文档、开发文档</p>
+</section>
+<section id="id22">
+<h2>3.0.1版本更新<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<p>支持切换繁体，支持繁体操作系统</p>
+<p>修复综合判定工具连接问题</p>
+</section>
+<section id="id23">
+<h2>3.0.0版本更新<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="id24">
+<h3>重点算法优化<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<p>分割支持增量训练-提高模型迭代过程中的训练速度</p>
+<p>定位-单点标注，所需样本量减少，训练参数自适应，提升易用性</p>
+<p>非监督分类升级-训练速度大幅提升</p>
+</section>
+<section id="id25">
+<h3>其他算法升级<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<p>分割稳定性提升</p>
+<p>非监督分割推理显存优化</p>
+<p>分类模块低精度场景，推理速度提升50%</p>
+<p>装配检测支持多尺度目标</p>
+<p>装配检测支持角度预测</p>
+</section>
+<section id="id26">
+<h3>重点软件功能升级<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<p>支持树状流程图：模块串并联</p>
+<p>支持全模块工厂模式升级</p>
+<p>新增综合判定节点：用于汇总各模块结果，并给出最终分类</p>
+<p>各模块标注、测试结果存储在原图，不随前序模块变化而消失</p>
+<p>图像列表单列多列显示无缝切换，支持且/或/非的筛选条件</p>
+<p>新增自动掩膜，可将前序模块结果自动转化为掩膜</p>
+</section>
+<section id="id27">
+<h3>其他软件功能升级<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<p>工程管理升级</p>
+<p>工程新增版本管理</p>
+<p>UI全新升级</p>
+<p>全模块指标评估升级</p>
+<p>模块重组：快速检测和检测模块合并，装配检查+布局模板从定位中拆分</p>
+<p>工程使用时减少资源占用</p>
+<p>标注工具升级：OCR多行快速标注、定位/装配快速标注、分割/非监督分割ROI魔棒</p>
+<p>数据划分支持类间均衡</p>
+<p>推理结果自动去重</p>
+<p>非监督分割得分分布图优化</p>
+<p>自动分配可用GPU进行训练推理</p>
+<p>耗时统计增加最大值</p>
+</section>
+<section id="id28">
+<h3>二次开发升级<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<p>可直接返回推理结果类</p>
+<p>提供直接的参数类修改接口</p>
+<p>提供的几何库即可直接计算，用于计算缺陷面积等特征</p>
+<p>可灵活获取任一工具的中间结果</p>
+</section>
+</section>
+<section id="id29">
+<h2>2.4.5版本更新<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<section id="id30">
+<h3>软件优化：<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<p>标签、模块名称、模板名称、Tag支持输入空格</p>
+<p>AIDI安装过程在非简体/繁体/英文的系统语言下显示为英文</p>
+</section>
+<section id="id31">
+<h3>修复：<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<p>4*8位bmp图，无法导入bmp类型工程</p>
+<p>2.4.4导出后缀为.png而实际后缀为.jpg图片</p>
+<p>区域提取-无法导入jpg图片</p>
+<p>报表按照Tag筛选后，下一张切换错误</p>
+</section>
+</section>
+<section id="id32">
+<h2>2.4.4版本更新<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<section id="id33">
+<h3>算法优化：<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<p>分割模块：</p>
+<p>优化推理速度</p>
+<p>修复含重点学习区域时训练小概率崩溃问题</p>
+<p>检测模块：</p>
+<p>修复小目标CPU推理时崩溃问题</p>
+<p>定位模块：</p>
+<p>优化自动设置最大边长时显存占用过高的问题</p>
+<p>优化样本量较少时训练效果不佳的问题</p>
+<p>OCR模块：</p>
+<p>修复通用模型推理批次大于1时崩溃的问题</p>
+<p>所有模块单卡训练速度小幅度提升</p>
+<p>修复当用户设置推理时GPU数量为0时仍提示GPU资源不足的问题</p>
+<p>修复无GPU或驱动错误时启动崩溃问题，目前无GPU或驱动错误时自动使用CPU</p>
+<p>修复图像数量很多时训练越来越慢的问题</p>
+<p>修复显卡小工具显存计算不准确问题</p>
+</section>
+<section id="id34">
+<h3>软件优化：<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<p>工厂模式可以筛选推理类别：图像列表增加了筛选项“预测类别”</p>
+<p>工厂模式开放推理批次参数设置，推理可加速</p>
+<p>支持工厂模式渲染图导出</p>
+<p>工厂模式增加标注管理</p>
+<p>重复图像可以选择：替换、跳过、重复添加</p>
+<p>支持快捷键设置Tag</p>
+<p>优化Tag设置速度</p>
+<p>导图速度提升</p>
+<p>删除后处理之前的结果显示</p>
+<p>兼容模式下-推理方式优化为增量推理</p>
+<p>支持Labelme多标签标注导入；检测模块支持导入Labelme标注文件</p>
+<p>图像最大边长限制为3W</p>
+<p>标注悬浮信息-恢复在编辑模式下显示</p>
+<p>删除后序模块警告信息提示</p>
+<p>标注筛选支持键盘上下键切换</p>
+<p>软件安装目录下集成：依赖库拷贝&amp;检查工具</p>
+</section>
+<section id="id35">
+<h3>修复：<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<p>修复AIDI远程传图功能：当打开远程目录下的工程时，加图时均提示目标磁盘不足2G</p>
+<p>修复本地创建工程，前序模块更新后，然后工程放到cloud训练，出现感叹号</p>
+<p>修复大数据量工程切图很卡的问题</p>
+<p>修复全新笔记本电脑（无显卡)首次推理时，报cuda错误</p>
+<p>修复最小化AIDI软件，电脑任务栏点击关闭软件，卡住不动</p>
+<p>修复无GPU机器 ,首次快速启动推理时，提示CUDA错误</p>
+<p>修复工程中存在区域提取、工厂模式时，打开一次db中params就会增加一条记录</p>
+<p>修复标签名称为中文时，测试文件 test.json中乱码</p>
+<p>修复分割剪切时小概率崩溃问题</p>
+<p>修复分割和非监督分割模块，撤回错误问题</p>
+<p>修复打开最近的工程时，若工程为远程共享目录中的工程则无法打开</p>
+</section>
+<section id="id36">
+<h3>二次开发：<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<p>优化：
+新增支持内存不连续图像的0内存拷贝转换接口</p>
+<p>AidiRunner高级接口load_factory_model、load_project_model增加两个参数：指定GPU编号、推理模式</p>
+<p>runner 提供面向指针的高级接口（C# IntPtr， C/C++ void * ）</p>
+<p>移除AidiRunner add_images和wait_get_result接口</p>
+<p>新增C#二次开发LabelIO to_json()接口支持直接输出中文标签</p>
+<p>新增edit_test_json接口支持string类型</p>
+</section>
+<section id="id37">
+<h3>修复：<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<p>修复load_factory_model不支持multi_thread问题</p>
+<p>修复cppabi文件内容错误</p>
+<p>修复VS2017之前的编译器编译C++时出错问题</p>
+<p>二次开发文档&amp;示例代码
+新增补充二次开发文档和示例代码中的runner示例</p>
+<p>修复示例代码中的错误代码</p>
+<p>修复提供的第三方开发库无法使用问题，提供了全新版本的第三方开发库</p>
+</section>
+</section>
+<section id="id38">
+<h2>2.4.3版本更新<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<section id="id39">
+<h3>优化：<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<p>1）软件优化：</p>
+<p>报表显示OCR和定位模板的匹配结果</p>
+<p>1）算法优化：</p>
+<p>新增中文简体、中文繁体、英文语言切换功能，支持各语言操作系统打开各语言工程，（工程名和工程路径需保持和系统语言一致）</p>
+<p>支持GeForce RTX40系列显卡</p>
+<p>aidi::Image增加直接操作图像内存的接口，使用该接口内存要求开发者自行管理</p>
+<p>非监督分割算法优化训练稳定性，提升算法对背景亮度的适应性</p>
+<p>开放分割模块模型架构参数到高级参数中</p>
+</section>
+<section id="id40">
+<h3>修复：<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<p>1）软件修复：</p>
+<p>测试开始后删除模块，软件卡在正在加载中</p>
+<p>在大图像上编辑时，很难在地图上看到后期处理设置（例如，边长约为30000px）</p>
+<p>OCR，绘制标注时删除标签，软件崩溃</p>
+<p>分类模块过滤参数勾选，点击显示高级参数后刷新参数列表变为过滤参数不勾选</p>
+<p>定位模块新建模块不训练，模型文件中存在多余的test.json文件</p>
+<p>定位模块开启预测宽高，绘制标注修改标注框大小，切图片标注框大小未改变</p>
+<p>分割重点学习区域，画重点学习区域后，多次点击保存按钮，每次点击后区域面积错误增大，不学习区和全图掩膜也有类似问题</p>
+<p>非监督分割，在显示模式下显示标注信息浮窗时，有概率崩溃</p>
+<p>2）算法修复：</p>
+<p>修复检测模块训练不稳定问题</p>
+<p>修复linux和arm版本内存轻微泄露问题</p>
+<p>修复linux和arm版本可用内存获取错误问题</p>
+</section>
+</section>
+<section id="id41">
+<h2>2.4.2版本更新<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<section id="id42">
+<h3>优化：<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<p>1）软件优化：</p>
+<p>新增兼容模式，可以实现增量剪切以及非首模块外部图像导入，但图像自动保留标注的功能无法在该模式下使用，需谨慎删除图像</p>
+</section>
+</section>
+<section id="id43">
+<h2>2.4.1版本更新<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<section id="id44">
+<h3>优化：<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<p>1）软件优化：</p>
+<p>修复标注重复剪切去重</p>
+<p>优化前序模块更新后续模块提示信息</p>
+<p>新增EVS To AIDI-屏蔽工具内工厂模式</p>
+<p>新增非监督分类得分显示</p>
+<p>新增批量打开工程功能</p>
+<p>优化模型导出功能，默认导出已打开工程的工程模型</p>
+<p>新增AIDI版本自动选择工具</p>
+<p>2）算法优化：</p>
+<p>新增OCR支持增量训练，可用少量数据快速得到可上线模型</p>
+<p>优化aidi::Image裁切全图的速度</p>
+<p>修改定位模块目标尺寸上限为30000</p>
+<p>优化了推理速度，比旧版本推理速度提升30%</p>
+<p>新增非监督分割快速版本</p>
+</section>
+<section id="id45">
+<h3>修复：<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<p>1）算法修复：</p>
+<p>修复分割过滤面积相差1-2个像素无法准确过滤</p>
+<p>修复后处理长边短边软件显示的值跟后处理设置的值无法对应</p>
+<p>修复OCR模块（批次为1）、定位模块（批次为1）时训练效果不佳问题</p>
+<p>C#语言开发文档更新了LabelIO正确的使用方式</p>
+<p>修复全图掩模在边缘时无检出结果问题</p>
+<p>修复分割&amp;非监督分割过滤与后处理与AIDI界面长短边结果相差1的问题</p>
+<p>二次开发文档更新</p>
+<p>2）软件修复：</p>
+<p>修复定位模块选中某标注时无法保存标注</p>
+<p>修复定位点击转换测试结果为标注后，切换图片无提示</p>
+<p>修复分割直线笔（线形笔与方形笔）快捷键撤销标注后，画笔大小无法编辑</p>
+<p>修复使用过滤规则，图片使移出当前列表后，默认跳转错误</p>
+<p>修复区域提取后串联定位模块，工厂模式结果显示错误</p>
+<p>修复定位频繁修改标签名称，卡顿后软件崩溃</p>
+<p>优化区域提取中图像为彩色图时的推理速度</p>
+</section>
+</section>
+<section id="id46">
+<h2>2.4.0版本更新<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<p>更新说明：本次版本进行了算法升级，算法流程升级，软件功能升级，以及显示优化若干。详细升级信息如下：</p>
+<section id="id47">
+<h3>算法升级<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<p>1.非监督分割模块：</p>
+<p>1）算法全面升级，不仅限周期性纹理图片，适用于各种检测场景。
+2）周期性纹理图片的推理速度大幅提升。
+3）新增-可显示具体缺陷得分。
+4）新增-可进行全局逻辑类缺陷检测（如印刷字符多印、缺失）。</p>
+<p>2.OCR模块：</p>
+<p>1）新增-字符识别工具增加了通用模型，无需标注，无需训练。只需要导入图像，圈出字符大小，不用训练就可以直接得到较稳定的推理结果。进而可以直接转化为标注，提升标注速度。</p>
+<p>2）新增-字符串模板可以设置字符最大间距，让字符串匹配不受间隔的影响。</p>
+<p>3）新增-“:”，“-”，“_”以及自定义字符</p>
+<p>新增默认字符“:”，“-”，“_”，并支持输入自定义字符。</p>
+<p>4）推理速度提升</p>
+<p>3.分类模块：</p>
+<p>1）新增-增量训练
+分类增加增量训练功能，在已经得到一个模型的基础上，添加样本再次进行学习，能够大幅节省训练时间。
+2）新增-训练集推荐
+得到初阶模型之后，算法可以自动挑选出需要训练的图片。
+3）新增-样板比对 AIDI通过学习混合图中样板图（OK图）与待检图的差异，提高模型检测精度，减少样本依赖。</p>
+<p>4.新增-非监督分类模块：支持非监督模式的图片分类，通过学习OK样本的共性，找到图片级缺陷，在标注的时候只需要将OK样本加入训练集训练，即可识别出全部种类缺陷样本</p>
+<p>5.定位模块：</p>
+<p>1）新增-支持单点自由矩形目标检测</p>
+<p>2）目标转正</p>
+<p>6.分割</p>
+<p>1）新增-训练集推荐
+得到初阶模型之后，算法可以自动挑选出需要训练的图片。</p>
+</section>
+<section id="id48">
+<h3>算法流程升级<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<p>1.新增-全模块后处理：全模块统一化后处理，可以在推理结果的基础上进行后处理。例如可以设置目标框的大小、横向纵向偏移。其中定位模块还可以设置目标框的相对偏移角度。</p>
+<p>_images/liucheng01.png</p>
+<p>2.新增-模块自动更新数据：前序模块模型更新后，后序的模块可以自动检测到更新，而且最关键的是可以保留后序模块旧的数据（标注+训练集标记+Tag+存储名称），无需重新标注、划分。</p>
+<p>3.新增-分类支持拼接模块：分类模块和非监督分类模块后面支持拼接模块。</p>
+<p>4.新增-区域掩模：当检测目标存在一些区域，这些区域会对模型产生不好的影响，会混淆模型对缺陷的判断，可以将这部分不需要检测且会造成不良影响的区域使用区域掩模将其遮盖掉。</p>
+<p>5.新增-区域提取ROI可以旋转，可以出界。</p>
+</section>
+<section id="id49">
+<h3>软件功能升级<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<p>1.标注体验提升：</p>
+<p>1)标注能够批量合并类别
+2)增加快捷键Delete，可以快速删除标注和图片
+3)增加快捷键Esc,可以打断标注
+4)支持标注重叠框选中
+5)画笔和橡皮大小分别设置，可分段调整大小
+6)所有模块-默认进入缺陷标注模式
+7)统一的快捷键提示
+8)标签长度上限扩展至30
+9)设置OK图增加快速按钮
+10)Ctrl多选优化
+11)批量转化测试结果为标注
+12)模块训练时、推理时，当前模块不允许导入、导出、删除图像，训练时不允许对训练集数据进行更改，推理时当前模块只能取消
+13)软件支持第三方标注，详见各模块介绍
+14)OCR字符串模板创建限制取消</p>
+<p>2.数据管理升级：</p>
+<p>1)模块名称可自定义
+2)图像列表增加ID、面积、得分排序
+3)图像列表增加筛选条件：错检+全程无标注+重复图片
+4)新增全模块示例工程及入口
+5)图像本地名称可以在图像列表中显示
+6)标注分布可增加背景
+7)排队进展在主界面显示
+8)非监督分割-缺陷得分跟随显示
+9)界面增加软件加密狗输入入口
+10)标注信息移动到显示模式中显示
+11)导出模型功能改进
+12)工厂模式多列显示缺陷检测结果
+13)OCR“启用OK/NG显示”无效</p>
+<p>3.模型参数：</p>
+<p>1)训练参数/测试参数完善释义、名称统一
+2)训练参数/测试参数调整更加合适的默认值
+3)训练参数/测试参数的逻辑位置重新排列
+4)训练过程曲线优化</p>
+<p>4.交互设计优化：</p>
+<p>1)高级参数和普通参数颜色区分
+2)标注管理选中会自动展开详细信息
+3)标注的边线可以自定义粗细
+4)多列显示样式大幅优化
+5)菜单栏布局优化
+6)页面布局优化
+7)模板管理页面样式及交互重新设计
+8)优化混淆矩阵、模型评估页面样式
+9)重要控件样式设计更明显
+10)小缺陷标记改进
+11)OCR混淆矩阵默认区域级
+12)OCR节点模板-可使用方向键切换节点
+13)下拉框样式统一、文字按钮样式统一
+14)Tif图（3D）模式，色谱图可全局调整
+15)配适分辨率800*600以上像素的屏幕
+16)分监督模块得分分布图提示</p>
+<p>5.软件其他升级：</p>
+<p>1)Windows 11 系统配适
+2)AIDI2.4支持EVS的调用，自动为其建立工程，添加模块
+3)自动检查本机显卡是否符合要求
+4)增加显卡显示工具
+5)模态动画明显标识
+6)软件的报错弹窗合并以及优先级定义
+7)检测指标移出混淆矩阵，默认展开
+8)工厂模式：1.增加单帧采集数据是否保留的选择2.增加角度信息。</p>
+</section>
+<section id="id50">
+<h3>二次开发更新<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<p>1.文档优化：</p>
+<p>1）层级梳理，名称表述清晰化，与逻辑或者功能对应。
+2）二次开发使用手册更新，并补充升级部分。
+3）补充第三方库获取安装示例。
+4）提供英文全称或者英文描述。
+5）提供C#，C++，java，Python，C文档，整合。
+6）避免API重复。</p>
+<p>2.接口补充优化：</p>
+<p>1）添加高级接口。
+2）单独指定显卡的接口。
+3）面积接口。</p>
+<p>兼容性说明
+AIDI2.4同时兼容AIDI 2.2/2.3版本的工程。使用AIDI2.4打开旧版本工程时会自动将旧版本工程备份，并将格式转换为新版本，转换后大部分模块可直接使用，部分2.4新增参数点击“重置参数”后会予以展示，以下表格描述了各模块的具体兼容情况。</p>
+<p>_images/jianrong.png</p>
+<p>表格解读示例：对于定位模块，2.3版本支持含定位模块的其他版本工程进行训练、支持用已有模型进行推理、不支持定位和OCR的模板复用（导入后模板失效）。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="AIDI3.2使用说明文档" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="AQROSEintroduce.html" class="btn btn-neutral float-right" title="公司概述" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

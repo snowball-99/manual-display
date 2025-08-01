@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>最優效能指南 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="二次開發指南" href="SecondaryDevelopment.html" />
+    <link rel="prev" title="實操教程" href="opintro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">產品簡介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">軟體安裝說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">軟體介紹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介紹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">實操教程</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">最優效能指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">系統電源設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nvidia">Nvidia 驅動設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">低時延模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">鎖定顯卡頻率</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">開啟計算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">速度測試建議</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">極速推理模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">附錄</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows 腳本開機自啟</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次開發指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">業務聯繫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律聲明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">最優效能指南</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/UserGuide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>最優效能指南<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>AIDI 實際的運行速度與 Nvidia  GPU 的驅動設定、部署環境（硬體所在的環境）、軟體設定息息相關，對此給出以下建議：</p>
+<p>1、注意散熱 ；Nvidia 驅動為了保護顯卡，設定溫度牆 85 度。如果顯卡溫度高於 85 度，Nvidia 會自動降低運算效能，導致推理速度變慢 ；例如 AIDI 智能相機沒有主動散熱功能，需要用戶新增外部散熱的組件，否則推理速度在運行一段時間後，會變慢；例如 部署環境是比較密閉環境，由於散熱問題，推理速度也會變慢<br />2、系統電源設定 （詳情見下）；需要開啟高性能模式，不然推理速度波動較大<br />3、Nvidia 驅動設定 （詳情見下）; 此設定有利於减少速度波動，提高推理速度<br />4、推理批次大小影響推理速度;   極速推理批次越大，模型主體推理速度 (GPU 函數處理部分) 越快，但是 AIDI 的前向圖像處理後向處理，都是在 CPU 上而且 AIDI 沒有考慮到前向或者後向處理多批次大小並行，所以批次大小增大，在絕大部分情况下 ，速度提升並不明顯。<br />5、在實際部署場景中或者測試速度時，使用極速推理模式；極速推理模式一般比快速啟動快一倍以上（定位模組除外）</p>
+<section id="id2">
+<h2>系統電源設定<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>電源設定為 高性能模式</p>
+<p><img alt="Alt text" src="_images/image-416.png" /></p>
+</section>
+<section id="nvidia">
+<h2>Nvidia 驅動設定<a class="headerlink" href="#nvidia" title="Link to this heading"></a></h2>
+<p>GPU 電源模式</p>
+<p><img alt="Alt text" src="_images/image-417.png" /></p>
+</section>
+<section id="id3">
+<h2>低時延模式<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>Nvidia 控制台-&gt;低延時模式-&gt; 超高</p>
+<p><img alt="Alt text" src="_images/image-418.png" /></p>
+</section>
+<section id="id4">
+<h2>鎖定顯卡頻率<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>注意此設定關機後重置，每次開機都需要設定</p>
+<ul class="simple">
+<li><p>設置方法1：</p></li>
+</ul>
+<p>方法1、安裝目錄下蒐索 gpu_set_gpu_mem_clock.bat，以管理員許可權運行</p>
+<p><img alt="_images/xkpl.png" src="_images/xkpl.png" /></p>
+<ul class="simple">
+<li><p>設置方法2：<br />方法2、如果沒有找到，可以通過以下步驟，生成設定腳本</p></li>
+</ul>
+<p>① 新建 txt文件，將以下程式碼複製到新建的 txt 檔案中</p>
+<p><img alt="Alt text" src="_images/image-419.png" /></p>
+<p>② 將 txt 附檔名改成 bat</p>
+<p><img alt="Alt text" src="_images/image-420.png" /></p>
+<p>③ 以管理員許可權運行<br />如果為了簡化操作，可以在 windows 下設定開機自動執行（如何設定開機自動執行，看附錄 ）</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="nd">@echo</span> <span class="n">off</span>
+    <span class="o">%</span><span class="mi">1</span> <span class="n">mshta</span> <span class="n">vbscript</span><span class="p">:</span><span class="n">CreateObject</span><span class="p">(</span><span class="s2">&quot;Shell.Application&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ShellExecute</span><span class="p">(</span><span class="s2">&quot;cmd.exe&quot;</span><span class="p">,</span><span class="s2">&quot;/c %~s0 ::&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;runas&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)(</span><span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">exit</span>
+
+    <span class="n">Set</span> <span class="n">SuccessFindMaxClock</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">FOR</span> <span class="o">/</span><span class="n">F</span> <span class="s2">&quot;tokens=1,3&quot;</span>  <span class="o">%%</span><span class="n">i</span> <span class="n">IN</span> <span class="p">(</span><span class="s1">&#39;nvidia-smi -q -d SUPPORTED_CLOCKS&#39;</span><span class="p">)</span> <span class="n">DO</span> <span class="p">(</span>
+        <span class="k">if</span> <span class="s2">&quot;</span><span class="si">%%</span><span class="s2">i&quot;</span> <span class="o">==</span> <span class="s2">&quot;Memory&quot;</span> <span class="p">(</span>
+            <span class="n">echo</span> <span class="o">%%</span><span class="n">i</span> <span class="o">%%</span><span class="n">j</span>
+            <span class="n">Set</span> <span class="n">ClockValue</span><span class="o">=%%</span><span class="n">j</span>
+            <span class="n">Set</span> <span class="n">SuccessFindMaxClock</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">GOTO</span> <span class="n">SetClock</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="p">:</span><span class="n">SetClock</span>
+    <span class="n">echo</span> <span class="n">SuccessFindMaxClock</span> <span class="o">%</span><span class="n">SuccessFindMaxClock</span><span class="o">%</span>
+    <span class="n">IF</span> <span class="o">%</span><span class="n">SuccessFindMaxClock</span><span class="o">%==</span><span class="mi">1</span> <span class="p">(</span>
+        <span class="n">echo</span> <span class="s2">&quot;nvidia-smi -lgc %ClockValue%,%ClockValue%&quot;</span>
+        <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">lgc</span> <span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span><span class="p">,</span><span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span>
+        <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">lmc</span> <span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span><span class="p">,</span><span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span>
+    <span class="p">)</span> <span class="k">else</span> <span class="p">(</span>
+        <span class="n">echo</span> <span class="s2">&quot;Failed to find max clock.&quot;</span>
+    <span class="p">)</span>
+
+
+    <span class="n">pause</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>開啟計算模式<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>如果 GPU 顯卡是 Quadro  或者 Tesla 系列顯卡，可以開啟計算模式，來發揮 顯卡的最大效能
+如果是 GeForce 顯卡無須對此進行設定</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">dm</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>速度測試建議<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>Nvidia 顯卡由於電流和溫度影響，所以 一個 client 前幾十張圖速度波動加大，建議二次開發測試速度時，可以跳過前 100 張圖。</p>
+</section>
+<section id="id7">
+<h2>極速推理模式<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>可以通過 AIDI 打開專案，然後 測試參數-&gt; 顯示高級參數-&gt;推理模式-&gt;極速推理</p>
+<p><img alt="Alt text" src="_images/image-421.png" /></p>
+</section>
+<section id="id8">
+<h2>附錄<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="windows">
+<h3>Windows 腳本開機自啟<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<p>1、 win + R  輸入 shell:startup，然後Enter</p>
+<p><img alt="Alt text" src="_images/image-422.png" /></p>
+<p>2、將腳本複製在上一步出現的文件下</p>
+<p><img alt="Alt text" src="_images/image-423.png" /></p>
+<p>3、每次開機都會有彈窗，點擊確認</p>
+<p><img alt="Alt text" src="_images/image-424.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="opintro.html" class="btn btn-neutral float-left" title="實操教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SecondaryDevelopment.html" class="btn btn-neutral float-right" title="二次開發指南" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

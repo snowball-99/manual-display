@@ -1,0 +1,14 @@
+Compatibility
+--------------
+
+.. doxygenenum:: visionflow::compatible::CompatLevel
+
+.. doxygenfunction:: visionflow::compatible::query_upgrade_path
+
+
+.. doxygenfunction:: visionflow::compatible::compatibility_level
+
+
+.. doxygenfunction:: visionflow::compatible::compatibility_info
+
+.. doxygenfunction:: visionflow::compatible::compatibility_history

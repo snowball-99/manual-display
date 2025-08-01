@@ -1,0 +1,745 @@
+# Software Introduction
+## Functional layout
+![Alt text](image-18.png)
+## Terminological concepts
+
+● Workspace:
+
+```
+It is the storage location for newly created AI projects. Generally, the projects at a project site are saved within one workspace, which facilitates project management and maintenance by on - site personnel.
+```
+
+● Project: 
+
+```
+Usually, for the images under an optical solution, one project is established. Then, one or more AI modules are created within the project to achieve defect annotation and model training.
+```
+
+● Dataset:
+
+    ○ Training set:  After defect annotation is completed, the images are added to the training set. These are the data used for training the model to learn defect features.
+    ○ Test set: The images with completed defect annotation that are not added to the training set. After the model is trained, these images are used to evaluate the model's recognition effect on other defect features.
+    ○ Unmarked: Can be used for manual model evaluation
+
+● View:
+
+    View: A rectangular box (ROI) based on the original image, with the image inside the box referred to as the view
+    View transformation: The transformation settings of the view box
+    View Mask: Draw interference areas, which will be blacked out and will not participate in training
+    View filtering: By filtering settings, retain the desired views
+
+● OK and NG diagrams:
+
+    ○ OK image: Good product image
+    ○ NG diagram: defect diagram
+
+● Unannotated Images: 
+
+```
+Images imported into the software but not manually annotated.  They can be used as data to test the model's performance after the model is trained.  However, due to the lack of annotation information on these images, it is impossible to count the defect over - detection and missed - detection information on such images in the software's evaluation page.  It is necessary to manually check the recognition effect of the model on each of these images one by one.
+```
+
+● Annotated Images:
+
+```
+Images imported into the software, and the defect annotation tool of the AI module is used to mark the defects on the images. These are the data used for training and evaluating the model.
+```
+
+● Indicators:
+
+    ○ Missing detection rate=Number of Un-detected NG / Total Number of NG
+    ○ Over-Detection Rate = Number of OK Marked as NG / Total Number of OK
+    ○ Inspection rate = Number of OK judged as NG/Total number of OK
+    ○ Accuracy = Number of Correct Classifications / Total Number
+    ○ Recall = Number of NG Marked as NG by the Model / (Number of NG Marked as NG by the Model + Number of NG Marked as OK by the Model). The higher the recall, the fewer missed-detected areas there are in the image.
+    ○ Precision = Number of NG Marked as NG by the Model / (Number of NG Marked as NG by the Model + Number of OK Marked as NG by the Model). The higher the precision, the fewer over-detected areas there are in the image.
+
+● Confusion matrix:
+
+```
+Confusion matrix is a commonly used model evaluation tool, with manual annotation vertically and inference results horizontally. The confusion matrix can intuitively understand which class of samples the model performs poorly in and which other classes are easily confused with.
+```
+
+● Tag：<br>
+
+```
+Image Tag: used to identify images and can identify their attributes (batch, collection time, type of defect, etc.);
+View Tag: The tag of a view that can identify the features of the view
+```
+
+● Basic operations:<br>
+
+```
+Annotation: Draw defect areas in the image.
+Label: Category of defect.
+Do not learn regions/masks:regions that the model does not want to focus on.
+Key learning areas: The areas that the model is expected to focus on.
+```
+
+● TP: 
+
+```
+True Positive refers to the number of positive-class samples that are correctly predicted as positive - class. In the software, it can be understood as "the number of NG cases that are correctly identified as NG by the model".
+```
+
+● FP: 
+
+```
+False Positive refers to the number of negative-class samples that are incorrectly predicted as positive - class. In the software, it can be understood as "the number of OK cases that are wrongly identified as NG by the model".
+```
+
+● FN: 
+
+```
+False Negative refers to the number of positive-class samples that are actually positive but are incorrectly predicted as negative - class.<br> In the software, it can be understood as "the number of NG cases that are wrongly identified as OK by the model".
+```
+
+
+
+## Engineering management
+(1) Entrance
+
+![Alt text](image-19.png)
+
+(2) Create a workspace<br>
+Users can choose to load local directories or create new sub workspaces under existing workspaces
+
+![Alt text](image-20.png)
+
+(3) Create Project
+
+![Alt text](image-21.png)
+
+Select the desired project type and enter the project name
+
+![Alt text](image-22.png)
+
+(4) Operations supported by the workspace
+
+![Alt text](image-23.png)
+
+1. Renaming the workspace<br>
+2. Save workspace as<br>
+3. New construction project<br>
+4. Engineering List<br>
+5. Open all projects<br>
+6. View workspace information<br>
+7. Delete workspace<br>
+
+(5) Engineering supported operations
+
+![Alt text](image-24.png)
+
+1. Thumbnails<br>
+2. Project renaming<br>
+3. Engineering Information<br>
+4. Annotation information editing<br>
+5. Delete project<br>
+6. Open the project<br>
+### Engineering management Sample Case
+![Alt text](image-25.png)
+
+1. create the project based on camera positon
+
+## Image operation
+### Import Image
+(1) Import on an image basis
+
+![Alt text](image-26.png)
+
+(2) Import by folder
+
+![Alt text](image-27.png)
+
+### Data export
+If exporting the image of the algorithm module, <br>the steps for exporting are as follows:<br>
+1.First, select the corresponding image in the image list<br>
+2.Click the export button in the IO area of the current module image or right-click on the image list and select "**Export Selected Images/Annotation**s"<br>
+
+![Alt text](image-28.png)
+![Alt text](image-29.png)<br>
+
+3.Choose to export the original image/annotations, or choose to export the rendered image<br>
+
+![Alt text](image-30.png)<br>
+
+4.If you choose to export the original image/annotations, <br>you can check the options in the original image and annotations (you can freely choose to export only annotations/original image or export all)<br>
+5.Select the desired export path and click OK to complete the data export<br>
+6.Under the specified path, you can see the data package file stored this time
+
+### Data import
+
+![Alt text](image-31.png)
+
+1.Click on the upper right corner of the main interface to import images<br>
+2.Select the 3.0 exported data package file
+
+![Alt text](image-32.png)
+
+3.Enter the packet panel
+
+![Alt text](image-33.png)
+
+4.Further data filtering can be performed based on image tags. <br>The connection conditions between tag filters are and, with a maximum of 3 added
+
+![Alt text](image-34.png)
+
+5.The original image and annotations can be checked, and the image can be checked<br>
+6.Click OK to proceed <br>
+In addition, if the current module already has an image, importing the data package can only select annotations corresponding to the existing image, which can achieve automatic matching
+
+### Annotations between different modules support each other
+1. Annotations for segmentation and detection support each other<br>
+
+2. Annotations for segmentation and unsupervised segmentation support each other<br>
+
+3. OCR and detection annotations support each other<br>
+
+4. The labeling of detection and positioning (assembly inspection) supports each other
+
+### Compatible with old version annotations
+#### Compatibility instructions
+Annotations for versions 2.3 and 2.4 can be imported and used in version 3.2 (compatible with aqlabel files)
+#### Operation steps
+**2.X first module annotation import 3.0:**<br>
+
+(1) Data to be prepared:<br> 2. X first module source folder and label folder, and these two folders need to be placed in the same level directory<br>
+
+(2) 3.0 New Construction Projects<br>
+
+(3) Add the corresponding first module after the input node<br>
+
+(4) Click on "**Add Image**" in the first module, select the image from the source, and click "**Add**"<br>
+
+(5) Go to the view converter of the current module and click **Apply**. You can see the reserved annotations now
+
+### Third party annotation import
+Splitting module:<br>
+● Support Labelme: JSON format annotation files<br>
+Detection module:<br>
+● Support Labelme: JSON format annotation files<br>
+● Support Labelimage: XML, JSON format annotation files
+
+### Image list function
+(1) Right click function:
+
+ ![Alt text](image-35.png)  
+
+## Add tools
+(1) Click the add button
+
+![Alt text](image-36.png)
+
+(2) Enter the Add Module interface
+
+![Alt text](image-37.png)
+
+1. Click to add the corresponding module<br>
+
+2. Click on the module to view the introduction information<br>
+
+(3) Parallel modules<br>
+Continue to add other tools behind the module to complete module parallel connection
+
+![Alt text](image-38.png)
+![Alt text](image-40.png)
+
+(4) Series module<br>
+Continue to add modules after the modules to complete module concatenation
+
+![Alt text](image-41.png)
+![Alt text](image-42.png)
+
+## Data annotation
+### Brush tools
+#### Polygon drawing tools
+The polygon drawing tools are: <br>circular pen, square pen, circular line pen, square line pen, pen, pencil, two-point circle drawing tool, magic wand tool, and quick annotation tool.
+
+(1) Circular and square pens: <br>Circular brush tools with a diameter of the brush size. <br>A square brush tool with a side length equal to the size of the brush. <br>The **A** key on the keyboard increases the brush size, while the **D** key reduces the brush size.
+
+![Alt text](image-43.png)
+
+(2) Circular Line Pen and Square Line Pen: <br>Circular Line Pen tool. <br>After setting the starting point with the left mouse button, you can continuously left click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The diameter is the size of the brush. <br>The square line pen has a square shape. <br>After setting the starting point with the left mouse button, you can continuously click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The line width is the size of the brush.
+
+![Alt text](image-44.png)
+
+(3) After filling with a pen and setting the starting point with the left mouse button, click continuously with the left mouse button to draw multiple line segment contours. <br>Double click the left mouse button to close the contour, and the area enclosed by the contour will be automatically filled with annotations, which is not affected by the size of the brush. When using, avoid crossing the contour line segments.<br>
+Pencil filling: <br>Press and hold the left mouse button to draw the outline of the annotation. <br>Release the left mouse button to automatically fill it as the annotation, which is not affected by the size of the brush.<br> When using it, avoid crossing the outline line segments.
+
+![Alt text](image-45.png)
+
+(4) Draw a circle at two points: <br>After setting the starting point with the left mouse button, drag the mouse to draw a circle, double-click the left mouse button to close the contour, and the area enclosed by the contour is automatically filled with annotations, which is not affected by the size of the brush.
+
+![Alt text](image-46.png)
+
+(5) Magic Wand: <br>For some images with clear boundaries, the Magic Wand tool can quickly extract the images. <br>The function of the Magic Wand is to know the color of the position you clicked on, and automatically obtain the same color in nearby areas, making them in a selection state. <br>Not affected by brush size. <br>And you can set the effective range (ROI) of the magic wand.<br> In addition, you can also choose whether to fill the holes and voids when using the magic wand tool
+
+![Alt text](image-47.png)
+![Alt text](image-48.png)
+
+(6) Quick annotation: <br>Select the area by adding a tool pen and deleting the tool pen deletion area. <br>When adding a tool pen to enclose the area, the area is selected. <br>When deleting the tool pen, annotate the selected area. If the area is not enclosed by the deleted pen, it is no longer selected. <br>After completing the drawing, click **Apply** to complete the annotation. <br>Not affected by brush size.<br>* When there is a certain contrast between the defect boundary and the product background, it is recommended to use other tools. <br>* For slender defects with less than 3 pixels, it is recommended to use other tools.
+
+![Alt text](image-49.png)
+![Alt text](image-50.png)
+
+(7) Intelligent Annotation: <br>For defects with clear object boundaries and high contrast, intelligent annotation can quickly identify and outline the contours of these defects, effectively improving the annotation efficiency. When using it for the first time, a loading pop-up window will appear, indicating that it takes about 4 to 5 minutes to perform the initialization (the specific time consumption may vary depending on the computing power of the graphics card). First, use the selection pen![Alt text](image-577.png) to annotate the target area, and then use the deletion pen![Alt text](image-578.png) to remove the redundant target area.<br>
+
+![Alt text](image-579.png)
+
+![Alt text](image-580.png)
+
+(8) Eraser:<br>
+The diameter of the circular eraser is the size of a brush and is used to erase annotations.<br>
+A square eraser with a brush size edge is used to erase annotations.<br> 
+The linear eraser pen is circular in shape. After setting the starting point with the left mouse button, you can continuously click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The line width is the size of the brush and is used to erase the annotation.<br>
+*Erasers can choose the shape of the eraser and the type of defect to be erased.<br>
+
+(9) Brush size: <br>Display the brush size in pixels. <br>The keyboard "**A**" key enlarges the brush, and the "**D**" key reduces the brush.<br>
+
+(10) Reverse selection: <br>Click reverse selection to convert the original defect annotation area to the area without defect annotation.<br>
+
+(11) Mark corrosion expansion:<br>
+① Select the annotation category you want to perform corrosion expansion on<br>
+② Fill in the specific pixel values for expansion or corrosion, click OK to proceed
+
+![Alt text](image-51.png)
+
+#### Rectangle drawing tool
+[Application scenario: Detection tool]<br>
+
+1. **Free box:**<br>After clicking, draw any rectangular box label diagonally. <br>After popping up the label box, select the label name and complete the annotation.<br>
+
+2. **Standard box:** <br>Click to directly place a fixed size rectangular box annotation, which can adjust the width and height of the rectangular box. <br>After popping up the label box, select the label name and complete the annotation.<br>
+*It is recommended to use standard mode for annotation when the target size is fixed<br>
+#### Single point drawing tool
+[Application scenario: Positioning tool]<br>
+
+1. Precise point positioning tool: <br>Precise annotation of location feature points with category labels is required in the image.<br>
+*The annotation points have been changed from circles to squares, expanding their usage scenarios. <br>In addition, square annotations are also applicable to circular targets and can be detected normally.<br>
+*When using single point positioning, it is recommended to use copy (**ctrl+C**) and paste (**ctrl+V**) for quick annotation.<br>
+
+2. Quick annotation tool:<br>
+(1) First, draw a line segment parallel to the height or width of the target
+
+![Alt text](image-52.png)
+
+(2) Then hold down the left mouse button to draw
+
+![Alt text](image-53.png)
+
+#### Attribute system
+(1) Set unique color attributes for annotation and inference results, and cannot set the same color attribute repeatedly. <br>Colors that have already been selected cannot be selected again.<br>
+(2) Set the color properties for the drawing process.<br>
+
+![Alt text](image-54.png)
+
+### Annotation mode
+
+![Alt text](image-55.png)
+
+#### Defect annotation mode
+Defect labeling: <br>used to identify defect features or extract product locations<br>
+In this mode, regions within the image view can be annotated
+
+![Alt text](image-56.png)
+
+#### Key learning area drawing mode
+[Only the segmentation tool has this function]<br>
+Key learning areas: <br>areas that the model hopes to focus on<br>
+In this mode, it is possible to draw key learning areas within the image view
+
+#### Not learning region drawing mode
+Not learning regions: <br>regions that the model does not want to focus on<br>
+In this mode, it is possible to draw non learning regions within the image view
+
+## Label management
+
+![Alt text](image-57.png)
+
+1.add label here<br>
+
+2.label list<br>
+
+3.delete label<br>
+
+## Annotation filtering
+
+![Alt text](image-58.png)
+
+1. set filter here<br>
+2. click after setting<br>
+3. clear filter<br>
+4. set the filter as the tag results<br>
+
+![Alt text](image-59.png)
+
+The filtering items include:<br> category, category attributes, set, position, width, height, angle, area, etc<br>
+
+The annotation filtering result corresponds to the canvas: <br>Clicking on a row can directly jump to the corresponding annotation of the image
+
+![Alt text](image-60.png)
+
+## Annotation distribution
+![Alt text](image-61.png)
+
+1. You can select the type of distribution you want to view<br>
+2. You can select the labeling, test results, all<br>
+
+When the distribution type being viewed is category:
+
+![Alt text](image-62.png)
+
+1. Two filters<br>
+2. Y axis show the count<br>
+3. specific images info<br>
+4. X axis show the defect category<br>
+5. The current statistics are based on the range of images, which can be adjusted in the main list<br>
+
+When the distribution type being viewed is location:
+
+![Alt text](image-63.png)
+
+1.Filters can be specified<br>
+
+2.Coordinate information is displayed on mouse hover<br>
+
+3.Click to add a real image as a background to visualize the distribution of coordinate points.<br>
+
+When viewing distribution types such as width/height/angle:
+
+![Alt text](image-64.png)
+
+1. Value of the corresponding statistical range segment<br>
+
+## Tag management
+Tag types: <br>Image Tag, View Tag<br>
+Image Tag: <br>used to identify images and can identify their attributes (batch, collection time, type of defect, etc.);<br>
+View Tag: <br>The tag of a view that can identify the features of the view<br>
+
+1. Set Tag<br>
+Entrance: <br>Right click on the image list and use shortcut keys to directly set tags for images
+
+![Alt text](image-65.png)
+
+After clicking, the Tag window for the setting module will appear, allowing you to perform tag operations on the selected images in a centralized manner
+
+![Alt text](image-67.png)
+
+Click the delete button in the Tag icon in the image information to quickly delete the corresponding view tag or image tag of the current image
+
+![Alt text](image-68.png)
+## View operations
+What is view conversion?<br>
+It is used to select the effective image range of the current module according to the detection results of the previous module. <br>The image area within this range is the view
+
+### View filtering
+entrance:
+
+![Alt text](image-69.png)
+
+By default, all NG categories are retained in the view. <br>Users can manually choose to retain defects of the specified category as the view source, or choose OK images as the view source<br>
+Select to keep the view, <br>uncheck to not keep the view
+
+![Alt text](image-70.png)
+
+### View transformation
+
+(1) Can draw new views
+
+![Alt text](image-71.png)
+
+(2) You can modify the size, position, angle, and corrosion expansion of the generated view. <br>Recommend manually dragging the view box for quick editing
+
+![Alt text](image-72.png)
+
+(3) Existing views can be deleted
+
+![Alt text](image-73.png)
+
+(4) Views can be divided and merged
+
+![Alt text](image-74.png)
+
+Can define the number of horizontal and vertical partitions as well as the partition interval, click on the partition to take effect, support recall and redo
+
+![Alt text](image-75.png)
+
+Hold down the keyboard  "**ctrl**" and click in sequence to select multiple views. <br>Right click and select merge to perform the view merge operation<br>
+**Other:**<br>
+Parameter initialization
+
+![Alt text](image-76.png)
+
+Recall and redo
+
+![Alt text](image-77.png)
+
+Current view transformation identifier
+
+![Alt text](image-78.png)
+
+### View Mask
+(1) Automatic generation: <br>after clicking, the detection result of the previous module will be automatically used as the mask. <br>Also supports reverse selection, which can use areas other than the detection area as masks
+
+![Alt text](image-79.png)
+
+(2) Manual drawing: <br>supports manual framing of new view areas
+
+![Alt text](image-80.png)
+
+### View Conversion - Image List Filter
+
+![Alt text](image-81.png)
+
+Supported filtering items:<br>
+Search by image name<br>
+Search by Image Tag
+
+## Add training set
+### Automatic partitioning (model training assistant)
+entrance:
+
+![Alt text](image-82.png)
+
+Model Training Assistant Main Interface:<br>
+It is divided into two functional sections: <br>data partitioning and training set recommendation.
+
+![Alt text](image-83.png)
+![Alt text](image-84.png)
+
+#### Data partitioning
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity
+
+#### Training set recommendation
+Automatically select training recommended data based on existing basic models.<br> It is recommended to train the basic model with a training set/complete set>=5%, covering various types of defects. <br>Selection ratio=selection quantity/complete set, recommended to take 5%<br>
+Note: <br>As long as the current model changes (switching models, retraining, etc.), all training recommendation sets will be cleared
+
+### Manual division
+Right click on the image in the image list to add/remove the training set. <br>Support multiple selections.
+
+![Alt text](image-85.png)
+
+## Training
+### Training Parameter
+
+![Alt text](image-86.png)
+
+### Execute training
+
+![Alt text](image-87.png)
+
+## Inference
+### Inference Parameter
+![Alt text](image-88.png)
+
+### Execute inference
+![Alt text](image-89.png)
+
+
+## Evaluation results
+entrance:
+
+![Alt text](image-90.png)
+
+Comprehensive indicators
+
+![Alt text](image-91.png)
+
+Training set accuracy: TP/(TP+FP) in the training set<br>
+
+Training set recall rate: TP/(TP+FN) in the training set<br>
+
+Test set accuracy: TP/(TP+FP) in the test set<br>
+
+Test set recall rate: TP/(TP+FN) in the test set<br>
+
+Accuracy: <br>The higher the accuracy, the fewer regional level passes; <br>Accuracy is relative to the predicted result, which represents how much of the positive predicted samples (defect samples) are correct. <br>Therefore, accuracy is: P=TP/(TP+FP)
+
+Recall rate:<br> The higher the recall rate, the fewer missed detections at the regional level; <br>The recall rate is relative to the sample, that is, how many positive samples (defective samples) are predicted correctly in the sample, such as TP. <br>All positive samples have two directions, one is judged positive and the other is misjudged negative, so there are a total of TP+FN. <br>Therefore, the recall rate R=TP/(TP+FN)
+
+Correct prediction: <br>The proportion of correctly predicted images at the image level to all evaluated images can be redirected to the corresponding image range by clicking the mouse.
+
+Error prediction: <br>The proportion of image level error prediction images to all participating images in the evaluation can be redirected to the corresponding image range by clicking the mouse.
+
+Total number of missed defects: <br>The number of missed defects (at the regional level), which can be clicked with the mouse to jump to the corresponding image range.
+
+Total number of inspected defects: <br>The number of inspected defects (at the regional level), which can be clicked with the mouse to jump to the corresponding image range.
+
+### Confusion matrix
+Confusion matrix is a commonly used model evaluation tool, with manual annotation vertically and inference results horizontally. <br>The confusion matrix can intuitively understand which class of samples the model performs poorly in and which other classes are easily confused with.
+
+**Usage rules:**<br>
+(1) First, filter the dataset range:<br>
+All: The confusion matrix for all images.<br>
+Name retrieval: <br>Only display the confusion matrix of the filtered image based on the image storage name.<br>
+View Tag Retrieval:<br> Only display the confusion matrix of images filtered based on view tags.<br>
+Image Tag Retrieval: <br>Only display the confusion matrix of the filtered image based on the image tag<br>
+Training set:<br> Only display the confusion matrix of the training set.<br>
+Test set: <br>Only display the confusion matrix of the test set.
+
+![Alt text](image-92.png)
+
+(2) After selecting the dataset, you can choose whether to view the image level matrix or the region level matrix:<br>
+Image level is a qualitative result based on the entire image.<br>
+The regional level is a qualitative result based on the region of each image.
+
+![Alt text](image-93.png)
+
+(3) Then you can choose whether to view the quantity matrix or the probability matrix<br>
+The quantity matrix is the result of statistics based on the number of items.<br>
+The probability matrix is the result of statistics conducted proportionally.
+
+![Alt text](image-94.png)
+
+(4) After filtering to the desired result, you can click on any grid in the matrix, and the image list will automatically jump to the corresponding image according to the filtering rules.<br> It is possible to verify the results of each image in order to further optimize the model in a targeted manner.
+
+![Alt text](image-95.png)
+
+### Category Overview
+Provided: <br>Number of missed defects (number of missed defects), number of passed defects (number of passed defects), accuracy (TP/(TP+FP)), recall (TP/(TP+FN)) for each defect category
+
+### Model details
+Three sets of model time information are provided, namely total time, single graph testing time (average+maximum), and single iteration time (average+maximum)
+
+![Alt text](image-96.png)
+
+### Training Curve
+During the training process, users can observe the loss curve to help observe the progress of the training process.
+
+### More
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively
+
+![Alt text](image-97.png)
+
+Area accuracy: <br>The accuracy calculated in units of defect area<br>
+
+Regional recall rate: <br>The recall rate calculated in units of defect areas
+## Image filtering
+### Filter
+Filter criteria support:
+
+![Alt text](image-98.png)
+![Alt text](image-99.png)
+![Alt text](image-100.png)
+![Alt text](image-101.png)
+
+The filtering criteria support “and”, "or", and "non connection".
+
+![Alt text](image-102.png)
+
+One click reset: <br>Click the reset button at the top of the list to quickly return to the initial state
+
+![Alt text](image-103.png)
+
+### Sort
+
+![Alt text](image-104.png)
+
+### List right-click menu
+
+![Alt text](image-105.png)
+
+## Menu bar
+
+### Files
+-New Project: Create a new project in the current workspace<br>
+
+-Recently opened projects: Recently opened projects<br>
+
+-Close Current Project: Close the current project on the main page<br>
+
+-Close All Projects: Close all currently open projects<br>
+
+-Delete Current Project: Delete the current project on the main page with caution
+
+  ![img](./image/cdl/cdl_wj.png)
+
+### Version
+-Save Current as Version: <br>Save the current status of the current project as version<br>
+-Fallback to the most recent version: <br>Fallback to the version that was previously saved in the current project<br>
+-Manage existing versions: <br>Manage all versions of the current project
+
+  ![img](./image/cdl/cdl_bb.png)
+
+### Tools
+-Factory Mode: <br>Enter the factory mode of the current project<br>
+-Comprehensive judgment tool: <br>Add a comprehensive judgment tool to the current project.<br> If a comprehensive judgment tool has already been established, it needs to be deleted first and then re created<br>
+-Export Report: <br>Edit the report for the current module of the current project and export the report
+
+  ![img](./image/cdl/cdl_gj.png)
+
+### Image
+-Import Image: The current project imports images in units of images<br>
+-Import folder: Import images in folders for the current project
+
+  ![img](./image/cdl/cdl_tx.png)
+
+### Training & Inference
+-Training current module: <br>Add the current module to the training/training queue in the current project<br>
+-Inference current module: <br>Adding inference to the current project module<br>
+-Training Task Management: <br>View/Manage Current Training Tasks<br>
+-One click inference for all images: <br>infer all images of the current project through a tree process<br>
+-One click reasoning for adding images: <br>Reasoning the current new image through a tree process
+
+  ![img](./image/cdl/cdl_xltl.png)
+
+### Model
+-Model export: <br>Export the current engineering model<br>
+-Training process curve: <br>View the training process curve of the current module in the current project<br>
+-Model Time: <br>View the model time information of the current module in the current project<br>
+-Model Information: <br>View the detailed model information of the current module in the current project
+
+  ![img](./image/cdl/cdl_mx.png)
+
+### Settings
+-Preferences: <br>Open preference settings<br>
+-Hardware selection: <br>Select the maximum number of GPUs and GPU priority for engineering training and inference, respectively<br>
+-Management of Judgment Standard Functions: <br>Managing the Judgment Standard Functions of Comprehensive Judgment Nodes<br>
+-Engineering volume optimization: <br>cleaning temporary engineering files to achieve significant reduction in engineering volume
+
+  ![img](./image/cdl/cdl_sz.png)
+
+### Window
+-Ruler: <br>Turn ruler on/off<br>
+-Auxiliary lines: <br>turning on/off auxiliary lines<br>
+-Coordinate values: <br>enable/disable coordinate values<br>
+-Image information:<br> enable/disable image information display<br>
+-Display advanced parameters: <br>enable/disable advanced parameters<br>
+-Enable OK/NG display: <br>Turn on/off the display of results in the bottom left corner of the canvas
+
+  ![img](./image/cdl/cdl_sc.png)
+
+### Help
+-Using Documents<br>
+-Development documentation<br>
+-Example Engineering<br>
+-Graphics Card Widgets<br>
+-View logs<br>
+-Shortcut key information<br>
+-About AIDI
+
+  ![img](./image/cdl/cdl_bz.png)
+
+
+
+
+## Version upgrade tool
+### Usage
+
+1. Find the Tools folder in the AIDI installation directory<br>
+2. Find the 2To3 tool and double-click to open it
+![Alt text](image-271.png)
+3. Select the old 2.4 project and the storage path after conversion
+
+![Alt text](image-272.png)
+The data scope of the retained old project includes the following content:<br>
+(1) Figure<br>
+(2) Annotation<br>
+(3) Dataset partitioning<br>
+(4) View Tag<br>
+Applicable module scope:<br>
+Quick inspection+segmentation<br>
+Split+Split<br>
+Each individual module (except for positioning and region extraction)
+

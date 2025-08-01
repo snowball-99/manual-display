@@ -1,0 +1,682 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="更多细节" href="../advanced_topics/index.html" /><link rel="prev" title="相机标定工具介绍" href="camera_calibration.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>EL非监督分割工具使用说明 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">算法工具说明</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="el">
+<h1>EL非监督分割工具使用说明<a class="headerlink" href="#el" title="Link to this heading">#</a></h1>
+<section id="id1">
+<h2>工具特点及适用场景<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>EL非监督分割工具是一个专注于简单缺陷分割场景的工具。这个工具的主要特点是，能够 <strong>仅使用5~10个OK样本在数分钟内</strong> 即可快速建立一个能够 <strong>检测任意明显异常</strong> 的具有较好的缺陷检测能力的AI模型。</p>
+<p>在某些场景下，OK样本的一致性较好，且场景本身对于检出的缺陷的边缘的精准度不高，而NG样本又比较难以收集或者可能出现无法预知的较为明显的缺陷。这种情况下，没有足够的NG样本的信息来创建有监督的AI模型，使用AIDI中原有的非监督分割算法训练时间相对较久，可以选择使用EL非监督分割工具在数分钟内建立无监督分割模型，完成相关的异常缺陷检测目标。</p>
+<section id="id2">
+<h3>与其他工具的功能特点对比<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>相比于其他工具而言，EL非监督分割工具主要的优点在于 <strong>建模所需的数据少、使用简单、建模速度快</strong> 。下表是在一些具体场景中，EL非监督分割工具与其他工具的特点对比（不同场景中，具体数据会有所不同，表中的具体数值不能代表任意场景中的实际情况，仅作趋势参考）：</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>对比维度</p></th>
+<th class="head"><p>有监督分割工具</p></th>
+<th class="head"><p>非监督分割工具</p></th>
+<th class="head"><p>EL非监督分割工具</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>所需总样本数量</p></td>
+<td><p>30张</p></td>
+<td><p>30张</p></td>
+<td><p><strong>5张</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>所需NG样本数量</p></td>
+<td><p>30张</p></td>
+<td><p>0张</p></td>
+<td><p><strong>0张</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>标注难度</p></td>
+<td><p>高</p></td>
+<td><p>低</p></td>
+<td><p><strong>低</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>调参复杂度</p></td>
+<td><p>高</p></td>
+<td><p>高</p></td>
+<td><p><strong>低</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>训练效率</p></td>
+<td><p>30分钟</p></td>
+<td><p>30分钟</p></td>
+<td><p><strong>1分钟</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>推理效率</p></td>
+<td><p>30毫秒</p></td>
+<td><p>25毫秒</p></td>
+<td><p>80毫秒</p></td>
+</tr>
+<tr class="row-even"><td><p>最小检测能力</p></td>
+<td><p>3pixel</p></td>
+<td><p>5 pixel</p></td>
+<td><p>10 pixel</p></td>
+</tr>
+<tr class="row-odd"><td><p>检出缺陷精细度</p></td>
+<td><p>像素级（高）</p></td>
+<td><p>像素级（高）</p></td>
+<td><p>准像素级（低）</p></td>
+</tr>
+<tr class="row-even"><td><p>适用场景</p></td>
+<td><p>较广泛</p></td>
+<td><p>较广泛</p></td>
+<td><p>有一定限制</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h3>工具适用场景要求及典型案例<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>EL非监督分割工具对适用场景有着相对较为严格的要求，以下具体的要求：</p>
+<ul class="simple">
+<li><p>OK样本一致性较好，没有各种复杂的随机变化，或者变化的种类少数几种（例如少数几种型号）；或者具有复杂变化的区域不是需要检测的区域；</p></li>
+<li><p>需要检测的缺陷尺寸（长宽）占待检测区域的比例应在0.75%以上；</p></li>
+<li><p>对于检出缺陷的面积要求相对较低，可以容忍检出的区域与实际缺陷区域存在1倍左右的尺寸差异；</p></li>
+<li><p>不同OK样本之间的配准误差最好小于需要检测的缺陷的尺寸。（当然，在不满足这一条件的情况下，我们在此工具内也提供了相关的参数以便直接在工具内进行配准，但配准误差越大，此工具内就需要花费越多的时间用于配准，会牺牲一些推理的效率。）</p></li>
+</ul>
+<p>下面是一些针对这些适用限制条件的典型情况的案例说明：</p>
+<div class="table-wrapper colwidths-given docutils container" id="id10">
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text">案例数据及检测需求</span><a class="headerlink" href="#id10" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 60.0%" />
+<col style="width: 15.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>案例数据及检测需求</p></th>
+<th class="head"><p>适用与否</p></th>
+<th class="head"><p>原因说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><img alt="../_images/eus_data_2.png" src="../_images/eus_data_2.png" />
+</td>
+<td><p>是</p></td>
+<td><p>OK样本中除变化的文本区域外，其他区域的一致性整体较好；而变化的文本区域无需检测，可以通过掩码遮盖。</p></td>
+</tr>
+<tr class="row-odd"><td><img alt="../_images/eus_data_3.png" src="../_images/eus_data_3.png" />
+</td>
+<td><p>是</p></td>
+<td><p>OK样本虽然有较为明显的随机多变的纹理，但纹理变化的尺度远远小于需要检测的目标异常的尺度。在需要检测的尺度上，OK样本的纹理变化趋于一致，可以被忽略。</p></td>
+</tr>
+<tr class="row-even"><td><img alt="../_images/eus_data_4.png" src="../_images/eus_data_4.png" />
+</td>
+<td><p>否</p></td>
+<td><p>OK样本具有大尺度的复杂纹理变化，一致性差。</p></td>
+</tr>
+<tr class="row-odd"><td><img alt="../_images/eus_data_5.png" src="../_images/eus_data_5.png" />
+</td>
+<td><p>是</p></td>
+<td><p>OK样本有变化，但只有确定的少数几种（2~3种型号）。</p></td>
+</tr>
+<tr class="row-even"><td><img alt="../_images/eus_data_6.png" src="../_images/eus_data_6.png" />
+</td>
+<td><p>否</p></td>
+<td><p>OK样本有很多种不同型号，无法在一个模型中同时检测多种具有明显区别的不同型号的产品。</p></td>
+</tr>
+<tr class="row-odd"><td><img alt="../_images/eus_data_7.png" src="../_images/eus_data_7.png" />
+</td>
+<td><p>否</p></td>
+<td><p>需要检测的最小异常尺寸太小。</p></td>
+</tr>
+<tr class="row-even"><td><img alt="../_images/eus_data_8.png" src="../_images/eus_data_8.png" />
+</td>
+<td><p>否</p></td>
+<td><p>产品位置没有配准，无法直接使用EL非监督分割工具，但可以使用定位工具配准产品后再使用EL非监督分割工具。</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>基本算法原理及使用要点<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>EL非监督分割工具的基本算法原理是：算法会自动从用户给定的训练样本中选择一些具有代表性的样本记录到模型中。在推理时，算法会将待检测的样本与训练时选取的具有代表性的样本特征进行对比，计算待检测样本与训练集中代表性样本的差异大小。差异越大的越有可能是存在异常的区域。</p>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="../_images/eus-algo-principle.png"><img alt="../_images/eus-algo-principle.png" src="../_images/eus-algo-principle.png" style="width: 381.0px; height: 456.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">EL非监督分割工具算法原理</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>基于这一算法原理，此工具具有以下特点：</p>
+<ul class="simple">
+<li><p>参数 “代表样本数量”：对检测结果具有较为显著的影响，如果数量设置太小，可能无法覆盖OK样本可能出现的各种情况，导致模型过检严重；代表样本数量过多，则推理时需要比对的样本变多，模型体积会增大，推理所需占用的显存资源较多，且推理时间会变慢。使用时需要根据实际情况调节这一参数以达到最佳平衡。</p></li>
+<li><p>训练集中OK样本覆盖的各种情况越广泛，从中选取的代表样本越具有较好的代表性，因此在OK样本变化较多时，在可能的情况下适当增加训练集是必要的。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>最佳使用流程<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>一般情况下，我们推荐按照以下总体步骤使用此工具：</p>
+<img alt="../_images/eus-sop-pipeline.png" src="../_images/eus-sop-pipeline.png" />
+<section id="id6">
+<h3>判断场景适用性<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>在适用工具前，我们需要集合场景的数据特征、检测标准要求、节拍要求等多方面的因素，按照前面的算法适用条件和典型场景说明，判断相关场景是否适用本工具；对于不适用的情况，建议适用原有非监督分割工具或其他工具解决。</p>
+</section>
+<section id="id7">
+<h3>前置数据处理<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>在适用EL非监督分割工具前，我们需要先创建工程，导入数据，并根据数据的实际情况和检测要求对数据做必要前处理，具体可以参考以下步骤：</p>
+<ol class="arabic simple">
+<li><p>创建工程，添加EL非监督分割工具；</p></li>
+<li><p>导入一批OK图像到工程中。为后续操作方便，建议给导入的OK图打上“OK”的图像Tag；</p></li>
+<li><p>导入一批NG图像到工程中，为后续操作方便，建议给导入的OK图打上“NG”的图像Tag；</p></li>
+<li><p>如果样本中待检测区域没有配准或配准误差较大，建议先使用定位等其他工具先定位配准；</p></li>
+<li><p>在视图中设置待检区域的视图。设置视图时，注意以下方面的处理：</p></li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha">
+<li><p>如果待检区域中存在复杂变化的无需检测的区域（例如产品生产日期等），最好使用视图掩码掩除。</p></li>
+<li><p>视图边缘最好放在图像中没有复杂变化的区域，不要紧贴图像中的物体边缘，避免因为配准误差导致图像中物体的边缘有些出现在视图内，有些出现在视图外，导致视图内部边缘位置存在复杂的变化。</p>
+<blockquote>
+<div><figure class="align-default" id="id12">
+<img alt="../_images/eus_set_view_true.png" src="../_images/eus_set_view_true.png" />
+<figcaption>
+<p><span class="caption-text">好的视图边缘设置，视图边缘避开图像中有复杂变化的区域</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id13">
+<img alt="../_images/eus_set_view_false.png" src="../_images/eus_set_view_false.png" />
+<figcaption>
+<p><span class="caption-text">不好的视图边界设置，可能导致其他未完全配准的视图边缘出现明显纹理差异</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+</li>
+<li><p>尽可能减少视图中无需检测的无效区域，避免让算法工具检测实际上不需要检测的区域，这能够给后续调整算法工具的参数留出更大的灵活性，也有利于提高工具的推理效率。</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="ok-ng">
+<h3>迭代训练模型使OK/NG数据可分<a class="headerlink" href="#ok-ng" title="Link to this heading">#</a></h3>
+<p>这一步的总体目标是，通过调整训练集和训练参数，使得OK样本和NG样本的得分具有清晰的界限。下面是具体的方法：</p>
+<ol class="arabic simple" start="6">
+<li><p>将所有OK图标注为OK图并加入训练集；</p></li>
+<li><p>根据需要检测的缺陷的最小截面尺寸，设置训练参数 <code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> ；缺陷的最小截面尺寸可以参考下图示例的技术方法：</p></li>
+</ol>
+<blockquote>
+<div><figure class="align-default">
+<img alt="../_images/eus_defect_size.png" src="../_images/eus_defect_size.png" />
+</figure>
+</div></blockquote>
+<ol class="arabic simple" start="8">
+<li><p>根据不同视图之间内容的配准情况，设置训练参数 <code class="docutils literal notranslate"><span class="pre">视图配准误差</span></code> 。更具体而言，“视图配准误差”是指某一物体在不同视图间出现的位置的最大差异像素值。</p></li>
+<li><p>触发训练和推理，等待训练、推理完成。</p></li>
+<li><p>训练完成后，查看得分分布图，观察所有OK样本（已经标注为OK）和所有NG样本（未标注）的得分之间是否存在明确可分的边界。观察得分曲线时，如果发现少数OK样本的得分明显大于其他OK样本的得分，或者发现少数NG样本的得分明显小于其他NG样本的得分，建议通过观察对应的图像，检查得分异常的样本是否划分到了错误的集合。</p></li>
+</ol>
+<blockquote>
+<div><figure class="align-default" id="id14">
+<img alt="../_images/eus_score_curve_false.png" src="../_images/eus_score_curve_false.png" />
+<figcaption>
+<p><span class="caption-text">OK图和NG图（未标注）的得分之间存在混叠，得分可分性较差</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id15">
+<img alt="../_images/eus_score_curve_true.png" src="../_images/eus_score_curve_true.png" />
+<figcaption>
+<p><span class="caption-text">OK图和NG图（未标注）的得分之间有清晰的边界，得分可分性较好</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<ol class="arabic simple" start="11">
+<li><p>如果OK和NG样本之间的得分已经可分，则直接进行下一个大步骤——调整推理参数。否则，按照以下步骤继续重复调整训练参数和数据，直到OK和NG样本得分可分；</p>
+<ol class="loweralpha simple">
+<li><p>可以适当增加训练参数中的 <code class="docutils literal notranslate"><span class="pre">代表样本数量</span></code> 的值（建议每次增加参数原有值的40%）；</p></li>
+<li><p>重新训练模型、进行推理，再次观察得分分布图中OK样本和NG样本的得分是否有明显分界线；</p></li>
+<li><p>注意，当代表样本数量大于等于训练集中的视图数量时，继续增加代表样本数量的值不具有实际意义。</p></li>
+</ol>
+</li>
+<li><p>如果进行以上操作5~6次后，得分曲线仍没有明显改变或者仍然存在明显混叠，则可能是因为以下某一原因，需要您对照数据仔细检查和判断：</p>
+<ol class="loweralpha simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> 和 <code class="docutils literal notranslate"><span class="pre">视图配准误差</span></code> 设置不够合理，导致在该参数组合下，OK图之间相互的对比差异不能明显低于OK图像与NG图像的对比差异；可以尝试适当调高 “缺陷检测精细度”和“视图配准误差”的值，然后重新训练，看得分的可分性是否有所改善；</p></li>
+<li><p>OK图的变化较多，导致挑选了很多代表样本也仍然无法覆盖OK图像的各种情况；这种场景下此工具不适用。</p></li>
+<li><p>未标注的NG图像中存在实际是OK的图像；建议将实际OK的图像标注成OK图，避免干扰我们对得分可分性的判断；</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="id8">
+<h3>调整推理参数<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>如果OK和NG样本之间的得分已经可分，接下来我们需要调节推理参数中的 <code class="docutils literal notranslate"><span class="pre">像素得分阈值</span></code> 、 <code class="docutils literal notranslate"><span class="pre">区域得分阈值</span></code> 以及过滤参数，使得检出的区域能够较好的贴合实际的缺陷区域；具体可以参考以下步骤：</p>
+<ol class="arabic simple" start="13">
+<li><p>将像素得分阈值设置为一个靠近OK图像最高得分的值（可以略小于OK样本的最高得分），将区域得分阈值设置为一个略大于像素得分阈值的值（一般建议大0.05~0.1左右）；重新推理所有样本；</p></li>
+<li><p>查看OK图中是否存在过检的区域（建议将视图按照得分从高到低排序，优先查看视图得分较高的部分），如果存在，适当提高区域得分阈值（个别非常小的过检区域可以暂不处理，后续通过面积过滤滤除）；</p></li>
+<li><p>查看NG图中是否存在完全漏检的缺陷区域，如果存在，适当降低区域得分阈值，并重新推理，直至每个缺陷区域都有检出。注意始终保持像素得分阈值略小于区域得分阈值；</p></li>
+<li><p>固定区域得分阈值不变，调整像素得分阈值使得检出的区域边界更加准确（注意：由于EL非监督分割工具本身不具备精准检出缺陷边界的能力，因此调整时不应过度追求检出区域的边界完全精准贴合实际缺陷区域。）：</p>
+<ol class="loweralpha simple">
+<li><p>查看每个缺陷区域的检出程度如何，如果检出的缺陷区域不能完整覆盖实际的缺陷区域，可以适当调小像素得分阈值并重新推理，再次观察；</p></li>
+<li><p>如果检出的缺陷区域远远超出了实际缺陷区域的边界，可以适当调高像素得分阈值并重新推理，再次观察。</p></li>
+</ol>
+</li>
+<li><p>在调整好像素得分阈值和区域得分阈值之后，可以进一步设置面积等过滤参数，过滤掉一些面积较小的过检区域。并根据实际项目需求，过滤出需要的目标区域。</p></li>
+</ol>
+</section>
+</section>
+<section id="id9">
+<h2>常见问题及解决方案<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>出现 <code class="docutils literal notranslate"><span class="pre">Failed</span> <span class="pre">to</span> <span class="pre">write</span> <span class="pre">11020946</span> <span class="pre">bytes</span> <span class="pre">to</span> <span class="pre">output</span> <span class="pre">stream!</span> <span class="pre">Wrote</span> <span class="pre">9409896</span></code> 类似的错误字样：</p>
+<blockquote>
+<div><ul>
+<li><p>问题原因：在此工具中，一般情况下是由于 <code class="docutils literal notranslate"><span class="pre">代表样本数量</span> <span class="pre">*</span> <span class="pre">样本大小</span> <span class="pre">*</span> <span class="pre">每个样本的特征量</span></code> 的值过大，导致读写模型时，分配超大的内存块失败；或者加载模型时，显卡显存不足</p></li>
+<li><p>解决方法：可以根据实际情况，选择以下一个或几个方面进行调整：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>调小 <code class="docutils literal notranslate"><span class="pre">代表样本数量</span></code> 参数，并重新训练模型；</p></li>
+<li><p>调小 <code class="docutils literal notranslate"><span class="pre">视图配准误差</span></code> 参数，并重新训练模型；</p></li>
+<li><p>增大 <code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> 参数，并重新训练模型；</p></li>
+<li><p>在视图编辑器中缩减视图范围，并重新应用视图和重新训练，避免让工具检测无需检测的边缘区域。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>出现 <code class="docutils literal notranslate"><span class="pre">out</span> <span class="pre">of</span> <span class="pre">memory</span></code> 错误：</p>
+<blockquote>
+<div><ul>
+<li><p>问题原因：在此工具中，一般情况下是由于 <code class="docutils literal notranslate"><span class="pre">代表样本数量</span> <span class="pre">*</span> <span class="pre">样本大小</span> <span class="pre">*</span> <span class="pre">每个样本的特征量</span></code> 的值过大，或者加载模型时，显卡显存不足以加载完整的模型；</p></li>
+<li><p>解决方法：可以根据实际情况，选择以下一个或几个方面进行调整：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>调小 <code class="docutils literal notranslate"><span class="pre">代表样本数量</span></code> 参数，并重新训练模型；</p></li>
+<li><p>调小 <code class="docutils literal notranslate"><span class="pre">视图配准误差</span></code> 参数，并重新训练模型；</p></li>
+<li><p>增大 <code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> 参数，并重新训练模型；</p></li>
+<li><p>在视图编辑器中缩减视图范围，并重新应用视图和重新训练，避免让工具检测无需检测的边缘区域。</p></li>
+<li><p>换用显存更大的显卡；</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>小于设置的 <code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> 的缺陷也被检出：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>问题原因：实际检测缺陷时，缺陷的整体形态、对比度、纹理、尺寸等多个维度都会影响最终的缺陷区域得分，因此可能出现面积较小，但其他方面与OK样本差异较大的缺陷区域也被检出的情况。</p></li>
+<li><p>解决方法：可以进一步适当调高 <code class="docutils literal notranslate"><span class="pre">缺陷检测精细度</span></code> 参数，或者使用面积过滤阈值滤除检出的较小的缺陷区域。</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>推理速度慢</p>
+<blockquote>
+<div><ul>
+<li><p>问题原因：推理效率可能受到多方面因素的影响。</p></li>
+<li><p>解决方法：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>在x64平台，请检查是否使用了GPU推理；建议默认使用GPU推理；</p></li>
+<li><p>如果视图配准误差过大，可以先使用定位工具对待检测目标进行定位，然后再使用EL进行分割；并设置更小的 <code class="docutils literal notranslate"><span class="pre">视图配准误差</span></code> ;</p></li>
+<li><p>检测效果允许的前提下，减少代表样本数量；</p></li>
+<li><p>检测效果允许的前提下，降低“检测精细度”阈值。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../advanced_topics/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">更多细节</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="camera_calibration.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">相机标定工具介绍</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">EL非监督分割工具使用说明</a><ul>
+<li><a class="reference internal" href="#id1">工具特点及适用场景</a><ul>
+<li><a class="reference internal" href="#id2">与其他工具的功能特点对比</a></li>
+<li><a class="reference internal" href="#id3">工具适用场景要求及典型案例</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">基本算法原理及使用要点</a></li>
+<li><a class="reference internal" href="#id5">最佳使用流程</a><ul>
+<li><a class="reference internal" href="#id6">判断场景适用性</a></li>
+<li><a class="reference internal" href="#id7">前置数据处理</a></li>
+<li><a class="reference internal" href="#ok-ng">迭代训练模型使OK/NG数据可分</a></li>
+<li><a class="reference internal" href="#id8">调整推理参数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">常见问题及解决方案</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

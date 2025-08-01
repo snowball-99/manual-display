@@ -1,0 +1,209 @@
+授权
+=======
+
+授权异常信息的捕获
+************************
+我们提供了授权详细异常信息的获取，在 VisionFlow 中授权相关的异常统一抛出的为 :cpp:class:`visionflow::excepts::LicenseError`。
+
+详细异常信息的获取：
+
+- 首先捕获授权异常，通过其 'details' 函数获取到详细的异常信息；
+- 然后解析异常信息，其是一个 json 格式的字符串，解析后便会得到 error list；
+- 最后遍历获取每一条 error，每一条 error 又是一个 json object 其包含了三个字段 'code', 'message' 和 'feature':
+   - code: 其明确了具体的错误类型（详见 `code 映射表`_）；
+   - message: 其明确了具体的错误信息；
+   - feature: 其明确了具体是哪种授权类型产生了错误（详见 `feature 映射表`_）。
+
+下面将会为你展示一个简单的捕获并解析异常的示例：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        try { // 获取所有的加密锁信息
+            auto infos = visionflow::helper::license_devices();
+        } catch (const visionflow::excepts::DefaultException &ex) {
+            // 首先判断 details 是否为空（并非所有 LicenseError 异常中的 details 都是非空的）
+            if(!ex.details().empty){
+                // 以 json 格式解析数据
+                auto details = nlohmann::json::parse(ex.details());
+                for(const auto& data : details){
+                    auto code = data.at("code").get<uint32_t>();
+                    auto message = data.at("message").get<std::string>();
+                    auto feature = data.at("feature").get<std::string>();
+                }
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: python
+
+
+.. note::
+
+   - 并非所有 LicenseError 异常中的 details 都是非空的，在解析前请先确认其是否非空；
+   - 解析 details 会得到一个 error list，但绝大部分情况下其只会有一个 error（也即 list size 通常为 1）。
+
+feature 映射表
+*******************
+
+.. list-table:: 模块训练权限
+    :header-rows: 1
+
+    * - feature
+      - 授权类型
+    * - visionflow::confs::SegmentationTrainer
+      - 分割模块-训练权限
+    * - visionflow::confs::UnsuperSegmentationTrainer
+      - 非监督分割模块-训练权限
+    * - visionflow::confs::ClassificationTrainer
+      - 分类模块-训练权限
+    * - visionflow::confs::UnsuperClassificationTrainer
+      - 非监督分类模块-训练权限
+    * - visionflow::confs::OCRTrainer
+      - OCR 模块-训练权限
+    * - visionflow::confs::LocationTrainer
+      - 定位模块-训练权限
+    * - visionflow::confs::DetectionTrainer
+      - 定位模块-训练权限
+    * - visionflow::confs::GeometrySearchTrainer
+      - 模板匹配-训练权限
+    * - visionflow::confs::AssemblyVerificationTrainer
+      - 装备检查模块-训练权限
+
+.. list-table:: 模块推理权限
+    :header-rows: 1
+
+    * - feature
+      - 授权类型
+    * - visionflow::opers::SegmentationInfer
+      - 分割模块-推理权限
+    * - visionflow::opers::UnsuperSegmentationInfer
+      - 非监督分割模块-推理权限
+    * - visionflow::opers::ClassificationInfer
+      - 分类模块-推理权限
+    * - visionflow::opers::UnsuperClassificationInfer
+      - 非监督分类模块-推理权限
+    * - visionflow::opers::OCRInfer
+      - OCR 模块-推理权限
+    * - visionflow::opers::LocationInfer
+      - 定位模块-推理权限
+    * - visionflow::opers::DetectionInfer
+      - 定位模块-推理权限
+    * - visionflow::opers::GeometrySearchInfer
+      - 模板匹配-推理权限
+    * - visionflow::opers::AssemblyVerificationInfer
+      - 装备检查模块-推理权限
+    * - visionflow::opers::IDReaderDecoder
+      - 读码模块-推理权限
+    * - visionflow::opers::CameraCalibrationInfer
+      - 相机标定-推理权限
+
+.. list-table:: 其他授权项
+    :header-rows: 1
+
+    * - feature
+      - 授权类型
+    * - max_classes
+      - 支持的最大类别数量
+    * - ToolInferInstance
+      - 需要授权的工具推理实例数量
+    * - GPU
+      - 使用的GPU数量
+    * - 3DImage
+      - 3D图像授权
+    * - MultiVisual
+      - 多通道图像（多视图）
+
+code 映射表
+**************
+我们保证 code 映射的 uint32_t 值是唯一且不会变动的。
+
+code 映射的 uint32_t 值及其标识的错误类型如下：
+
+.. code-block:: cpp
+
+  enum ErrorCode {
+
+    /// @brief 成功
+    kOk = 0,
+
+    /// @brief 协议版本不匹配
+    kProtocolVersionMismatch = 1,
+    /// @brief 未授权的产品
+    kUnauthorizedProduct = 2,
+    /// @brief 未授权的产品版本
+    kUnauthorizedProductVersion = 3,
+    /// @brief 未注册的特性
+    kUnregisteredFeature = 4,
+    /// @brief 未经授权的特性
+    kUnauthorizedFeature = 5,
+    /// @brief 文件操作失败
+    kFileSystemError = 6,
+    /// @brief json 数据解析错误
+    kJsonParsingError = 7,
+    /// @brief 锁不存在
+    kDongleNotExist = 8,
+    /// @brief 全局回调函数为空
+    kGlobalCallbackFunctionIsEmpty = 9,
+    /// @brief 传参错误
+    kInvalidArgument = 10,
+
+    /// @brief 加密狗通用错误
+    kDongleError = 100,
+    /// @brief 无效的句柄
+    kInvalidHandle = 101,
+    /// @brief 网络错误
+    kNetworkError = 102,
+
+    /// @brief IPC 收发错误
+    kIPCSendReceiveError = 200,
+    /// @brief 许可服务连接失败（大概率是没有安装 virbox 用户工具，也即授权驱动）
+    kLicenseServiceError = 201,
+    /// @brief 找不到服务器
+    kServerNotFound = 202,
+    /// @brief 登录的许可句柄数量已达到上线
+    kHandleConcurrencyCountExceeded = 203,
+    /// @brief 没有找到加密锁，请确保加密锁正常插入
+    kEncryptionLockNotFound = 204,
+    /// @brief 未调用 Runtime 初始化函数，请先调用全局初始化函数，再调用此接口
+    kRuntimeinitFunctionNotExecuted = 205,
+    /// @brief 许可未找到，请确保指定的许可可以被访问到（本地硬件锁许可/授权码，网络硬件锁许可/授权码）
+    kLicenseNotFound = 206,
+    /// @brief 无效的 Session（当前许可的会话失效，可能许可登录已经退出或被强行踢出）
+    kInvalidSession = 207,
+    /// @brief 许可已经过期（许可在访问过程中过期）
+    kLicenseHasExpired = 208,
+    /// @brief Session 超时（访问加密锁的会话超时了）
+    kSessionTimeout = 209,
+    /// @brief 许可不允许远程登录（当前许可是本地许可，却被远程机器访问了）
+    kLicenseDoesNotAllowRemoteLogin = 210,
+
+    /// @brief
+    /// 许可尚不可用，一般是指许可没有达到可使用的时间（对于设置了起始时间的许可可能会返回此错误）
+    kLicenseNotYetAvailable = 300,
+    /// @brief 许可登录次数用尽
+    kExhaustionOfLicenseLogins = 301,
+    /// @brief 许可已达到最大并发数（网络授权的并发数达到最大值，新的登录将失败）
+    kLicenseHasReachedMaximumConcurrency = 302,
+    /// @brief 锁内已经达到最大会话数量
+    kExcessiveNumberOfSessions = 303,
+
+    /// @brief 授权码不存在
+    kAuthCodeNotExist = 400,
+    /// @brief 不能绑定(授权码同时绑定设备数已达上限)
+    kExceedingTheNumberOfConcurrentlyBoundDevices = 401,
+    /// @brief 不能绑定(授权码累积绑定设备数已达上限)
+    kExceededTheCumulativeNumberOfBoundDevices = 402,
+    /// @brief 授权码绑定失败
+    kAuthCodeBindingError = 403,
+    /// @brief 授权码已过期
+    kAuthCodeExpired = 404,
+    /// @brief 不能绑定(还未到许可的开始使用时间)
+    kAuthCodeNotReachedStartTime = 405
+  };

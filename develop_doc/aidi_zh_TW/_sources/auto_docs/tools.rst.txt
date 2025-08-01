@@ -1,0 +1,2579 @@
+
+
+工具清单及详细流程图
+#####################
+
+
+IDReader Tool
+=================================================
+
+IDReader tool. for locating and reading 1d and 2d barcode.
+
+.. graphviz::
+
+   digraph "OnlyTool: IDReader" {
+     label="OnlyTool: IDReader";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "IDReader/decoder";
+     "IDReader/featmap_filter";
+     "IDReader/filter";
+     "IDReader/infer"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "IDReader/batch_size.conf";
+     "IDReader/decoder.conf";
+     "IDReader/featmap_filter.conf";
+     "IDReader/filter.conf";
+     "IDReader/infer.conf";
+     "IDReader/model.conf";
+     "IDReader/model_generator"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "IDReader/feature_map";
+     "IDReader/filter_pred";
+     "IDReader/raw_pred"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "IDReader/image";
+     "IDReader/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "IDReader/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "IDReader/batch_size";
+     "IDReader/decoder.args";
+     "IDReader/featmap_filter.args";
+     "IDReader/filter.args";
+     "IDReader/infer.args";
+     "IDReader/model";
+     "IDReader/model.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_IDReader" {
+       label="IDReader";
+       "IDReader/batch_size" [label="id: IDReader/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "IDReader/batch_size.conf" [label="id: IDReader/batch_size.conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "IDReader/decoder" [label="id: IDReader/decoder\ltype: visionflow::opers::IDReaderDecoder\lupdate: 1970-01-01 00:00:00.0000000\ldocs: IDReader inference engine.\l"];
+       "IDReader/decoder.args" [label="id: IDReader/decoder.args\ltype: visionflow::param::IDReaderDecoderParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "IDReader/decoder.conf" [label="id: IDReader/decoder.conf\ltype: visionflow::confs::IDReaderDecoderConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the IDReader \linference parameters.\l"];
+       "IDReader/featmap_filter" [label="id: IDReader/featmap_filter\ltype: visionflow::opers::SegmentationFeatureMapFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to filter feature map \linto list of polygon regions.\l"];
+       "IDReader/featmap_filter.args" [label="id: IDReader/featmap_filter.args\ltype: visionflow::param::FeatureMapFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameters to config the feature \lmap filter.\l"];
+       "IDReader/featmap_filter.conf" [label="id: IDReader/featmap_filter.conf\ltype: visionflow::confs::FeatureMapFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config the \lfeature map filter.\l"];
+       "IDReader/feature_map" [label="id: IDReader/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "IDReader/filter" [label="id: IDReader/filter\ltype: visionflow::opers::PolygonsFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: An operator to filter list of \lregions with some common thresholds \lor customized python filter script.\l"];
+       "IDReader/filter.args" [label="id: IDReader/filter.args\ltype: visionflow::param::PolygonsFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "IDReader/filter.conf" [label="id: IDReader/filter.conf\ltype: visionflow::confs::PolygonsFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to generate the \lpolygon filter args.\l"];
+       "IDReader/filter_pred" [label="id: IDReader/filter_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "IDReader/infer" [label="id: IDReader/infer\ltype: visionflow::opers::IDReaderInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: IDReader Caffe inference engine.\l"];
+       "IDReader/infer.args" [label="id: IDReader/infer.args\ltype: visionflow::param::SegmentationInferenceParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "IDReader/infer.conf" [label="id: IDReader/infer.conf\ltype: visionflow::confs::SegmentationInferenceConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the segmentation \linference parameters.\l"];
+       "IDReader/model" [label="id: IDReader/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "IDReader/model.args" [label="id: IDReader/model.args\ltype: visionflow::param::IDReaderLocationModelParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "IDReader/model.conf" [label="id: IDReader/model.conf\ltype: visionflow::confs::IDReaderLocationModelParamConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the IDReader \llocation model parameters.\l"];
+       "IDReader/model_generator" [label="id: IDReader/model_generator\ltype: visionflow::confs::IDReaderLocationModelConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: IDReader location model configurator.\l"];
+       "IDReader/pred" [label="id: IDReader/pred\ltype: visionflow::props::IDReaderRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "IDReader/raw_pred" [label="id: IDReader/raw_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"]
+     }
+   
+     "IDReader/batch_size" -> "IDReader/infer";
+     "IDReader/batch_size.conf" -> "IDReader/batch_size";
+     "IDReader/decoder" -> "IDReader/pred";
+     "IDReader/decoder.args" -> "IDReader/decoder";
+     "IDReader/decoder.conf" -> "IDReader/decoder.args";
+     "IDReader/featmap_filter" -> "IDReader/raw_pred";
+     "IDReader/featmap_filter.args" -> "IDReader/featmap_filter";
+     "IDReader/featmap_filter.conf" -> "IDReader/featmap_filter.args";
+     "IDReader/feature_map" -> "IDReader/featmap_filter";
+     "IDReader/filter" -> "IDReader/filter_pred";
+     "IDReader/filter.args" -> "IDReader/filter";
+     "IDReader/filter.conf" -> "IDReader/filter.args";
+     "IDReader/filter_pred" -> "IDReader/decoder";
+     "IDReader/image" -> "IDReader/decoder";
+     "IDReader/image" -> "IDReader/infer";
+     "IDReader/infer" -> "IDReader/feature_map";
+     "IDReader/infer.args" -> "IDReader/infer";
+     "IDReader/infer.conf" -> "IDReader/infer.args";
+     "IDReader/model" -> "IDReader/infer";
+     "IDReader/model.args" -> "IDReader/model_generator";
+     "IDReader/model.conf" -> "IDReader/model.args";
+     "IDReader/model_generator" -> "IDReader/model";
+     "IDReader/raw_pred" -> "IDReader/filter";
+     "IDReader/views" -> "IDReader/infer"
+   
+   }
+
+
+UnsuperSegmentation Tool
+=================================================
+
+Unsuper Segmentation Tool, It is suitable for pixel-level defect detection tasks, and can identify the pixel-level fine structure of the target.
+
+.. graphviz::
+
+   digraph "OnlyTool: UnsuperSegmentation" {
+     label="OnlyTool: UnsuperSegmentation";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "UnsuperSegmentation/comparator";
+     "UnsuperSegmentation/featmap_filter";
+     "UnsuperSegmentation/filter";
+     "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/label_oper";
+     "UnsuperSegmentation/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "UnsuperSegmentation/base_color_conf";
+     "UnsuperSegmentation/batch_size_conf";
+     "UnsuperSegmentation/featmap_filter.conf";
+     "UnsuperSegmentation/filter.conf";
+     "UnsuperSegmentation/image_mean_conf";
+     "UnsuperSegmentation/infer.conf";
+     "UnsuperSegmentation/label_oper.conf";
+     "UnsuperSegmentation/statistician";
+     "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "UnsuperSegmentation/feature_map";
+     "UnsuperSegmentation/mask";
+     "UnsuperSegmentation/match_result";
+     "UnsuperSegmentation/raw_pred";
+     "UnsuperSegmentation/tagged_polygons";
+     "UnsuperSegmentation/tagged_views";
+     "UnsuperSegmentation/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "UnsuperSegmentation/image";
+     "UnsuperSegmentation/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "UnsuperSegmentation/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "UnsuperSegmentation/base_color";
+     "UnsuperSegmentation/batch_size";
+     "UnsuperSegmentation/featmap_filter.args";
+     "UnsuperSegmentation/filter.args";
+     "UnsuperSegmentation/image_mean";
+     "UnsuperSegmentation/infer.args";
+     "UnsuperSegmentation/label_oper.args";
+     "UnsuperSegmentation/model";
+     "UnsuperSegmentation/statistics";
+     "UnsuperSegmentation/trainer.args";
+     "UnsuperSegmentation/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_UnsuperSegmentation" {
+       label="UnsuperSegmentation";
+       "UnsuperSegmentation/base_color" [label="id: UnsuperSegmentation/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "UnsuperSegmentation/base_color_conf" [label="id: UnsuperSegmentation/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "UnsuperSegmentation/batch_size" [label="id: UnsuperSegmentation/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "UnsuperSegmentation/batch_size_conf" [label="id: UnsuperSegmentation/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "UnsuperSegmentation/comparator" [label="id: UnsuperSegmentation/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "UnsuperSegmentation/featmap_filter" [label="id: UnsuperSegmentation/featmap_filter\ltype: visionflow::opers::SegmentationFeatureMapFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to filter feature map \linto list of polygon regions.\l"];
+       "UnsuperSegmentation/featmap_filter.args" [label="id: UnsuperSegmentation/featmap_filter.args\ltype: visionflow::param::FeatureMapFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameters to config the feature \lmap filter.\l"];
+       "UnsuperSegmentation/featmap_filter.conf" [label="id: UnsuperSegmentation/featmap_filter.conf\ltype: visionflow::confs::FeatureMapFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config the \lfeature map filter.\l"];
+       "UnsuperSegmentation/feature_map" [label="id: UnsuperSegmentation/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "UnsuperSegmentation/filter" [label="id: UnsuperSegmentation/filter\ltype: visionflow::opers::PolygonsFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: An operator to filter list of \lregions with some common thresholds \lor customized python filter script.\l"];
+       "UnsuperSegmentation/filter.args" [label="id: UnsuperSegmentation/filter.args\ltype: visionflow::param::PolygonsFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "UnsuperSegmentation/filter.conf" [label="id: UnsuperSegmentation/filter.conf\ltype: visionflow::confs::PolygonsFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to generate the \lpolygon filter args.\l"];
+       "UnsuperSegmentation/image_mean" [label="id: UnsuperSegmentation/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "UnsuperSegmentation/image_mean_conf" [label="id: UnsuperSegmentation/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "UnsuperSegmentation/infer" [label="id: UnsuperSegmentation/infer\ltype: visionflow::opers::UnsuperSegmentationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Unsuper Segmentation Caffe inference \lengine.\l"];
+       "UnsuperSegmentation/infer.args" [label="id: UnsuperSegmentation/infer.args\ltype: visionflow::param::UnsuperSegmentationInferenceParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: UnsuperSegmentationInferenceParameters\l"];
+       "UnsuperSegmentation/infer.conf" [label="id: UnsuperSegmentation/infer.conf\ltype: visionflow::confs::UnsuperSegmentationInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set unsuper segmentation \linfer param\l"];
+       "UnsuperSegmentation/label_oper" [label="id: UnsuperSegmentation/label_oper\ltype: visionflow::opers::UnsuperSegmentationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for unsuper \lsegmentation tool.\l"];
+       "UnsuperSegmentation/label_oper.args" [label="id: UnsuperSegmentation/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "UnsuperSegmentation/label_oper.conf" [label="id: UnsuperSegmentation/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "UnsuperSegmentation/mask" [label="id: UnsuperSegmentation/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperSegmentation/match_result" [label="id: UnsuperSegmentation/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "UnsuperSegmentation/model" [label="id: UnsuperSegmentation/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "UnsuperSegmentation/pred" [label="id: UnsuperSegmentation/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperSegmentation/raw_pred" [label="id: UnsuperSegmentation/raw_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperSegmentation/statistician" [label="id: UnsuperSegmentation/statistician\ltype: visionflow::confs::RegionMatchResultCounterV2\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults after filtered no-train \lregions.\l"];
+       "UnsuperSegmentation/statistics" [label="id: UnsuperSegmentation/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "UnsuperSegmentation/tagged_polygons" [label="id: UnsuperSegmentation/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "UnsuperSegmentation/tagged_views" [label="id: UnsuperSegmentation/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "UnsuperSegmentation/trainer" [label="id: UnsuperSegmentation/trainer\ltype: visionflow::confs::UnsuperSegmentationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Model trainer for Unsuper Segmentation \lTool.\l"];
+       "UnsuperSegmentation/trainer.args" [label="id: UnsuperSegmentation/trainer.args\ltype: visionflow::param::UnsuperSegmentationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Unsuper Segmentation Training \lParameters Group.\l"];
+       "UnsuperSegmentation/trainer.conf" [label="id: UnsuperSegmentation/trainer.conf\ltype: visionflow::confs::UnsuperSegmentationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set unsuper segmentation \ltrainer options.\l"];
+       "UnsuperSegmentation/training_log" [label="id: UnsuperSegmentation/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "UnsuperSegmentation/truth" [label="id: UnsuperSegmentation/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperSegmentation/view_tagger" [label="id: UnsuperSegmentation/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "UnsuperSegmentation/base_color" -> "UnsuperSegmentation/image_mean_conf";
+     "UnsuperSegmentation/base_color" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/base_color_conf" -> "UnsuperSegmentation/base_color";
+     "UnsuperSegmentation/batch_size" -> "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/batch_size_conf" -> "UnsuperSegmentation/batch_size";
+     "UnsuperSegmentation/comparator" -> "UnsuperSegmentation/match_result";
+     "UnsuperSegmentation/featmap_filter" -> "UnsuperSegmentation/raw_pred";
+     "UnsuperSegmentation/featmap_filter.args" -> "UnsuperSegmentation/featmap_filter";
+     "UnsuperSegmentation/featmap_filter.conf" -> "UnsuperSegmentation/featmap_filter.args";
+     "UnsuperSegmentation/feature_map" -> "UnsuperSegmentation/featmap_filter";
+     "UnsuperSegmentation/filter" -> "UnsuperSegmentation/pred";
+     "UnsuperSegmentation/filter.args" -> "UnsuperSegmentation/filter";
+     "UnsuperSegmentation/filter.conf" -> "UnsuperSegmentation/filter.args";
+     "UnsuperSegmentation/image" -> "UnsuperSegmentation/image_mean_conf";
+     "UnsuperSegmentation/image" -> "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/image" -> "UnsuperSegmentation/label_oper";
+     "UnsuperSegmentation/image" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/image_mean" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/image_mean_conf" -> "UnsuperSegmentation/image_mean";
+     "UnsuperSegmentation/infer" -> "UnsuperSegmentation/feature_map";
+     "UnsuperSegmentation/infer.args" -> "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/infer.conf" -> "UnsuperSegmentation/infer.args";
+     "UnsuperSegmentation/label_oper" -> "UnsuperSegmentation/mask";
+     "UnsuperSegmentation/label_oper" -> "UnsuperSegmentation/tagged_polygons";
+     "UnsuperSegmentation/label_oper" -> "UnsuperSegmentation/truth";
+     "UnsuperSegmentation/label_oper.args" -> "UnsuperSegmentation/label_oper";
+     "UnsuperSegmentation/label_oper.conf" -> "UnsuperSegmentation/label_oper.args";
+     "UnsuperSegmentation/mask" -> "UnsuperSegmentation/statistician";
+     "UnsuperSegmentation/mask" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/model" -> "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/pred" -> "UnsuperSegmentation/comparator";
+     "UnsuperSegmentation/pred" -> "UnsuperSegmentation/statistician";
+     "UnsuperSegmentation/raw_pred" -> "UnsuperSegmentation/filter";
+     "UnsuperSegmentation/statistician" -> "UnsuperSegmentation/statistics";
+     "UnsuperSegmentation/tagged_polygons" -> "UnsuperSegmentation/view_tagger";
+     "UnsuperSegmentation/tagged_views" -> "UnsuperSegmentation/comparator";
+     "UnsuperSegmentation/tagged_views" -> "UnsuperSegmentation/image_mean_conf";
+     "UnsuperSegmentation/tagged_views" -> "UnsuperSegmentation/statistician";
+     "UnsuperSegmentation/tagged_views" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/trainer" -> "UnsuperSegmentation/model";
+     "UnsuperSegmentation/trainer" -> "UnsuperSegmentation/training_log";
+     "UnsuperSegmentation/trainer.args" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/trainer.conf" -> "UnsuperSegmentation/trainer.args";
+     "UnsuperSegmentation/truth" -> "UnsuperSegmentation/comparator";
+     "UnsuperSegmentation/truth" -> "UnsuperSegmentation/statistician";
+     "UnsuperSegmentation/truth" -> "UnsuperSegmentation/trainer";
+     "UnsuperSegmentation/view_tagger" -> "UnsuperSegmentation/tagged_views";
+     "UnsuperSegmentation/views" -> "UnsuperSegmentation/infer";
+     "UnsuperSegmentation/views" -> "UnsuperSegmentation/view_tagger"
+   
+   }
+
+
+Input Tool
+=================================================
+
+Input Tool, Use to add image files into the project from filesystem or camera.
+
+.. graphviz::
+
+   digraph "OnlyTool: Input" {
+     label="OnlyTool: Input";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Input/cam_image_grabber";
+     "Input/file_image_grabber"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Input/cam_image_grabber.conf";
+     "Input/file_image_grabber.conf";
+     "Input/input_image.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Input/image";
+     "Input/image_info";
+     "Input/image_user_data";
+     "Input/views"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Input/cam_image_grabber.args";
+     "Input/file_image_grabber.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "Input/input_image.param"
+   
+     
+     subgraph "cluster_Input" {
+       label="Input";
+       "Input/cam_image_grabber" [label="id: Input/cam_image_grabber\ltype: visionflow::opers::CameraImageGrabber\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to grab image from camera.\l"];
+       "Input/cam_image_grabber.args" [label="id: Input/cam_image_grabber.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Input/cam_image_grabber.conf" [label="id: Input/cam_image_grabber.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Input/file_image_grabber" [label="id: Input/file_image_grabber\ltype: visionflow::opers::FileImageGrabber\lupdate: 1970-01-01 00:00:00.0000000\ldocs:  Operator to grab image from file.\l"];
+       "Input/file_image_grabber.args" [label="id: Input/file_image_grabber.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Input/file_image_grabber.conf" [label="id: Input/file_image_grabber.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Input/image" [label="id: Input/image\ltype: visionflow::props::Image\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property Image implementation.\l"];
+       "Input/image_info" [label="id: Input/image_info\ltype: visionflow::props::RawImageInfo\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Raw Image information.\l"];
+       "Input/image_user_data" [label="id: Input/image_user_data\ltype: visionflow::props::ImageUserData\lupdate: 1970-01-01 00:00:00.0000000\ldocs: User-defined image-related information.\l"];
+       "Input/input_image.conf" [label="id: Input/input_image.conf\ltype: visionflow::confs::InputImageConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \linput image parameter.\l"];
+       "Input/input_image.param" [label="id: Input/input_image.param\ltype: visionflow::param::InputImageParam\lupdate: 1970-01-01 00:00:00.0000000\ldocs: 输入图像相关参数，用\l于控制工程的输入图像\l格式规范.\l"];
+       "Input/views" [label="id: Input/views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"]
+     }
+   
+     "Input/cam_image_grabber" -> "Input/image";
+     "Input/cam_image_grabber" -> "Input/image_info";
+     "Input/cam_image_grabber" -> "Input/image_user_data";
+     "Input/cam_image_grabber" -> "Input/views";
+     "Input/cam_image_grabber.args" -> "Input/cam_image_grabber";
+     "Input/cam_image_grabber.conf" -> "Input/cam_image_grabber.args";
+     "Input/file_image_grabber" -> "Input/image";
+     "Input/file_image_grabber" -> "Input/image_info";
+     "Input/file_image_grabber" -> "Input/image_user_data";
+     "Input/file_image_grabber" -> "Input/views";
+     "Input/file_image_grabber.args" -> "Input/file_image_grabber";
+     "Input/file_image_grabber.conf" -> "Input/file_image_grabber.args";
+     "Input/input_image.conf" -> "Input/input_image.param";
+     "Input/input_image.param" -> "Input/cam_image_grabber";
+     "Input/input_image.param" -> "Input/file_image_grabber"
+   
+   }
+
+
+OCR Tool
+=================================================
+
+OCR Tool, suitable for recognizing various characters.
+
+.. graphviz::
+
+   digraph "OnlyTool: OCR" {
+     label="OnlyTool: OCR";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "OCR/comparator";
+     "OCR/infer";
+     "OCR/infer_string_matcher";
+     "OCR/label_oper";
+     "OCR/truth_string_matcher";
+     "OCR/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "OCR/base_color_conf";
+     "OCR/batch_size_conf";
+     "OCR/image_mean_conf";
+     "OCR/infer.conf";
+     "OCR/label_classes.conf";
+     "OCR/label_oper.conf";
+     "OCR/statistician";
+     "OCR/strings_statistician";
+     "OCR/templates_conf";
+     "OCR/trainer";
+     "OCR/trainer.conf";
+     "OCR/universal_conf";
+     "OCR/universal_model.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "OCR/mask";
+     "OCR/match_result";
+     "OCR/tagged_polygons";
+     "OCR/tagged_views";
+     "OCR/truth";
+     "OCR/truth.strings"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "OCR/image";
+     "OCR/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "OCR/pred.characters";
+     "OCR/pred.strings"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "OCR/base_color";
+     "OCR/batch_size";
+     "OCR/image_mean";
+     "OCR/infer.args";
+     "OCR/label_oper.args";
+     "OCR/model";
+     "OCR/statistics";
+     "OCR/strings_statistics";
+     "OCR/templates";
+     "OCR/trainer.args";
+     "OCR/training_log";
+     "OCR/universal_model.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "OCR/classes"
+   
+     
+     subgraph "cluster_OCR" {
+       label="OCR";
+       "OCR/base_color" [label="id: OCR/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/base_color_conf" [label="id: OCR/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "OCR/batch_size" [label="id: OCR/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "OCR/batch_size_conf" [label="id: OCR/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "OCR/classes" [label="id: OCR/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "OCR/comparator" [label="id: OCR/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "OCR/image_mean" [label="id: OCR/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "OCR/image_mean_conf" [label="id: OCR/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "OCR/infer" [label="id: OCR/infer\ltype: visionflow::opers::OCRInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR Caffe inference engine.\l"];
+       "OCR/infer.args" [label="id: OCR/infer.args\ltype: visionflow::param::OCRInferParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/infer.conf" [label="id: OCR/infer.conf\ltype: visionflow::confs::OCRInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set OCR inference \lparameters.\l"];
+       "OCR/infer_string_matcher" [label="id: OCR/infer_string_matcher\ltype: visionflow::opers::OCRInferStringMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR infer string matcher.\l"];
+       "OCR/label_classes.conf" [label="id: OCR/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "OCR/label_oper" [label="id: OCR/label_oper\ltype: visionflow::opers::OCRLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for OCR tool.\l"];
+       "OCR/label_oper.args" [label="id: OCR/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "OCR/label_oper.conf" [label="id: OCR/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "OCR/mask" [label="id: OCR/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "OCR/match_result" [label="id: OCR/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "OCR/model" [label="id: OCR/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "OCR/pred.characters" [label="id: OCR/pred.characters\ltype: visionflow::props::MultiNamesPolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "OCR/pred.strings" [label="id: OCR/pred.strings\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "OCR/statistician" [label="id: OCR/statistician\ltype: visionflow::confs::OCRRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count ocr region \lmatch results.\l"];
+       "OCR/statistics" [label="id: OCR/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "OCR/strings_statistician" [label="id: OCR/strings_statistician\ltype: visionflow::confs::RegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults.\l"];
+       "OCR/strings_statistics" [label="id: OCR/strings_statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "OCR/tagged_polygons" [label="id: OCR/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "OCR/tagged_views" [label="id: OCR/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "OCR/templates" [label="id: OCR/templates\ltype: visionflow::param::OCRTemplates\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/templates_conf" [label="id: OCR/templates_conf\ltype: visionflow::confs::OCRTemplateConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config OCR \lstring match templates.\l"];
+       "OCR/trainer" [label="id: OCR/trainer\ltype: visionflow::confs::OCRTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR model trainer.\l"];
+       "OCR/trainer.args" [label="id: OCR/trainer.args\ltype: visionflow::param::OCRTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/trainer.conf" [label="id: OCR/trainer.conf\ltype: visionflow::confs::OCRTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set OCR trainer \loptions.\l"];
+       "OCR/training_log" [label="id: OCR/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/truth" [label="id: OCR/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "OCR/truth.strings" [label="id: OCR/truth.strings\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "OCR/truth_string_matcher" [label="id: OCR/truth_string_matcher\ltype: visionflow::opers::OCRTruthStringMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR truth string matcher.\l"];
+       "OCR/universal_conf" [label="id: OCR/universal_conf\ltype: visionflow::confs::OCRUniversalModelConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR universal model configurator.\l"];
+       "OCR/universal_model.args" [label="id: OCR/universal_model.args\ltype: visionflow::param::OCRUniversalModelParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "OCR/universal_model.conf" [label="id: OCR/universal_model.conf\ltype: visionflow::confs::OCRUniversalModelParamConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set OCR universal \lmodel parameters.\l"];
+       "OCR/view_tagger" [label="id: OCR/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "OCR/base_color" -> "OCR/image_mean_conf";
+     "OCR/base_color" -> "OCR/trainer";
+     "OCR/base_color_conf" -> "OCR/base_color";
+     "OCR/batch_size" -> "OCR/infer";
+     "OCR/batch_size_conf" -> "OCR/batch_size";
+     "OCR/classes" -> "OCR/label_oper";
+     "OCR/classes" -> "OCR/trainer";
+     "OCR/comparator" -> "OCR/match_result";
+     "OCR/image" -> "OCR/image_mean_conf";
+     "OCR/image" -> "OCR/infer";
+     "OCR/image" -> "OCR/label_oper";
+     "OCR/image" -> "OCR/trainer";
+     "OCR/image_mean" -> "OCR/trainer";
+     "OCR/image_mean_conf" -> "OCR/image_mean";
+     "OCR/infer" -> "OCR/pred.characters";
+     "OCR/infer.args" -> "OCR/infer";
+     "OCR/infer.conf" -> "OCR/infer.args";
+     "OCR/infer_string_matcher" -> "OCR/pred.strings";
+     "OCR/label_classes.conf" -> "OCR/classes";
+     "OCR/label_oper" -> "OCR/mask";
+     "OCR/label_oper" -> "OCR/tagged_polygons";
+     "OCR/label_oper" -> "OCR/truth";
+     "OCR/label_oper.args" -> "OCR/label_oper";
+     "OCR/label_oper.conf" -> "OCR/label_oper.args";
+     "OCR/mask" -> "OCR/statistician";
+     "OCR/mask" -> "OCR/trainer";
+     "OCR/model" -> "OCR/infer";
+     "OCR/model" -> "OCR/infer_string_matcher";
+     "OCR/model" -> "OCR/truth_string_matcher";
+     "OCR/pred.characters" -> "OCR/comparator";
+     "OCR/pred.characters" -> "OCR/infer_string_matcher";
+     "OCR/pred.characters" -> "OCR/statistician";
+     "OCR/pred.strings" -> "OCR/strings_statistician";
+     "OCR/statistician" -> "OCR/statistics";
+     "OCR/strings_statistician" -> "OCR/strings_statistics";
+     "OCR/tagged_polygons" -> "OCR/view_tagger";
+     "OCR/tagged_views" -> "OCR/comparator";
+     "OCR/tagged_views" -> "OCR/image_mean_conf";
+     "OCR/tagged_views" -> "OCR/statistician";
+     "OCR/tagged_views" -> "OCR/strings_statistician";
+     "OCR/tagged_views" -> "OCR/trainer";
+     "OCR/templates" -> "OCR/infer_string_matcher";
+     "OCR/templates" -> "OCR/truth_string_matcher";
+     "OCR/templates_conf" -> "OCR/templates";
+     "OCR/trainer" -> "OCR/model";
+     "OCR/trainer" -> "OCR/training_log";
+     "OCR/trainer.args" -> "OCR/trainer";
+     "OCR/trainer.conf" -> "OCR/trainer.args";
+     "OCR/truth" -> "OCR/comparator";
+     "OCR/truth" -> "OCR/statistician";
+     "OCR/truth" -> "OCR/trainer";
+     "OCR/truth" -> "OCR/truth_string_matcher";
+     "OCR/truth.strings" -> "OCR/strings_statistician";
+     "OCR/truth_string_matcher" -> "OCR/truth.strings";
+     "OCR/universal_conf" -> "OCR/model";
+     "OCR/universal_model.args" -> "OCR/universal_conf";
+     "OCR/universal_model.conf" -> "OCR/universal_model.args";
+     "OCR/view_tagger" -> "OCR/tagged_views";
+     "OCR/views" -> "OCR/infer";
+     "OCR/views" -> "OCR/infer_string_matcher";
+     "OCR/views" -> "OCR/truth_string_matcher";
+     "OCR/views" -> "OCR/view_tagger"
+   
+   }
+
+
+Segmentation Tool
+=================================================
+
+Segmentation Tool, It is suitable for pixel-level defect detection tasks, and can identify the pixel-level fine structure of the target.
+
+.. graphviz::
+
+   digraph "OnlyTool: Segmentation" {
+     label="OnlyTool: Segmentation";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Segmentation/comparator";
+     "Segmentation/featmap_filter";
+     "Segmentation/filter";
+     "Segmentation/infer";
+     "Segmentation/label_oper";
+     "Segmentation/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Segmentation/base_color_conf";
+     "Segmentation/batch_size_conf";
+     "Segmentation/featmap_filter.conf";
+     "Segmentation/filter.conf";
+     "Segmentation/image_mean_conf";
+     "Segmentation/infer.conf";
+     "Segmentation/label_classes.conf";
+     "Segmentation/label_oper.conf";
+     "Segmentation/sample_recommend";
+     "Segmentation/sample_recommend.conf";
+     "Segmentation/statistician";
+     "Segmentation/trainer";
+     "Segmentation/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "Segmentation/feature_map";
+     "Segmentation/mask";
+     "Segmentation/match_result";
+     "Segmentation/raw_pred";
+     "Segmentation/tagged_polygons";
+     "Segmentation/tagged_views";
+     "Segmentation/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "Segmentation/image";
+     "Segmentation/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Segmentation/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Segmentation/base_color";
+     "Segmentation/batch_size";
+     "Segmentation/featmap_filter.args";
+     "Segmentation/filter.args";
+     "Segmentation/image_mean";
+     "Segmentation/infer.args";
+     "Segmentation/label_oper.args";
+     "Segmentation/model";
+     "Segmentation/recommend_sample_set";
+     "Segmentation/sample_recommend.args";
+     "Segmentation/statistics";
+     "Segmentation/trainer.args";
+     "Segmentation/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "Segmentation/classes"
+   
+     
+     subgraph "cluster_Segmentation" {
+       label="Segmentation";
+       "Segmentation/base_color" [label="id: Segmentation/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Segmentation/base_color_conf" [label="id: Segmentation/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "Segmentation/batch_size" [label="id: Segmentation/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "Segmentation/batch_size_conf" [label="id: Segmentation/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "Segmentation/classes" [label="id: Segmentation/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "Segmentation/comparator" [label="id: Segmentation/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "Segmentation/featmap_filter" [label="id: Segmentation/featmap_filter\ltype: visionflow::opers::SegmentationFeatureMapFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to filter feature map \linto list of polygon regions.\l"];
+       "Segmentation/featmap_filter.args" [label="id: Segmentation/featmap_filter.args\ltype: visionflow::param::FeatureMapFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameters to config the feature \lmap filter.\l"];
+       "Segmentation/featmap_filter.conf" [label="id: Segmentation/featmap_filter.conf\ltype: visionflow::confs::FeatureMapFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config the \lfeature map filter.\l"];
+       "Segmentation/feature_map" [label="id: Segmentation/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "Segmentation/filter" [label="id: Segmentation/filter\ltype: visionflow::opers::PolygonsFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: An operator to filter list of \lregions with some common thresholds \lor customized python filter script.\l"];
+       "Segmentation/filter.args" [label="id: Segmentation/filter.args\ltype: visionflow::param::PolygonsFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Segmentation/filter.conf" [label="id: Segmentation/filter.conf\ltype: visionflow::confs::PolygonsFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to generate the \lpolygon filter args.\l"];
+       "Segmentation/image_mean" [label="id: Segmentation/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "Segmentation/image_mean_conf" [label="id: Segmentation/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "Segmentation/infer" [label="id: Segmentation/infer\ltype: visionflow::opers::SegmentationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Segmentation Caffe inference engine.\l"];
+       "Segmentation/infer.args" [label="id: Segmentation/infer.args\ltype: visionflow::param::SegmentationInferenceParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Segmentation/infer.conf" [label="id: Segmentation/infer.conf\ltype: visionflow::confs::SegmentationInferenceConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the segmentation \linference parameters.\l"];
+       "Segmentation/label_classes.conf" [label="id: Segmentation/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "Segmentation/label_oper" [label="id: Segmentation/label_oper\ltype: visionflow::opers::SegmentationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for segmentation \ltool.\l"];
+       "Segmentation/label_oper.args" [label="id: Segmentation/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Segmentation/label_oper.conf" [label="id: Segmentation/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Segmentation/mask" [label="id: Segmentation/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Segmentation/match_result" [label="id: Segmentation/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "Segmentation/model" [label="id: Segmentation/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Segmentation/pred" [label="id: Segmentation/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Segmentation/raw_pred" [label="id: Segmentation/raw_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Segmentation/recommend_sample_set" [label="id: Segmentation/recommend_sample_set\ltype: visionflow::param::PropertyObjectIdSet\lupdate: 1970-01-01 00:00:00.0000000\ldocs: 
+       Parameter group for a set \lof property object IDs.
+       \l"];
+       "Segmentation/sample_recommend" [label="id: Segmentation/sample_recommend\ltype: visionflow::confs::SegmentSampleRecommend\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Segmentation sample recommend \ltool.\l"];
+       "Segmentation/sample_recommend.args" [label="id: Segmentation/sample_recommend.args\ltype: visionflow::param::SampleRecommendationParameter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameter for the sample recommendation \lalgorithm\l"];
+       "Segmentation/sample_recommend.conf" [label="id: Segmentation/sample_recommend.conf\ltype: visionflow::confs::SampleRecommendationParameterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set sample recommend \lparam.\l"];
+       "Segmentation/statistician" [label="id: Segmentation/statistician\ltype: visionflow::confs::RegionMatchResultCounterV2\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults after filtered no-train \lregions.\l"];
+       "Segmentation/statistics" [label="id: Segmentation/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "Segmentation/tagged_polygons" [label="id: Segmentation/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "Segmentation/tagged_views" [label="id: Segmentation/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "Segmentation/trainer" [label="id: Segmentation/trainer\ltype: visionflow::confs::SegmentationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Model trainer for Segmentation \lTool.\l"];
+       "Segmentation/trainer.args" [label="id: Segmentation/trainer.args\ltype: visionflow::param::SegmentationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Segmentation Training Parameters \lGroup.\l"];
+       "Segmentation/trainer.conf" [label="id: Segmentation/trainer.conf\ltype: visionflow::confs::SegmentationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set segmentation \ltrainer options.\l"];
+       "Segmentation/training_log" [label="id: Segmentation/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Segmentation/truth" [label="id: Segmentation/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Segmentation/view_tagger" [label="id: Segmentation/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "Segmentation/base_color" -> "Segmentation/image_mean_conf";
+     "Segmentation/base_color" -> "Segmentation/trainer";
+     "Segmentation/base_color_conf" -> "Segmentation/base_color";
+     "Segmentation/batch_size" -> "Segmentation/infer";
+     "Segmentation/batch_size_conf" -> "Segmentation/batch_size";
+     "Segmentation/classes" -> "Segmentation/label_oper";
+     "Segmentation/classes" -> "Segmentation/trainer";
+     "Segmentation/comparator" -> "Segmentation/match_result";
+     "Segmentation/featmap_filter" -> "Segmentation/raw_pred";
+     "Segmentation/featmap_filter.args" -> "Segmentation/featmap_filter";
+     "Segmentation/featmap_filter.conf" -> "Segmentation/featmap_filter.args";
+     "Segmentation/feature_map" -> "Segmentation/featmap_filter";
+     "Segmentation/filter" -> "Segmentation/pred";
+     "Segmentation/filter.args" -> "Segmentation/filter";
+     "Segmentation/filter.conf" -> "Segmentation/filter.args";
+     "Segmentation/image" -> "Segmentation/image_mean_conf";
+     "Segmentation/image" -> "Segmentation/infer";
+     "Segmentation/image" -> "Segmentation/label_oper";
+     "Segmentation/image" -> "Segmentation/sample_recommend";
+     "Segmentation/image" -> "Segmentation/trainer";
+     "Segmentation/image_mean" -> "Segmentation/trainer";
+     "Segmentation/image_mean_conf" -> "Segmentation/image_mean";
+     "Segmentation/infer" -> "Segmentation/feature_map";
+     "Segmentation/infer.args" -> "Segmentation/infer";
+     "Segmentation/infer.conf" -> "Segmentation/infer.args";
+     "Segmentation/label_classes.conf" -> "Segmentation/classes";
+     "Segmentation/label_oper" -> "Segmentation/mask";
+     "Segmentation/label_oper" -> "Segmentation/tagged_polygons";
+     "Segmentation/label_oper" -> "Segmentation/truth";
+     "Segmentation/label_oper.args" -> "Segmentation/label_oper";
+     "Segmentation/label_oper.conf" -> "Segmentation/label_oper.args";
+     "Segmentation/mask" -> "Segmentation/statistician";
+     "Segmentation/mask" -> "Segmentation/trainer";
+     "Segmentation/model" -> "Segmentation/infer";
+     "Segmentation/model" -> "Segmentation/sample_recommend";
+     "Segmentation/pred" -> "Segmentation/comparator";
+     "Segmentation/pred" -> "Segmentation/statistician";
+     "Segmentation/raw_pred" -> "Segmentation/filter";
+     "Segmentation/sample_recommend" -> "Segmentation/recommend_sample_set";
+     "Segmentation/sample_recommend.args" -> "Segmentation/sample_recommend";
+     "Segmentation/sample_recommend.conf" -> "Segmentation/sample_recommend.args";
+     "Segmentation/statistician" -> "Segmentation/statistics";
+     "Segmentation/tagged_polygons" -> "Segmentation/view_tagger";
+     "Segmentation/tagged_views" -> "Segmentation/comparator";
+     "Segmentation/tagged_views" -> "Segmentation/image_mean_conf";
+     "Segmentation/tagged_views" -> "Segmentation/sample_recommend";
+     "Segmentation/tagged_views" -> "Segmentation/statistician";
+     "Segmentation/tagged_views" -> "Segmentation/trainer";
+     "Segmentation/trainer" -> "Segmentation/model";
+     "Segmentation/trainer" -> "Segmentation/training_log";
+     "Segmentation/trainer.args" -> "Segmentation/trainer";
+     "Segmentation/trainer.conf" -> "Segmentation/trainer.args";
+     "Segmentation/truth" -> "Segmentation/comparator";
+     "Segmentation/truth" -> "Segmentation/statistician";
+     "Segmentation/truth" -> "Segmentation/trainer";
+     "Segmentation/view_tagger" -> "Segmentation/tagged_views";
+     "Segmentation/views" -> "Segmentation/infer";
+     "Segmentation/views" -> "Segmentation/view_tagger"
+   
+   }
+
+
+Integration Tool
+=================================================
+
+Integration classification tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: Integration" {
+     label="OnlyTool: Integration";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Integration/classifier"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Integration/classifier.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     "Integration/properties"
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Integration/integration_class"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Integration/classifier.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_Integration" {
+       label="Integration";
+       "Integration/classifier" [label="id: Integration/classifier\ltype: visionflow::opers::IntegrationClassifier\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Classifier operator for integration \ltool.\l"];
+       "Integration/classifier.args" [label="id: Integration/classifier.args\ltype: visionflow::param::IntegrationClassifyParameter\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Integration/classifier.conf" [label="id: Integration/classifier.conf\ltype: visionflow::confs::IntegrationClassifierConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the integration \lclassifier.\l"];
+       "Integration/integration_class" [label="id: Integration/integration_class\ltype: visionflow::props::StringMessage\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Properties for string message.\l"]
+     }
+   
+     "Integration/classifier" -> "Integration/integration_class";
+     "Integration/classifier.args" -> "Integration/classifier";
+     "Integration/classifier.conf" -> "Integration/classifier.args";
+     "Integration/properties" -> "Integration/classifier"
+   
+   }
+
+
+GeometrySearch Tool
+=================================================
+
+GeometrySearch Tool. Locate objects in high precision based on traditional image processing algorithms.
+
+.. graphviz::
+
+   digraph "OnlyTool: GeometrySearch" {
+     label="OnlyTool: GeometrySearch";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "GeometrySearch/infer";
+     "GeometrySearch/label_oper";
+     "GeometrySearch/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "GeometrySearch/infer.conf";
+     "GeometrySearch/label_classes.conf";
+     "GeometrySearch/label_oper.conf";
+     "GeometrySearch/trainer";
+     "GeometrySearch/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "GeometrySearch/mask";
+     "GeometrySearch/tagged_polygons";
+     "GeometrySearch/tagged_views";
+     "GeometrySearch/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "GeometrySearch/image";
+     "GeometrySearch/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "GeometrySearch/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "GeometrySearch/classes";
+     "GeometrySearch/feature_model_list";
+     "GeometrySearch/infer.args";
+     "GeometrySearch/label_oper.args";
+     "GeometrySearch/model";
+     "GeometrySearch/trainer.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_GeometrySearch" {
+       label="GeometrySearch";
+       "GeometrySearch/classes" [label="id: GeometrySearch/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "GeometrySearch/feature_model_list" [label="id: GeometrySearch/feature_model_list\ltype: visionflow::param::GeometrySearchFeatureModelList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof template match feature chains.\l"];
+       "GeometrySearch/infer" [label="id: GeometrySearch/infer\ltype: visionflow::opers::GeometrySearchInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: GeometrySearch inference engine.\l"];
+       "GeometrySearch/infer.args" [label="id: GeometrySearch/infer.args\ltype: visionflow::param::GeometrySearchInferParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "GeometrySearch/infer.conf" [label="id: GeometrySearch/infer.conf\ltype: visionflow::confs::GeometrySearchInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set GeometrySearch \linference parameters.\l"];
+       "GeometrySearch/label_classes.conf" [label="id: GeometrySearch/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "GeometrySearch/label_oper" [label="id: GeometrySearch/label_oper\ltype: visionflow::opers::GeometrySearchLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for GeometrySearch \ltool.\l"];
+       "GeometrySearch/label_oper.args" [label="id: GeometrySearch/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "GeometrySearch/label_oper.conf" [label="id: GeometrySearch/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "GeometrySearch/mask" [label="id: GeometrySearch/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "GeometrySearch/model" [label="id: GeometrySearch/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "GeometrySearch/pred" [label="id: GeometrySearch/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "GeometrySearch/tagged_polygons" [label="id: GeometrySearch/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "GeometrySearch/tagged_views" [label="id: GeometrySearch/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "GeometrySearch/trainer" [label="id: GeometrySearch/trainer\ltype: visionflow::confs::GeometrySearchTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: GeometrySearch model trainer.\l"];
+       "GeometrySearch/trainer.args" [label="id: GeometrySearch/trainer.args\ltype: visionflow::param::GeometrySearchTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: GeometrySearch Training  Parameter \lGroup\l"];
+       "GeometrySearch/trainer.conf" [label="id: GeometrySearch/trainer.conf\ltype: visionflow::confs::GeometrySearchTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set GeometrySearch \ltrainer options.\l"];
+       "GeometrySearch/truth" [label="id: GeometrySearch/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "GeometrySearch/view_tagger" [label="id: GeometrySearch/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "GeometrySearch/classes" -> "GeometrySearch/label_oper";
+     "GeometrySearch/classes" -> "GeometrySearch/trainer";
+     "GeometrySearch/image" -> "GeometrySearch/infer";
+     "GeometrySearch/image" -> "GeometrySearch/label_oper";
+     "GeometrySearch/image" -> "GeometrySearch/trainer";
+     "GeometrySearch/infer" -> "GeometrySearch/pred";
+     "GeometrySearch/infer.args" -> "GeometrySearch/infer";
+     "GeometrySearch/infer.conf" -> "GeometrySearch/infer.args";
+     "GeometrySearch/label_classes.conf" -> "GeometrySearch/classes";
+     "GeometrySearch/label_oper" -> "GeometrySearch/mask";
+     "GeometrySearch/label_oper" -> "GeometrySearch/tagged_polygons";
+     "GeometrySearch/label_oper" -> "GeometrySearch/truth";
+     "GeometrySearch/label_oper.args" -> "GeometrySearch/label_oper";
+     "GeometrySearch/label_oper.conf" -> "GeometrySearch/label_oper.args";
+     "GeometrySearch/mask" -> "GeometrySearch/trainer";
+     "GeometrySearch/model" -> "GeometrySearch/infer";
+     "GeometrySearch/tagged_polygons" -> "GeometrySearch/view_tagger";
+     "GeometrySearch/tagged_views" -> "GeometrySearch/trainer";
+     "GeometrySearch/trainer" -> "GeometrySearch/feature_model_list";
+     "GeometrySearch/trainer" -> "GeometrySearch/model";
+     "GeometrySearch/trainer.args" -> "GeometrySearch/trainer";
+     "GeometrySearch/trainer.conf" -> "GeometrySearch/trainer.args";
+     "GeometrySearch/truth" -> "GeometrySearch/trainer";
+     "GeometrySearch/view_tagger" -> "GeometrySearch/tagged_views";
+     "GeometrySearch/views" -> "GeometrySearch/infer";
+     "GeometrySearch/views" -> "GeometrySearch/view_tagger"
+   
+   }
+
+
+UnsuperClassification Tool
+=================================================
+
+Unsuper Classification Tool
+
+.. graphviz::
+
+   digraph "OnlyTool: UnsuperClassification" {
+     label="OnlyTool: UnsuperClassification";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "UnsuperClassification/comparator";
+     "UnsuperClassification/infer";
+     "UnsuperClassification/label_oper";
+     "UnsuperClassification/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "UnsuperClassification/base_color_conf";
+     "UnsuperClassification/batch_size_conf";
+     "UnsuperClassification/image_mean_conf";
+     "UnsuperClassification/infer.conf";
+     "UnsuperClassification/label_oper.conf";
+     "UnsuperClassification/statistician";
+     "UnsuperClassification/trainer";
+     "UnsuperClassification/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "UnsuperClassification/feature_map";
+     "UnsuperClassification/mask";
+     "UnsuperClassification/match_result";
+     "UnsuperClassification/tagged_polygons";
+     "UnsuperClassification/tagged_views";
+     "UnsuperClassification/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "UnsuperClassification/image";
+     "UnsuperClassification/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "UnsuperClassification/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "UnsuperClassification/base_color";
+     "UnsuperClassification/batch_size";
+     "UnsuperClassification/image_mean";
+     "UnsuperClassification/infer.args";
+     "UnsuperClassification/label_oper.args";
+     "UnsuperClassification/model";
+     "UnsuperClassification/statistics";
+     "UnsuperClassification/trainer.args";
+     "UnsuperClassification/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_UnsuperClassification" {
+       label="UnsuperClassification";
+       "UnsuperClassification/base_color" [label="id: UnsuperClassification/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "UnsuperClassification/base_color_conf" [label="id: UnsuperClassification/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "UnsuperClassification/batch_size" [label="id: UnsuperClassification/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "UnsuperClassification/batch_size_conf" [label="id: UnsuperClassification/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "UnsuperClassification/comparator" [label="id: UnsuperClassification/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "UnsuperClassification/feature_map" [label="id: UnsuperClassification/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "UnsuperClassification/image_mean" [label="id: UnsuperClassification/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "UnsuperClassification/image_mean_conf" [label="id: UnsuperClassification/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "UnsuperClassification/infer" [label="id: UnsuperClassification/infer\ltype: visionflow::opers::UnsuperClassificationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Unsuper Segmentation Caffe inference \lengine.\l"];
+       "UnsuperClassification/infer.args" [label="id: UnsuperClassification/infer.args\ltype: visionflow::param::UnsuperClassificationInferenceParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameters using for unsuper classification \linference\l"];
+       "UnsuperClassification/infer.conf" [label="id: UnsuperClassification/infer.conf\ltype: visionflow::confs::UnsuperClassificationInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set unsuper classification \linfer param\l"];
+       "UnsuperClassification/label_oper" [label="id: UnsuperClassification/label_oper\ltype: visionflow::opers::UnsuperClassificationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for unsuper \lclassification tool.\l"];
+       "UnsuperClassification/label_oper.args" [label="id: UnsuperClassification/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "UnsuperClassification/label_oper.conf" [label="id: UnsuperClassification/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "UnsuperClassification/mask" [label="id: UnsuperClassification/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperClassification/match_result" [label="id: UnsuperClassification/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "UnsuperClassification/model" [label="id: UnsuperClassification/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "UnsuperClassification/pred" [label="id: UnsuperClassification/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperClassification/statistician" [label="id: UnsuperClassification/statistician\ltype: visionflow::confs::ClassificationRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count classification \lregion match results.\l"];
+       "UnsuperClassification/statistics" [label="id: UnsuperClassification/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "UnsuperClassification/tagged_polygons" [label="id: UnsuperClassification/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "UnsuperClassification/tagged_views" [label="id: UnsuperClassification/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "UnsuperClassification/trainer" [label="id: UnsuperClassification/trainer\ltype: visionflow::confs::UnsuperClassificationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Model trainer for Unsuper Classification \lTool.\l"];
+       "UnsuperClassification/trainer.args" [label="id: UnsuperClassification/trainer.args\ltype: visionflow::param::UnsuperClassificationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Unsuper Classification Training \lParameters Group.\l"];
+       "UnsuperClassification/trainer.conf" [label="id: UnsuperClassification/trainer.conf\ltype: visionflow::confs::UnsuperClassificationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set unsuper classification \ltrainer options.\l"];
+       "UnsuperClassification/training_log" [label="id: UnsuperClassification/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "UnsuperClassification/truth" [label="id: UnsuperClassification/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "UnsuperClassification/view_tagger" [label="id: UnsuperClassification/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "UnsuperClassification/base_color" -> "UnsuperClassification/image_mean_conf";
+     "UnsuperClassification/base_color" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/base_color_conf" -> "UnsuperClassification/base_color";
+     "UnsuperClassification/batch_size" -> "UnsuperClassification/infer";
+     "UnsuperClassification/batch_size_conf" -> "UnsuperClassification/batch_size";
+     "UnsuperClassification/comparator" -> "UnsuperClassification/match_result";
+     "UnsuperClassification/image" -> "UnsuperClassification/image_mean_conf";
+     "UnsuperClassification/image" -> "UnsuperClassification/infer";
+     "UnsuperClassification/image" -> "UnsuperClassification/label_oper";
+     "UnsuperClassification/image" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/image_mean" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/image_mean_conf" -> "UnsuperClassification/image_mean";
+     "UnsuperClassification/infer" -> "UnsuperClassification/feature_map";
+     "UnsuperClassification/infer" -> "UnsuperClassification/pred";
+     "UnsuperClassification/infer.args" -> "UnsuperClassification/infer";
+     "UnsuperClassification/infer.conf" -> "UnsuperClassification/infer.args";
+     "UnsuperClassification/label_oper" -> "UnsuperClassification/mask";
+     "UnsuperClassification/label_oper" -> "UnsuperClassification/tagged_polygons";
+     "UnsuperClassification/label_oper" -> "UnsuperClassification/truth";
+     "UnsuperClassification/label_oper.args" -> "UnsuperClassification/label_oper";
+     "UnsuperClassification/label_oper.conf" -> "UnsuperClassification/label_oper.args";
+     "UnsuperClassification/mask" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/model" -> "UnsuperClassification/infer";
+     "UnsuperClassification/pred" -> "UnsuperClassification/comparator";
+     "UnsuperClassification/pred" -> "UnsuperClassification/statistician";
+     "UnsuperClassification/statistician" -> "UnsuperClassification/statistics";
+     "UnsuperClassification/tagged_polygons" -> "UnsuperClassification/view_tagger";
+     "UnsuperClassification/tagged_views" -> "UnsuperClassification/comparator";
+     "UnsuperClassification/tagged_views" -> "UnsuperClassification/image_mean_conf";
+     "UnsuperClassification/tagged_views" -> "UnsuperClassification/statistician";
+     "UnsuperClassification/tagged_views" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/trainer" -> "UnsuperClassification/model";
+     "UnsuperClassification/trainer" -> "UnsuperClassification/training_log";
+     "UnsuperClassification/trainer.args" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/trainer.conf" -> "UnsuperClassification/trainer.args";
+     "UnsuperClassification/truth" -> "UnsuperClassification/comparator";
+     "UnsuperClassification/truth" -> "UnsuperClassification/statistician";
+     "UnsuperClassification/truth" -> "UnsuperClassification/trainer";
+     "UnsuperClassification/view_tagger" -> "UnsuperClassification/tagged_views";
+     "UnsuperClassification/views" -> "UnsuperClassification/infer";
+     "UnsuperClassification/views" -> "UnsuperClassification/view_tagger"
+   
+   }
+
+
+AssemblyVerification Tool
+=================================================
+
+AssemblyVerification Tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: AssemblyVerification" {
+     label="OnlyTool: AssemblyVerification";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "AssemblyVerification/comparator";
+     "AssemblyVerification/filter";
+     "AssemblyVerification/infer";
+     "AssemblyVerification/label_oper";
+     "AssemblyVerification/prediction_objects_matcher";
+     "AssemblyVerification/truth_objects_matcher";
+     "AssemblyVerification/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "AssemblyVerification/base_color_conf";
+     "AssemblyVerification/batch_size_conf";
+     "AssemblyVerification/filter.conf";
+     "AssemblyVerification/image_mean_conf";
+     "AssemblyVerification/label_classes.conf";
+     "AssemblyVerification/label_oper.conf";
+     "AssemblyVerification/objects_statistician";
+     "AssemblyVerification/statistician";
+     "AssemblyVerification/templates_conf";
+     "AssemblyVerification/trainer";
+     "AssemblyVerification/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "AssemblyVerification/feature_map";
+     "AssemblyVerification/mask";
+     "AssemblyVerification/match_result";
+     "AssemblyVerification/tagged_polygons";
+     "AssemblyVerification/tagged_views";
+     "AssemblyVerification/truth";
+     "AssemblyVerification/truth.objects"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "AssemblyVerification/image";
+     "AssemblyVerification/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "AssemblyVerification/pred.keypoints";
+     "AssemblyVerification/pred.objects"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "AssemblyVerification/base_color";
+     "AssemblyVerification/batch_size";
+     "AssemblyVerification/filter.args";
+     "AssemblyVerification/image_mean";
+     "AssemblyVerification/label_oper.args";
+     "AssemblyVerification/model";
+     "AssemblyVerification/objects_statistics";
+     "AssemblyVerification/statistics";
+     "AssemblyVerification/templates";
+     "AssemblyVerification/trainer.args";
+     "AssemblyVerification/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "AssemblyVerification/classes"
+   
+     
+     subgraph "cluster_AssemblyVerification" {
+       label="AssemblyVerification";
+       "AssemblyVerification/base_color" [label="id: AssemblyVerification/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "AssemblyVerification/base_color_conf" [label="id: AssemblyVerification/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "AssemblyVerification/batch_size" [label="id: AssemblyVerification/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "AssemblyVerification/batch_size_conf" [label="id: AssemblyVerification/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "AssemblyVerification/classes" [label="id: AssemblyVerification/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "AssemblyVerification/comparator" [label="id: AssemblyVerification/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "AssemblyVerification/feature_map" [label="id: AssemblyVerification/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "AssemblyVerification/filter" [label="id: AssemblyVerification/filter\ltype: visionflow::opers::AssemblyVerificationFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: AssemblyVerification feature map \lfilter.\l"];
+       "AssemblyVerification/filter.args" [label="id: AssemblyVerification/filter.args\ltype: visionflow::param::AssemblyVerificationFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "AssemblyVerification/filter.conf" [label="id: AssemblyVerification/filter.conf\ltype: visionflow::confs::AssemblyVerificationFeatureFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config AssemblyVerification \lnms and filter parameters.\l"];
+       "AssemblyVerification/image_mean" [label="id: AssemblyVerification/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "AssemblyVerification/image_mean_conf" [label="id: AssemblyVerification/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "AssemblyVerification/infer" [label="id: AssemblyVerification/infer\ltype: visionflow::opers::AssemblyVerificationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: AssemblyVerification Caffe inference \lengine.\l"];
+       "AssemblyVerification/label_classes.conf" [label="id: AssemblyVerification/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "AssemblyVerification/label_oper" [label="id: AssemblyVerification/label_oper\ltype: visionflow::opers::AssemblyVerificationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for AssemblyVerification \ltool.\l"];
+       "AssemblyVerification/label_oper.args" [label="id: AssemblyVerification/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "AssemblyVerification/label_oper.conf" [label="id: AssemblyVerification/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "AssemblyVerification/mask" [label="id: AssemblyVerification/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "AssemblyVerification/match_result" [label="id: AssemblyVerification/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "AssemblyVerification/model" [label="id: AssemblyVerification/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "AssemblyVerification/objects_statistician" [label="id: AssemblyVerification/objects_statistician\ltype: visionflow::confs::RegionMatchResultCounterV3\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults after filtered the truths \land predictions whose center overlaps \lwithin no-train regions.\l"];
+       "AssemblyVerification/objects_statistics" [label="id: AssemblyVerification/objects_statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "AssemblyVerification/pred.keypoints" [label="id: AssemblyVerification/pred.keypoints\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "AssemblyVerification/pred.objects" [label="id: AssemblyVerification/pred.objects\ltype: visionflow::props::PolygonWithStringMapRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "AssemblyVerification/prediction_objects_matcher" [label="id: AssemblyVerification/prediction_objects_matcher\ltype: visionflow::opers::AssemblyVerificationObjectMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: AssemblyVerification object matcher.\l"];
+       "AssemblyVerification/statistician" [label="id: AssemblyVerification/statistician\ltype: visionflow::confs::RegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults.\l"];
+       "AssemblyVerification/statistics" [label="id: AssemblyVerification/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "AssemblyVerification/tagged_polygons" [label="id: AssemblyVerification/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "AssemblyVerification/tagged_views" [label="id: AssemblyVerification/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "AssemblyVerification/templates" [label="id: AssemblyVerification/templates\ltype: visionflow::param::AssemblyVerificationTemplates\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "AssemblyVerification/templates_conf" [label="id: AssemblyVerification/templates_conf\ltype: visionflow::confs::AssemblyVerificationTemplateConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config AssemblyVerification \lmatch templates.\l"];
+       "AssemblyVerification/trainer" [label="id: AssemblyVerification/trainer\ltype: visionflow::confs::AssemblyVerificationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: AssemblyVerification model trainer.\l"];
+       "AssemblyVerification/trainer.args" [label="id: AssemblyVerification/trainer.args\ltype: visionflow::param::AssemblyVerificationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "AssemblyVerification/trainer.conf" [label="id: AssemblyVerification/trainer.conf\ltype: visionflow::confs::AssemblyVerificationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set AssemblyVerification \ltrainer options.\l"];
+       "AssemblyVerification/training_log" [label="id: AssemblyVerification/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "AssemblyVerification/truth" [label="id: AssemblyVerification/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "AssemblyVerification/truth.objects" [label="id: AssemblyVerification/truth.objects\ltype: visionflow::props::PolygonWithStringMapRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "AssemblyVerification/truth_objects_matcher" [label="id: AssemblyVerification/truth_objects_matcher\ltype: visionflow::opers::AssemblyVerificationObjectMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: AssemblyVerification object matcher.\l"];
+       "AssemblyVerification/view_tagger" [label="id: AssemblyVerification/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "AssemblyVerification/base_color" -> "AssemblyVerification/image_mean_conf";
+     "AssemblyVerification/base_color" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/base_color_conf" -> "AssemblyVerification/base_color";
+     "AssemblyVerification/batch_size" -> "AssemblyVerification/infer";
+     "AssemblyVerification/batch_size_conf" -> "AssemblyVerification/batch_size";
+     "AssemblyVerification/classes" -> "AssemblyVerification/label_oper";
+     "AssemblyVerification/classes" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/comparator" -> "AssemblyVerification/match_result";
+     "AssemblyVerification/feature_map" -> "AssemblyVerification/filter";
+     "AssemblyVerification/filter" -> "AssemblyVerification/pred.keypoints";
+     "AssemblyVerification/filter.args" -> "AssemblyVerification/filter";
+     "AssemblyVerification/filter.conf" -> "AssemblyVerification/filter.args";
+     "AssemblyVerification/image" -> "AssemblyVerification/image_mean_conf";
+     "AssemblyVerification/image" -> "AssemblyVerification/infer";
+     "AssemblyVerification/image" -> "AssemblyVerification/label_oper";
+     "AssemblyVerification/image" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/image_mean" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/image_mean_conf" -> "AssemblyVerification/image_mean";
+     "AssemblyVerification/infer" -> "AssemblyVerification/feature_map";
+     "AssemblyVerification/label_classes.conf" -> "AssemblyVerification/classes";
+     "AssemblyVerification/label_oper" -> "AssemblyVerification/mask";
+     "AssemblyVerification/label_oper" -> "AssemblyVerification/tagged_polygons";
+     "AssemblyVerification/label_oper" -> "AssemblyVerification/truth";
+     "AssemblyVerification/label_oper.args" -> "AssemblyVerification/label_oper";
+     "AssemblyVerification/label_oper.conf" -> "AssemblyVerification/label_oper.args";
+     "AssemblyVerification/mask" -> "AssemblyVerification/objects_statistician";
+     "AssemblyVerification/mask" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/model" -> "AssemblyVerification/filter";
+     "AssemblyVerification/model" -> "AssemblyVerification/infer";
+     "AssemblyVerification/objects_statistician" -> "AssemblyVerification/objects_statistics";
+     "AssemblyVerification/pred.keypoints" -> "AssemblyVerification/comparator";
+     "AssemblyVerification/pred.keypoints" -> "AssemblyVerification/prediction_objects_matcher";
+     "AssemblyVerification/pred.keypoints" -> "AssemblyVerification/statistician";
+     "AssemblyVerification/pred.objects" -> "AssemblyVerification/objects_statistician";
+     "AssemblyVerification/prediction_objects_matcher" -> "AssemblyVerification/pred.objects";
+     "AssemblyVerification/statistician" -> "AssemblyVerification/statistics";
+     "AssemblyVerification/tagged_polygons" -> "AssemblyVerification/view_tagger";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/comparator";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/image_mean_conf";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/objects_statistician";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/statistician";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/tagged_views" -> "AssemblyVerification/truth_objects_matcher";
+     "AssemblyVerification/templates" -> "AssemblyVerification/prediction_objects_matcher";
+     "AssemblyVerification/templates" -> "AssemblyVerification/truth_objects_matcher";
+     "AssemblyVerification/templates_conf" -> "AssemblyVerification/templates";
+     "AssemblyVerification/trainer" -> "AssemblyVerification/model";
+     "AssemblyVerification/trainer" -> "AssemblyVerification/training_log";
+     "AssemblyVerification/trainer.args" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/trainer.conf" -> "AssemblyVerification/trainer.args";
+     "AssemblyVerification/truth" -> "AssemblyVerification/comparator";
+     "AssemblyVerification/truth" -> "AssemblyVerification/statistician";
+     "AssemblyVerification/truth" -> "AssemblyVerification/trainer";
+     "AssemblyVerification/truth" -> "AssemblyVerification/truth_objects_matcher";
+     "AssemblyVerification/truth.objects" -> "AssemblyVerification/objects_statistician";
+     "AssemblyVerification/truth_objects_matcher" -> "AssemblyVerification/truth.objects";
+     "AssemblyVerification/view_tagger" -> "AssemblyVerification/tagged_views";
+     "AssemblyVerification/views" -> "AssemblyVerification/filter";
+     "AssemblyVerification/views" -> "AssemblyVerification/infer";
+     "AssemblyVerification/views" -> "AssemblyVerification/prediction_objects_matcher";
+     "AssemblyVerification/views" -> "AssemblyVerification/view_tagger"
+   
+   }
+
+
+Location Tool
+=================================================
+
+Location Tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: Location" {
+     label="OnlyTool: Location";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Location/comparator";
+     "Location/filter";
+     "Location/infer";
+     "Location/label_oper";
+     "Location/prediction_objects_matcher";
+     "Location/truth_objects_matcher";
+     "Location/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Location/base_color_conf";
+     "Location/batch_size_conf";
+     "Location/filter.conf";
+     "Location/image_mean_conf";
+     "Location/label_classes.conf";
+     "Location/label_oper.conf";
+     "Location/objects_statistician";
+     "Location/statistician";
+     "Location/templates_conf";
+     "Location/trainer";
+     "Location/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "Location/feature_map";
+     "Location/mask";
+     "Location/match_result";
+     "Location/tagged_polygons";
+     "Location/tagged_views";
+     "Location/truth";
+     "Location/truth.objects"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "Location/image";
+     "Location/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Location/pred.keypoints";
+     "Location/pred.objects"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Location/base_color";
+     "Location/batch_size";
+     "Location/filter.args";
+     "Location/image_mean";
+     "Location/label_oper.args";
+     "Location/model";
+     "Location/objects_statistics";
+     "Location/statistics";
+     "Location/templates";
+     "Location/trainer.args";
+     "Location/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "Location/classes"
+   
+     
+     subgraph "cluster_Location" {
+       label="Location";
+       "Location/base_color" [label="id: Location/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Location/base_color_conf" [label="id: Location/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "Location/batch_size" [label="id: Location/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "Location/batch_size_conf" [label="id: Location/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "Location/classes" [label="id: Location/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "Location/comparator" [label="id: Location/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "Location/feature_map" [label="id: Location/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "Location/filter" [label="id: Location/filter\ltype: visionflow::opers::LocationFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Location feature map filter.\l"];
+       "Location/filter.args" [label="id: Location/filter.args\ltype: visionflow::param::LocationFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Location/filter.conf" [label="id: Location/filter.conf\ltype: visionflow::confs::LocationFeatureFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config Location \lnms and filter parameters.\l"];
+       "Location/image_mean" [label="id: Location/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "Location/image_mean_conf" [label="id: Location/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "Location/infer" [label="id: Location/infer\ltype: visionflow::opers::LocationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Location Caffe inference engine.\l"];
+       "Location/label_classes.conf" [label="id: Location/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "Location/label_oper" [label="id: Location/label_oper\ltype: visionflow::opers::LocationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for Location \ltool.\l"];
+       "Location/label_oper.args" [label="id: Location/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Location/label_oper.conf" [label="id: Location/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Location/mask" [label="id: Location/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Location/match_result" [label="id: Location/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "Location/model" [label="id: Location/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Location/objects_statistician" [label="id: Location/objects_statistician\ltype: visionflow::confs::RegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults.\l"];
+       "Location/objects_statistics" [label="id: Location/objects_statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "Location/pred.keypoints" [label="id: Location/pred.keypoints\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Location/pred.objects" [label="id: Location/pred.objects\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Location/prediction_objects_matcher" [label="id: Location/prediction_objects_matcher\ltype: visionflow::opers::LocationObjectMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Location object matcher.\l"];
+       "Location/statistician" [label="id: Location/statistician\ltype: visionflow::confs::LocationRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count location \lregion match results.\l"];
+       "Location/statistics" [label="id: Location/statistics\ltype: visionflow::param::LocationModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "Location/tagged_polygons" [label="id: Location/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "Location/tagged_views" [label="id: Location/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "Location/templates" [label="id: Location/templates\ltype: visionflow::param::LocationTemplates\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Location/templates_conf" [label="id: Location/templates_conf\ltype: visionflow::confs::LocationTemplateConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config Location \lmatch templates.\l"];
+       "Location/trainer" [label="id: Location/trainer\ltype: visionflow::confs::LocationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Location model trainer.\l"];
+       "Location/trainer.args" [label="id: Location/trainer.args\ltype: visionflow::param::LocationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Location/trainer.conf" [label="id: Location/trainer.conf\ltype: visionflow::confs::LocationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Location trainer \loptions.\l"];
+       "Location/training_log" [label="id: Location/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Location/truth" [label="id: Location/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Location/truth.objects" [label="id: Location/truth.objects\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Location/truth_objects_matcher" [label="id: Location/truth_objects_matcher\ltype: visionflow::opers::LocationObjectMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Location object matcher.\l"];
+       "Location/view_tagger" [label="id: Location/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "Location/base_color" -> "Location/image_mean_conf";
+     "Location/base_color" -> "Location/trainer";
+     "Location/base_color_conf" -> "Location/base_color";
+     "Location/batch_size" -> "Location/infer";
+     "Location/batch_size_conf" -> "Location/batch_size";
+     "Location/classes" -> "Location/label_oper";
+     "Location/classes" -> "Location/trainer";
+     "Location/comparator" -> "Location/match_result";
+     "Location/feature_map" -> "Location/filter";
+     "Location/filter" -> "Location/pred.keypoints";
+     "Location/filter.args" -> "Location/filter";
+     "Location/filter.conf" -> "Location/filter.args";
+     "Location/image" -> "Location/image_mean_conf";
+     "Location/image" -> "Location/infer";
+     "Location/image" -> "Location/label_oper";
+     "Location/image" -> "Location/trainer";
+     "Location/image_mean" -> "Location/trainer";
+     "Location/image_mean_conf" -> "Location/image_mean";
+     "Location/infer" -> "Location/feature_map";
+     "Location/label_classes.conf" -> "Location/classes";
+     "Location/label_oper" -> "Location/mask";
+     "Location/label_oper" -> "Location/tagged_polygons";
+     "Location/label_oper" -> "Location/truth";
+     "Location/label_oper.args" -> "Location/label_oper";
+     "Location/label_oper.conf" -> "Location/label_oper.args";
+     "Location/mask" -> "Location/statistician";
+     "Location/mask" -> "Location/trainer";
+     "Location/model" -> "Location/filter";
+     "Location/model" -> "Location/infer";
+     "Location/objects_statistician" -> "Location/objects_statistics";
+     "Location/pred.keypoints" -> "Location/comparator";
+     "Location/pred.keypoints" -> "Location/prediction_objects_matcher";
+     "Location/pred.keypoints" -> "Location/statistician";
+     "Location/pred.objects" -> "Location/objects_statistician";
+     "Location/prediction_objects_matcher" -> "Location/pred.objects";
+     "Location/statistician" -> "Location/statistics";
+     "Location/tagged_polygons" -> "Location/view_tagger";
+     "Location/tagged_views" -> "Location/comparator";
+     "Location/tagged_views" -> "Location/image_mean_conf";
+     "Location/tagged_views" -> "Location/objects_statistician";
+     "Location/tagged_views" -> "Location/statistician";
+     "Location/tagged_views" -> "Location/trainer";
+     "Location/tagged_views" -> "Location/truth_objects_matcher";
+     "Location/templates" -> "Location/prediction_objects_matcher";
+     "Location/templates" -> "Location/truth_objects_matcher";
+     "Location/templates_conf" -> "Location/templates";
+     "Location/trainer" -> "Location/model";
+     "Location/trainer" -> "Location/training_log";
+     "Location/trainer.args" -> "Location/trainer";
+     "Location/trainer.conf" -> "Location/trainer.args";
+     "Location/truth" -> "Location/comparator";
+     "Location/truth" -> "Location/statistician";
+     "Location/truth" -> "Location/trainer";
+     "Location/truth" -> "Location/truth_objects_matcher";
+     "Location/truth.objects" -> "Location/objects_statistician";
+     "Location/truth_objects_matcher" -> "Location/truth.objects";
+     "Location/view_tagger" -> "Location/tagged_views";
+     "Location/views" -> "Location/filter";
+     "Location/views" -> "Location/infer";
+     "Location/views" -> "Location/prediction_objects_matcher";
+     "Location/views" -> "Location/view_tagger"
+   
+   }
+
+
+Classification Tool
+=================================================
+
+Classification Tool
+
+.. graphviz::
+
+   digraph "OnlyTool: Classification" {
+     label="OnlyTool: Classification";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Classification/comparator";
+     "Classification/infer";
+     "Classification/label_oper";
+     "Classification/view_tagger";
+     "Classification/visualizer"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Classification/base_color_conf";
+     "Classification/batch_size_conf";
+     "Classification/image_mean_conf";
+     "Classification/label_classes.conf";
+     "Classification/label_oper.conf";
+     "Classification/sample_recommend";
+     "Classification/sample_recommend.conf";
+     "Classification/statistician";
+     "Classification/trainer";
+     "Classification/trainer.conf";
+     "Classification/training_set_recommend";
+     "Classification/training_set_recommend.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "Classification/heatmap";
+     "Classification/mask";
+     "Classification/match_result";
+     "Classification/tagged_polygons";
+     "Classification/tagged_views";
+     "Classification/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "Classification/image";
+     "Classification/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Classification/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Classification/base_color";
+     "Classification/batch_size";
+     "Classification/image_mean";
+     "Classification/label_oper.args";
+     "Classification/model";
+     "Classification/recommend_sample_set";
+     "Classification/recommend_training_set";
+     "Classification/sample_recommend.args";
+     "Classification/statistics";
+     "Classification/trainer.args";
+     "Classification/training_log";
+     "Classification/training_set_recommend.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "Classification/classes"
+   
+     
+     subgraph "cluster_Classification" {
+       label="Classification";
+       "Classification/base_color" [label="id: Classification/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Classification/base_color_conf" [label="id: Classification/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "Classification/batch_size" [label="id: Classification/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "Classification/batch_size_conf" [label="id: Classification/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "Classification/classes" [label="id: Classification/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "Classification/comparator" [label="id: Classification/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "Classification/heatmap" [label="id: Classification/heatmap\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "Classification/image_mean" [label="id: Classification/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "Classification/image_mean_conf" [label="id: Classification/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "Classification/infer" [label="id: Classification/infer\ltype: visionflow::opers::ClassificationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Classification inference engine.\l"];
+       "Classification/label_classes.conf" [label="id: Classification/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "Classification/label_oper" [label="id: Classification/label_oper\ltype: visionflow::opers::ClassificationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for Classification \ltool.\l"];
+       "Classification/label_oper.args" [label="id: Classification/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Classification/label_oper.conf" [label="id: Classification/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Classification/mask" [label="id: Classification/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Classification/match_result" [label="id: Classification/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "Classification/model" [label="id: Classification/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Classification/pred" [label="id: Classification/pred\ltype: visionflow::props::MultiNamesPolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Classification/recommend_sample_set" [label="id: Classification/recommend_sample_set\ltype: visionflow::param::PropertyObjectIdSet\lupdate: 1970-01-01 00:00:00.0000000\ldocs: 
+       Parameter group for a set \lof property object IDs.
+       \l"];
+       "Classification/recommend_training_set" [label="id: Classification/recommend_training_set\ltype: visionflow::param::PropertyObjectIdSet\lupdate: 1970-01-01 00:00:00.0000000\ldocs: 
+       Parameter group for a set \lof property object IDs.
+       \l"];
+       "Classification/sample_recommend" [label="id: Classification/sample_recommend\ltype: visionflow::confs::ClassificationSampleRecommend\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Classification sample recommend \ltool.\l"];
+       "Classification/sample_recommend.args" [label="id: Classification/sample_recommend.args\ltype: visionflow::param::SampleRecommendationParameter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameter for the sample recommendation \lalgorithm\l"];
+       "Classification/sample_recommend.conf" [label="id: Classification/sample_recommend.conf\ltype: visionflow::confs::SampleRecommendationParameterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set sample recommend \lparam.\l"];
+       "Classification/statistician" [label="id: Classification/statistician\ltype: visionflow::confs::ClassificationRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count classification \lregion match results.\l"];
+       "Classification/statistics" [label="id: Classification/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "Classification/tagged_polygons" [label="id: Classification/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "Classification/tagged_views" [label="id: Classification/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "Classification/trainer" [label="id: Classification/trainer\ltype: visionflow::confs::ClassificationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Classification model trainer.\l"];
+       "Classification/trainer.args" [label="id: Classification/trainer.args\ltype: visionflow::param::ClassificationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Classification/trainer.conf" [label="id: Classification/trainer.conf\ltype: visionflow::confs::ClassificationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Classification \ltrainer options.\l"];
+       "Classification/training_log" [label="id: Classification/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Classification/training_set_recommend" [label="id: Classification/training_set_recommend\ltype: visionflow::confs::TrainingSetRecommend\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to automatic inter \lclass balancing for training set \lpartitioning. \l"];
+       "Classification/training_set_recommend.args" [label="id: Classification/training_set_recommend.args\ltype: visionflow::param::TrainingSetRecommendParameter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameter for the auto class balance\l"];
+       "Classification/training_set_recommend.conf" [label="id: Classification/training_set_recommend.conf\ltype: visionflow::confs::TrainingSetRecommendParameterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to training set recommend \lparams.\l"];
+       "Classification/truth" [label="id: Classification/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Classification/view_tagger" [label="id: Classification/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"];
+       "Classification/visualizer" [label="id: Classification/visualizer\ltype: visionflow::opers::ClassificationVisualizer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Classification Visualizer.\l"]
+     }
+   
+     "Classification/base_color" -> "Classification/image_mean_conf";
+     "Classification/base_color" -> "Classification/trainer";
+     "Classification/base_color_conf" -> "Classification/base_color";
+     "Classification/batch_size" -> "Classification/infer";
+     "Classification/batch_size" -> "Classification/visualizer";
+     "Classification/batch_size_conf" -> "Classification/batch_size";
+     "Classification/classes" -> "Classification/label_oper";
+     "Classification/classes" -> "Classification/trainer";
+     "Classification/comparator" -> "Classification/match_result";
+     "Classification/image" -> "Classification/image_mean_conf";
+     "Classification/image" -> "Classification/infer";
+     "Classification/image" -> "Classification/label_oper";
+     "Classification/image" -> "Classification/sample_recommend";
+     "Classification/image" -> "Classification/trainer";
+     "Classification/image" -> "Classification/visualizer";
+     "Classification/image_mean" -> "Classification/trainer";
+     "Classification/image_mean_conf" -> "Classification/image_mean";
+     "Classification/infer" -> "Classification/pred";
+     "Classification/label_classes.conf" -> "Classification/classes";
+     "Classification/label_oper" -> "Classification/mask";
+     "Classification/label_oper" -> "Classification/tagged_polygons";
+     "Classification/label_oper" -> "Classification/truth";
+     "Classification/label_oper.args" -> "Classification/label_oper";
+     "Classification/label_oper.conf" -> "Classification/label_oper.args";
+     "Classification/mask" -> "Classification/trainer";
+     "Classification/model" -> "Classification/infer";
+     "Classification/model" -> "Classification/sample_recommend";
+     "Classification/model" -> "Classification/visualizer";
+     "Classification/pred" -> "Classification/comparator";
+     "Classification/pred" -> "Classification/statistician";
+     "Classification/sample_recommend" -> "Classification/recommend_sample_set";
+     "Classification/sample_recommend.args" -> "Classification/sample_recommend";
+     "Classification/sample_recommend.conf" -> "Classification/sample_recommend.args";
+     "Classification/statistician" -> "Classification/statistics";
+     "Classification/tagged_polygons" -> "Classification/view_tagger";
+     "Classification/tagged_views" -> "Classification/comparator";
+     "Classification/tagged_views" -> "Classification/image_mean_conf";
+     "Classification/tagged_views" -> "Classification/sample_recommend";
+     "Classification/tagged_views" -> "Classification/statistician";
+     "Classification/tagged_views" -> "Classification/trainer";
+     "Classification/tagged_views" -> "Classification/training_set_recommend";
+     "Classification/trainer" -> "Classification/model";
+     "Classification/trainer" -> "Classification/training_log";
+     "Classification/trainer.args" -> "Classification/trainer";
+     "Classification/trainer.conf" -> "Classification/trainer.args";
+     "Classification/training_set_recommend" -> "Classification/recommend_training_set";
+     "Classification/training_set_recommend.args" -> "Classification/training_set_recommend";
+     "Classification/training_set_recommend.conf" -> "Classification/training_set_recommend.args";
+     "Classification/truth" -> "Classification/comparator";
+     "Classification/truth" -> "Classification/statistician";
+     "Classification/truth" -> "Classification/trainer";
+     "Classification/truth" -> "Classification/training_set_recommend";
+     "Classification/view_tagger" -> "Classification/tagged_views";
+     "Classification/views" -> "Classification/infer";
+     "Classification/views" -> "Classification/view_tagger";
+     "Classification/views" -> "Classification/visualizer";
+     "Classification/visualizer" -> "Classification/heatmap"
+   
+   }
+
+
+ELClassification Tool
+=================================================
+
+EL Classification Tool
+
+.. graphviz::
+
+   digraph "OnlyTool: ELClassification" {
+     label="OnlyTool: ELClassification";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "ELClassification/comparator";
+     "ELClassification/infer";
+     "ELClassification/label_oper";
+     "ELClassification/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "ELClassification/batch_size_conf";
+     "ELClassification/label_classes.conf";
+     "ELClassification/label_oper.conf";
+     "ELClassification/model_health_evaluator";
+     "ELClassification/statistician";
+     "ELClassification/trainer";
+     "ELClassification/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "ELClassification/mask";
+     "ELClassification/match_result";
+     "ELClassification/tagged_polygons";
+     "ELClassification/tagged_views";
+     "ELClassification/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "ELClassification/image";
+     "ELClassification/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "ELClassification/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "ELClassification/batch_size";
+     "ELClassification/label_oper.args";
+     "ELClassification/model";
+     "ELClassification/model_health";
+     "ELClassification/statistics";
+     "ELClassification/trainer.args";
+     "ELClassification/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "ELClassification/classes"
+   
+     
+     subgraph "cluster_ELClassification" {
+       label="ELClassification";
+       "ELClassification/batch_size" [label="id: ELClassification/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "ELClassification/batch_size_conf" [label="id: ELClassification/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "ELClassification/classes" [label="id: ELClassification/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "ELClassification/comparator" [label="id: ELClassification/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "ELClassification/infer" [label="id: ELClassification/infer\ltype: visionflow::opers::ELClassificationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL Classification inference engine.\l"];
+       "ELClassification/label_classes.conf" [label="id: ELClassification/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "ELClassification/label_oper" [label="id: ELClassification/label_oper\ltype: visionflow::opers::ClassificationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for Classification \ltool.\l"];
+       "ELClassification/label_oper.args" [label="id: ELClassification/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELClassification/label_oper.conf" [label="id: ELClassification/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "ELClassification/mask" [label="id: ELClassification/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELClassification/match_result" [label="id: ELClassification/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "ELClassification/model" [label="id: ELClassification/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELClassification/model_health" [label="id: ELClassification/model_health\ltype: visionflow::param::ModelHealth\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage model health.\l"];
+       "ELClassification/model_health_evaluator" [label="id: ELClassification/model_health_evaluator\ltype: visionflow::confs::ELClassificationModelHealthEvaluator\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL Classification Model Health \lEvaluator.\l"];
+       "ELClassification/pred" [label="id: ELClassification/pred\ltype: visionflow::props::MultiNamesPolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELClassification/statistician" [label="id: ELClassification/statistician\ltype: visionflow::confs::ClassificationRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count classification \lregion match results.\l"];
+       "ELClassification/statistics" [label="id: ELClassification/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "ELClassification/tagged_polygons" [label="id: ELClassification/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "ELClassification/tagged_views" [label="id: ELClassification/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "ELClassification/trainer" [label="id: ELClassification/trainer\ltype: visionflow::confs::ELClassificationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL Classification model trainer.\l"];
+       "ELClassification/trainer.args" [label="id: ELClassification/trainer.args\ltype: visionflow::param::ELClassificationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELClassification/trainer.conf" [label="id: ELClassification/trainer.conf\ltype: visionflow::confs::ELClassificationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set EL classification \ltrainer options.\l"];
+       "ELClassification/training_log" [label="id: ELClassification/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELClassification/truth" [label="id: ELClassification/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELClassification/view_tagger" [label="id: ELClassification/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "ELClassification/batch_size" -> "ELClassification/infer";
+     "ELClassification/batch_size_conf" -> "ELClassification/batch_size";
+     "ELClassification/classes" -> "ELClassification/label_oper";
+     "ELClassification/classes" -> "ELClassification/trainer";
+     "ELClassification/comparator" -> "ELClassification/match_result";
+     "ELClassification/image" -> "ELClassification/infer";
+     "ELClassification/image" -> "ELClassification/label_oper";
+     "ELClassification/image" -> "ELClassification/trainer";
+     "ELClassification/infer" -> "ELClassification/pred";
+     "ELClassification/label_classes.conf" -> "ELClassification/classes";
+     "ELClassification/label_oper" -> "ELClassification/mask";
+     "ELClassification/label_oper" -> "ELClassification/tagged_polygons";
+     "ELClassification/label_oper" -> "ELClassification/truth";
+     "ELClassification/label_oper.args" -> "ELClassification/label_oper";
+     "ELClassification/label_oper.conf" -> "ELClassification/label_oper.args";
+     "ELClassification/mask" -> "ELClassification/trainer";
+     "ELClassification/model" -> "ELClassification/infer";
+     "ELClassification/model_health_evaluator" -> "ELClassification/model_health";
+     "ELClassification/pred" -> "ELClassification/comparator";
+     "ELClassification/pred" -> "ELClassification/model_health_evaluator";
+     "ELClassification/pred" -> "ELClassification/statistician";
+     "ELClassification/statistician" -> "ELClassification/statistics";
+     "ELClassification/tagged_polygons" -> "ELClassification/view_tagger";
+     "ELClassification/tagged_views" -> "ELClassification/comparator";
+     "ELClassification/tagged_views" -> "ELClassification/model_health_evaluator";
+     "ELClassification/tagged_views" -> "ELClassification/statistician";
+     "ELClassification/tagged_views" -> "ELClassification/trainer";
+     "ELClassification/trainer" -> "ELClassification/model";
+     "ELClassification/trainer" -> "ELClassification/training_log";
+     "ELClassification/trainer.args" -> "ELClassification/trainer";
+     "ELClassification/trainer.conf" -> "ELClassification/trainer.args";
+     "ELClassification/truth" -> "ELClassification/comparator";
+     "ELClassification/truth" -> "ELClassification/statistician";
+     "ELClassification/truth" -> "ELClassification/trainer";
+     "ELClassification/view_tagger" -> "ELClassification/tagged_views";
+     "ELClassification/views" -> "ELClassification/infer";
+     "ELClassification/views" -> "ELClassification/view_tagger"
+   
+   }
+
+
+ELUnsuperClassification Tool
+=================================================
+
+EL Unsuper Classification Tool
+
+.. graphviz::
+
+   digraph "OnlyTool: ELUnsuperClassification" {
+     label="OnlyTool: ELUnsuperClassification";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/label_oper";
+     "ELUnsuperClassification/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "ELUnsuperClassification/batch_size_conf";
+     "ELUnsuperClassification/infer.conf";
+     "ELUnsuperClassification/label_oper.conf";
+     "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "ELUnsuperClassification/mask";
+     "ELUnsuperClassification/tagged_polygons";
+     "ELUnsuperClassification/tagged_views";
+     "ELUnsuperClassification/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "ELUnsuperClassification/image";
+     "ELUnsuperClassification/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "ELUnsuperClassification/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "ELUnsuperClassification/batch_size";
+     "ELUnsuperClassification/infer.args";
+     "ELUnsuperClassification/label_oper.args";
+     "ELUnsuperClassification/model";
+     "ELUnsuperClassification/trainer.args";
+     "ELUnsuperClassification/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_ELUnsuperClassification" {
+       label="ELUnsuperClassification";
+       "ELUnsuperClassification/batch_size" [label="id: ELUnsuperClassification/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "ELUnsuperClassification/batch_size_conf" [label="id: ELUnsuperClassification/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "ELUnsuperClassification/infer" [label="id: ELUnsuperClassification/infer\ltype: visionflow::opers::ELUnsuperClassificationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL Unsuper Classification inference \lengine.\l"];
+       "ELUnsuperClassification/infer.args" [label="id: ELUnsuperClassification/infer.args\ltype: visionflow::param::ELUnsuperClassificationInferenceParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperClassification/infer.conf" [label="id: ELUnsuperClassification/infer.conf\ltype: visionflow::confs::ELUnsuperClassificationInferenceConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set EL Unsuper \lclassification Inference options.\l"];
+       "ELUnsuperClassification/label_oper" [label="id: ELUnsuperClassification/label_oper\ltype: visionflow::opers::UnsuperClassificationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for unsuper \lclassification tool.\l"];
+       "ELUnsuperClassification/label_oper.args" [label="id: ELUnsuperClassification/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELUnsuperClassification/label_oper.conf" [label="id: ELUnsuperClassification/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "ELUnsuperClassification/mask" [label="id: ELUnsuperClassification/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperClassification/model" [label="id: ELUnsuperClassification/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELUnsuperClassification/pred" [label="id: ELUnsuperClassification/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperClassification/tagged_polygons" [label="id: ELUnsuperClassification/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "ELUnsuperClassification/tagged_views" [label="id: ELUnsuperClassification/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "ELUnsuperClassification/trainer" [label="id: ELUnsuperClassification/trainer\ltype: visionflow::confs::ELUnsuperClassificationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL Classification model trainer.\l"];
+       "ELUnsuperClassification/trainer.args" [label="id: ELUnsuperClassification/trainer.args\ltype: visionflow::param::ELUnsuperClassificationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperClassification/trainer.conf" [label="id: ELUnsuperClassification/trainer.conf\ltype: visionflow::confs::ELUnsuperClassificationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set EL Unsuper \lclassification trainer options.\l"];
+       "ELUnsuperClassification/training_log" [label="id: ELUnsuperClassification/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperClassification/truth" [label="id: ELUnsuperClassification/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperClassification/view_tagger" [label="id: ELUnsuperClassification/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "ELUnsuperClassification/batch_size" -> "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/batch_size_conf" -> "ELUnsuperClassification/batch_size";
+     "ELUnsuperClassification/image" -> "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/image" -> "ELUnsuperClassification/label_oper";
+     "ELUnsuperClassification/image" -> "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/infer" -> "ELUnsuperClassification/pred";
+     "ELUnsuperClassification/infer.args" -> "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/infer.conf" -> "ELUnsuperClassification/infer.args";
+     "ELUnsuperClassification/label_oper" -> "ELUnsuperClassification/mask";
+     "ELUnsuperClassification/label_oper" -> "ELUnsuperClassification/tagged_polygons";
+     "ELUnsuperClassification/label_oper" -> "ELUnsuperClassification/truth";
+     "ELUnsuperClassification/label_oper.args" -> "ELUnsuperClassification/label_oper";
+     "ELUnsuperClassification/label_oper.conf" -> "ELUnsuperClassification/label_oper.args";
+     "ELUnsuperClassification/mask" -> "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/model" -> "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/tagged_polygons" -> "ELUnsuperClassification/view_tagger";
+     "ELUnsuperClassification/tagged_views" -> "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/trainer" -> "ELUnsuperClassification/model";
+     "ELUnsuperClassification/trainer" -> "ELUnsuperClassification/training_log";
+     "ELUnsuperClassification/trainer.args" -> "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/trainer.conf" -> "ELUnsuperClassification/trainer.args";
+     "ELUnsuperClassification/truth" -> "ELUnsuperClassification/trainer";
+     "ELUnsuperClassification/view_tagger" -> "ELUnsuperClassification/tagged_views";
+     "ELUnsuperClassification/views" -> "ELUnsuperClassification/infer";
+     "ELUnsuperClassification/views" -> "ELUnsuperClassification/view_tagger"
+   
+   }
+
+
+Detection Tool
+=================================================
+
+Detection Tool
+
+.. graphviz::
+
+   digraph "OnlyTool: Detection" {
+     label="OnlyTool: Detection";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Detection/comparator";
+     "Detection/filter";
+     "Detection/infer";
+     "Detection/label_oper";
+     "Detection/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Detection/base_color_conf";
+     "Detection/batch_size_conf";
+     "Detection/filter.conf";
+     "Detection/image_mean_conf";
+     "Detection/infer.conf";
+     "Detection/label_classes.conf";
+     "Detection/label_oper.conf";
+     "Detection/sample_recommend";
+     "Detection/sample_recommend.conf";
+     "Detection/statistician";
+     "Detection/trainer";
+     "Detection/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "Detection/mask";
+     "Detection/match_result";
+     "Detection/raw_pred";
+     "Detection/tagged_polygons";
+     "Detection/tagged_views";
+     "Detection/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "Detection/image";
+     "Detection/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Detection/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Detection/base_color";
+     "Detection/batch_size";
+     "Detection/filter.args";
+     "Detection/image_mean";
+     "Detection/infer.args";
+     "Detection/label_oper.args";
+     "Detection/model";
+     "Detection/recommend_sample_set";
+     "Detection/sample_recommend.args";
+     "Detection/statistics";
+     "Detection/trainer.args";
+     "Detection/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "Detection/classes"
+   
+     
+     subgraph "cluster_Detection" {
+       label="Detection";
+       "Detection/base_color" [label="id: Detection/base_color\ltype: visionflow::param::BaseColor\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Detection/base_color_conf" [label="id: Detection/base_color_conf\ltype: visionflow::confs::BaseColorConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config input images' \lbase color.\l"];
+       "Detection/batch_size" [label="id: Detection/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "Detection/batch_size_conf" [label="id: Detection/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "Detection/classes" [label="id: Detection/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "Detection/comparator" [label="id: Detection/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "Detection/filter" [label="id: Detection/filter\ltype: visionflow::opers::PolygonsFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: An operator to filter list of \lregions with some common thresholds \lor customized python filter script.\l"];
+       "Detection/filter.args" [label="id: Detection/filter.args\ltype: visionflow::param::PolygonsFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Detection/filter.conf" [label="id: Detection/filter.conf\ltype: visionflow::confs::PolygonsFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to generate the \lpolygon filter args.\l"];
+       "Detection/image_mean" [label="id: Detection/image_mean\ltype: visionflow::param::ImageMean\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Image mean parameters\l"];
+       "Detection/image_mean_conf" [label="id: Detection/image_mean_conf\ltype: visionflow::confs::ImageMeanConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: ImageMeanConf Configurator class \lto compute the image mean values \lin the views.\l"];
+       "Detection/infer" [label="id: Detection/infer\ltype: visionflow::opers::DetectionInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Detection inference engine.\l"];
+       "Detection/infer.args" [label="id: Detection/infer.args\ltype: visionflow::param::DetectionInferParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Detection/infer.conf" [label="id: Detection/infer.conf\ltype: visionflow::confs::DetectionInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Detection \linference parameters.\l"];
+       "Detection/label_classes.conf" [label="id: Detection/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "Detection/label_oper" [label="id: Detection/label_oper\ltype: visionflow::opers::DetectionLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for Classification \ltool.\l"];
+       "Detection/label_oper.args" [label="id: Detection/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Detection/label_oper.conf" [label="id: Detection/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "Detection/mask" [label="id: Detection/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Detection/match_result" [label="id: Detection/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "Detection/model" [label="id: Detection/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "Detection/pred" [label="id: Detection/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Detection/raw_pred" [label="id: Detection/raw_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Detection/recommend_sample_set" [label="id: Detection/recommend_sample_set\ltype: visionflow::param::PropertyObjectIdSet\lupdate: 1970-01-01 00:00:00.0000000\ldocs: 
+       Parameter group for a set \lof property object IDs.
+       \l"];
+       "Detection/sample_recommend" [label="id: Detection/sample_recommend\ltype: visionflow::confs::DetectionSampleRecommend\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Detection sample recommend tool.\l"];
+       "Detection/sample_recommend.args" [label="id: Detection/sample_recommend.args\ltype: visionflow::param::SampleRecommendationParameter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameter for the sample recommendation \lalgorithm\l"];
+       "Detection/sample_recommend.conf" [label="id: Detection/sample_recommend.conf\ltype: visionflow::confs::SampleRecommendationParameterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set sample recommend \lparam.\l"];
+       "Detection/statistician" [label="id: Detection/statistician\ltype: visionflow::confs::RegionMatchResultCounterV3\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults after filtered the truths \land predictions whose center overlaps \lwithin no-train regions.\l"];
+       "Detection/statistics" [label="id: Detection/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "Detection/tagged_polygons" [label="id: Detection/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "Detection/tagged_views" [label="id: Detection/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "Detection/trainer" [label="id: Detection/trainer\ltype: visionflow::confs::DetectionTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Detection model trainer.\l"];
+       "Detection/trainer.args" [label="id: Detection/trainer.args\ltype: visionflow::param::DetectionTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Detection/trainer.conf" [label="id: Detection/trainer.conf\ltype: visionflow::confs::DetectionTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Detection \ltrainer options.\l"];
+       "Detection/training_log" [label="id: Detection/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "Detection/truth" [label="id: Detection/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "Detection/view_tagger" [label="id: Detection/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "Detection/base_color" -> "Detection/image_mean_conf";
+     "Detection/base_color" -> "Detection/trainer";
+     "Detection/base_color_conf" -> "Detection/base_color";
+     "Detection/batch_size" -> "Detection/infer";
+     "Detection/batch_size_conf" -> "Detection/batch_size";
+     "Detection/classes" -> "Detection/label_oper";
+     "Detection/classes" -> "Detection/trainer";
+     "Detection/comparator" -> "Detection/match_result";
+     "Detection/filter" -> "Detection/pred";
+     "Detection/filter.args" -> "Detection/filter";
+     "Detection/filter.conf" -> "Detection/filter.args";
+     "Detection/image" -> "Detection/image_mean_conf";
+     "Detection/image" -> "Detection/infer";
+     "Detection/image" -> "Detection/label_oper";
+     "Detection/image" -> "Detection/sample_recommend";
+     "Detection/image" -> "Detection/trainer";
+     "Detection/image_mean" -> "Detection/trainer";
+     "Detection/image_mean_conf" -> "Detection/image_mean";
+     "Detection/infer" -> "Detection/raw_pred";
+     "Detection/infer.args" -> "Detection/infer";
+     "Detection/infer.args" -> "Detection/sample_recommend";
+     "Detection/infer.conf" -> "Detection/infer.args";
+     "Detection/label_classes.conf" -> "Detection/classes";
+     "Detection/label_oper" -> "Detection/mask";
+     "Detection/label_oper" -> "Detection/tagged_polygons";
+     "Detection/label_oper" -> "Detection/truth";
+     "Detection/label_oper.args" -> "Detection/label_oper";
+     "Detection/label_oper.conf" -> "Detection/label_oper.args";
+     "Detection/mask" -> "Detection/statistician";
+     "Detection/mask" -> "Detection/trainer";
+     "Detection/model" -> "Detection/infer";
+     "Detection/model" -> "Detection/sample_recommend";
+     "Detection/pred" -> "Detection/comparator";
+     "Detection/pred" -> "Detection/statistician";
+     "Detection/raw_pred" -> "Detection/filter";
+     "Detection/sample_recommend" -> "Detection/recommend_sample_set";
+     "Detection/sample_recommend.args" -> "Detection/sample_recommend";
+     "Detection/sample_recommend.conf" -> "Detection/sample_recommend.args";
+     "Detection/statistician" -> "Detection/statistics";
+     "Detection/tagged_polygons" -> "Detection/view_tagger";
+     "Detection/tagged_views" -> "Detection/comparator";
+     "Detection/tagged_views" -> "Detection/image_mean_conf";
+     "Detection/tagged_views" -> "Detection/sample_recommend";
+     "Detection/tagged_views" -> "Detection/statistician";
+     "Detection/tagged_views" -> "Detection/trainer";
+     "Detection/trainer" -> "Detection/model";
+     "Detection/trainer" -> "Detection/training_log";
+     "Detection/trainer.args" -> "Detection/trainer";
+     "Detection/trainer.conf" -> "Detection/trainer.args";
+     "Detection/truth" -> "Detection/comparator";
+     "Detection/truth" -> "Detection/statistician";
+     "Detection/truth" -> "Detection/trainer";
+     "Detection/view_tagger" -> "Detection/tagged_views";
+     "Detection/views" -> "Detection/infer";
+     "Detection/views" -> "Detection/view_tagger"
+   
+   }
+
+
+CameraCalibration Tool
+=================================================
+
+Camera calibrate tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: CameraCalibration" {
+     label="OnlyTool: CameraCalibration";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "CameraCalibration/infer"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "CameraCalibration/infer.conf";
+     "CameraCalibration/trainer";
+     "CameraCalibration/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "CameraCalibration/image"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "CameraCalibration/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "CameraCalibration/camera_model";
+     "CameraCalibration/evaluation";
+     "CameraCalibration/infer.args";
+     "CameraCalibration/pixel_scale";
+     "CameraCalibration/trainer.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_CameraCalibration" {
+       label="CameraCalibration";
+       "CameraCalibration/camera_model" [label="id: CameraCalibration/camera_model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "CameraCalibration/evaluation" [label="id: CameraCalibration/evaluation\ltype: visionflow::param::CameraCalibrationEvaluation\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage camera calibrate \lfeature points.\l"];
+       "CameraCalibration/infer" [label="id: CameraCalibration/infer\ltype: visionflow::opers::CameraCalibrationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Camera calibrate inference engine.\l"];
+       "CameraCalibration/infer.args" [label="id: CameraCalibration/infer.args\ltype: visionflow::param::CameraCalibrationInferParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Camera calibrate Infer Parameter \lGroup\l"];
+       "CameraCalibration/infer.conf" [label="id: CameraCalibration/infer.conf\ltype: visionflow::confs::CameraCalibrationInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Camera Calibrate \lInfer options.\l"];
+       "CameraCalibration/pixel_scale" [label="id: CameraCalibration/pixel_scale\ltype: visionflow::param::CameraCalibrationPixelScale\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Camera calibrate Pixel Scale\l"];
+       "CameraCalibration/pred" [label="id: CameraCalibration/pred\ltype: visionflow::props::Image\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property Image implementation.\l"];
+       "CameraCalibration/trainer" [label="id: CameraCalibration/trainer\ltype: visionflow::confs::CameraCalibrationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Camera Calibrate model trainer.\l"];
+       "CameraCalibration/trainer.args" [label="id: CameraCalibration/trainer.args\ltype: visionflow::param::CameraCalibrationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage camera calibration \ltraining parameters.\l"];
+       "CameraCalibration/trainer.conf" [label="id: CameraCalibration/trainer.conf\ltype: visionflow::confs::CameraCalibrationTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Camera Calibrate \ltrainer options.\l"]
+     }
+   
+     "CameraCalibration/camera_model" -> "CameraCalibration/infer";
+     "CameraCalibration/image" -> "CameraCalibration/infer";
+     "CameraCalibration/infer" -> "CameraCalibration/pred";
+     "CameraCalibration/infer.args" -> "CameraCalibration/infer";
+     "CameraCalibration/infer.conf" -> "CameraCalibration/infer.args";
+     "CameraCalibration/trainer" -> "CameraCalibration/camera_model";
+     "CameraCalibration/trainer" -> "CameraCalibration/evaluation";
+     "CameraCalibration/trainer" -> "CameraCalibration/pixel_scale";
+     "CameraCalibration/trainer.args" -> "CameraCalibration/trainer";
+     "CameraCalibration/trainer.conf" -> "CameraCalibration/trainer.args"
+   
+   }
+
+
+ViewTransformer Tool
+=================================================
+
+View transformer tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: ViewTransformer" {
+     label="OnlyTool: ViewTransformer";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "ViewTransformer/filter";
+     "ViewTransformer/transformer"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "ViewTransformer/filter.conf";
+     "ViewTransformer/transformer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "ViewTransformer/filtered_regions"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "ViewTransformer/image_info";
+     "ViewTransformer/input_views";
+     "ViewTransformer/regions"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "ViewTransformer/transformed_views"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "ViewTransformer/filter.args";
+     "ViewTransformer/transformer.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_ViewTransformer" {
+       label="ViewTransformer";
+       "ViewTransformer/filter" [label="id: ViewTransformer/filter\ltype: visionflow::opers::ViewFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Region filter in each ViewTransformer \ltool.\l"];
+       "ViewTransformer/filter.args" [label="id: ViewTransformer/filter.args\ltype: visionflow::param::ViewFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ViewTransformer/filter.conf" [label="id: ViewTransformer/filter.conf\ltype: visionflow::confs::ViewFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the filter \lparameter before view transformer.\l"];
+       "ViewTransformer/filtered_regions" [label="id: ViewTransformer/filtered_regions\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ViewTransformer/transformed_views" [label="id: ViewTransformer/transformed_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "ViewTransformer/transformer" [label="id: ViewTransformer/transformer\ltype: visionflow::opers::ViewTransformer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to transform the \lresult of the previous tool's \ldetection output with translation, \lscaling, rotation, masking and \lother transformation parameters \lto obtain new view windows that \lcan be used as input to the next \ltool.\l"];
+       "ViewTransformer/transformer.args" [label="id: ViewTransformer/transformer.args\ltype: visionflow::param::ViewTransformParameterList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lview transform parameters.\l"];
+       "ViewTransformer/transformer.conf" [label="id: ViewTransformer/transformer.conf\ltype: visionflow::confs::ViewTransformerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the view \ltransformer.\l"]
+     }
+   
+     "ViewTransformer/filter" -> "ViewTransformer/filtered_regions";
+     "ViewTransformer/filter.args" -> "ViewTransformer/filter";
+     "ViewTransformer/filter.conf" -> "ViewTransformer/filter.args";
+     "ViewTransformer/filtered_regions" -> "ViewTransformer/transformer";
+     "ViewTransformer/image_info" -> "ViewTransformer/transformer";
+     "ViewTransformer/input_views" -> "ViewTransformer/filter";
+     "ViewTransformer/regions" -> "ViewTransformer/filter";
+     "ViewTransformer/transformer" -> "ViewTransformer/transformed_views";
+     "ViewTransformer/transformer.args" -> "ViewTransformer/transformer";
+     "ViewTransformer/transformer.conf" -> "ViewTransformer/transformer.args"
+   
+   }
+
+
+RegionCalculation Tool
+=================================================
+
+Region calculation tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: RegionCalculation" {
+     label="OnlyTool: RegionCalculation";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "RegionCalculation/calculator"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "RegionCalculation/calculator.conf";
+     "RegionCalculation/label_classes.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     "RegionCalculation/properties"
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "RegionCalculation/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "RegionCalculation/calculator.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "RegionCalculation/classes"
+   
+     
+     subgraph "cluster_RegionCalculation" {
+       label="RegionCalculation";
+       "RegionCalculation/calculator" [label="id: RegionCalculation/calculator\ltype: visionflow::opers::RegionCalculator\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Region Calculator operator for \lRegionCalculation tool.\l"];
+       "RegionCalculation/calculator.args" [label="id: RegionCalculation/calculator.args\ltype: visionflow::param::RegionCalculationParameter\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "RegionCalculation/calculator.conf" [label="id: RegionCalculation/calculator.conf\ltype: visionflow::confs::RegionCalculationConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to config the region \lcalculator parameter.\l"];
+       "RegionCalculation/classes" [label="id: RegionCalculation/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "RegionCalculation/label_classes.conf" [label="id: RegionCalculation/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "RegionCalculation/pred" [label="id: RegionCalculation/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"]
+     }
+   
+     "RegionCalculation/calculator" -> "RegionCalculation/pred";
+     "RegionCalculation/calculator.args" -> "RegionCalculation/calculator";
+     "RegionCalculation/calculator.conf" -> "RegionCalculation/calculator.args";
+     "RegionCalculation/classes" -> "RegionCalculation/calculator";
+     "RegionCalculation/label_classes.conf" -> "RegionCalculation/classes";
+     "RegionCalculation/properties" -> "RegionCalculation/calculator"
+   
+   }
+
+
+ELOCR Tool
+=================================================
+
+EL OCR Tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: ELOCR" {
+     label="OnlyTool: ELOCR";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "ELOCR/comparator";
+     "ELOCR/infer";
+     "ELOCR/infer_string_matcher";
+     "ELOCR/label_oper";
+     "ELOCR/truth_string_matcher";
+     "ELOCR/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "ELOCR/batch_size_conf";
+     "ELOCR/infer.conf";
+     "ELOCR/label_classes.conf";
+     "ELOCR/label_oper.conf";
+     "ELOCR/statistician";
+     "ELOCR/strings_statistician";
+     "ELOCR/templates_conf";
+     "ELOCR/trainer";
+     "ELOCR/trainer.conf";
+     "ELOCR/universal_conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "ELOCR/mask";
+     "ELOCR/match_result";
+     "ELOCR/tagged_polygons";
+     "ELOCR/tagged_views";
+     "ELOCR/truth";
+     "ELOCR/truth.strings"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "ELOCR/image";
+     "ELOCR/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "ELOCR/pred.characters";
+     "ELOCR/pred.strings"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "ELOCR/batch_size";
+     "ELOCR/infer.args";
+     "ELOCR/label_oper.args";
+     "ELOCR/model";
+     "ELOCR/statistics";
+     "ELOCR/strings_statistics";
+     "ELOCR/templates";
+     "ELOCR/trainer.args";
+     "ELOCR/training_log"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     "ELOCR/classes"
+   
+     
+     subgraph "cluster_ELOCR" {
+       label="ELOCR";
+       "ELOCR/batch_size" [label="id: ELOCR/batch_size\ltype: visionflow::param::InferenceBatchSize\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Inference BatchSize and Inference \lMode. Currently only contains \lbatch size. It may need to be \lrefactored in the future.\l"];
+       "ELOCR/batch_size_conf" [label="id: ELOCR/batch_size_conf\ltype: visionflow::confs::InferenceBatchSizeConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set inference \lbatch size.\l"];
+       "ELOCR/classes" [label="id: ELOCR/classes\ltype: visionflow::param::LabelClasses\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage label classes.\l"];
+       "ELOCR/comparator" [label="id: ELOCR/comparator\ltype: visionflow::opers::RegionsMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to compare the predicted \lregions with the ground truth \lto get the category (in [TP, FP, \lTN, FN]) of each region.\l"];
+       "ELOCR/infer" [label="id: ELOCR/infer\ltype: visionflow::opers::ELOCRInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-OCR inference engine.\l"];
+       "ELOCR/infer.args" [label="id: ELOCR/infer.args\ltype: visionflow::param::ELOCRInferParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELOCR/infer.conf" [label="id: ELOCR/infer.conf\ltype: visionflow::confs::ELOCRInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set EL-OCR inference \lparameters.\l"];
+       "ELOCR/infer_string_matcher" [label="id: ELOCR/infer_string_matcher\ltype: visionflow::opers::OCRInferStringMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR infer string matcher.\l"];
+       "ELOCR/label_classes.conf" [label="id: ELOCR/label_classes.conf\ltype: visionflow::confs::LabelClassesConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \llabel classes parameter.\l"];
+       "ELOCR/label_oper" [label="id: ELOCR/label_oper\ltype: visionflow::opers::ELOCRLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for EL-OCR tool.\l"];
+       "ELOCR/label_oper.args" [label="id: ELOCR/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELOCR/label_oper.conf" [label="id: ELOCR/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "ELOCR/mask" [label="id: ELOCR/mask\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELOCR/match_result" [label="id: ELOCR/match_result\ltype: visionflow::props::RegionMatchResultList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure to store list \lof RegionMatchResult.\l"];
+       "ELOCR/model" [label="id: ELOCR/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELOCR/pred.characters" [label="id: ELOCR/pred.characters\ltype: visionflow::props::MultiNamesPolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELOCR/pred.strings" [label="id: ELOCR/pred.strings\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELOCR/statistician" [label="id: ELOCR/statistician\ltype: visionflow::confs::OCRRegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count ocr region \lmatch results.\l"];
+       "ELOCR/statistics" [label="id: ELOCR/statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "ELOCR/strings_statistician" [label="id: ELOCR/strings_statistician\ltype: visionflow::confs::RegionMatchResultCounter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to count region match \lresults.\l"];
+       "ELOCR/strings_statistics" [label="id: ELOCR/strings_statistics\ltype: visionflow::param::ModelEvaluationMetrics\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage table.\l"];
+       "ELOCR/tagged_polygons" [label="id: ELOCR/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "ELOCR/tagged_views" [label="id: ELOCR/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "ELOCR/templates" [label="id: ELOCR/templates\ltype: visionflow::param::OCRTemplates\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELOCR/templates_conf" [label="id: ELOCR/templates_conf\ltype: visionflow::confs::OCRTemplateConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config OCR \lstring match templates.\l"];
+       "ELOCR/trainer" [label="id: ELOCR/trainer\ltype: visionflow::confs::ELOCRTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-OCR model trainer.\l"];
+       "ELOCR/trainer.args" [label="id: ELOCR/trainer.args\ltype: visionflow::param::ELOCRTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELOCR/trainer.conf" [label="id: ELOCR/trainer.conf\ltype: visionflow::confs::ELOCRTrainerConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set EL-OCR trainer \loptions.\l"];
+       "ELOCR/training_log" [label="id: ELOCR/training_log\ltype: visionflow::param::TrainingLog\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELOCR/truth" [label="id: ELOCR/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELOCR/truth.strings" [label="id: ELOCR/truth.strings\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELOCR/truth_string_matcher" [label="id: ELOCR/truth_string_matcher\ltype: visionflow::opers::OCRTruthStringMatcher\lupdate: 1970-01-01 00:00:00.0000000\ldocs: OCR truth string matcher.\l"];
+       "ELOCR/universal_conf" [label="id: ELOCR/universal_conf\ltype: visionflow::confs::ELOCRUniversalModelConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-OCR universal model configurator.\l"];
+       "ELOCR/view_tagger" [label="id: ELOCR/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "ELOCR/batch_size" -> "ELOCR/infer";
+     "ELOCR/batch_size_conf" -> "ELOCR/batch_size";
+     "ELOCR/classes" -> "ELOCR/label_oper";
+     "ELOCR/classes" -> "ELOCR/trainer";
+     "ELOCR/comparator" -> "ELOCR/match_result";
+     "ELOCR/image" -> "ELOCR/infer";
+     "ELOCR/image" -> "ELOCR/label_oper";
+     "ELOCR/image" -> "ELOCR/trainer";
+     "ELOCR/infer" -> "ELOCR/pred.characters";
+     "ELOCR/infer.args" -> "ELOCR/infer";
+     "ELOCR/infer.conf" -> "ELOCR/infer.args";
+     "ELOCR/infer_string_matcher" -> "ELOCR/pred.strings";
+     "ELOCR/label_classes.conf" -> "ELOCR/classes";
+     "ELOCR/label_oper" -> "ELOCR/mask";
+     "ELOCR/label_oper" -> "ELOCR/tagged_polygons";
+     "ELOCR/label_oper" -> "ELOCR/truth";
+     "ELOCR/label_oper.args" -> "ELOCR/label_oper";
+     "ELOCR/label_oper.conf" -> "ELOCR/label_oper.args";
+     "ELOCR/mask" -> "ELOCR/statistician";
+     "ELOCR/mask" -> "ELOCR/trainer";
+     "ELOCR/model" -> "ELOCR/infer";
+     "ELOCR/model" -> "ELOCR/infer_string_matcher";
+     "ELOCR/model" -> "ELOCR/truth_string_matcher";
+     "ELOCR/pred.characters" -> "ELOCR/comparator";
+     "ELOCR/pred.characters" -> "ELOCR/infer_string_matcher";
+     "ELOCR/pred.characters" -> "ELOCR/statistician";
+     "ELOCR/pred.strings" -> "ELOCR/strings_statistician";
+     "ELOCR/statistician" -> "ELOCR/statistics";
+     "ELOCR/strings_statistician" -> "ELOCR/strings_statistics";
+     "ELOCR/tagged_polygons" -> "ELOCR/view_tagger";
+     "ELOCR/tagged_views" -> "ELOCR/comparator";
+     "ELOCR/tagged_views" -> "ELOCR/statistician";
+     "ELOCR/tagged_views" -> "ELOCR/strings_statistician";
+     "ELOCR/tagged_views" -> "ELOCR/trainer";
+     "ELOCR/templates" -> "ELOCR/infer_string_matcher";
+     "ELOCR/templates" -> "ELOCR/truth_string_matcher";
+     "ELOCR/templates_conf" -> "ELOCR/templates";
+     "ELOCR/trainer" -> "ELOCR/model";
+     "ELOCR/trainer" -> "ELOCR/training_log";
+     "ELOCR/trainer.args" -> "ELOCR/trainer";
+     "ELOCR/trainer.args" -> "ELOCR/universal_conf";
+     "ELOCR/trainer.conf" -> "ELOCR/trainer.args";
+     "ELOCR/truth" -> "ELOCR/comparator";
+     "ELOCR/truth" -> "ELOCR/statistician";
+     "ELOCR/truth" -> "ELOCR/trainer";
+     "ELOCR/truth" -> "ELOCR/truth_string_matcher";
+     "ELOCR/truth.strings" -> "ELOCR/strings_statistician";
+     "ELOCR/truth_string_matcher" -> "ELOCR/truth.strings";
+     "ELOCR/universal_conf" -> "ELOCR/model";
+     "ELOCR/view_tagger" -> "ELOCR/tagged_views";
+     "ELOCR/views" -> "ELOCR/infer";
+     "ELOCR/views" -> "ELOCR/infer_string_matcher";
+     "ELOCR/views" -> "ELOCR/truth_string_matcher";
+     "ELOCR/views" -> "ELOCR/universal_conf";
+     "ELOCR/views" -> "ELOCR/view_tagger"
+   
+   }
+
+
+ELUnsuperSegmentation Tool
+=================================================
+
+EL Unsupervised Segmentation Tool, suitable for projects with good image consistency and obvious defects, where defective areas need to be detected.
+
+.. graphviz::
+
+   digraph "OnlyTool: ELUnsuperSegmentation" {
+     label="OnlyTool: ELUnsuperSegmentation";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "ELUnsuperSegmentation/featmap_filter";
+     "ELUnsuperSegmentation/filter";
+     "ELUnsuperSegmentation/infer";
+     "ELUnsuperSegmentation/label_oper";
+     "ELUnsuperSegmentation/view_tagger"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "ELUnsuperSegmentation/featmap_filter.conf";
+     "ELUnsuperSegmentation/filter.conf";
+     "ELUnsuperSegmentation/infer.conf";
+     "ELUnsuperSegmentation/label_oper.conf";
+     "ELUnsuperSegmentation/trainer";
+     "ELUnsuperSegmentation/trainer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     "ELUnsuperSegmentation/feature_map";
+     "ELUnsuperSegmentation/raw_pred";
+     "ELUnsuperSegmentation/tagged_polygons";
+     "ELUnsuperSegmentation/tagged_views";
+     "ELUnsuperSegmentation/truth"
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "ELUnsuperSegmentation/image";
+     "ELUnsuperSegmentation/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "ELUnsuperSegmentation/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "ELUnsuperSegmentation/featmap_filter.args";
+     "ELUnsuperSegmentation/filter.args";
+     "ELUnsuperSegmentation/infer.args";
+     "ELUnsuperSegmentation/label_oper.args";
+     "ELUnsuperSegmentation/model";
+     "ELUnsuperSegmentation/trainer.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_ELUnsuperSegmentation" {
+       label="ELUnsuperSegmentation";
+       "ELUnsuperSegmentation/featmap_filter" [label="id: ELUnsuperSegmentation/featmap_filter\ltype: visionflow::opers::SegmentationFeatureMapFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator to filter feature map \linto list of polygon regions.\l"];
+       "ELUnsuperSegmentation/featmap_filter.args" [label="id: ELUnsuperSegmentation/featmap_filter.args\ltype: visionflow::param::FeatureMapFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameters to config the feature \lmap filter.\l"];
+       "ELUnsuperSegmentation/featmap_filter.conf" [label="id: ELUnsuperSegmentation/featmap_filter.conf\ltype: visionflow::confs::FeatureMapFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to config the \lfeature map filter.\l"];
+       "ELUnsuperSegmentation/feature_map" [label="id: ELUnsuperSegmentation/feature_map\ltype: visionflow::props::FeatureMap\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A data structure used to store \lfeature maps detected by each \lalgorithm module.\l"];
+       "ELUnsuperSegmentation/filter" [label="id: ELUnsuperSegmentation/filter\ltype: visionflow::opers::PolygonsFilter\lupdate: 1970-01-01 00:00:00.0000000\ldocs: An operator to filter list of \lregions with some common thresholds \lor customized python filter script.\l"];
+       "ELUnsuperSegmentation/filter.args" [label="id: ELUnsuperSegmentation/filter.args\ltype: visionflow::param::PolygonsFilterParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperSegmentation/filter.conf" [label="id: ELUnsuperSegmentation/filter.conf\ltype: visionflow::confs::PolygonsFilterConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator UI to generate the \lpolygon filter args.\l"];
+       "ELUnsuperSegmentation/infer" [label="id: ELUnsuperSegmentation/infer\ltype: visionflow::opers::ELUnsuperSegmentationInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-UnsuperSegmentation inference \loperator.\l"];
+       "ELUnsuperSegmentation/infer.args" [label="id: ELUnsuperSegmentation/infer.args\ltype: visionflow::param::ELUnsuperSegmentationInferParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperSegmentation/infer.conf" [label="id: ELUnsuperSegmentation/infer.conf\ltype: visionflow::confs::ELUnsuperSegmentationInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-UnsuperSegmentation heatmap \lfilter parameters configurator.\l"];
+       "ELUnsuperSegmentation/label_oper" [label="id: ELUnsuperSegmentation/label_oper\ltype: visionflow::opers::ELUnsuperSegmentationLabeler\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Annotate operator for EL-UnsuperSegmentation \ltool.\l"];
+       "ELUnsuperSegmentation/label_oper.args" [label="id: ELUnsuperSegmentation/label_oper.args\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELUnsuperSegmentation/label_oper.conf" [label="id: ELUnsuperSegmentation/label_oper.conf\ltype: visionflow::confs::CustomConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator class to generate \lany user-defined parameters\l"];
+       "ELUnsuperSegmentation/model" [label="id: ELUnsuperSegmentation/model\ltype: visionflow::param::BinaryPacks\lupdate: 1970-01-01 00:00:00.0000000\ldocs: A container to manage list of \lbinary data.\l"];
+       "ELUnsuperSegmentation/pred" [label="id: ELUnsuperSegmentation/pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperSegmentation/raw_pred" [label="id: ELUnsuperSegmentation/raw_pred\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperSegmentation/tagged_polygons" [label="id: ELUnsuperSegmentation/tagged_polygons\ltype: visionflow::props::TaggedPolygonList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property TaggedPolygonList implementation.\l"];
+       "ELUnsuperSegmentation/tagged_views" [label="id: ELUnsuperSegmentation/tagged_views\ltype: visionflow::props::ViewList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Property ViewList implementation.\l"];
+       "ELUnsuperSegmentation/trainer" [label="id: ELUnsuperSegmentation/trainer\ltype: visionflow::confs::ELUnsuperSegmentationTrainer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-UnsuperSegmentation model trainer.\l"];
+       "ELUnsuperSegmentation/trainer.args" [label="id: ELUnsuperSegmentation/trainer.args\ltype: visionflow::param::ELUnsuperSegmentationTrainingParameters\lupdate: 1970-01-01 00:00:00.0000000\l"];
+       "ELUnsuperSegmentation/trainer.conf" [label="id: ELUnsuperSegmentation/trainer.conf\ltype: visionflow::confs::ELUnsuperSegmentationTrainingConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: EL-UnsuperSegmentation Training \lParameters Configurator.\l"];
+       "ELUnsuperSegmentation/truth" [label="id: ELUnsuperSegmentation/truth\ltype: visionflow::props::PolygonRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"];
+       "ELUnsuperSegmentation/view_tagger" [label="id: ELUnsuperSegmentation/view_tagger\ltype: visionflow::opers::ViewTagger\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Operator used to tag the views \lwith some already tagged polygons \lautomatically. The spilt_tag and \ltags of the most matched tagged_polygon \lselected using CIou will be set \lto the view, otherwise, the view \lwill remain its original spilt_tag \land tags info.\l"]
+     }
+   
+     "ELUnsuperSegmentation/featmap_filter" -> "ELUnsuperSegmentation/raw_pred";
+     "ELUnsuperSegmentation/featmap_filter.args" -> "ELUnsuperSegmentation/featmap_filter";
+     "ELUnsuperSegmentation/featmap_filter.conf" -> "ELUnsuperSegmentation/featmap_filter.args";
+     "ELUnsuperSegmentation/feature_map" -> "ELUnsuperSegmentation/featmap_filter";
+     "ELUnsuperSegmentation/filter" -> "ELUnsuperSegmentation/pred";
+     "ELUnsuperSegmentation/filter.args" -> "ELUnsuperSegmentation/filter";
+     "ELUnsuperSegmentation/filter.conf" -> "ELUnsuperSegmentation/filter.args";
+     "ELUnsuperSegmentation/image" -> "ELUnsuperSegmentation/infer";
+     "ELUnsuperSegmentation/image" -> "ELUnsuperSegmentation/label_oper";
+     "ELUnsuperSegmentation/image" -> "ELUnsuperSegmentation/trainer";
+     "ELUnsuperSegmentation/infer" -> "ELUnsuperSegmentation/feature_map";
+     "ELUnsuperSegmentation/infer.args" -> "ELUnsuperSegmentation/infer";
+     "ELUnsuperSegmentation/infer.conf" -> "ELUnsuperSegmentation/infer.args";
+     "ELUnsuperSegmentation/label_oper" -> "ELUnsuperSegmentation/tagged_polygons";
+     "ELUnsuperSegmentation/label_oper" -> "ELUnsuperSegmentation/truth";
+     "ELUnsuperSegmentation/label_oper.args" -> "ELUnsuperSegmentation/label_oper";
+     "ELUnsuperSegmentation/label_oper.conf" -> "ELUnsuperSegmentation/label_oper.args";
+     "ELUnsuperSegmentation/model" -> "ELUnsuperSegmentation/infer";
+     "ELUnsuperSegmentation/raw_pred" -> "ELUnsuperSegmentation/filter";
+     "ELUnsuperSegmentation/tagged_polygons" -> "ELUnsuperSegmentation/view_tagger";
+     "ELUnsuperSegmentation/tagged_views" -> "ELUnsuperSegmentation/trainer";
+     "ELUnsuperSegmentation/trainer" -> "ELUnsuperSegmentation/model";
+     "ELUnsuperSegmentation/trainer.args" -> "ELUnsuperSegmentation/trainer";
+     "ELUnsuperSegmentation/trainer.conf" -> "ELUnsuperSegmentation/trainer.args";
+     "ELUnsuperSegmentation/truth" -> "ELUnsuperSegmentation/trainer";
+     "ELUnsuperSegmentation/view_tagger" -> "ELUnsuperSegmentation/tagged_views";
+     "ELUnsuperSegmentation/views" -> "ELUnsuperSegmentation/infer";
+     "ELUnsuperSegmentation/views" -> "ELUnsuperSegmentation/view_tagger"
+   
+   }
+
+
+Gauge Tool
+=================================================
+
+Gauge Tool.
+
+.. graphviz::
+
+   digraph "OnlyTool: Gauge" {
+     label="OnlyTool: Gauge";
+     rankdir="TB";
+   
+     node [shape=ellipse, style=filled, color=blue, fillcolor=lightblue]; // Operator style
+     "Gauge/infer"
+   
+     node [shape=ellipse, style=filled, color=red, fillcolor=pink]; // Configurator style
+     "Gauge/infer.conf"
+   
+     node [shape=rect, style=filled, color=blue, fillcolor=lightblue]; // Property style
+     
+   
+     node [shape=point, style=filled, color=blue, fillcolor=lightblue]; // SingleVirtualInput property style
+     "Gauge/image";
+     "Gauge/views"
+   
+     node [shape=invtriangle, style=filled, color=blue, fillcolor=lightblue]; // MultiVirtualInput property style
+     
+   
+     node [shape=rect, style=dashed, color=blue, fillcolor=default]; // Output property style
+     "Gauge/pred"
+   
+     node [shape=rect, style=filled, color=red, fillcolor=pink]; // Parameter style
+     "Gauge/infer.args"
+   
+     node [shape=point, style=filled, color=red, fillcolor=pink]; // SingleVirtualInput parameter style
+     
+   
+     node [shape=invtriangle, style=filled, color=red, fillcolor=pink]; // MultiVirtualInput parameter style
+     
+   
+     node [shape=rect, style=dashed, color=red, fillcolor=default]; // Output parameter style
+     
+   
+     
+     subgraph "cluster_Gauge" {
+       label="Gauge";
+       "Gauge/infer" [label="id: Gauge/infer\ltype: visionflow::opers::GaugeInfer\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Gauge tool inference operator.\l"];
+       "Gauge/infer.args" [label="id: Gauge/infer.args\ltype: visionflow::param::GaugeParameters\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Parameter for gauge tool.\l"];
+       "Gauge/infer.conf" [label="id: Gauge/infer.conf\ltype: visionflow::confs::GaugeInferConf\lupdate: 1970-01-01 00:00:00.0000000\ldocs: Configurator to set Gauge tool \lparameters.\l"];
+       "Gauge/pred" [label="id: Gauge/pred\ltype: visionflow::props::GaugeRegionList\lupdate: 1970-01-01 00:00:00.0000000\ldocs: List structure to manage polygon \lregions.\l"]
+     }
+   
+     "Gauge/image" -> "Gauge/infer";
+     "Gauge/infer" -> "Gauge/pred";
+     "Gauge/infer.args" -> "Gauge/infer";
+     "Gauge/infer.conf" -> "Gauge/infer.args";
+     "Gauge/views" -> "Gauge/infer"
+   
+   }
+
+

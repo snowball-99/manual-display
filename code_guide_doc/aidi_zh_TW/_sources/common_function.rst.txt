@@ -1,0 +1,52 @@
+List of commonly used functions
+#####################################
+
+How to obtain the inference results of a specified tool?
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- Obtain the inference results of segmentation, detection, unsupervised segmentation, and unsupervised classification tools (PolygonRegionList)
+    - ``regionlist=sample.get(vf.ToolNodeId("{fill in tool name here}/pred"))``
+- Obtain the inference results of the location tool
+    - PolygonRegionList: ``region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred.keypoints"))``
+    - Template result (PolygonRegionList): ``regionlist=sample.get(vf.ToolNodeId("{fill in tool name here}/pred. objects"))``
+- Obtain the inference results of assembly verification tool
+    - PolygonRegionList: ``region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred.keypoints"))``
+    - Template result (PolygonWithStringMapRegionList): ``str'region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred. objects"))``
+- Obtain OCR tool inference results
+    - PolygonRegionList: ``region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred.characters")``
+    - Template result (PolygonRegionList): ``region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred.strings")``
+- Obtain the inference results of the classification tool (MultiNamesPolygonRegionList):
+    - ``multi_name_region_list=sample.get(vf.ToolNodeId("{fill in tool name here}/pred"))``
+- How to obtain the corresponding attributes of the inference result area? PolygonRegion (forming PolygonRegionList)
+    - Class Name: ``region.name()``
+    - Area: ``region.area()``
+    - Long Side: ``region.polygon().min_area_box().long_side()``
+    - Short Edge: ``region.polygon().min_area_box().short_side()``
+    - Score: ``region.score()``
+    - Angle: ``region.angle()``
+- MultiNamesPolygonRegion (forming the MultiNamesPolygonRegionList)
+    - Supports all supported retrieval functions for ``PolygonRegion``
+    - Score: ``region. name_scores()->dict<string, float>``
+
+How to obtain image region related attributes?
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+- Regional mean
+    - The image computing library provides a ``mean (img:vf.Image, polys:vf.MultiPolygon2f, channel:int)->double`` interface, which can obtain the average grayscale values of multiple regions in a certain channel on an image. The channel defaults to -1, which means calculating the mean of all channels
+- Regional contrast
+    -The image computing library provides a ``contrast(img:vf.Image, polys:vf.MultiPolygon2f)->double`` interface, which can obtain the average contrast of multiple regions on a certain image
+- Obtain data related to the original image
+    - original image: ``original_image = sample.get(vf.ToolNodeId("Input/image"))``
+    - raw image info: ``image_info = sample.get(vf.ToolNodeId("Input/image_info"))``
+
+
+Common geometric library calculations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+- Calculate the center point of the region: ``geo.center(region.polygon())``
+- Calculate the centroid of a region: ``geo.centroid(region.polygon())``
+- Get the minimum bounding rectangle for region: ``region.polygon().min_area_box()``
+- Calculate the overlap rate of two regions: ``geo.iou(region_1.polygon(), region_2.polygon())``
+- Coordinate transformation: ``geo.transform(region.polygon().to_ring()), view_ori_matrix))``， Where view_roi_matrix is the transformation matrix for converting the view coordinate system to the original graph coordinate system
+
+
+

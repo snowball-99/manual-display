@@ -1,0 +1,8 @@
+Tools
+=====
+
+.. doxygenstruct:: visionflow::graph::ToolMeta
+   :members:
+
+.. doxygenclass:: visionflow::graph::ToolFactory
+   :members:

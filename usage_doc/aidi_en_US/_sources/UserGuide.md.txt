@@ -1,0 +1,117 @@
+# Optimal Performance Guidelines
+
+  The actual running speed of AIDI is closely related to the driver settings, deployment environment (hardware environment), and software settings of Nvidia GPU. <br>The following suggestions are given for this:
+
+  1. Pay attention to heat dissipation; <br>The Nvidia driver sets a temperature wall of 85 degrees to protect the graphics card. <br>If the graphics card temperature exceeds 85 degrees, Nvidia will automatically reduce computational performance, resulting in slower inference speed; <br>For example, AIDI smart cameras do not have active cooling function and require users to add external cooling components, otherwise the inference speed will slow down after running for a period of time; <br>For example, if the deployment environment is relatively enclosed, due to heat dissipation issues, the inference speed will also slow down                                         
+  2. System power settings (details can be found below); <br>High performance mode needs to be enabled, otherwise there will be significant fluctuations in inference speed                     
+  3. Nvidia driver settings (details can be found below); <br>This setting is beneficial for reducing speed fluctuations and improving inference speed                              
+  4. The size of the inference batch affects the inference speed; <br>The larger the batch size for high-speed inference, the faster the inference speed of the model body (GPU function processing part). <br>However, AIDI's forward image processing and backward processing are all on the CPU, and AIDI does not consider parallel processing of multiple batch sizes for forward or backward processing.<br> Therefore, as the batch size increases, in most cases, the speed improvement is not significant.                                   
+  5. In actual deployment scenarios or when testing speed, use the high-speed inference mode; <br>Extreme reasoning mode is generally more than twice as fast as fast start (excluding Locate modules)
+
+## System power settings
+
+Set the power to high-performance mode
+
+![Alt text](./image/syzn/dysz.png)
+
+
+## Nvidia driver settings
+
+GPU power mode
+
+![Alt text](./image/syzn/qdsz.png)
+
+## Low latency mode
+
+Nvidia control panel ->low latency mode ->ultra-high
+
+![Alt text](./image/syzn/dsy.png)
+
+## Lock graphics card frequency
+
+Please note that this setting needs to be reset after shutdown, and it needs to be set every time the device is turned on                     
+-Setting method 1:                 
+
+Method 1: Search for gpu_set_gpu_mem_clock.bat in the installation directory and run it with administrator privileges
+
+![](./image/syzn/xkpl.png)
+                  
+
+-Setting method 2:    
+Method 2: If not found, you can generate a setup script by following these steps  
+
+① Create a new txt file and copy the following code into the newly created txt file  
+
+![Alt text](./image/syzn/txt.png)
+
+
+② Change the txt suffix to bat   
+
+![Alt text](./image/syzn/bat.png)
+
+③ Run with administrator privileges                    
+  If you want to simplify the operation, you can set the startup and self start in Windows (see the appendix for how to set the startup and self start)
+
+        @echo off
+        %1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
+    
+        Set SuccessFindMaxClock=0
+        FOR /F "tokens=1,3"  %%i IN ('nvidia-smi -q -d SUPPORTED_CLOCKS') DO (
+            if "%%i" == "Memory" (
+                echo %%i %%j
+                Set ClockValue=%%j
+                Set SuccessFindMaxClock=1
+                GOTO SetClock
+            )
+        )
+    
+        :SetClock
+        echo SuccessFindMaxClock %SuccessFindMaxClock%
+        IF %SuccessFindMaxClock%==1 (
+            echo "nvidia-smi -lgc %ClockValue%,%ClockValue%"
+            nvidia-smi -lgc %ClockValue%,%ClockValue%
+            nvidia-smi -lmc %ClockValue%,%ClockValue%
+        ) else (
+            echo "Failed to find max clock."
+        )
+
+
+        pause
+
+
+## Enable calculation mode
+
+If the GPU graphics card is a Quadro or Tesla series graphics card, computing mode can be enabled to maximize the performance of the graphics card
+If it is a GeForce graphics card, there is no need to set it up
+
+        nvidia-smi -dm 1
+
+## Speed testing recommendations
+
+Due to the influence of current and temperature, Nvidia graphics cards experience increased speed fluctuations in the first few dozen images of a client. It is recommended to skip the first 100 images during secondary development testing of speed.
+
+
+## Extreme reasoning mode
+
+You can open the project through AIDI, then test parameters ->display advanced parameters ->inference mode ->high-speed inference
+
+![Alt text](image-421.png)
+
+## Appendix 
+
+### Windows script startup 
+
+1. Win+R input shell: startup, then press enter
+
+
+![Alt text](image-422.png)
+
+
+2. Copy the script to the file that appeared in the previous step
+
+![Alt text](image-423.png)
+
+
+3. Every time you start up, there will be a pop-up window. Click confirm
+
+![Alt text](image-424.png)

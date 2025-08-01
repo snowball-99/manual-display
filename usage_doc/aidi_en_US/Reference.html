@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reference &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Software Introduction" href="Moreintro.html" />
+    <link rel="prev" title="Secondary Development Guidelines" href="SecondaryDevelopment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">Introduction to AIDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">Secondary Development Guidelines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html">Software Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html">Introduction to Tool Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html">Optimal Performance Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shortcut.html">Shortcuts</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">Software Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#functional-layout">Functional layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#terminological-concepts">Terminological concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#engineering-management">Engineering management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#engineering-management-sample-case">Engineering management Sample Case</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#image-operation">Image operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#import-image">Import Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#data-export">Data export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#data-import">Data import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#annotations-between-different-modules-support-each-other">Annotations between different modules support each other</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#compatible-with-old-version-annotations">Compatible with old version annotations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#compatibility-instructions">Compatibility instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#operation-steps">Operation steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#third-party-annotation-import">Third party annotation import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#image-list-function">Image list function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#add-tools">Add tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#data-annotation">Data annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#brush-tools">Brush tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#polygon-drawing-tools">Polygon drawing tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#rectangle-drawing-tool">Rectangle drawing tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#single-point-drawing-tool">Single point drawing tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#attribute-system">Attribute system</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#annotation-mode">Annotation mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#defect-annotation-mode">Defect annotation mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#key-learning-area-drawing-mode">Key learning area drawing mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#not-learning-region-drawing-mode">Not learning region drawing mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#label-management">Label management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#annotation-filtering">Annotation filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#annotation-distribution">Annotation distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#tag-management">Tag management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#view-operations">View operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#view-filtering">View filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#view-transformation">View transformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#view-mask">View Mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#view-conversion-image-list-filter">View Conversion - Image List Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#add-training-set">Add training set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#automatic-partitioning-model-training-assistant">Automatic partitioning (model training assistant)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#data-partitioning">Data partitioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#training-set-recommendation">Training set recommendation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#manual-division">Manual division</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#training">Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#training-parameter">Training Parameter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#execute-training">Execute training</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#inference">Inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#inference-parameter">Inference Parameter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#execute-inference">Execute inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#evaluation-results">Evaluation results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#confusion-matrix">Confusion matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#category-overview">Category Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#model-details">Model details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#training-curve">Training Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#more">More</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#image-filtering">Image filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#filter">Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#sort">Sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#list-right-click-menu">List right-click menu</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#menu-bar">Menu bar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#version">Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#image">Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#training-inference">Training &amp; Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#model">Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#window">Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#help">Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#version-upgrade-tool">Version upgrade tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">Introduction to Tool Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-segment-tools">Using Segment Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-1-set-up-the-view">Step 1 : Set Up The View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-2-add-label-categories">Step 2 : Add Label Categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-label-the-defect-area">Step 3 : Label The Defect Area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-4-divide-the-training-set">Step 4 : Divide The Training Set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-5-adjust-training-parameters">Step 5 : Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-6-adjust-inference-parameters">Step 6 : Adjust inference parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-7-start-training-and-inference">Step 7 : Start training and inference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#training-process-curve">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#more">More</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-detect-tools">Using Detect tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id1">Step 1 : Set up the view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id2">Step 2 : Add label categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-label-the-detection-area">Step 3 : Label the detection area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id3">Step 4: Divide the training set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id4">Step 5 : Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id5"><strong>Step 6: Adjust inference parameters</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id6">Step 7: Start training and inference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id7">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id8">More</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-locate-tools">Using Locate tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-1-select-the-algorithm-type">Step 1: Select the algorithm type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-2-ai-location">Step 2: AI Location</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-1-ai-location-set-up-the-view">Step 2.1: AI Location-Set up the view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-2-ai-location-add-label-categories">Step 2.2: AI Location-Add label categories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-3-ai-location-label-the-detection-area">Step 2.3: AI Location-Label the detection area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#single-point-positioning">Single point positioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#set-template">Set template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-4-ai-location-divide-the-training-set">Step 2.4: AI Location-Divide the training set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-5-ai-location-adjust-training-parameters">Step 2.5: AI Location-Adjust training parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-6-ai-location-adjust-inference-parameters">Step 2.6: AI Location-Adjust inference parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-7-ai-location-start-training-and-inference">Step 2.7: AI Location-Start training and inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id9">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id10">More</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-geometry-search">Step 3: Geometry Search</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-1-geometry-search-set-up-the-view">Step 3.1: Geometry Search-Set up the view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-2-geometry-search-add-label-categories">Step 3.2: Geometry Search-Add label categories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-3-geometry-search-label-the-detection-area">Step 3.3: Geometry Search-Label the detection area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-4-geometry-search-divide-the-training-set">Step 3.4: Geometry Search-Divide the training set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-5-geometry-search-adjust-training-parameters">Step 3.5: Geometry Search-Adjust training parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-6-geometry-search-adjust-validation-parameter">Step 3.6: Geometry Search-Adjust Validation Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-7-geometry-search-start-training-and-inference">Step 3.7: Geometry Search-Start training and inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-assembly-verify-tools">Using Assembly Verify tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id11">Step 1: Set up the view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id12">Step 2: Add label categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id13">Step 3: Label the detection area</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id14">Single point positioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id15">Set template</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id16">Step 4: Divide the training set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id17">Step 5: Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id18">Step 6: Adjust inference parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id19">Step 7: Start training and inference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id20">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id21">More</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-ocr-tools">Using OCR tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id22">Step 1: Set up the view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-2-adjust-the-character-standard-box">Step 2: Adjust the character standard box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-direct-inference">Step 3: Direct inference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#manual-annotation-it-is-recommended-to-enable-pending-tags-to-quickly-annotate-a-string-of-characters">Manual annotation [It is recommended to enable pending tags to quickly annotate a string of characters]</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#universal-model">Universal <strong>model</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id23">Set template</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id24">Step 4: Divide the training set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id25">Step 5: Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id26">Step 6: Adjust inference parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-7-start-training-and-inferences">Step 7: Start training and inferences</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id27">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id28">More</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#ocr-confusion-matrix">OCR confusion matrix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-anomaly-segment-tools">Using Anomaly Segment tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-1-select-unsupersegment-algorithm-type">Step 1 ：Select UnsuperSegment Algorithm Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-2-dlunsupersegment">Step 2: DLUnsuperSegment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-1-dlunsupersegment-set-up-the-view">Step 2.1: DLUnsuperSegment-Set up the view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-2-dlunsupersegment-save-the-ok-image">Step 2.2: DLUnsuperSegment-Save the OK image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-3-dlunsupersegment-label-defective-images-as-the-test-set">Step 2.3: DLUnsuperSegment-Label defective images as the test set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-4-dlunsupersegment-divide-the-training-set">Step 2.4: DLUnsuperSegment-Divide the training set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-5-dlunsupersegment-adjust-training-parameters">Step 2.5: DLUnsuperSegment-Adjust training parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-6-dlunsupersegment-adjust-inference-parameters">Step 2.6: DLUnsuperSegment-Adjust inference parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-7-dlunsupersegment-start-training-and-inference">Step 2.7: DLUnsuperSegment-Start training and inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id29">Training process curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id30">More</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-2-8-dlunsupersegment-adjust-the-detection-threshold-based-on-the-score-distribution-map">Step 2.8: DLUnsuperSegment-Adjust the detection threshold based on the score distribution map</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-elunsupersegment">Step 3: ELUnsuperSegment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-1-elunsupersegment-set-up-the-view">Step 3.1: ELUnsuperSegment-Set up the view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-2-elunsupersegment-save-the-ok-image">Step 3.2: ELUnsuperSegment-Save the OK image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-3-elunsupersegment-divide-the-training-set">Step 3.3: ELUnsuperSegment-Divide the training set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-4-elunsupersegment-adjust-train-parameter">Step 3.4: ELUnsuperSegment-Adjust Train Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#step-3-5-elunsupersegment-adjust-validation-parameter">Step 3.5: ELUnsuperSegment-Adjust Validation Parameter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#alt-text"></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-classify-tools">Using Classify tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id31">Step 1: Set up the view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id32">Step 2: Add label categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id33">Step 3: Label the detection area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id34">Step 4: Divide the training set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id35">Step 5: Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id36">Step 6: Adjust inference parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id37">Step 7: Start training and inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-anomaly-classify-tools">Using Anomaly Classify tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id38">Step 1: Set up the view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-2-label-the-detection-area">Step 2: Label the detection area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-3-divide-the-training-set">Step 3: Divide the training set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-4-adjust-training-parameters">Step 4: Adjust training parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-5-adjust-inference-parameters">Step 5: Adjust inference parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-6-start-training-and-inference">Step 6: Start training and inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#step-7-adjust-the-detection-threshold-based-on-the-score-distribution-map">Step 7: Adjust the detection threshold based on the score distribution map</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-factory-mode">Using Factory Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#applicable-scenarios">Applicable scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#operation-process">Operation process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#using-regional-calculation-tools">Using Regional Calculation tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#application-scenarios">Application scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#application-of-region-modeling-tool">Application of Region Modeling Tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#application-scenario">Application Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#operation-steps">Operation Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">Optimal Performance Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#system-power-settings">System power settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#nvidia-driver-settings">Nvidia driver settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#low-latency-mode">Low latency mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#lock-graphics-card-frequency">Lock graphics card frequency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#enable-calculation-mode">Enable calculation mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#speed-testing-recommendations">Speed testing recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#extreme-reasoning-mode">Extreme reasoning mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#appendix">Appendix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="UserGuide.html#windows-script-startup">Windows script startup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">Shortcuts</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SecondaryDevelopment.html" class="btn btn-neutral float-left" title="Secondary Development Guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Moreintro.html" class="btn btn-neutral float-right" title="Software Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

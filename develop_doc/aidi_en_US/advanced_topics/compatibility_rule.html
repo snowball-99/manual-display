@@ -1,0 +1,396 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="图片绘制几何图形和文字" href="image_draw.html" /><link rel="prev" title="训练进度回调" href="training_callback.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>版本兼容性与自动升级 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">更多细节</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>版本兼容性与自动升级<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<section id="id2">
+<h2>兼容性记录和查询<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>VisionFlow 将与旧版本的兼容性区分为以下6个等级：</p>
+<ul class="simple">
+<li><p>L1-效果级完全兼容：即对用户的使用完全或几乎没有负面影响；</p></li>
+<li><p>L2-数据级完全兼容：数据上没有不兼容之处，但具体指标表现、算法效果等方面可能存在影响；</p></li>
+<li><p>L3-数据级逻辑自动兼容：新版本的库可以无需做任何工作即可打开旧版本的数据，但打开后不能
+再退回使用旧版本的库；</p></li>
+<li><p>L4-数据级升级自动兼容：通过提供的专用的升级逻辑对旧版本的数据后，可以使用新版本的库打开；
+升级一定意味着功能发生了变化，一定意味着对原有功能的或多或少的破坏；每一个升级自动兼容
+一定对应一段特定的自动升级逻辑，自动升级逻辑会有意对原有的数据进行必要的修改，无论该数据
+是否实际使用到了。</p></li>
+<li><p>L5-不兼容：新版本的库不再兼容该旧版本的工程（但你仍有可能通过导出数据再导入到新的工程中的形式
+复用旧工程中的数据。</p></li>
+<li><p>L6-不可识别：该版本的库已经完全不支持对应的数据版本，完全无法识别；这种情况仅发生在某个库
+版本中没有关于被打开的数据版本的兼容性记录时；</p></li>
+</ul>
+<p>此外，为了降低单一工具功能发生更改时对不同用户的影响，我们也会在每个版本详细记录和区分不同工具
+的兼容性，从而避免用户没有使用到的工具的变化对用户造成不兼容影响。</p>
+<p>VisionFlow提供了多种方式查询兼容信息：</p>
+<ol class="arabic simple">
+<li><p>你可以查阅文档中附带的 <a class="reference internal" href="../auto_docs/compatibility.html"><span class="doc">版本兼容性</span></a> 了解当前版本的库与
+旧版本库创建的工程的兼容性关系；</p></li>
+<li><p>你可以找到 VisionFlow 库中附带的命令行工具并执行 <cite>visionflow.exe compatibility</cite> 来查看各个
+历史版本之间的兼容性关系；</p></li>
+<li><p>你可以找到 VisionFlow 库中附带的命令行工具并执行 <cite>visionflow.exe compatible &lt;project_path.vlow&gt;</cite>
+来查看某个具体的工程与当前库版本之间的兼容性关系及升级路径；</p></li>
+<li><p>你可以通过 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7ProjectE" title="visionflow::Project"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Project</span></code></a> 中兼容性相关的接口获取某个具体工程与当前库版本
+的兼容性等级和兼容性信息，具体请查看相关接口；</p></li>
+<li><p>你还可以通过调用 <a class="reference internal" href="../cpp_api/compatible.html"><span class="doc">Compatibility</span></a> 列出的接口获得任意工程无关或有关
+（需要给出工程中包含的工具的信息）的兼容性信息。</p></li>
+</ol>
+</section>
+<section id="id3">
+<h2>自动升级<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>对于兼容性等级在 <strong>L4</strong> 及以上的工程，必须要先进行升级才能打开。虽然VisionFlow的每一个版本都只能能够将
+前一个或有限个版本的工程直接自动升级上来， 但一般情况下，VisionFlow都支持对工程进行链式升级，例如，您当前的
+工程是由 <cite>V1</cite> 的库创建的, 你想升级到 <cite>V3</cite> 的库，但是 <cite>V3</cite> 可能只支持从 <cite>V2</cite> 升级上来，这时，你可以先
+下载 <cite>V2</cite> 版本的库，并将工程先升级到 <cite>V2</cite> 版本，在使用 <cite>V3</cite> 版本的库将工程升级到 <cite>V3</cite> 。</p>
+<p>同样的你可以通过接口 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project11UpgradePathERK17ProjectDescriptor" title="visionflow::Project::UpgradePath"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::UpgradePath()</span></code></a> 或者执行命令行工具
+<cite>visionflow.exe compatible &lt;project_path.vlow&gt;</cite> 查询某个工程到当前库的版本的升级路径，并根据返回的路径，
+依次下载升级路径上的每一个库版本对工程进行升级。</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="image_draw.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">图片绘制几何图形和文字</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="training_callback.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">训练进度回调</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">版本兼容性与自动升级</a><ul>
+<li><a class="reference internal" href="#id2">兼容性记录和查询</a></li>
+<li><a class="reference internal" href="#id3">自动升级</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

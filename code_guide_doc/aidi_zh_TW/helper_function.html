@@ -1,0 +1,546 @@
+<!doctype html>
+<html class="no-js" lang="zh-TW" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜尋" href="search.html" /><link rel="next" title="常用函數清單" href="common_function.html" /><link rel="prev" title="區域計算腳本編輯指南" href="code_introduction/region_calculation.html" />
+
+    <!-- Generated with Sphinx 6.2.1 and Furo 2023.09.10 -->
+        <title>内建函數範本使用說明 - AIDI Script Editing Guidance</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=369552022d0b975c8e74270ce6eabe0fb7978f24" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">AIDI Script Editing Guidance</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/aidi-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">AIDI Script Editing Guidance</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜尋" name="q" aria-label="搜尋">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_start.html">腳本編輯器入門指南</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="code_introduction/index.html">程式碼編輯指南</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 程式碼編輯指南</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/intergration_classify.html">綜合判定腳本編輯指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/view_transform.html">視圖轉換腳本編輯指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/region_calculation.html">區域計算腳本編輯指南</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">内建函數範本使用說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common_function.html">常用函數清單</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cpp_api/index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/excepts.html">Exception Handling</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div><script>
+    // Execute when the page is loaded.
+    window.onload = function () {
+        // Get the URL of the current directory.
+        var currentDirectory = window.location.pathname;
+
+        // Original language set.
+        var langs = ["en_US", "zh_CN", "zh_TW"]
+        var origin_lang;
+
+        for (var i = 0; i < langs.length; i++) {
+            var lang = langs[i];
+            if (currentDirectory.includes(lang + '/')) {
+                origin_lang = lang;
+                break
+            }
+        }
+
+        // Find all links with 'dynamic-link' class.
+        var links = document.querySelectorAll('.dynamic-link');
+
+        // Updating the 'href' attribute of each link.
+        links.forEach(function (link) {
+            var target_lang = link.getAttribute('data-lang');
+            link.href = currentDirectory.replace(origin_lang + '/', target_lang + '/');
+        });
+    };
+</script>
+
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <div class="rst-other-versions">
+        
+        <dl>
+            <dt>Languages</dt>
+            
+            <dd><a class="dynamic-link" data-lang="en_US">en_US</a></dd>
+            
+            <dd><a class="dynamic-link" data-lang="zh_CN">zh_CN</a></dd>
+            
+            <dd><a class="dynamic-link" data-lang="zh_TW">zh_TW</a></dd>
+            
+        </dl>
+        
+        <br>
+        </dl>
+    </div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="instructions-for-built-in-function-templates">
+<h1>内建函數範本使用說明<a class="headerlink" href="#instructions-for-built-in-function-templates" title="本標頭的永久連結">#</a></h1>
+<section id="region-partitioning-function-split-poly">
+<h2>區域分割函數Split Poly<a class="headerlink" href="#region-partitioning-function-split-poly" title="本標頭的永久連結">#</a></h2>
+<section id="definition-of-details">
+<h3>細節定義<a class="headerlink" href="#definition-of-details" title="本標頭的永久連結">#</a></h3>
+<ul class="simple">
+<li><p>功能：將多個多邊形切割成指定大小的切片，通常用於視圖轉換腳本中，生成統一大小的視圖，以便後續算法工具實現輸入大小的正規化。</p></li>
+<li><dl class="simple">
+<dt>輸入：</dt><dd><ul>
+<li><p>polys：目標切分的多邊形</p></li>
+<li><p>tg_width:目標切塊寬度</p></li>
+<li><p>tg_height:目標切塊高度</p></li>
+<li><p>image_width=0:原始圖片寬度</p></li>
+<li><p>image_height=0:原始圖片高度</p></li>
+<li><p>overlap_width=0:目標切塊之間的橫向間隔，默認為0</p></li>
+<li><p>overlap_height=0:目標切塊之間的縱向間隔，默認為0</p></li>
+<li><p>discard_out_range=False:是否捨棄超出部分，如果為False則會使用掩膜填充超出部分區域，默認為False</p></li>
+<li><p>is_segment_mode=False:前序模塊是否為分割模塊，如果為True則會根據最小外接矩形自行計算角度並歸一化，最後角度範圍在（-90,90]</p></li>
+<li><p>enable_auto_mask=False:是否啟用自動掩膜，如果為True則會在每個目標切塊中繪製對應缺陷形狀的掩膜</p></li>
+<li><p>erode_dilate_value=0:自動掩膜腐蝕膨脹參數，大於0代表膨脹，小於0代表腐蝕，默認為0</p></li>
+<li><p>reverse_mask=False:是否反選自動掩膜，如果啟用自動掩膜時這一參數為False，則會將掩膜反選</p></li>
+<li><p>with_angle=False:是否根據多邊形角度切塊，默認為False</p></li>
+<li><p>iou_thres=0.8:切塊之間去重閾值，當兩個切塊交疊率大於此閾值時僅保留一個</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>輸出：</dt><dd><ul>
+<li><p>view_list：視圖清單</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>有關詳細的使用場景，請參閱文件中的 <a class="reference internal" href="code_introduction/view_transform.html"><span class="doc">視圖轉換腳本編輯指南</span></a> 章節中的基本範例部份：視圖轉換腳本編輯指南</p></li>
+</ul>
+</section>
+</section>
+<section id="relative-grayscale-measurement-function">
+<h2>相對灰度測量函數Relative Grayscale<a class="headerlink" href="#relative-grayscale-measurement-function" title="本標頭的永久連結">#</a></h2>
+<img alt="_images/cs_help_relative_grayscale_description.png" src="_images/cs_help_relative_grayscale_description.png" />
+</section>
+<section id="weld-bead-width-measurement-function">
+<h2>焊道寬度量測函數Bead Width<a class="headerlink" href="#weld-bead-width-measurement-function" title="本標頭的永久連結">#</a></h2>
+<section id="measurement-instructions">
+<h3>量測說明<a class="headerlink" href="#measurement-instructions" title="本標頭的永久連結">#</a></h3>
+<p>使用線段組來定義量測位置，用一組線段來表示量測位置，如下圖所示。紅色線段表示量測位置，使用封閉形狀的交點之間的距離作為測量的寬度。測量每個區域，測量的值為該區域內所有量測位置的最大值和最小值，如果某個區域没有定義的量測位置，則其最大寬度將輸出為-1。</p>
+<img alt="_images/cs_help_measurement_instructions.png" src="_images/cs_help_measurement_instructions.png" />
+</section>
+<section id="id1">
+<h3>細節定義<a class="headerlink" href="#id1" title="本標頭的永久連結">#</a></h3>
+<ul>
+<li><p>輸入：AI分割結果（<code class="docutils literal notranslate"><span class="pre">MultiPolygon2f</span></code>），以及所需量測的位置（<code class="docutils literal notranslate"><span class="pre">MultiSegment2f</span></code>）</p></li>
+<li><p>輸出：所有量測位置的最大寬度值和最小寬度值</p></li>
+<li><p>寬度定義的詳細資訊:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>寬度定義：線段與多邊形交點之間的距離（正常情况，如下圖中的綠色所示）</p></li>
+<li><p>線段與多邊形無交點：忽略此量測位置（如下圖中的紅色虛線所示）</p></li>
+<li><p>當線段與同一多邊形有奇數個交點時：忽略此量測位置（如下圖中的紅色實線所示）</p></li>
+<li><p>當線段與多邊形有超過兩個交點時：返回最外側兩個點之間的距離作為寬度，或忽略（暫時選擇忽略）（這種方法仍然存在失敗的情況，如下圖中的紫色部分，仍然存在錯誤）</p></li>
+<li><p>在計算線段與多邊形的交點時，只考慮多邊形的外環</p></li>
+<li><p>當存在 N 個交點時，忽略此量測位置，因為無法區分是否正常</p></li>
+<li><p>總結而言，僅保留線段與多邊形之間存在兩個交點的情況，且線段的兩端均位於多邊形外部的場景。</p></li>
+<li><p>在下圖中，只有綠色線段的位置量測是有效的。</p></li>
+</ul>
+<img alt="_images/cs_help_effective_measurement.png" src="_images/cs_help_effective_measurement.png" />
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="example-code">
+<h3>範例程式碼<a class="headerlink" href="#example-code" title="本標頭的永久連結">#</a></h3>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The region_list segmentation model segments the weld bead area, which can be obtained by referring to the following section: doc: &#39;Comprehensive Judgment Script Editing Guide&lt;integration_classify&gt;&#39;</span>
+<span class="n">region_list</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># measure_segs represents the measurement position of the weld bead. If the measurement position is fixed, the measurement position can be directly defined in this script (as currently defined, three measurement positions are defined). If each image is different, it should be passed in as a parameter</span>
+<span class="n">measure_segs</span> <span class="o">=</span> <span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">LineString2f</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">464</span><span class="p">,</span> <span class="mi">461</span><span class="p">),</span> <span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">464</span><span class="p">,</span> <span class="mi">651</span><span class="p">)),</span>
+                <span class="n">geo</span><span class="o">.</span><span class="n">LineString2f</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">757</span><span class="p">,</span> <span class="mi">441</span><span class="p">),</span> <span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">788</span><span class="p">,</span> <span class="mi">852</span><span class="p">)),</span>
+                <span class="n">geo</span><span class="o">.</span><span class="n">LineString2f</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">821</span><span class="p">,</span> <span class="mi">527</span><span class="p">),</span> <span class="n">geo</span><span class="o">.</span><span class="n">Point2f</span><span class="p">(</span><span class="mi">887</span><span class="p">,</span> <span class="mi">852</span><span class="p">))]</span>
+
+<span class="k">def</span> <span class="nf">pass_func</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="n">min_width</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine whether the maximum and minimum widths of the weld bead width are NG</span>
+<span class="sd">    : param max_width: The maximum width of the weld bead, which is the effective width when it is a positive number, and -1 indicates that the width measurement result is invalid</span>
+<span class="sd">    : param min_width: The minimum width of the weld bead</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+    <span class="c1"># Please define the judgment criteria based on your needs here</span>
+    <span class="k">return</span> <span class="n">max_width</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">min_width</span> <span class="o">&lt;</span> <span class="mi">300</span>
+
+
+<span class="c1">#Measure_segs is a group of decision line segments passed in by the user</span>
+<span class="c1">#TODO pass_func -&gt;bool, a user-defined judgment function that determines whether the current weld bead is qualified</span>
+<span class="k">def</span> <span class="nf">measure_weld</span><span class="p">(</span><span class="n">region_list</span><span class="p">,</span> <span class="n">measure_segs</span><span class="p">,</span> <span class="n">pass_func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    measure weld region width(max_width and min_width) at measure_segs positino</span>
+<span class="sd">    : param regionlist: The weld bead area inferred by AI, only considering the outer ring of the weld bead during measurement</span>
+<span class="sd">    : param measures_segs: represents the group of line segments that need to be measured, list (LineString2f), each line segment (represented by LineString2f) represents a measurement position, and each line segment can only contain two points</span>
+<span class="sd">    : param pass_fun: Determination function for weld bead width</span>
+<span class="sd">    : return: The maximum and minimum values of the weld bead width in all regions are represented as follows: [(max, min), (max, min),...], with a list length equal to regions_list. For each weld bead area, the maximum width is -1 if a measurement area fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">region_list</span><span class="p">:</span>
+        <span class="n">ring</span> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">polygon</span><span class="p">()</span><span class="o">.</span><span class="n">outer</span>
+        <span class="n">min_width</span><span class="p">,</span> <span class="n">max_width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">measure_segs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># assert(len(seg) == 2, &#39;Each measure segment line must only have 2 points&#39;)</span>
+            <span class="n">insects</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span> <span class="n">seg</span><span class="p">)</span>
+            <span class="c1"># There can only be two intersections</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">insects</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1"># Both points need to be outside the area</span>
+                <span class="k">if</span> <span class="n">geo</span><span class="o">.</span><span class="n">covered_by</span><span class="p">(</span><span class="n">seg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ring</span><span class="p">)</span> <span class="ow">or</span> <span class="n">geo</span><span class="o">.</span><span class="n">covered_by</span><span class="p">(</span><span class="n">seg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ring</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">insects</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">insects</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">max_width</span><span class="p">,</span> <span class="n">min_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="n">dist</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_width</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">max_width</span><span class="p">,</span> <span class="n">min_width</span><span class="p">))</span>
+
+    <span class="c1"># Call your judgment rule to determine if the width is OK</span>
+    <span class="k">for</span> <span class="n">max_w</span><span class="p">,</span> <span class="n">min_w</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pass_func</span><span class="p">(</span><span class="n">max_w</span><span class="p">,</span> <span class="n">min_w</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="region-deduplication-function-nms-by-center-distance">
+<h2>區域去重函數Nms By Center Distance<a class="headerlink" href="#region-deduplication-function-nms-by-center-distance" title="本標頭的永久連結">#</a></h2>
+<section id="id2">
+<h3>細節定義<a class="headerlink" href="#id2" title="本標頭的永久連結">#</a></h3>
+<ul class="simple">
+<li><p>功能：通過區域中心距離完成區域的去重，兩個區域中心距離小於center_dis時僅保留其中一個。</p></li>
+<li><dl class="simple">
+<dt>輸入：</dt><dd><ul>
+<li><p>polys：目標切分的多邊形</p></li>
+<li><p>center_dis：兩個區域中心的距離</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>輸出：</dt><dd><ul>
+<li><p>ply_region_list：區域清單</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h3>範例程式碼<a class="headerlink" href="#id3" title="本標頭的永久連結">#</a></h3>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nms_by_center_dis</span><span class="p">(</span><span class="n">region_list</span><span class="p">,</span> <span class="n">center_dis</span><span class="p">):</span>
+    <span class="n">copy_region_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">region_list</span><span class="p">:</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">polygon</span><span class="p">())</span>
+        <span class="n">copy_region_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">score</span><span class="p">()),</span> <span class="n">region</span><span class="p">))</span>
+    <span class="n">copy_region_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">copy_region_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">region_id_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">center_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">region_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">region_score</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">copy_region_list</span><span class="p">:</span>
+        <span class="n">region_id_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">region_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+        <span class="n">region_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">score</span><span class="p">())</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">polygon</span><span class="p">())</span>
+        <span class="n">center_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">ply_region_list</span> <span class="o">=</span> <span class="n">vf</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">PolygonRegionList</span><span class="p">()</span>
+    <span class="n">center_list_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">center_list</span><span class="p">)</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">center_list_arr</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_list_arr</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">keep_id_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">region_id_list</span><span class="p">)):</span>
+        <span class="n">keep_i</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">keep_id</span> <span class="ow">in</span> <span class="n">keep_id_list</span><span class="p">:</span>
+            <span class="c1"># If the center distance is less than center-dis, it is considered overlapping</span>
+            <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">keep_id</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">center_dis</span><span class="p">:</span>
+                <span class="n">keep_i</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">keep_i</span><span class="p">:</span>
+            <span class="n">ply_region_list</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">region_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">keep_id_list</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ply_region_list</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="common_function.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">常用函數清單</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="code_introduction/region_calculation.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">區域計算腳本編輯指南</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2024, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">内建函數範本使用說明</a><ul>
+<li><a class="reference internal" href="#region-partitioning-function-split-poly">區域分割函數Split Poly</a><ul>
+<li><a class="reference internal" href="#definition-of-details">細節定義</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#relative-grayscale-measurement-function">相對灰度測量函數Relative Grayscale</a></li>
+<li><a class="reference internal" href="#weld-bead-width-measurement-function">焊道寬度量測函數Bead Width</a><ul>
+<li><a class="reference internal" href="#measurement-instructions">量測說明</a></li>
+<li><a class="reference internal" href="#id1">細節定義</a></li>
+<li><a class="reference internal" href="#example-code">範例程式碼</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#region-deduplication-function-nms-by-center-distance">區域去重函數Nms By Center Distance</a><ul>
+<li><a class="reference internal" href="#id2">細節定義</a></li>
+<li><a class="reference internal" href="#id3">範例程式碼</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/tabs.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>

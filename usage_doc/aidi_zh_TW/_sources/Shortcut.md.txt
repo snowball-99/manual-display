@@ -1,0 +1,9 @@
+# 快捷方式
+
+入口：幫助-快捷鍵提示  
+
+![Alt text](image-425.png)
+
+![Alt text](image-426.png)
+
+![Alt text](image-427.png)

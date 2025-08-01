@@ -1,0 +1,990 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="设置参数及训练模型" href="config.html" /><link rel="prev" title="数据集" href="dataset.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>通过数据集管理工程数据 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>通过数据集管理工程数据<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>在VisionFlow中, 数据被分成: <a class="reference internal" href="../core_concepts.html#term-Parameter"><span class="xref std std-term">Parameter</span></a> 参数和 <a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a> 属性两种类型。本节会通过一些例子详细介绍如何访问、更新 <strong>property</strong> 属性类型的数据。</p>
+<p>所有的属性数据 <strong>property</strong> 都被保存在数据库中并被组织成 <strong>SampleSet</strong> 数据集这种数据结构，通过高层接口的抽象隐藏了底层实现细节提升易用性。</p>
+<section id="sampleset-sample">
+<h2>通过数据集 <a class="reference internal" href="../core_concepts.html#term-SampleSet"><span class="xref std std-term">SampleSet</span></a> 获取数据 <a class="reference internal" href="../core_concepts.html#term-Sample"><span class="xref std std-term">Sample</span></a><a class="headerlink" href="#sampleset-sample" title="Link to this heading">#</a></h2>
+<p>样本集是以样本id和样本数据作为键值对组成的容器。样本集中包含什么样的属性类型是由工程(里的计算流程图)决定的。</p>
+<p>样本是以属性节点id(<strong>ToolNodeId</strong>)和属性数据作为键值对组成的容器。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>样本集包含了访问数据库的句柄，在析构样本集对象时数据库的引用计数会减一。</p>
+</div>
+<p>上面提到了样本集里的属性类型是由工程决定的，以下列出 <strong>Project</strong> 中会影响样本集包含何种属性的接口：</p>
+<blockquote>
+<div><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project8add_toolERKNSt6stringERKNSt6stringE" title="visionflow::Project::add_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::add_tool()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project11remove_toolERKNSt6stringEb" title="visionflow::Project::remove_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::remove_tool()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project9copy_toolERKNSt6stringERKNSt6stringERKN5graph15CopyToolOptionsE" title="visionflow::Project::copy_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project15copy_tool_groupERKNSt3setINSt6stringEEERKN5graph15CopyToolOptionsE" title="visionflow::Project::copy_tool_group"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool_group()</span></code></a></p>
+</div></blockquote>
+<p>这四个接口都会影响工程中的计算流程图的结构，所有每次调用这些接口都会改变样本集中包含的属性。</p>
+<p>例如，给工程添加一个工具会将这个工具内部包含的属性节点添加到样本集中作为占位符(同时也会加入到数据库中)。</p>
+<section id="lazysamplesample">
+<h3>LazySample和Sample<a class="headerlink" href="#lazysamplesample" title="Link to this heading">#</a></h3>
+<p>LazySample和Sample都可以获取到属性数据。它们的区别是：LazySample可以通过数据库获取属性数据，而Sample不能。</p>
+<p>任何对LazySample和Sample的修改都不会影响到数据库中的数据，除非你通过接口 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet6updateE8uint32_tRK7ISample" title="visionflow::data::SampleSet::update"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::data::SampleSet::update()</span></code></a> 将这些修改提交.</p>
+<section id="lazysample">
+<h4>LazySample<a class="headerlink" href="#lazysample" title="Link to this heading">#</a></h4>
+<p>当第一次访问或修改数据时， <strong>LazySample</strong> 会从数据库中读取,并将这次访问或修改缓存在内存中。
+当再次访问之前已被访问或修改过的数据时， <strong>LazySample</strong> 会从缓存中读取数据，因此访问速度会更快。</p>
+<p>除此之外，当更新一个 <strong>LazySample</strong> 到 <strong>SampleSet</strong> 时, <strong>LazySample</strong> 会检测出哪些属性数据被修改过，
+只有这些被修改的属性会被更新到数据库中，这也会提高数据库的更新速度。</p>
+<p>关于LazySample的更多信息，请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow10LazySampleE" title="visionflow::LazySample"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::LazySample</span></code></a>.</p>
+</section>
+<section id="sample">
+<h4>Sample<a class="headerlink" href="#sample" title="Link to this heading">#</a></h4>
+<p><strong>Sample</strong> 仅仅只是一个存放离线的属性数据的容器。你往里面设置什么数据，它存放的就是什么数据。
+因此通过 <strong>Sample</strong> 得到的属性数据有可能是过时的(数据库被修改)。</p>
+<p>一般而言，你应该通过 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow10LazySample5fetchEv" title="visionflow::LazySample::fetch"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::LazySample::fetch()</span></code></a> 接口得到一个 <strong>Sample</strong> 对象。
+该 <strong>Sample</strong> 对象中存储了LazySample::fetch函数调用时刻、数据库存放的该样本的各个属性的数据。</p>
+<section id="id2">
+<h5>查看Sample中存放的属性<a class="headerlink" href="#id2" title="Link to this heading">#</a></h5>
+<blockquote>
+<div><ul class="simple">
+<li><p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow6Sample14property_typesEv" title="visionflow::Sample::property_types"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Sample::property_types()</span></code></a> 获取Sample中存储的全部属性名称和类型。</p></li>
+<li><p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow6Sample3getERK10ToolNodeId" title="visionflow::Sample::get"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Sample::get()</span></code></a> 获取Sample中某个属性的值。
+此接口返回的是基类 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props9IPropertyE" title="visionflow::props::IProperty"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::IProperty</span></code></a> 的共享指针。
+visionflow提供了 <strong>as</strong> 方法可以转换到特定的子类访问数据，你也可以通过 <strong>to_json</strong>、 <strong>to_xml</strong> 等序列化方法查看具体的值。</p></li>
+</ul>
+</div></blockquote>
+<p>当更新一个 <strong>Sample</strong> 到 <strong>SampleSet</strong> 时, <strong>Sample</strong> 中的所有属性数据都会被更新到数据库中，即使某些属性并没有被更改过。
+这会影响性能。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>更新数据库时请尽量使用LazySample。Sample更多的用途是存储一份离线数据。</p>
+</div>
+<p>关于Sample的更多信息，请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow6SampleE" title="visionflow::Sample"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Sample</span></code></a>.</p>
+</section>
+</section>
+</section>
+<section id="samplesetiterator">
+<h3>SampleSetIterator<a class="headerlink" href="#samplesetiterator" title="Link to this heading">#</a></h3>
+<p>这是一个用于迭代 <strong>SampleSet</strong> 的迭代器类，提供了类似 <strong>std::literator</strong> 的接口和使用体验。</p>
+<p><strong>SampleSetIterator</strong> 的用法示例:</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// get SampleSet from Project</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">SampleSet</span><span class="w"> </span><span class="n">sample_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">main_sample_set</span><span class="p">();</span>
+
+<span class="c1">// print information of samples iteratively</span>
+<span class="k">for</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">SampleSetIterator</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">iter</span><span class="p">){</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;sample id = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">key</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;sample created time = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">descriptor</span><span class="p">().</span><span class="n">created_time</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// find a sample with specific id</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>关于SampleSetIterator的更多信息，请查看 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data17SampleSetIteratorE" title="visionflow::data::SampleSetIterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::data::SampleSetIterator</span></code></a></p>
+</section>
+<section id="sampledescriptor">
+<h3>SampleDescriptor<a class="headerlink" href="#sampledescriptor" title="Link to this heading">#</a></h3>
+<p>这是一个用于描述样本信息的数据结构。里面存储了样本的创建时间和样本标签。</p>
+<p>通过接口 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4NK10visionflow4data17ReadOnlySampleSet17sample_descriptorE8uint32_t" title="visionflow::data::ReadOnlySampleSet::sample_descriptor"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::data::ReadOnlySampleSet::sample_descriptor()</span></code></a> 获取特定样本id的样本描述信息。</p>
+<section id="id3">
+<h4>更新SampleDescriptor<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>当你需要更新样本描述信息时，使用接口：</p>
+<p><a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet6updateE8uint32_tRK16SampleDescriptor" title="void visionflow::data::SampleSet::update(uint32_t id, const SampleDescriptor &amp;data)"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">void</span> <span class="pre">visionflow::data::SampleSet::update(uint32_t</span> <span class="pre">id,</span> <span class="pre">const</span> <span class="pre">SampleDescriptor</span> <span class="pre">&amp;data)</span></code></a></p>
+<p>或者</p>
+<p><a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet6updateERK17SampleSetIteratorRK7ISample" title="void visionflow::data::SampleSet::update(const SampleSetIterator &amp;iter, const ISample &amp;data)"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">void</span> <span class="pre">visionflow::data::SampleSet::update(const</span> <span class="pre">SampleSetIterator</span> <span class="pre">&amp;iter,</span> <span class="pre">const</span> <span class="pre">ISample</span> <span class="pre">&amp;data)</span></code></a></p>
+<p>以下示例代码展示了如何给样本集中的第一个样本添加新的样本标签：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the SampleSet from Project</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">SampleSet</span><span class="w"> </span><span class="n">sample_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">main_sample_set</span><span class="p">();</span>
+
+<span class="c1">//get the SampleSetIterator of the sample to be updated</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+<span class="c1">//get the old SampleDescriptor</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">SampleDescriptor</span><span class="w"> </span><span class="n">desp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">descriptor</span><span class="p">();</span>
+
+<span class="c1">// add a new_tag to descriptor</span>
+<span class="n">desp</span><span class="p">.</span><span class="n">tags</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;new_tag&quot;</span><span class="p">);</span>
+
+<span class="c1">// update to SampleSet by SampleSetIterator</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">desp</span><span class="p">);</span>
+
+<span class="c1">// you may also update by id of the sample</span>
+<span class="c1">// sample_set.update(iter.key(), desp);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>关于样本描述信息的更多信息，请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow16SampleDescriptorE" title="visionflow::SampleDescriptor"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::SampleDescriptor</span></code></a>.</p>
+</section>
+</section>
+<section id="id4">
+<h3>添加Sample<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>通过接口 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet16add_empty_sampleEv" title="visionflow::data::SampleSet::add_empty_sample"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::data::SampleSet::add_empty_sample()</span></code></a> 可以向样本集中添加一个空的样本并获得其样本id。
+该空样本中仅含有与样本集中一样的属性数量和类型，但是具体的属性数据是空的。</p>
+<p>你也可以通过接口 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet3addERK7ISample" title="visionflow::data::SampleSet::add"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::data::SampleSet::add()</span></code></a> 向样本集中添加一个已存在的样本并获得其样本id。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>你需要确保样本和样本集所包含的属性数量和类型是一致的，这样样本才能被加入到样本集中，否则添加样本时会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts20PropertyTypeMismatchE" title="visionflow::excepts::PropertyTypeMismatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::PropertyTypeMismatch</span></code></a> 。</p>
+</div>
+<p>假设我们已知 <strong>Input</strong> 工具的结构(通过 <a class="reference internal" href="../auto_docs/tools.html"><span class="doc">工具清单及详细流程图</span></a> 查看更多工具详细结构图),
+接下来的示例代码展示了如何为样本添加一个图片属性，并向样本集中添加四个这样的样本：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// add Input tool into Project</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">);</span>
+
+<span class="c1">// get the SampleSet from Project</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">SampleSet</span><span class="w"> </span><span class="n">sample_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">main_sample_set</span><span class="p">();</span>
+
+<span class="c1">//create an empty sample</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">create_empty_sample</span><span class="p">();</span>
+
+<span class="c1">// load an image from file</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img</span><span class="p">;</span>
+<span class="n">img</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/img_1.jpg&quot;</span><span class="p">));</span>
+
+<span class="c1">//set the Image property data</span>
+<span class="n">sample</span><span class="p">.</span><span class="n">set</span><span class="p">({</span><span class="s">&quot;Input/image&quot;</span><span class="p">},</span>
+<span class="w">           </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img</span><span class="p">));</span>
+
+<span class="c1">// add four samples into SampleSet</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span><span class="w"> </span><span class="c1">// sample id == 1</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span><span class="w"> </span><span class="c1">// sample id == 2</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span><span class="w"> </span><span class="c1">// sample id == 3</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span><span class="w"> </span><span class="c1">// sample id == 4</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h3>更新Sample<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>可以将已有的样本通过样本id或 <strong>SampleSetIterator</strong> 迭代器更新到样本集中：
+<a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet6updateE8uint32_tRK7ISample" title="void visionflow::data::SampleSet::update(uint32_t id, const ISample &amp;data)"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">void</span> <span class="pre">visionflow::data::SampleSet::update(uint32_t</span> <span class="pre">id,</span> <span class="pre">const</span> <span class="pre">ISample</span> <span class="pre">&amp;data)</span></code></a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SampleSet中必须存在样本id，并且被更新的样本的属性数量和类型需要与样本集一致，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> 或 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts20PropertyTypeMismatchE" title="visionflow::excepts::PropertyTypeMismatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::PropertyTypeMismatch</span></code></a> .</p>
+</div>
+<p><a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet6updateERK17SampleSetIteratorRK7ISample" title="void visionflow::data::SampleSet::update(const SampleSetIterator &amp;iter, const ISample &amp;data)"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">void</span> <span class="pre">visionflow::data::SampleSet::update(const</span> <span class="pre">SampleSetIterator</span> <span class="pre">&amp;iter,</span> <span class="pre">const</span> <span class="pre">ISample</span> <span class="pre">&amp;data)</span></code></a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SampleSetIterator需要指向一个在样本集中存在的样本， 并且被更新的样本的属性数量和类型需要与样本集一致，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> 或 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts20PropertyTypeMismatchE" title="visionflow::excepts::PropertyTypeMismatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::PropertyTypeMismatch</span></code></a> .</p>
+</div>
+<p>以下示例代码展示了如何通过更新接口将新的图片属性更新到样本集(接上文的示例代码)：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// already add Input tool into Project</span>
+
+<span class="c1">// add new empty sample into SampleSet and get its id</span>
+<span class="n">LazySample</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// load new image from file</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img</span><span class="p">;</span>
+<span class="n">img</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/new_img.jpg&quot;</span><span class="p">));</span>
+
+<span class="c1">//set the Image property data</span>
+<span class="n">sample</span><span class="p">.</span><span class="n">set</span><span class="p">({</span><span class="s">&quot;Input/image&quot;</span><span class="p">},</span>
+<span class="w">           </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img</span><span class="p">));</span>
+
+<span class="c1">// update sample_set with LazySample</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_id</span><span class="p">,</span><span class="w"> </span><span class="n">sample</span><span class="p">);</span>
+
+<span class="c1">// you may also update by iterator</span>
+<span class="c1">// sample_set.update(sample_set.find(new_id), sample);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h3>移除sample<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>通过样本id从样本集中移除样本:</dt><dd><p><a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet5eraseE8uint32_t" title="void visionflow::data::SampleSet::erase(uint32_t id);"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">void</span> <span class="pre">visionflow::data::SampleSet::erase(uint32_t</span> <span class="pre">id);</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SampleSet中必须存在该样本id，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> .</p>
+</div>
+<dl class="simple">
+<dt>通过样本迭代器从样本集中移除样本:</dt><dd><p><a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data9SampleSet5eraseERK17SampleSetIterator" title="SampleSetIterator visionflow::data::SampleSet::erase(const SampleSetIterator &amp;iter)"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">SampleSetIterator</span> <span class="pre">visionflow::data::SampleSet::erase(const</span> <span class="pre">SampleSetIterator</span> <span class="pre">&amp;iter)</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SampleSetIterator必须指向一个样本集中存在的样本，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts15InvalidIteratorE" title="visionflow::excepts::InvalidIterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidIterator</span></code></a> .</p>
+</div>
+</section>
+</section>
+<section id="propertyset-property">
+<h2>通过 <a class="reference internal" href="../core_concepts.html#term-PropertySet"><span class="xref std std-term">PropertySet</span></a> 访问 <a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a><a class="headerlink" href="#propertyset-property" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>PropertySet是一个管理样本集中所有样本的单个同一属性数据的数据结构。样本集中所有样本的某个属性都存储在属性集中。</p>
+<p>PropertySet同时还记录了所有样本的该属性的最后更新时间。</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>与SampleSet类似，PropertySet同样也维护了一个数据库句柄，PropertySet析构时也会减少数据库的引用计数。</p>
+</div>
+<section id="propertysetiterator">
+<h3>PropertySetIterator<a class="headerlink" href="#propertysetiterator" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>与SampleSet类似，PropertySet同样也提供了迭代器类型： <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data19PropertySetIteratorE" title="visionflow::data::PropertySetIterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::data::PropertySetIterator</span></code></a>。</p>
+</div></blockquote>
+<p>以下示例代码展示了如何通过PropertySetIterator迭代获取样本集中所有样本的图片属性：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the PropertySet of Image</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">data</span><span class="o">::</span><span class="n">PropertySet</span><span class="w"> </span><span class="n">property_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">property_set</span><span class="p">({</span><span class="s">&quot;Input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="p">});</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">property_set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">valid</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">iter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;sample id :&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">key</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// convert to props::Image ptr</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter</span><span class="p">.</span><span class="n">value</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// use img property to do some work ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="propertyset">
+<h3>访问和修改PropertySet中的属性<a class="headerlink" href="#propertyset" title="Link to this heading">#</a></h3>
+<p>你可以通过样本id或者PropertySetIterator来访问或修改更新属性集中的属性。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>样本id必须在样本集中存在，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> .</p>
+<p>PropertySetIterator必须指向属性集中存在的属性，否则会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts15InvalidIteratorE" title="visionflow::excepts::InvalidIterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidIterator</span></code></a> .</p>
+</div>
+<p>以下示例代码展示了如何更新属性集中的图片属性：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the PropertySet of Image</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">data</span><span class="o">::</span><span class="n">PropertySet</span><span class="w"> </span><span class="n">property_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">property_set</span><span class="p">({</span><span class="s">&quot;Input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="p">});</span>
+
+<span class="c1">// get last update time</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;last time:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">property_set</span><span class="p">.</span><span class="n">last_update_time</span><span class="p">();</span>
+
+<span class="c1">// get property type</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">property_set</span><span class="p">.</span><span class="n">property_type</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;visionflow::props::Image&quot;</span><span class="p">);</span>
+
+<span class="c1">// check sample not empty</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">property_set</span><span class="p">.</span><span class="n">sample_empty</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">property_set</span><span class="p">.</span><span class="n">data_exists</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+
+<span class="c1">// get image property by sample id</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">img_of_sample_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">property_set</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// reset a new image to the image property</span>
+<span class="n">img_of_sample_1</span><span class="o">-&gt;</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/new_img.jpg&quot;</span><span class="p">));</span>
+
+<span class="c1">// update PropertySet by sample id</span>
+<span class="n">property_set</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">img_of_sample_1</span><span class="p">);</span>
+
+<span class="c1">// erase PropertySet by iterator</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">property_set</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">property_set</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+
+<span class="c1">// now the image property in sample 4 will be erased</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="writebatch">
+<h2>WriteBatch提供更好的性能<a class="headerlink" href="#writebatch" title="Link to this heading">#</a></h2>
+<p>由于每次将样本的修改更新到数据库都会引发磁盘I/O，因此频繁的更新将会花费很多性能开销。</p>
+<p>我们提供WriteBatch批量更新功能，允许将多次修改缓存到内存中，最后将这些修改一次性的更新到数据库并落盘，减少频繁的数据库访问以提升性能。</p>
+<section id="propertywritebatch">
+<h3>PropertyWriteBatch<a class="headerlink" href="#propertywritebatch" title="Link to this heading">#</a></h3>
+<p>PropertyWriteBatch缓存所有对属性集的修改操作。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>对于同一个样本，只有最后的修改会生效(之前缓存的修改将被覆盖)。</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>你需要确保被修改的样本存在于样本集中，否则在更新PropertyWriteBatch时会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> 。</p>
+</div>
+<p>以下示例代码展示了如何使用 <strong>PropertyWriteBatch</strong> 批量更新属性集：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the PropertySet of Image</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">data</span><span class="o">::</span><span class="n">PropertySet</span><span class="w"> </span><span class="n">property_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">property_set</span><span class="p">({</span><span class="s">&quot;Input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="p">});</span>
+
+<span class="c1">// firstly, create a PropertyWriteBatch</span>
+<span class="n">PropertyWriteBatch</span><span class="w"> </span><span class="n">prop_write_batch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">property_set</span><span class="p">.</span><span class="n">create_write_batch</span><span class="p">();</span>
+
+<span class="c1">// catch all your modification on image PropertySet for different samples</span>
+
+<span class="c1">// update sample 1 with img_101</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img_101</span><span class="p">;</span>
+<span class="n">img_101</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/img_101.jpg&quot;</span><span class="p">));</span>
+<span class="n">prop_write_batch</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">img_101</span><span class="p">);</span>
+
+<span class="c1">// update sample 2 with img_102</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img_102</span><span class="p">;</span>
+<span class="n">img_102</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/img_102.jpg&quot;</span><span class="p">));</span>
+<span class="n">prop_write_batch</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">img_102</span><span class="p">);</span>
+
+<span class="c1">// erase image property in sample 3</span>
+<span class="n">prop_write_batch</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// erase image property in sample 2</span>
+<span class="c1">// this will overwrite previous update operator</span>
+<span class="n">prop_write_batch</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// update to database at once</span>
+<span class="n">property_set</span><span class="p">.</span><span class="n">write_batch</span><span class="p">(</span><span class="n">prop_write_batch</span><span class="p">);</span>
+
+<span class="c1">// now all the modification are update to database</span>
+<span class="c1">// image property in:</span>
+<span class="c1">//          sample 1 will update to img_101;</span>
+<span class="c1">//          sample 2 and sample 3 will be erased;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="samplewritebatch">
+<h3>SampleWriteBatch<a class="headerlink" href="#samplewritebatch" title="Link to this heading">#</a></h3>
+<p>SampleWriteBatch缓存了所有对样本集的修改操作，例如更新整个样本数据、更新某个样本里的某个属性数据或是更新样本描述信息。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>同样的，对于同一个样本的同一个数据，只有最后的修改会生效(之前缓存的修改将被覆盖)。</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>你需要确保被修改的样本存在于样本集中，否则在批量更新SampleWriteBatch时会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14SampleNotFoundE" title="visionflow::excepts::SampleNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::SampleNotFound</span></code></a> 。</p>
+</div>
+<p>以下示例代码展示了如何使用 <strong>SampleWriteBatch</strong> 批量更新样本集：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// firstly, create a SampleWriteBatch</span>
+<span class="n">SampleWriteBatch</span><span class="w"> </span><span class="n">sample_write_batch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">create_write_batch</span><span class="p">();</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">ToolNodeId</span><span class="w"> </span><span class="n">img_prop_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Input/image&quot;</span><span class="p">};</span>
+
+<span class="c1">// catch all your modification to SampleWriteBatch</span>
+
+<span class="c1">// update sample 1 with img_101</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img_101</span><span class="p">;</span>
+<span class="n">img_101</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/img_101.jpg&quot;</span><span class="p">));</span>
+<span class="n">sample_write_batch</span><span class="p">.</span><span class="n">update</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">img_prop_id</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img_101</span><span class="p">));</span>
+
+<span class="c1">// update sample 2 with img_102</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">img_102</span><span class="p">;</span>
+<span class="n">img_102</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/img_102.jpg&quot;</span><span class="p">));</span>
+<span class="n">sample_write_batch</span><span class="p">.</span><span class="n">update</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">img_prop_id</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img_102</span><span class="p">));</span>
+
+<span class="c1">// erase in sample 3</span>
+<span class="n">sample_write_batch</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// erase image property in sample 2</span>
+<span class="c1">// this will overwrite previous update operator</span>
+<span class="n">sample_write_batch</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">img_prop_id</span><span class="p">);</span>
+
+<span class="c1">// update to database at once</span>
+<span class="n">sample_set</span><span class="p">.</span><span class="n">write_batch</span><span class="p">(</span><span class="n">sample_write_batch</span><span class="p">);</span>
+
+<span class="c1">// now all the modification are update to database</span>
+<span class="c1">// image property in:</span>
+<span class="c1">//          sample 1 will update to img_101;</span>
+<span class="c1">//          sample 2 will be erased;</span>
+<span class="c1">// and the whole sample 3 will be erased from SampleSet;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>数据过滤<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p><strong>SampleSet</strong> 和 <strong>PropertySet</strong> 都提供过滤功能，允许你通过设置自定义过滤条件来获得你想要的某些数据。
+过滤条件是包含了一个函数的Python脚本字符串。</p>
+<div class="admonition note" id="python-script-note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>为了能够正确的编写python脚本的过滤条件，你需要了解如下信息:</dt><dd><ol class="arabic simple">
+<li><p>你需要十分注意缩进，缩进在Python中非常重要，错误的缩进会导致Python语法错误；</p></li>
+<li><p>脚本中需要包含一个实现了具体的过滤逻辑的过滤函数，并返回一个布尔类型的结果作为过滤条件的结果的函数；</p></li>
+<li><p>函数名必须为”<strong>vflow_filter</strong>”，并接受一个 <strong>Sample(ReadOnlySampleSetView)</strong> 或 <strong>Property(ReadOnlyPropertySetView)</strong> 作为参数；</p></li>
+<li><p>你需要将引入正确的Visionflow模块，Visionflow的Python模块与C++中的命名空间相同。</p></li>
+</ol>
+</dd>
+</dl>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Python脚本必须符合Python语法，否则执行时会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts17PythonSyntaxErrorE" title="visionflow::excepts::PythonSyntaxError"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::PythonSyntaxError</span></code></a> 或 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts17PythonScriptErrorE" title="visionflow::excepts::PythonScriptError"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::PythonScriptError</span></code></a> 。</p>
+</div>
+<section id="readonlysamplesetview">
+<h3>ReadOnlySampleSetView<a class="headerlink" href="#readonlysamplesetview" title="Link to this heading">#</a></h3>
+<p>ReadOnlySampleSetView允许过滤出满足过滤脚本条件的样本。</p>
+<p>以下示例代码展示了如何使用ReadOnlySampleSetView过滤出图片大小在1024*1024到2048*2048之间的样本：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// firstly, write our filter script</span>
+<span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">filter_script</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">(</span>
+<span class="s">from visionflow import *</span>
+<span class="s">from visionflow.props import *</span>
+<span class="s">from visionflow.img import *</span>
+<span class="s">def vflow_filter(sample):</span>
+<span class="s">  img_prop_id = ToolNodeId(&quot;Input&quot;, Input.image)</span>
+
+<span class="s">  if not(sample.exist_property_data(img_prop_id)):</span>
+<span class="s">      return False</span>
+<span class="s">  img = sample.get(img_prop_id).image();</span>
+<span class="s">  return  1024 &lt;= img.size().w &lt;= 2048 and 1024 &lt;= img.size().h &lt;= 2048 </span><span class="dl">)</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">sample_view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filter_script</span><span class="p">);</span>
+
+<span class="c1">// if image in sample 1 meet the filter requirement, then its id will exist</span>
+<span class="c1">// assert(sample_filter.exists(1));</span>
+
+<span class="c1">// so to other samples</span>
+<span class="c1">// assert(sample_filter.exists(2));</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">sample_view</span><span class="p">.</span><span class="n">ids</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>关于 <strong>ReadOnlySampleSetView</strong> 的更多信息，请查看 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data21ReadOnlySampleSetViewE" title="visionflow::data::ReadOnlySampleSetView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::data::ReadOnlySampleSetView</span></code></a>.</p>
+</section>
+<section id="readonlypropertysetview">
+<h3>ReadOnlyPropertySetView<a class="headerlink" href="#readonlypropertysetview" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>ReadOnlyPropertySetView提供了两种过滤方式：</dt><dd><ol class="arabic simple">
+<li><p>可以设置要过滤的样本id，将某些id的样本直接排除在外(此过滤方式是在样本层面直接过滤)；</p></li>
+<li><p>设置Python脚本过滤，该脚本以属性为参数，过滤出的样本中属性满足脚本的要求(此过滤方式是考察属性层面是否满足过滤条件)；</p></li>
+</ol>
+</dd>
+</dl>
+<p>ReadOnlyPropertySetView的过滤脚本要求与ReadOnlySampleSetView一致，唯一的不同就是其接受的参数为属性而不是样本。(<a class="reference internal" href="#python-script-note"><span class="std std-ref">Script Helper</span></a>)</p>
+<p>以下示例代码展示了如何使用ReadOnlyPropertySetView过滤出图片大小在1024*1024到2048*2048之间的样本，并且排除了样本id等于1的样本：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// firstly,</span>
+<span class="k">const</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">ToolNodeId</span><span class="w"> </span><span class="n">img_prop_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Input/image&quot;</span><span class="p">};</span>
+
+<span class="c1">// secondly, write our filter script</span>
+<span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">filter_script</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">(</span>
+<span class="s">from visionflow import *</span>
+<span class="s">from visionflow.props import *</span>
+<span class="s">from visionflow.img import *</span>
+<span class="s">def vflow_filter(prop):</span>
+<span class="s">  img = prop.image();</span>
+<span class="s">  return  1024 &lt;= img.size().w &lt;= 2048 and 1024 &lt;= img.size().h &lt;= 2048 </span><span class="dl">)</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="n">PropertySet</span><span class="w"> </span><span class="n">img_prop_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_set</span><span class="p">.</span><span class="n">property_set</span><span class="p">(</span><span class="n">img_prop_id</span><span class="p">);</span>
+
+<span class="n">ReadOnlyPropertySetView</span><span class="w"> </span><span class="n">img_prop_view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">img_prop_set</span><span class="p">.</span><span class="n">fitler</span><span class="p">(</span><span class="n">filter_script</span><span class="p">);</span>
+
+<span class="c1">// if image in sample 1 meet the filter requirement of the python script, then its id will exist</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">sample_exists</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">data_exists</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w"> </span><span class="c1">// if image in sample 2 not meet the filter requirement of the python script, then it will be filtered out</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">sample_exists</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">data_exists</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+
+<span class="c1">// all sample with filter ids will be filtered out</span>
+<span class="c1">// no matter they meet the filter requirement of the python script or not</span>
+<span class="n">img_prop_view</span><span class="p">.</span><span class="n">set_filter_ids</span><span class="p">({</span><span class="mi">1</span><span class="p">});</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">sample_exists</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">img_prop_view</span><span class="p">.</span><span class="n">data_exists</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>关于 <strong>ReadOnlyPropertySetView</strong> 的更多信息，请查看 <a class="reference internal" href="../cpp_api/sampleset.html#_CPPv4N10visionflow4data23ReadOnlyPropertySetViewE" title="visionflow::data::ReadOnlyPropertySetView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::data::ReadOnlyPropertySetView</span></code></a> 。</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="config.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">设置参数及训练模型</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="dataset.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">数据集</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">通过数据集管理工程数据</a><ul>
+<li><a class="reference internal" href="#sampleset-sample">通过数据集 <span class="xref std std-term">SampleSet</span> 获取数据 <span class="xref std std-term">Sample</span></a><ul>
+<li><a class="reference internal" href="#lazysamplesample">LazySample和Sample</a><ul>
+<li><a class="reference internal" href="#lazysample">LazySample</a></li>
+<li><a class="reference internal" href="#sample">Sample</a><ul>
+<li><a class="reference internal" href="#id2">查看Sample中存放的属性</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#samplesetiterator">SampleSetIterator</a></li>
+<li><a class="reference internal" href="#sampledescriptor">SampleDescriptor</a><ul>
+<li><a class="reference internal" href="#id3">更新SampleDescriptor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">添加Sample</a></li>
+<li><a class="reference internal" href="#id5">更新Sample</a></li>
+<li><a class="reference internal" href="#id6">移除sample</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#propertyset-property">通过 <span class="xref std std-term">PropertySet</span> 访问 <span class="xref std std-term">Property</span></a><ul>
+<li><a class="reference internal" href="#propertysetiterator">PropertySetIterator</a></li>
+<li><a class="reference internal" href="#propertyset">访问和修改PropertySet中的属性</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#writebatch">WriteBatch提供更好的性能</a><ul>
+<li><a class="reference internal" href="#propertywritebatch">PropertyWriteBatch</a></li>
+<li><a class="reference internal" href="#samplewritebatch">SampleWriteBatch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">数据过滤</a><ul>
+<li><a class="reference internal" href="#readonlysamplesetview">ReadOnlySampleSetView</a></li>
+<li><a class="reference internal" href="#readonlypropertysetview">ReadOnlyPropertySetView</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

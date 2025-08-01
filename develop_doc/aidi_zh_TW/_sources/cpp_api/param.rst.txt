@@ -1,0 +1,666 @@
+Parameter Types
+=========================================
+
+IParameter
+----------
+.. doxygenclass:: visionflow::param::IParameter
+   :members:
+
+ISchemable
+----------
+.. doxygenstruct:: visionflow::param::ISchemable
+   :members:
+
+SchemableParameter
+------------------
+.. doxygenstruct:: visionflow::param::SchemableParameter
+   :members:
+
+Customize Parameters
+--------------------
+
+.. doxygenclass:: visionflow::param::BinaryPacks
+   :members:
+
+.. doxygenclass:: visionflow::param::TypeValuePair
+   :members:
+
+.. doxygenclass:: visionflow::param::ObjectTypeValue
+   :members:
+
+InputImage Parameters
+---------------------
+.. doxygenenum:: visionflow::param::ColorType
+
+.. doxygenclass:: visionflow::param::BaseColor
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageMean
+   :members:
+
+.. doxygenclass:: visionflow::param::InputImageParam
+   :members:
+
+.. doxygenclass:: visionflow::param::LabelClasses
+   :members:
+
+EvaluationMetrics Parameters
+----------------------------
+.. doxygenenum:: visionflow::param::MetricsEvaluationType
+
+.. doxygenenum:: visionflow::param::PrecisionEvaluationType
+
+.. doxygenclass:: visionflow::param::Table
+   :members:
+
+.. doxygenclass:: visionflow::param::DataMetrics
+   :members:
+
+.. doxygenclass:: visionflow::param::AveragePrecision
+   :members:
+
+.. doxygenstruct:: visionflow::param::IPrecisionEvaluation
+   :members:
+
+.. doxygenstruct:: visionflow::param::ITableList
+   :members:
+
+.. doxygenstruct:: visionflow::param::IAveragePrecisionList
+   :members:
+
+.. doxygenclass:: visionflow::param::ModelEvaluationMetrics
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationModelEvaluationMetrics
+   :members:
+
+.. doxygenclass:: visionflow::param::ModelHealth
+   :members:
+
+DataAugmentation Parameters
+---------------------------
+.. doxygenclass:: visionflow::param::GeoAugSlightRotation
+   :members:
+
+.. doxygenclass:: visionflow::param::GeoAugShift
+   :members:
+
+.. doxygenclass:: visionflow::param::GeoAugScale
+   :members:
+
+.. doxygenclass:: visionflow::param::CategoryAreaAugment
+   :members:
+
+.. doxygenclass:: visionflow::param::GeoAugDistortion
+   :members:
+
+.. doxygenclass:: visionflow::param::GeometryAugmentation
+   :members:
+
+.. doxygenclass:: visionflow::param::LabeledGeometryAugmentation
+   :members:
+
+.. doxygenclass:: visionflow::param::DefectSimulation
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugBrightness
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugContrast
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugColorFilter
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugNoise
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugIlluminationGradient
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugSmoothingOrSharpening
+   :members:
+
+.. doxygenclass:: visionflow::param::ImageAugmentation
+   :members:
+
+.. doxygenclass:: visionflow::param::DataAugmentation
+   :members:
+
+ImagePreprocess Parameters
+---------------------------
+.. doxygenenum:: visionflow::param::ImagePreprocessType
+
+.. doxygenenum:: visionflow::param::ImagePreprocessArithmType
+
+.. doxygenclass:: visionflow::param::ImagePreprocessArithmParameters
+   :members:
+
+.. doxygenenum:: visionflow::param::ImagePreprocessFilterType
+
+.. doxygenenum:: visionflow::param::ImagePreprocessBorderType
+
+.. doxygenclass:: visionflow::param::ImagePreprocessHighPassFilterParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessLowPassFilterParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessFilter2DParameters
+   :members:
+
+.. doxygenenum:: visionflow::param::ImagePreprocessMorphType
+
+.. doxygenenum:: visionflow::param::ImagePreprocessMorphShape
+
+.. doxygenclass:: visionflow::param::ImagePreprocessMorphParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessLutParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessSharpenParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessGammaTransParameters
+   :members:
+
+.. doxygenenum:: visionflow::param::ImagePreprocessColorConversionType
+
+.. doxygenclass:: visionflow::param::ImagePreprocessCvtColorParameters
+   :members:
+
+.. doxygenenum:: visionflow::param::ImagePreprocessFlipType
+
+.. doxygenclass:: visionflow::param::ImagePreprocessFlipParameters
+   :members:
+
+.. doxygenenum:: visionflow::param::ImagePreprocessInterMethod
+
+.. doxygenclass:: visionflow::param::ImagePreprocessResizeParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessCirclePolarParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessParametersList
+   :members:
+
+.. doxygenclass:: visionflow::param::ImagePreprocessParametersListSet
+   :members:
+
+Segmentation Training Parameters
+--------------------------------
+.. doxygenclass:: visionflow::param::SegmentationInputShape
+   :members:
+
+.. doxygenenum:: visionflow::param::ImageSplitMode
+
+.. doxygenclass:: visionflow::param::SegmentationImageSplit
+   :members:
+
+.. doxygenclass:: visionflow::param::SegmentationModelParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::SegmentationTrainingSampleStrategy
+   :members:
+
+.. doxygenclass:: visionflow::param::SegmentationTrainingParameters
+   :members:
+
+Segmentation Inference Parameters
+---------------------------------
+
+.. doxygenclass:: visionflow::param::SegmentationInferenceParameters
+   :members:
+
+Unsuper Segmentation Training Parameters
+-----------------------------------------
+.. doxygenclass:: visionflow::param::UnsuperSegmentationInputShape
+   :members:
+
+.. doxygenclass:: visionflow::param::UnsuperSegmentationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::UnsuperSegmentationSamplingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::UnsuperSegmentationModelParameters
+   :members:
+
+Unsuper Classification Training Parameters
+------------------------------------------
+.. doxygenclass:: visionflow::param::UnsuperClassificationInputShape
+   :members:
+
+.. doxygenclass:: visionflow::param::UnsuperClassificationTrainingParameters
+   :members:
+
+Unsuper Segmentation Inference Parameters
+-----------------------------------------
+.. doxygenclass:: visionflow::param::UnsuperDefectRadius
+   :members:
+
+.. doxygenclass:: visionflow::param::UnsuperSegmentationInferenceParameters
+   :members:
+
+Unsuper Classification Inference Parameters
+-------------------------------------------
+.. doxygenclass:: visionflow::param::UnsuperClassificationInferenceParameters
+   :members:
+
+Filter Parameters
+-----------------
+
+.. doxygenclass:: visionflow::param::AxialSideLengthRange
+   :members:
+
+.. doxygenclass:: visionflow::param::SideLengthRange
+   :members:
+
+.. doxygenclass:: visionflow::param::FilterScript
+   :members:
+
+.. doxygenclass:: visionflow::param::SingleClassPolygonsFilterParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::PolygonsFilterParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::FeatureMapFilterParameters
+   :members:
+
+Training logs
+-------------
+
+.. doxygenclass:: visionflow::param::LossCurve
+   :members:
+
+.. doxygenclass:: visionflow::param::TrainingLog
+   :members:
+
+Training Mode
+-------------
+
+.. doxygenenum:: visionflow::param::TrainingMode
+
+
+Inference Type
+--------------
+
+.. doxygenenum:: visionflow::param::InferType
+
+
+Ungrouped Parameters
+--------------------
+
+.. doxygenclass:: visionflow::param::InferenceBatchSize
+   :members:
+
+.. doxygenclass:: visionflow::param::TRTCalibParameters
+   :members:
+
+
+GeometrySearch Parameters
+-------------------------
+
+.. doxygenenum:: visionflow::param::TemplateMode
+
+.. doxygenclass:: visionflow::param::KeyPointNode
+   :members:
+
+.. doxygenclass:: visionflow::param::MultiNameKeyPointNode
+   :members:
+
+GeometrySearch Training Parameters
+----------------------------------
+
+.. doxygenclass:: visionflow::param::SetGeometrySearchGranularityManually
+   :members:
+
+.. doxygenclass:: visionflow::param::SetGeometrySearchNoiseThreshManually
+   :members:
+
+.. doxygenclass:: visionflow::param::SetGeometrySearchFeatChainMagRelativeThreshManually
+   :members:
+
+.. doxygenclass:: visionflow::param::SetGeometrySearchDownSampleRatioManually
+   :members:
+
+GeometrySearch Inference Parameters
+-----------------------------------
+
+.. doxygenenum:: visionflow::param::GeometrySearchSearchMode
+
+.. doxygenclass:: visionflow::param::GeometrySearchDuplicate
+   :members:
+
+CameraCalibration Training Parameters
+---------------------------------------
+
+.. doxygenenum:: visionflow::param::FreedomDegreeType
+
+.. doxygenenum:: visionflow::param::CalibrationBoardType
+
+Polarity Mode Parameters
+------------------------
+
+.. doxygenenum:: visionflow::param::PolarityMode
+
+
+OCR Parameters
+--------------
+
+.. doxygenclass:: visionflow::param::RegularExpression
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRArea
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRStringTemplateArea
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRNodeTemplateArea
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRNodeTemplate
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRStringTemplate
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRInferParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRUniversalModelParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRTemplates
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRAnnulusParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::OCRTrainingParameters
+   :members:
+
+Location Tool Parameters
+------------------------
+
+.. doxygenclass:: visionflow::param::LocationMaxInputSize
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationModelParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationTargetParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::NodeMatchTemplate
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationTemplates
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::LocationFilterParameters
+   :members:
+
+AssemblyVerification Tool Parameters
+-------------------------------------
+.. doxygenclass:: visionflow::param::AssemblyVerificationMaxInputSize
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationModelParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationTargetParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationLayOutArea
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationTemplates
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::AssemblyVerificationFilterParameters
+   :members:
+
+Classification Tool Parameters
+-------------------------------
+.. doxygenclass:: visionflow::param::ClassificationInputShape
+   :members:
+
+.. doxygenclass:: visionflow::param::ClassificationTrainingParameters
+   :members:
+
+EL Classification Tool Parameters
+-----------------------------------
+.. doxygenclass:: visionflow::param::ELClassificationTrainingParameters
+   :members:
+
+EL Unsuper Classification Tool Parameters
+-------------------------------------------
+.. doxygenclass:: visionflow::param::ELUnsuperClassificationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ELUnsuperClassificationInferenceParameters
+   :members:
+
+Detection Tool Parameters
+--------------------------
+.. doxygenclass:: visionflow::param::DetectionTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::DetectionInferParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::DetectionTrainingStrategy
+   :members:
+
+.. doxygenclass:: visionflow::param::DetectionInputShape
+   :members:
+
+GeometrySearch Tool Parameters
+------------------------------
+.. doxygenclass:: visionflow::param::GeometrySearchTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::GeometrySearchInferParameters
+   :members:
+
+CameraCalibration Tool Parameters
+----------------------------------
+.. doxygenclass:: visionflow::param::CameraCalibrationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::CameraCalibrationInferParameters
+   :members:
+
+View Transformer Parameters
+-----------------------------
+
+.. doxygenenum:: visionflow::param::ViewTransMode
+
+.. doxygenclass:: visionflow::param::ViewFilterParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ViewTransAutoMask
+   :members:
+
+.. doxygenclass:: visionflow::param::ViewTransformParameter
+   :members:
+
+.. doxygenclass:: visionflow::param::ViewTransformParameterList
+   :members:
+
+Sample Recommendation Parameters:
+---------------------------------
+
+.. doxygenclass:: visionflow::param::SampleRecommendationParameter
+   :members:
+
+.. doxygenclass:: visionflow::param::PropertyObjectId
+   :members:
+
+.. doxygenclass:: visionflow::param::PropertyObjectIdSet
+   :members:
+
+.. doxygenenum:: visionflow::param::SampleRecommendRange
+
+Training Set Recommend Parameters:
+-----------------------------------
+
+.. doxygenenum:: visionflow::param::TrainingSetRecommendType
+
+.. doxygenclass:: visionflow::param::TrainingSetRecommendParameter
+   :members:
+
+Integration Tool Parameters:
+----------------------------
+
+.. doxygenclass:: visionflow::param::IntegrationClassifyParameter
+   :members:
+
+RegionCalculation Tool Parameters:
+----------------------------------
+
+.. doxygenclass:: visionflow::param::RegionCalculationParameter
+   :members:
+
+GeometrySearchFeatureModel Parameters:
+--------------------------------------
+
+.. doxygenstruct:: visionflow::param::GeometrySearchFeaturePoint
+   :members:
+
+.. doxygenclass:: visionflow::param::GeometrySearchFeatureChain
+   :members:
+
+.. doxygenclass:: visionflow::param::GeometrySearchFeatureModel
+   :members:
+
+.. doxygenclass:: visionflow::param::GeometrySearchFeatureModelList
+   :members:
+
+IDReader Inference Parameters
+--------------------------------
+
+.. doxygenclass:: visionflow::param::Code128Parameters
+   :members:
+
+.. doxygenenum:: visionflow::param::IDReader1DCheckSumType
+
+.. doxygenclass:: visionflow::param::Code39Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::Code93Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::UpcaParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::UpceParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::Ean13Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::Ean8Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ChooseIDReader1DTypes
+   :members:
+
+.. doxygenclass:: visionflow::param::DMECC200Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::QRCParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::QRCM1Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::QRCM2Parameters
+   :members:
+
+.. doxygenclass:: visionflow::param::MicroQRCParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ChooseIDReader2DTypes
+   :members:
+
+.. doxygenclass:: visionflow::param::IDReader1DParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::IDReader2DParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::IDReaderDecoderParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::IDReaderLocationModelParameters
+   :members:
+
+CameraCalibrationEvaluation Parameters:
+-----------------------------------------------------------------
+.. doxygenclass:: visionflow::param::CameraCalibrationImageFeaturePoints
+   :members:
+
+.. doxygenclass:: visionflow::param::CameraCalibrationEvaluation
+   :members:
+
+CameraCalibrationPixelScale Parameters:
+-----------------------------------------------------------------
+
+.. doxygenclass:: visionflow::param::CameraCalibrationPixelScale
+   :members:
+
+EL OCR Parameters
+------------------------------------------------------------
+
+.. doxygenclass:: visionflow::param::ELOCRInferParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ELOCRTrainingParameters
+   :members:
+
+EL Unsupervised Segmentation Parameters
+------------------------------------------------------------
+
+.. doxygenclass:: visionflow::param::ELUnsuperSegmentationTrainingParameters
+   :members:
+
+.. doxygenclass:: visionflow::param::ELUnsuperSegmentationInferParameters
+   :members:
+
+Gauge Tool Parameters
+------------------------------------------------------------
+
+.. doxygenclass:: visionflow::param::ScriptPipeline
+   :members:
+
+.. doxygenclass:: visionflow::param::GaugeParameters
+   :members:
+
+以下参数项仅为示例
+-------------------
+
+.. doxygenenum::  visionflow::param::ExampleAugmentType
+
+.. doxygenclass:: visionflow::param::ExampleAugRotate
+   :members:
+
+.. doxygenclass:: visionflow::param::ExampleAugShift
+   :members:
+
+.. doxygenclass:: visionflow::param::ExampleAugments
+   :members:

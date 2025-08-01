@@ -1,0 +1,276 @@
+在开发环境中引入VisionFlow
+###########################
+
+在安装之前，我们先介绍VisionFlow所支持的软件、硬件情况及开发语言。
+
+软件上，VisionFlow支持Windows 10 1903及更高版本的系统，及支持在Ubuntu 22.04系统。考虑到Linux系统众多的发行版本及
+复杂的软件依赖情况，我们建议您通过安装了 `NVIDIA Runtime <https://developer.nvidia.com/container-runtime>`_
+的Docker运行我们的Linux版本的软件，以避免复杂的Linux运行环境配置以及可能由此导致的难以处理的各种问题。
+
+硬件上，VisionFlow须要您的计算机拥有支持AVX2指令集的x86-64架构CPU，且至少有4GB的内存。这是VisionFlow运行的基础要求。
+我们的算法支持使用NVIDIA GPU训练和推理，也支持仅使用CPU进行推理。如果您打算使用GPU训练和推理，请确保你的NVIDIA GPU
+硬件和驱动满足以下必要条件：
+
+1. VisionFlow-0.9.0版本仅支持计算能力范围满足：7.0 <= 计算能力 <= 12.0 的GPU硬件。你可以参考 `CUDA GPU 计算能力 <https://developer.nvidia.cn/cuda-gpus>`_
+查看各个GPU型号的计算能力。特别注意，从VisionFlow-0.9版本开始，我们不再支持 NVIDIA GTX 1050 ~ NVIDIA GTX 1080 Ti
+等计算能力为6.1的GPU。
+
+2. 确保你的GPU驱动版本满足：Windows平台 >= 572.60, Linux平台 >= 570.133.07。
+
+
+VisionFlow对于不同平台及开发语言的支持情况如下（其中实验性支持的接口后续可能发生变化）：
+
+========= ============ ======================= ======================= ===================================
+ 操作系统  开发语言      接口形式                 功能范围                 限制
+========= ============ ======================= ======================= ===================================
+ Windows    C          cabi [cabi]_            多数接口                  \
+ Windows    C++        原生C++接口              全部接口                  仅支持VS2019 Release模式
+ Windows    C++        cppabi [cppabi]_        多数接口 [exp]_           VS2013及以上
+ Windows    CSharp     visionflow.cs           多数接口 [exp]_           .NET 4 及以上
+ Windows    Python     内嵌Python解释器         多数接口                  \
+ Linux      C          cabi [cabi]_            多数接口                  Ubuntu22.04
+ Linux      C++        原生C++接口              全部接口                  GCC11+Ubuntu22.04
+ Linux      C++        cppabi [cppabi]_        多数接口 [exp]_           Ubuntu22.04
+ Linux      Python     内嵌Python解释器         多数接口                  \
+========= ============ ======================= ======================= ===================================
+
+C++
+---
+对于C++开发人员来说，VisionFlow只是一个预编译的二进制库，需要作为项目的依赖添加。
+不同的C++开发人员可能使用不同的项目构建工具，因此以下是使用几种常用构建工具将VisionFlow
+集成到项目中的说明：
+
+.. tab:: Bazel
+
+    请将以下代码复制到你项目的 WORKSPACE 文件中，并将URL和SHA256替换为你想要使用的
+    VisionFlow版本的链接和SHA256哈希值：
+
+    .. code-block:: python
+
+        http_archive(
+            name = "visionflow_windows",
+            url = "<VisionFlow_URL>",
+            sha256 = "<VisionFlow_SHA256>",
+        )
+
+        http_archive(
+            name = "visionflow_linux",
+            url = "<VisionFlow_Linux_URL>",
+            sha256 = "<VisionFlow_Linux_SHA256>",
+        )
+
+    在上面的代码中，将 `<VisionFlow_URL>` 替换为所需版本的 VisionFlow 下载链接，将
+    `<VisionFlow_SHA256>` 替换为相应版本的 SHA256 摘要。这将指示构建系统从指定的 URL
+    下载 VisionFlow，并使用提供的 SHA256 摘要进行验证。发布包的链接和 SHA256 都可以在
+    VisionFlow的发布邮件信息中找到。
+
+    然后你可以将 VisionFlow 作为依赖库在你的项目的 Bazel 目标中使用，如下所示：
+
+    .. code-block:: python
+
+        cc_binary(
+            name = "main",
+            srcs = ["main.cpp"],
+            deps = select({
+                "@platforms//os:windows": ["@visionflow_windows//:visionflow"],
+                "@platforms//os:linux": ["@visionflow_linux//:visionflow"],
+            }),
+        )
+
+    在上述示例中，我们假设你的项目有一个名为 `main` 的 C++ 二进制目标，其中的 `main.cpp`
+    是你的源代码文件。通过添加 deps 部分，我们将 VisionFlow 添加为项目的依赖，使得你的
+    `main` 可以使用 VisionFlow 提供的功能。
+
+    确保根据你的项目目录结构和构建需求进行相应的调整。这个示例只是为了说明如何将 VisionFlow
+    添加到 Bazel 构建的项目中。
+
+.. tab:: CMake
+
+    我们推荐使用 CMake 的 FetchContent 来导入 VisionFlow。在你的项目中创建一个名为
+    `find_visionflow.cmake` 的文件，并在其中写入以下内容：
+
+    .. code-block:: cmake
+
+        include(FetchContent)
+
+        FetchContent_Declare(
+            visionflow
+            URL <VisionFlow_URL>
+            UPDATE_DISCONNECTED
+        )
+
+        FetchContent_GetProperties(visionflow)
+
+        if(NOT visionflow_POPULATED)
+            FetchContent_Populate(visionflow)
+
+            add_library(VisionFlow SHARED IMPORTED)
+            set_target_properties(
+                VisionFlow
+                PROPERTIES
+                IMPORTED_IMPLIB
+                ${visionflow_SOURCE_DIR}/lib/visionflow.if.lib
+                IMPORTED_IMPLIB_DEBUG
+                ${visionflow_SOURCE_DIR}/lib/visionflow.if.lib
+                IMPORTED_IMPLIB_RELEASE
+                ${visionflow_SOURCE_DIR}/lib/visionflow.if.lib
+                IMPORTED_LOCATION
+                ${visionflow_SOURCE_DIR}/bin/visionflow.dll
+                IMPORTED_LOCATION_DEBUG
+                ${visionflow_SOURCE_DIR}/bin/visionflow.dll
+                IMPORTED_LOCATION_RELEASE
+                ${visionflow_SOURCE_DIR}/bin/visionflow.dll
+                INTERFACE_INCLUDE_DIRECTORIES
+                ${visionflow_SOURCE_DIR}/include
+            )
+
+
+            install(
+                DIRECTORY
+                ${visionflow_SOURCE_DIR}/bin/
+                DESTINATION release
+            )
+        endif()
+
+    接下来，你可以在你的 `CMakeLists.txt` 文件中包含 `find_visionflow.cmake` .
+
+
+.. tab:: Visual Studio
+
+    要将 VisionFlow 库添加到 Visual Studio 的 C++ 项目中，按照以下步骤进行操作：
+
+    1. 从发布电子邮件中的链接下载预编译的 VisionFlow zip 包。
+
+    2. 将 VisionFlow zip 包的内容解压到计算机上的所需位置。
+
+    3. 在 Visual Studio 中打开你的 C++ 项目。
+
+    4. 在“解决方案资源管理器”中，右键点击项目，从上下文菜单中选择“属性”。
+
+    5. 在“属性页”窗口中，导航到“配置属性” -> “VC++目录”。
+
+    6. 在“包含目录”字段中，添加解压后 VisionFlow 包内的“include”文件夹的路径。
+    这个文件夹包含必要的头文件。你可以手动输入路径，也可以使用“...”按钮浏览并选择文件夹。
+
+    7. 在“库目录”字段中，添加解压后 VisionFlow 包内的“lib”文件夹的路径。
+    这个文件夹包含必要的库文件。同样，你可以手动输入路径，也可以使用“...”按钮浏览并选择文件夹。
+
+    8. 转到“配置属性” -> “链接器” -> “输入”。
+
+    9. 在“附加依赖项”字段中，添加“visionflow.if.lib”。
+
+    10. 点击“确定”以保存更改。
+
+    以上步骤说明了如何将 VisionFlow 库添加到 Visual Studio 中的 C++ 项目中。请注意根据你的
+    项目和文件路径，确保适当地调整路径。现在，你已经将预编译的 VisionFlow 包添加到了
+    Visual Studio 中的 C++ 项目中。然后注意确保在你的源文件中包含所需的 VisionFlow 头文件即可。
+
+.. note::
+    VisionFlow的原生C++接口可能包含一些 C++17 语法，构建系统时，需要指定编译器使用C++17标准。
+    否则可能因为C++标准不同导致编译失败。
+
+C#
+---
+
+对于C#开发人员来说，`VisionFlow` 只是一个预编译的二进制库，需要作为项目的依赖添加。
+`VisionFlow` 不仅提供了“visionflow.cs”源代码文件，还提供了基于.NET 6.0的预编译二进制库“csharp_visionflow.dll”。
+要在 `Visual Studio` 中将 `VisionFlow` 库添加到你的C#项目中，请按照以下步骤进行操作：
+
+1. 从发布电子邮件中的链接下载预编译的 `VisionFlow` 包。
+
+2. 将 `VisionFlow` 包的内容解压到计算机上的所需位置。
+
+3. 在 `Visual Studio` 中打开你的 C# 项目。
+
+.. tab:: visionflow.cs
+
+    注意，C#版本必须大于等于.NET 4。
+
+    如果你想要自己编译源代码，继续按照下步骤操作：
+
+    1. 将 `VisionFlow` 发布包中的“csharp/visionflow.cs”文件复制到你的C#项目中的所需位置。
+
+    #. 在“解决方案资源管理器”中点击“显示所有文件”，找到“visionflow.cs”并右键点击，选择“包括在项目中”。
+
+    #. 将“bin”目录中的所有文件复制到生成“.exe”文件的文件夹中，或将“bin”添加到环境变量中。
+
+    #. 对于目标框架为.NET Framework的C#项目，需要额外的配置。在“解决方案资源管理器”中，右键点击你的项目，
+       从上下文菜单中选择“属性”。选择“生成”，确保“首选32位”**未选中** 。
+
+.. tab:: csharp_visionflow.dll
+
+    注意，C#版本必须大于等于.NET 6.0。
+
+    1. 在“解决方案资源管理器”中右键单击您的项目，然后从上下文菜单中选择“添加” -> “项目引用”。
+
+    #. 点击左侧列表的“浏览”，并选择下方“浏览”，添加“bin”目录中的“csharp_visionflow.dll”。
+
+    #. 勾选“csharp_visionflow.dll”，然后点击下方的“确定”。
+
+    #. 将“bin”目录中的所有文件复制到生成“.exe”的文件夹中，或将“bin”添加到环境变量中。
+
+现在你已经将预构建的 `VisionFlow` 包添加到了 `Visual Studio` 中的C#项目中。
+
+
+Python
+-------
+对于Python开发人员来说，需使用 `VisionFlow` 包中的python解释器进行开发，该解释器的运行依赖于 `VisionFlow` 包中的二进制文件。
+
+开发者可按照下步骤操作：
+
+1. 从发布电子邮件中的链接下载预编译的 `VisionFlow` 包。
+
+2. 将 `VisionFlow` 包的内容解压到计算机上的所需位置。
+
+3. 启动 `VisionFlow` 包中 ``bin/python.exe`` 解释器。
+
+4. 在python源码中 ``import visionflow`` 即可使用 `VisionFlow` 功能。
+
+
+在Linux平台使用 VisionFlow
+---------------------------
+
+对于Linux平台，我们提供了 **Dockerfile** 文件协助配置基础的运行环境。你可以从发布邮件中下载 ``Dockerfile`` 文件
+并直接构建它即可（如果你无法访问阿丘科技内部网盘，那么你需要自行修改 ``Dockerfile`` 中的文件链接或者修改其中的
+镜像构建规则为从本地获取）。
+
+如果你使用Bazel作为构建工具你的项目的构建工具，那么在我们提供的镜像环境中，你有两种不同的方式将 VisionFlow 引入
+你的项目：
+
+1. 直接使用我们提供的 ``Dockerfile`` 构建镜像，构建镜像时会自动将对应版本的 VisionFlow 库放入镜像中，并配置好相
+   关的执行环境（你可以直接进入镜像执行 ``visionflow --help`` 验证这一点），然后在你的 Bazel 项目中使用 ``local_repository``
+   规则从 ``/usr/local/visionflow`` 目录导入 VisionFlow 依赖库。
+2. 修改我们提供的 ``Dockerfile`` 文件，删除其中有关添加 VisionFlow 依赖库和配置执行环境的部分，然后在你的 Bazel 工程中
+   使用 ``http_archive`` 规则直接从网络路径拉取 VisionFlow 库作为你的项目的依赖项。
+
+.. note::
+    在运行容器时需要添加GPU相关的参数 ``--gpus=all`` 或 ``--gpus "device=0,1"`` 使容器获得宿主机器的硬件资源。
+    进入容器后，如果你可以通过 `nvidia-smi` 命令获取到GPU信息，则证明容器能够访问GPU资源。
+
+
+Docker容器中的授权问题
+~~~~~~~~~~~~~~~~~~~~~~~
+
+如果遇到无法连接授权码的问题，通过以下命令检查授权库服务是否处于运行中：
+
+.. code-block:: shell
+
+    service senseshieldd status
+
+如果出现 ``senseshield stopped`` 则需要通过命令 ``service senseshieldd start`` 启动服务。
+
+对于本地硬件授权，仅支持Linux宿主机启动docker容器。启动时添加命令： ``-v /scp/:/scp --privileged`` 将USB设备挂载到docker容器内：
+
+.. code-block:: shell
+
+    docker run -it --gpus=all -v /scp/:/scp --privileged image_name
+
+Windows宿主机的docker容器暂不支持本地硬件授权，仅支持网络授权服务，你可以在其他机器上启动授权服务，并通过指定授权服务IP地址和
+授权设备ID连接到远程授权服务。
+
+
+脚注：
+
+.. [exp] 实验性的接口后续可能发生变化。
+.. [cabi] cabi相关接口头文件位于SDK包内 ``include/cabi`` 目录内。
+.. [cppabi] cppabi相关接口头文件位于SDK包内 ``include/cppabi`` 目录内。

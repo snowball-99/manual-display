@@ -1,0 +1,45 @@
+Global Settings
+===========================================================================
+
+The following settings are used to configure the global settings of the
+application. Generally, you'd better to configure them when you start the
+application and do not change them during the running time, although some
+of them can be changed at any time.
+
+Product Information
+--------------------
+
+.. doxygenstruct:: visionflow::ProductInfo
+   :members:
+
+Logging Settings
+-----------------
+
+.. doxygentypedef:: LogSinkFunc
+
+.. doxygenstruct:: visionflow::LoggerOptions
+   :members:
+
+.. doxygenfunction:: visionflow::init_logger
+
+.. doxygenclass:: visionflow::ILogSink
+   :members:
+
+Init Settings
+--------------
+
+.. doxygentypedef:: LicenseErrorCallBack
+
+.. doxygenstruct:: visionflow::LicenseOptions
+   :members:
+
+.. doxygenstruct:: visionflow::InitOptions
+   :members:
+
+.. doxygenfunction:: visionflow::initialize
+
+Environment Variables
+-----------------------
+
+.. doxygenclass:: visionflow::Environment
+   :members:

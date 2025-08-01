@@ -1,0 +1,321 @@
+脚本流程
+#########
+
+脚本流程 :cpp:class:`visionflow::param::ScriptPipeline` 是测量工具等工具中，帮助用户自定义测量流程的参数接口类。
+它允许用户定义 **预脚本** 和 **求解项** ，以及为求解项添加依赖关系，并将这些定义转换为可执行的 Python 脚本。
+用户也能够从已定义的处理流程中反向解析出各个信息。
+
+脚本流程中数据表示规则
+**********************
+
+为了将处理流程关系和脚本的表达逻辑统一在一个数据源中，我们对表达脚本做了一定的规约，限制了用户的表达形式。
+
+预脚本
+=======
+
+脚本流程支持用户设置 **预脚本**。
+你可以在预脚本中导入模块、定义一些全局变量或函数等以便后续使用。
+
+.. code-block:: cpp
+
+    visionflow::param::ScriptPipeline pipeline;
+    // 设置预脚本.
+    pipeline.set_pre_script("import external\n\nglobal_info = external.data");
+
+.. code-block:: python
+
+    import external
+
+    global_info = external.data
+
+求解项
+=======
+
+脚本流程中支持用户自定义 **求解项** 作为处理流程中的基本单元。
+
+一个求解项可以是单条语句或一个 if-else 逻辑块。当它是单条语句时，它可以是一条表达式或一个函数调用。
+
+1. 单条语句：无条件被执行的表达式或函数调用。使用 :cpp:func:`visionflow::param::ScriptPipeline::add_item` 以添加。
+
+   1. 表达式：一个符合 Python 语法的表达式语句的变体。
+
+      - 在表达式中，用户可以自行使用约定的符号 ``${}`` 标识出表达式中的参数部分。
+      - 例如： ``${line}.length() + ${circle}.radius`` 这个表达式中有两项参数，分别是 ``line`` 和 ``circle`` 。
+
+   #. 函数调用：可调用的函数名。
+
+      - 例如： ``geo.find_line`` ， ``geo.find_circle`` 。
+      - **用户应清楚各个函数的输入输出参数信息**。包括参数名、参数类型类型、取值范围等信息。
+
+   在执行时会根据解决方法中是否含有符号 ``$`` 来区分两种不同的形式，并采取不同的参数填充形式。
+
+2. if-else 逻辑块：包括3条表达式，分别为条件判断、条件为真时执行的表达式、条件为假时执行的表达式。使用 :cpp:func:`visionflow::param::ScriptPipeline::add_conditional_item` 以添加。
+
+**我们约定求解项的结果总是通过字典方式被存储在特定变量中** ，且后续使用时也通过特定变量直接读取数据。
+同时，为了优化代码结构和执行效率，我们会根据处理流程，在预脚本之后定义一个类 ``VFLOW_GaugePipeline_8c95f1b51`` ，并创建了这个类的实例对象 ``vf_pipeline_8c95f1b5`` 。
+在 ``VFLOW_GaugePipeline_8c95f1b51`` 中：
+
+  - 会为每个求解项生成一个函数调用，代表该求解项的计算逻辑。
+  - 会生成一个执行函数 ``__call__`` 用于计算处理流程中指定需要输出的求解项。
+  - 字典 ``vf_pipeline_8c95f1b5.outs`` 和 ``vf_pipeline_8c95f1b5.internals`` 用于存储求解项的结果。
+  - ``outs`` 存储被指定需要输出的求解项的结果， ``internals`` 存储这些被指定输出的求解项的中间依赖项的结果。
+
+.. code-block:: cpp
+
+    pipeline.add_item("直线1", "find_line");
+
+    pipeline.add_item("字符串x2", "${arg} + ${arg}");
+    pipeline.set_arg("字符串x2", "arg", "\"str\"");
+
+    pipeline.add_item("is_square", "${value}");
+    pipeline.set_arg("is_square", "value", "True");
+    pipeline.add_conditional_item("矩形面积", "${is_square}", "${side} ** 2", "${width} * ${length}");
+    pipeline.set_arg("矩形面积", "is_square", "$", "is_square");
+    pipeline.set_arg("矩形面积", "side", "1");
+    pipeline.set_arg("矩形面积", "width", "2");
+    pipeline.set_arg("矩形面积", "length", "3");
+
+.. code-block:: python
+
+    class VFLOW_GaugePipeline_8c95f1b51:
+        def check_deps_has_none(self, deps: list[str]):
+            for dep in deps:
+                if dep in self.internals and self.internals[dep] is None:
+                    return True
+            return False
+
+        @cached_item_res_8c95f1b5("is_square")
+        def vflow_item_func_0(self, image, view):
+            self.internals["is_square"] = True
+
+            return self.internals["is_square"]
+
+        @cached_item_res_8c95f1b5("字符串x2")
+        def vflow_item_func_1(self, image, view):
+            self.internals["字符串x2"] = "str" + "str"
+
+            return self.internals["字符串x2"]
+
+        @cached_item_res_8c95f1b5("直线1")
+        def vflow_item_func_2(self, image, view):
+            self.internals["直线1"] = find_line()
+
+            return self.internals["直线1"]
+
+        @cached_item_res_8c95f1b5("矩形面积")
+        def vflow_item_func_3(self, image, view):
+            if self.check_deps_has_none(["is_square"]):
+                self.internals["矩形面积"] = None
+                return None
+
+            if self.vflow_item_func_0(image, view) is None:
+                self.internals["矩形面积"] = None
+                return None
+
+            if self.internals["is_square"]:
+                self.internals["矩形面积"] = 1 ** 2
+            else:
+                self.internals["矩形面积"] = 2 * 3
+
+            return self.internals["矩形面积"]
+
+        def __call__(self, image, view):
+            self.outs = {}
+            self.internals = {}
+            self.outs["is_square"] = self.vflow_item_func_0(image, view)
+            self.outs["字符串x2"] = self.vflow_item_func_1(image, view)
+            self.outs["直线1"] = self.vflow_item_func_2(image, view)
+            self.outs["矩形面积"] = self.vflow_item_func_3(image, view)
+            return self.outs
+
+可变参数和常量参数
+------------------
+
+求解项参数支持两种形式：可变参数和常量参数。
+
+1. 可变参数：用户明确取值来自前面其他求解项结果或者结果的某个属性。
+
+   - 求解项的参数值依赖于其他求解项的结果。
+   - 我们约定；通过 ``$`` 符号表示引用的求解项的对象变量。 **这里的实现与表达式中的不同** 。
+   - 可以通过该符号重复引用同一个求解项。
+
+#. 常量参数：用户在参数设置阶段可以明确下来的参数。
+
+   - 这些参数不依赖于其他求解项的结果，它可以是字面量或由预脚本导入的常量、变量或函数的调用。
+   - 我们约定：始终以直接对应的 Python 代码字符串表示。
+
+.. code-block:: cpp
+
+    pipeline.add_item("直线1", "find_line");
+    // 添加常量参数.
+    pipeline.set_arg("直线1", "arg1", "0");
+
+    pipeline.add_item("正方形面积", "${width} ** 2");
+    // 添加求解项可变参数
+    // 传入参数依次为：本求解项、本求解项参数名、参数值、参数值中引用的求解项
+    pipeline.set_arg("正方形面积", "width", "$.length", "直线1");
+
+.. code-block:: python
+
+    class VFLOW_GaugePipeline_8c95f1b51:
+        def check_deps_has_none(self, deps: list[str]):
+            for dep in deps:
+                if dep in self.internals and self.internals[dep] is None:
+                    return True
+            return False
+
+        @cached_item_res_8c95f1b5("正方形面积")
+        def vflow_item_func_0(self, image, view):
+            if self.check_deps_has_none(["直线1"]):
+                self.internals["正方形面积"] = None
+                return None
+
+            if self.vflow_item_func_1(image, view) is None:
+                self.internals["正方形面积"] = None
+                return None
+
+            self.internals["正方形面积"] = self.internals["直线1"].length ** 2
+
+            return self.internals["正方形面积"]
+
+        @cached_item_res_8c95f1b5("直线1")
+        def vflow_item_func_1(self, image, view):
+            self.internals["直线1"] = find_line(
+                arg1=0,
+            )
+
+            return self.internals["直线1"]
+
+        def __call__(self, image, view):
+            self.outs = {}
+            self.internals = {}
+            self.outs["正方形面积"] = self.vflow_item_func_0(image, view)
+            self.outs["直线1"] = self.vflow_item_func_1(image, view)
+            return self.outs
+
+依赖关系
+------------------
+
+注意到以上两个例子中存在一些自动添加的条件判断： ``if self.check_deps_has_none(["is_square"])`` 和 ``if self.check_deps_has_none(["直线1"])``。
+我们认为，对于依赖其他求解项的求解项而言，被依赖对象不为空是必要条件。但由于这一规则是普遍的，因此对于依赖的对象，
+总是会 **自动判定依赖的求解项是否存在** 。仅在依赖的求解项存在的情况下才执行对应的解决方法。
+
+对于 if-else 逻辑块的求解项，我们保证这些判断只添加在必要的分支。即，只在一个分支被依赖的其他求解项即使不存在也不影响另一分支的执行。
+
+.. code-block:: cpp
+
+    pipeline.add_item("依赖1", "find_line");
+    pipeline.add_item("依赖2", "find_line");
+    pipeline.add_conditional_item("正方形面积", "True", "${依赖1}.length ** 2", "${依赖2}.length ** 2");
+    pipeline.set_arg("正方形面积", "依赖1", "$", "依赖1");
+    pipeline.set_arg("正方形面积", "依赖2", "$", "依赖2");
+
+.. code-block:: python
+
+    class VFLOW_GaugePipeline_8c95f1b51:
+        def check_deps_has_none(self, deps: list[str]):
+            for dep in deps:
+                if dep in self.internals and self.internals[dep] is None:
+                    return True
+            return False
+
+        @cached_item_res_8c95f1b5("依赖1")
+        def vflow_item_func_0(self, image, view):
+            self.internals["依赖1"] = find_line()
+
+            return self.internals["依赖1"]
+
+        @cached_item_res_8c95f1b5("依赖2")
+        def vflow_item_func_1(self, image, view):
+            self.internals["依赖2"] = find_line()
+
+            return self.internals["依赖2"]
+
+        @cached_item_res_8c95f1b5("正方形面积")
+        def vflow_item_func_2(self, image, view):
+            if True:
+                if self.check_deps_has_none(["依赖1"]):
+                    self.internals["正方形面积"] = None
+                    return None
+
+                if self.vflow_item_func_0(image, view) is None:
+                    self.internals["正方形面积"] = None
+                    return None
+
+                self.internals["正方形面积"] = self.internals["依赖1"].length ** 2
+            else:
+                if self.check_deps_has_none(["依赖2"]):
+                    self.internals["正方形面积"] = None
+                    return None
+
+                if self.vflow_item_func_1(image, view) is None:
+                    self.internals["正方形面积"] = None
+                    return None
+
+                self.internals["正方形面积"] = self.internals["依赖2"].length ** 2
+
+            return self.internals["正方形面积"]
+
+        def __call__(self, image, view):
+            self.outs = {}
+            self.internals = {}
+            self.outs["依赖1"] = self.vflow_item_func_0(image, view)
+            self.outs["依赖2"] = self.vflow_item_func_1(image, view)
+            self.outs["正方形面积"] = self.vflow_item_func_2(image, view)
+            return self.outs
+
+同时我们也提供了 :cpp:func:`visionflow::param::ScriptPipeline::deps_on` 和
+:cpp:func:`visionflow::param::ScriptPipeline::used_by` 供用户获取变量之间的依赖关系。
+
+用标签管理求解项
+--------------------
+
+我们支持通过标签管理求解项。每个标签都是一个字符串键值对，有名称和值。同一个求解项可以有多个名称各不相同的标签。
+
+部分管理标签的接口（例如 :cpp:func:`visionflow::param::ScriptPipeline::item_remove_tag`
+和 :cpp:func:`visionflow::param::ScriptPipeline::remove_tag`）有两种重载：
+一种只要求参数 ``tag``，在标签名匹配时就生效；另一种要求参数 ``tag`` 和 ``value``，要求标签名和值都与参数匹配时才生效。
+
+.. code-block:: cpp
+
+    pipeline.add_item("直线1", "find_line");
+    pipeline.item_add_tag("直线1", "tag1", "value1.1");
+    pipeline.item_add_tag("直线1", "tag2", "value2.1");
+
+    pipeline.add_item("直线2", "find_line");
+    pipeline.item_add_tag("直线2", "tag1", "value1.2");
+
+    pipeline.item_tags("直线1");                     // 返回 {"tag1": "value1.1", "tag2": "value2.1"}
+    pipeline.find_tagged_items("tag1");             // 返回 {"直线1", "直线2"}
+    pipeline.find_tagged_items("tag1", "value1.1"); // 返回 {"直线1"}
+    pipeline.all_tags();                            // 返回 {"tag1", "tag2"}
+    pipeline.all_tag_values("tag1");                // 返回 {"value1.1", "value1.2"}
+
+
+脚本生成规则
+=============
+
+用户通过 :cpp:func:`visionflow::param::ScriptPipeline::to_script` 获取脚本流程对应的 Python 执行脚本。
+求解项流程总是生成在类的 ``__call__(self, image, view)`` 方法中，类名则由用户定义。例如：
+
+.. code-block:: cpp
+
+    pipeline.set_pre_script("import external");
+    auto script = pipeline.to_script("Pipeline", {"outputted_item1", "outputted_item2"});
+
+.. code-block:: python
+
+    import external
+
+    class Pipeline:
+
+        # item functions ...
+
+        def __call__(self, image, view):
+        self.outs = {}
+        self.internals = {}
+        self.outs["outputted_item1"] = self.vflow_item_func_0(image, view)
+        self.outs["outputted_item2"] = self.vflow_item_func_1(image, view)
+        return self.outs
+
+``__call__`` 函数总是会将 ``self.outs`` 作为返回值，用户可以通过 ``self.outs`` 获取被指定输出的求解项的结果。

@@ -1,0 +1,2088 @@
+# Reference
+
+## Software Introduction
+
+### Functional layout
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-18.png)
+
+### Terminological concepts
+
+● Workspace:
+
+```
+It is the storage location for newly created AI projects. Generally, the projects at a project site are saved within one workspace, which facilitates project management and maintenance by on - site personnel.
+```
+
+● Project: 
+
+```
+Usually, for the images under an optical solution, one project is established. Then, one or more AI modules are created within the project to achieve defect annotation and model training.
+```
+
+● Dataset:
+
+    ○ Training set:  After defect annotation is completed, the images are added to the training set. These are the data used for training the model to learn defect features.
+    ○ Test set: The images with completed defect annotation that are not added to the training set. After the model is trained, these images are used to evaluate the model's recognition effect on other defect features.
+    ○ Unmarked: Can be used for manual model evaluation
+
+● View:
+
+    View: A rectangular box (ROI) based on the original image, with the image inside the box referred to as the view
+    View transformation: The transformation settings of the view box
+    View Mask: Draw interference areas, which will be blacked out and will not participate in training
+    View filtering: By filtering settings, retain the desired views
+
+● OK and NG diagrams:
+
+    ○ OK image: Good product image
+    ○ NG diagram: defect diagram
+
+● Unannotated Images: 
+
+```
+Images imported into the software but not manually annotated.  They can be used as data to test the model's performance after the model is trained.  However, due to the lack of annotation information on these images, it is impossible to count the defect over - detection and missed - detection information on such images in the software's evaluation page.  It is necessary to manually check the recognition effect of the model on each of these images one by one.
+```
+
+● Annotated Images:
+
+```
+Images imported into the software, and the defect annotation tool of the AI module is used to mark the defects on the images. These are the data used for training and evaluating the model.
+```
+
+● Indicators:
+
+    ○ Missing detection rate=Number of Un-detected NG / Total Number of NG
+    ○ Over-Detection Rate = Number of OK Marked as NG / Total Number of OK
+    ○ Inspection rate = Number of OK judged as NG/Total number of OK
+    ○ Accuracy = Number of Correct Classifications / Total Number
+    ○ Recall = Number of NG Marked as NG by the Model / (Number of NG Marked as NG by the Model + Number of NG Marked as OK by the Model). The higher the recall, the fewer missed-detected areas there are in the image.
+    ○ Precision = Number of NG Marked as NG by the Model / (Number of NG Marked as NG by the Model + Number of OK Marked as NG by the Model). The higher the precision, the fewer over-detected areas there are in the image.
+
+● Confusion matrix:
+
+```
+Confusion matrix is a commonly used model evaluation tool, with manual annotation vertically and inference results horizontally. The confusion matrix can intuitively understand which class of samples the model performs poorly in and which other classes are easily confused with.
+```
+
+● Tag：<br>
+
+```
+Image Tag: used to identify images and can identify their attributes (batch, collection time, type of defect, etc.);
+View Tag: The tag of a view that can identify the features of the view
+```
+
+● Basic operations:<br>
+
+```
+Annotation: Draw defect areas in the image.
+Label: Category of defect.
+Do not learn regions/masks:regions that the model does not want to focus on.
+Key learning areas: The areas that the model is expected to focus on.
+```
+
+● TP: 
+
+```
+True Positive refers to the number of positive-class samples that are correctly predicted as positive - class. In the software, it can be understood as "the number of NG cases that are correctly identified as NG by the model".
+```
+
+● FP: 
+
+```
+False Positive refers to the number of negative-class samples that are incorrectly predicted as positive - class. In the software, it can be understood as "the number of OK cases that are wrongly identified as NG by the model".
+```
+
+● FN: 
+
+```
+False Negative refers to the number of positive-class samples that are actually positive but are incorrectly predicted as negative - class.<br> In the software, it can be understood as "the number of NG cases that are wrongly identified as OK by the model".
+```
+
+
+
+### Engineering management
+
+(1) Entrance
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-19.png)
+
+(2) Create a workspace<br>
+Users can choose to load local directories or create new sub workspaces under existing workspaces
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-20.png)
+
+(3) Create Project
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-21.png)
+
+Select the desired project type and enter the project name
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-22.png)
+
+(4) Operations supported by the workspace
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-23.png)
+
+1. Renaming the workspace<br>
+2. Save workspace as<br>
+3. New construction project<br>
+4. Engineering List<br>
+5. Open all projects<br>
+6. View workspace information<br>
+7. Delete workspace<br>
+
+(5) Engineering supported operations
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-24.png)
+
+1. Thumbnails<br>
+2. Project renaming<br>
+3. Engineering Information<br>
+4. Annotation information editing<br>
+5. Delete project<br>
+6. Open the project<br>
+
+#### Engineering management Sample Case
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-25.png)
+
+1. create the project based on camera positon
+
+### Image operation
+
+#### Import Image
+
+(1) Import on an image basis
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-26.png)
+
+(2) Import by folder
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-27.png)
+
+#### Data export
+
+If exporting the image of the algorithm module, <br>the steps for exporting are as follows:<br>
+1.First, select the corresponding image in the image list<br>
+2.Click the export button in the IO area of the current module image or right-click on the image list and select "**Export Selected Images/Annotation**s"<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-28.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-29.png)<br>
+
+3.Choose to export the original image/annotations, or choose to export the rendered image<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-30.png)<br>
+
+4.If you choose to export the original image/annotations, <br>you can check the options in the original image and annotations (you can freely choose to export only annotations/original image or export all)<br>
+5.Select the desired export path and click OK to complete the data export<br>
+6.Under the specified path, you can see the data package file stored this time
+
+#### Data import
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-31.png)
+
+1.Click on the upper right corner of the main interface to import images<br>
+2.Select the 3.0 exported data package file
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-32.png)
+
+3.Enter the packet panel
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-33.png)
+
+4.Further data filtering can be performed based on image tags. <br>The connection conditions between tag filters are and, with a maximum of 3 added
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-34.png)
+
+5.The original image and annotations can be checked, and the image can be checked<br>
+6.Click OK to proceed <br>
+In addition, if the current module already has an image, importing the data package can only select annotations corresponding to the existing image, which can achieve automatic matching
+
+#### Annotations between different modules support each other
+
+1. Annotations for segmentation and detection support each other<br>
+
+2. Annotations for segmentation and unsupervised segmentation support each other<br>
+
+3. OCR and detection annotations support each other<br>
+
+4. The labeling of detection and positioning (assembly inspection) supports each other
+
+#### Compatible with old version annotations
+
+##### Compatibility instructions
+
+Annotations for versions 2.3 and 2.4 can be imported and used in version 3.2 (compatible with aqlabel files)
+
+##### Operation steps
+
+**2.X first module annotation import 3.0**<br>
+
+(1) Data to be prepared:<br> 2. X first module source folder and label folder, and these two folders need to be placed in the same level directory<br>
+
+(2) 3.0 New Construction Projects<br>
+
+(3) Add the corresponding first module after the input node<br>
+
+(4) Click on "**Add Image**" in the first module, select the image from the source, and click "**Add**"<br>
+
+(5) Go to the view converter of the current module and click **Apply**. You can see the reserved annotations now
+
+#### Third party annotation import
+
+Splitting module:<br>
+● Support Labelme: JSON format annotation files<br>
+Detection module:<br>
+● Support Labelme: JSON format annotation files<br>
+● Support Labelimage: XML, JSON format annotation files
+
+#### Image list function
+
+(1) Right click function:
+
+ ![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-35.png)  
+
+### Add tools
+
+(1) Click the add button
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-36.png)
+
+(2) Enter the Add Module interface
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-37.png)
+
+1. Click to add the corresponding module<br>
+
+2. Click on the module to view the introduction information<br>
+
+(3) Parallel modules<br>
+Continue to add other tools behind the module to complete module parallel connection
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-38.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-40.png)
+
+(4) Series module<br>
+Continue to add modules after the modules to complete module concatenation
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-41.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-42.png)
+
+### Data annotation
+
+#### Brush tools
+
+##### Polygon drawing tools
+
+The polygon drawing tools are: <br>circular pen, square pen, circular line pen, square line pen, pen, pencil, two-point circle drawing tool, magic wand tool, and quick annotation tool.
+
+(1) Circular and square pens: <br>Circular brush tools with a diameter of the brush size. <br>A square brush tool with a side length equal to the size of the brush. <br>The **A** key on the keyboard increases the brush size, while the **D** key reduces the brush size.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-43.png)
+
+(2) Circular Line Pen and Square Line Pen: <br>Circular Line Pen tool. <br>After setting the starting point with the left mouse button, you can continuously left click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The diameter is the size of the brush. <br>The square line pen has a square shape. <br>After setting the starting point with the left mouse button, you can continuously click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The line width is the size of the brush.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-44.png)
+
+(3) After filling with a pen and setting the starting point with the left mouse button, click continuously with the left mouse button to draw multiple line segment contours. <br>Double click the left mouse button to close the contour, and the area enclosed by the contour will be automatically filled with annotations, which is not affected by the size of the brush. When using, avoid crossing the contour line segments.<br>
+Pencil filling: <br>Press and hold the left mouse button to draw the outline of the annotation. <br>Release the left mouse button to automatically fill it as the annotation, which is not affected by the size of the brush.<br> When using it, avoid crossing the outline line segments.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-45.png)
+
+(4) Draw a circle at two points: <br>After setting the starting point with the left mouse button, drag the mouse to draw a circle, double-click the left mouse button to close the contour, and the area enclosed by the contour is automatically filled with annotations, which is not affected by the size of the brush.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-46.png)
+
+(5) Magic Wand: <br>For some images with clear boundaries, the Magic Wand tool can quickly extract the images. <br>The function of the Magic Wand is to know the color of the position you clicked on, and automatically obtain the same color in nearby areas, making them in a selection state. <br>Not affected by brush size. <br>And you can set the effective range (ROI) of the magic wand.<br> In addition, you can also choose whether to fill the holes and voids when using the magic wand tool
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-47.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-48.png)
+
+(6) Quick annotation: <br>Select the area by adding a tool pen and deleting the tool pen deletion area. <br>When adding a tool pen to enclose the area, the area is selected. <br>When deleting the tool pen, annotate the selected area. If the area is not enclosed by the deleted pen, it is no longer selected. <br>After completing the drawing, click **Apply** to complete the annotation. <br>Not affected by brush size.<br>* When there is a certain contrast between the defect boundary and the product background, it is recommended to use other tools. <br>* For slender defects with less than 3 pixels, it is recommended to use other tools.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-49.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-50.png)
+
+(7) Eraser:<br>
+The diameter of the circular eraser is the size of a brush and is used to erase annotations.<br>
+A square eraser with a brush size edge is used to erase annotations.<br> 
+The linear eraser pen is circular in shape. After setting the starting point with the left mouse button, you can continuously click to draw multiple straight line annotations. Double click the left mouse button to end the annotation. <br>The line width is the size of the brush and is used to erase the annotation.<br>
+*Erasers can choose the shape of the eraser and the type of defect to be erased.<br>
+
+(8) Brush size: <br>Display the brush size in pixels. <br>The keyboard "**A**" key enlarges the brush, and the "**D**" key reduces the brush.<br>
+
+(9) Reverse selection: <br>Click reverse selection to convert the original defect annotation area to the area without defect annotation.<br>
+
+(10) Mark corrosion expansion:<br>
+① Select the annotation category you want to perform corrosion expansion on<br>
+② Fill in the specific pixel values for expansion or corrosion, click OK to proceed
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-51.png)
+
+##### Rectangle drawing tool
+
+[Application scenario: Detection tool]<br>
+
+1. **Free box:**<br>After clicking, draw any rectangular box label diagonally. <br>After popping up the label box, select the label name and complete the annotation.<br>
+
+2. **Standard box:** <br>Click to directly place a fixed size rectangular box annotation, which can adjust the width and height of the rectangular box. <br>After popping up the label box, select the label name and complete the annotation.<br>
+   *It is recommended to use standard mode for annotation when the target size is fixed<br>
+
+##### Single point drawing tool
+
+[Application scenario: Positioning tool]<br>
+
+1. Precise point positioning tool: <br>Precise annotation of location feature points with category labels is required in the image.<br>
+   *The annotation points have been changed from circles to squares, expanding their usage scenarios. <br>In addition, square annotations are also applicable to circular targets and can be detected normally.<br>
+   *When using single point positioning, it is recommended to use copy (**ctrl+C**) and paste (**ctrl+V**) for quick annotation.<br>
+
+2. Quick annotation tool:<br>
+   (1) First, draw a line segment parallel to the height or width of the target
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-52.png)
+
+(2) Then hold down the left mouse button to draw
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-53.png)
+
+##### Attribute system
+
+(1) Set unique color attributes for annotation and inference results, and cannot set the same color attribute repeatedly. <br>Colors that have already been selected cannot be selected again.<br>
+(2) Set the color properties for the drawing process.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-54.png)
+
+#### Annotation mode
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-55.png)
+
+##### Defect annotation mode
+
+Defect labeling: used to identify defect features or extract product locations. In this mode, regions within the image view can be annotated
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-56.png)
+
+##### Key learning area drawing mode
+
+[Only the segmentation tool has this function]<br>
+Key learning areas: <br>areas that the model hopes to focus on<br>
+In this mode, it is possible to draw key learning areas within the image view
+
+##### Not learning region drawing mode
+
+Not learning regions: <br>regions that the model does not want to focus on<br>
+In this mode, it is possible to draw non learning regions within the image view
+
+### Label management
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-57.png)
+
+1.add label here<br>
+
+2.label list<br>
+
+3.delete label<br>
+
+### Annotation filtering
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-58.png)
+
+1. set filter here<br>
+2. click after setting<br>
+3. clear filter<br>
+4. set the filter as the tag results<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-59.png)
+
+The filtering items include:<br> category, category attributes, set, position, width, height, angle, area, etc<br>
+
+The annotation filtering result corresponds to the canvas: <br>Clicking on a row can directly jump to the corresponding annotation of the image
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-60.png)
+
+### Annotation distribution
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-61.png)
+
+1. You can select the type of distribution you want to view<br>
+2. You can select the labeling, test results, all<br>
+
+When the distribution type being viewed is category:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-62.png)
+
+1. Two filters<br>
+2. Y axis show the count<br>
+3. specific images info<br>
+4. X axis show the defect category<br>
+5. The current statistics are based on the range of images, which can be adjusted in the main list<br>
+
+When the distribution type being viewed is location:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-63.png)
+
+1.Filters can be specified<br>
+
+2.Coordinate information is displayed on mouse hover<br>
+
+3.Click to add a real image as a background to visualize the distribution of coordinate points.<br>
+
+When viewing distribution types such as width/height/angle:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-64.png)
+
+1. Value of the corresponding statistical range segment<br>
+
+### Tag management
+
+Tag types: <br>Image Tag, View Tag<br>
+Image Tag: <br>used to identify images and can identify their attributes (batch, collection time, type of defect, etc.);<br>
+View Tag: <br>The tag of a view that can identify the features of the view<br>
+
+1. Set Tag<br>
+   Entrance: <br>Right click on the image list and use shortcut keys to directly set tags for images
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-65.png)
+
+After clicking, the Tag window for the setting module will appear, allowing you to perform tag operations on the selected images in a centralized manner
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-67.png)
+
+Click the delete button in the Tag icon in the image information to quickly delete the corresponding view tag or image tag of the current image
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-68.png)
+
+### View operations
+
+What is view conversion?<br>
+It is used to select the effective image range of the current module according to the detection results of the previous module. <br>The image area within this range is the view
+
+#### View filtering
+
+entrance:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-69.png)
+
+By default, all NG categories are retained in the view. <br>Users can manually choose to retain defects of the specified category as the view source, or choose OK images as the view source<br>
+Select to keep the view, <br>uncheck to not keep the view
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-70.png)
+
+#### View transformation
+
+(1) Can draw new views
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-71.png)
+
+(2) You can modify the size, position, angle, and corrosion expansion of the generated view. <br>Recommend manually dragging the view box for quick editing
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-72.png)
+
+(3) Existing views can be deleted
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-73.png)
+
+(4) Views can be divided and merged
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-74.png)
+
+Can define the number of horizontal and vertical partitions as well as the partition interval, click on the partition to take effect, support recall and redo
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-75.png)
+
+Hold down the keyboard  "**ctrl**" and click in sequence to select multiple views. <br>Right click and select merge to perform the view merge operation<br>
+**Other:**<br>
+Parameter initialization
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-76.png)
+
+Recall and redo
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-77.png)
+
+Current view transformation identifier
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-78.png)
+
+#### View Mask
+
+(1) Automatic generation: <br>after clicking, the detection result of the previous module will be automatically used as the mask. <br>Also supports reverse selection, which can use areas other than the detection area as masks
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-79.png)
+
+(2) Manual drawing: <br>supports manual framing of new view areas
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-80.png)
+
+#### View Conversion - Image List Filter
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-81.png)
+
+Supported filtering items:<br>
+Search by image name<br>
+Search by Image Tag
+
+### Add training set
+
+#### Automatic partitioning (model training assistant)
+
+entrance:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-82.png)
+
+Model Training Assistant Main Interface:<br>
+It is divided into two functional sections: <br>data partitioning and training set recommendation.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-83.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-84.png)
+
+##### Data partitioning
+
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity
+
+##### Training set recommendation
+
+Automatically select training recommended data based on existing basic models.<br> It is recommended to train the basic model with a training set/complete set>=5%, covering various types of defects. <br>Selection ratio=selection quantity/complete set, recommended to take 5%<br>
+Note: <br>As long as the current model changes (switching models, retraining, etc.), all training recommendation sets will be cleared
+
+#### Manual division
+
+Right click on the image in the image list to add/remove the training set. <br>Support multiple selections.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-85.png)
+
+### Training
+
+#### Training Parameter
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-86.png)
+
+#### Execute training
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-87.png)
+
+### Inference
+
+#### Inference Parameter
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-88.png)
+
+#### Execute inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-89.png)
+
+
+### Evaluation results
+
+entrance:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-90.png)
+
+Comprehensive indicators
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-91.png)
+
+Training set accuracy: TP/(TP+FP) in the training set<br>
+
+Training set recall rate: TP/(TP+FN) in the training set<br>
+
+Test set accuracy: TP/(TP+FP) in the test set<br>
+
+Test set recall rate: TP/(TP+FN) in the test set<br>
+
+Accuracy: <br>The higher the accuracy, the fewer regional level passes; <br>Accuracy is relative to the predicted result, which represents how much of the positive predicted samples (defect samples) are correct. <br>Therefore, accuracy is: P=TP/(TP+FP)
+
+Recall rate:<br> The higher the recall rate, the fewer missed detections at the regional level; <br>The recall rate is relative to the sample, that is, how many positive samples (defective samples) are predicted correctly in the sample, such as TP. <br>All positive samples have two directions, one is judged positive and the other is misjudged negative, so there are a total of TP+FN. <br>Therefore, the recall rate R=TP/(TP+FN)
+
+Correct prediction: <br>The proportion of correctly predicted images at the image level to all evaluated images can be redirected to the corresponding image range by clicking the mouse.
+
+Error prediction: <br>The proportion of image level error prediction images to all participating images in the evaluation can be redirected to the corresponding image range by clicking the mouse.
+
+Total number of missed defects: <br>The number of missed defects (at the regional level), which can be clicked with the mouse to jump to the corresponding image range.
+
+Total number of inspected defects: <br>The number of inspected defects (at the regional level), which can be clicked with the mouse to jump to the corresponding image range.
+
+#### Confusion matrix
+
+Confusion matrix is a commonly used model evaluation tool, with manual annotation vertically and inference results horizontally. <br>The confusion matrix can intuitively understand which class of samples the model performs poorly in and which other classes are easily confused with.
+
+**Usage rules:**<br>
+(1) First, filter the dataset range:<br>
+All: The confusion matrix for all images.<br>
+Name retrieval: <br>Only display the confusion matrix of the filtered image based on the image storage name.<br>
+View Tag Retrieval:<br> Only display the confusion matrix of images filtered based on view tags.<br>
+Image Tag Retrieval: <br>Only display the confusion matrix of the filtered image based on the image tag<br>
+Training set:<br> Only display the confusion matrix of the training set.<br>
+Test set: <br>Only display the confusion matrix of the test set.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-92.png)
+
+(2) After selecting the dataset, you can choose whether to view the image level matrix or the region level matrix:<br>
+Image level is a qualitative result based on the entire image.<br>
+The regional level is a qualitative result based on the region of each image.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-93.png)
+
+(3) Then you can choose whether to view the quantity matrix or the probability matrix<br>
+The quantity matrix is the result of statistics based on the number of items.<br>
+The probability matrix is the result of statistics conducted proportionally.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-94.png)
+
+(4) After filtering to the desired result, you can click on any grid in the matrix, and the image list will automatically jump to the corresponding image according to the filtering rules.<br> It is possible to verify the results of each image in order to further optimize the model in a targeted manner.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-95.png)
+
+#### Category Overview
+
+Provided: <br>Number of missed defects (number of missed defects), number of passed defects (number of passed defects), accuracy (TP/(TP+FP)), recall (TP/(TP+FN)) for each defect category
+
+#### Model details
+
+Three sets of model time information are provided, namely total time, single graph testing time (average+maximum), and single iteration time (average+maximum)
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-96.png)
+
+#### Training Curve
+
+During the training process, users can observe the loss curve to help observe the progress of the training process.
+
+#### More
+
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-97.png)
+
+Area accuracy: <br>The accuracy calculated in units of defect area<br>
+
+Regional recall rate: <br>The recall rate calculated in units of defect areas
+
+### Image filtering
+
+#### Filter
+
+Filter criteria support:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-98.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-99.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-100.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-101.png)
+
+The filtering criteria support “and”, "or", and "non connection".
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-102.png)
+
+One click reset: <br>Click the reset button at the top of the list to quickly return to the initial state
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-103.png)
+
+#### Sort
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-104.png)
+
+#### List right-click menu
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-105.png)
+
+### Menu bar
+
+#### Files
+
+-New Project: Create a new project in the current workspace<br>
+
+-Recently opened projects: Recently opened projects<br>
+
+-Close Current Project: Close the current project on the main page<br>
+
+-Close All Projects: Close all currently open projects<br>
+
+-Delete Current Project: Delete the current project on the main page with caution
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_wj.png)
+
+#### Version
+
+-Save Current as Version: <br>Save the current status of the current project as version<br>
+-Fallback to the most recent version: <br>Fallback to the version that was previously saved in the current project<br>
+-Manage existing versions: <br>Manage all versions of the current project
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_bb.png)
+
+#### Tools
+
+-Factory Mode: <br>Enter the factory mode of the current project<br>
+-Comprehensive judgment tool: <br>Add a comprehensive judgment tool to the current project.<br> If a comprehensive judgment tool has already been established, it needs to be deleted first and then re created<br>
+-Export Report: <br>Edit the report for the current module of the current project and export the report
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_gj.png)
+
+#### Image
+
+-Import Image: The current project imports images in units of images<br>
+-Import folder: Import images in folders for the current project
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_tx.png)
+
+#### Training & Inference
+
+-Training current module: <br>Add the current module to the training/training queue in the current project<br>
+-Inference current module: <br>Adding inference to the current project module<br>
+-Training Task Management: <br>View/Manage Current Training Tasks<br>
+-One click inference for all images: <br>infer all images of the current project through a tree process<br>
+-One click reasoning for adding images: <br>Reasoning the current new image through a tree process
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_xltl.png)
+
+#### Model
+
+-Model export: <br>Export the current engineering model<br>
+-Training process curve: <br>View the training process curve of the current module in the current project<br>
+-Model Time: <br>View the model time information of the current module in the current project<br>
+-Model Information: <br>View the detailed model information of the current module in the current project
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_mx.png)
+
+#### Settings
+
+-Preferences: <br>Open preference settings<br>
+-Hardware selection: <br>Select the maximum number of GPUs and GPU priority for engineering training and inference, respectively<br>
+-Management of Judgment Standard Functions: <br>Managing the Judgment Standard Functions of Comprehensive Judgment Nodes<br>
+-Engineering volume optimization: <br>cleaning temporary engineering files to achieve significant reduction in engineering volume
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_sz.png)
+
+#### Window
+
+-Ruler: <br>Turn ruler on/off<br>
+-Auxiliary lines: <br>turning on/off auxiliary lines<br>
+-Coordinate values: <br>enable/disable coordinate values<br>
+-Image information:<br> enable/disable image information display<br>
+-Display advanced parameters: <br>enable/disable advanced parameters<br>
+-Enable OK/NG display: <br>Turn on/off the display of results in the bottom left corner of the canvas
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_sc.png)
+
+#### Help
+
+-Using Documents<br>
+-Development documentation<br>
+-Example Engineering<br>
+-Graphics Card Widgets<br>
+-View logs<br>
+-Shortcut key information<br>
+-About AIDI
+
+  ![img](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image/cdl/cdl_bz.png)
+
+
+
+
+### Version upgrade tool
+
+#### Usage
+
+1. Find the Tools folder in the AIDI installation directory<br>
+2. Find the 2To3 tool and double-click to open it
+   ![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-271.png)
+3. Select the old 2.4 project and the storage path after conversion
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-272.png)
+The data scope of the retained old project includes the following content:<br>
+(1) Figure<br>
+(2) Annotation<br>
+(3) Dataset partitioning<br>
+(4) View Tag<br>
+Applicable module scope:<br>
+Quick inspection+segmentation<br>
+Split+Split<br>
+Each individual module (except for positioning and region extraction)
+
+
+
+## Introduction to Tool Usage
+
+### Using Segment Tools
+
+Segment Scenario: Utilizing pixel-level detection capabilities to accurately identify defects, particularly minor ones. This method is suitable for detecting small surface imperfections such as scratches, dents, and cracks.
+
+#### Step 1 : Set Up The View
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page.**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-15.png)
+
+#### Step 2 : Add Label Categories
+
+![ ](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-101.png)
+
+#### Step 3 : Label The Defect Area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-278.png)
+
+The **S** key on the keyboard can save images and jump to the next one.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+1. **Use default labels :**<br>
+   After checking, the annotation will automatically use the selected label. <br>When labeling single category defects, it is recommended to check it
+2. **Save test results as annotations :** <br>After clicking, the test results will be converted to annotation results
+3. **Save as OK image and jump to :** <br>Save the current image as OK image and jump to the next image
+4. **Save :**<br> Save the current defect annotation without jumping to the next image
+5. **Save and jump :**<br> Save the current defect annotation and jump to the next image
+6. **Tag List :**<br> displays all current tags and their attributes. <br>Check the checkbox before the label, and the image will display the corresponding label annotation
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-280.png)
+
+#### Step 4 : Divide The Training Set
+
+**Method 1 : <br>Automatic partitioning**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-281.png)
+
+The model training assistant is divided into two functional sections: <br>**data partitioning** and **training set recommendation**.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-282.png)
+
+**Data Partitioning**<br>
+**Proportional partitioning :**<br> All annotated data is divided into training and testing sets according to the specified ratio.<br>
+**Quantity division :** <br>All annotated data is divided into training and testing sets according to the specified quantity.<br>
+**Automatic inter class balancing  :** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing.<br> If the upper limit of a certain category is insufficient, it will be added according to the maximum limit.
+
+**Method 2 :**<br>
+Users manually join the training set, supporting multiple selections.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-283.png)
+
+#### Step 5 : Adjust training parameters
+
+**Reference channel :**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>**Basic training parameters :**<br>
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds :** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch :** <br>Adjust the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+**Training mode :** <br>Train the model from scratch in regular training mode. <br>Incremental training mode trains incrementally on the selected model. <br>No need to retrain the entire model from scratch.<br>
+
+
+
+
+**Data transformation :**<br>
+**Difficulty sampling rate :** <br>Adjust the range from 0 to 1. The larger the value set, the higher the attention to the key learning area.<br>
+**Precision level setting method :** <br>**automatically applicable :**<br>the algorithm adaptively recommends the accuracy level based on the original image size and the minimum annotated size. <br>**Manual setting :** <br>The accuracy level is subject to manual setting. <br>**View :** <br>The actual usage accuracy level can be viewed in "**Help View Logs**". <br>**Algorithm description :** <br>The algorithm will scale the short edge of the image when input into the network to a precision level of 256 *, and scale the long edge proportionally when input into the network.<br>
+**Accuracy level :** <br>Adjust the range from 1 to 20, scale the short edges of the input image to 256 * accuracy level, and scale the long edges proportionally. <br>A higher accuracy level will result in more accurate segmentation, longer training inference time, and higher memory consumption.<br>
+**Custom input size :** <br>Customize the width and height of all input images.<br> The algorithm will scale the image to the set width and height according to this parameter.<br>
+
+
+
+**Model parameters :**<br>
+**Model architecture :** <br>The "small defect model" has a better detection effect on small defects, while the "comprehensive model" has a better overall effect. <br>When the detection performance of small defect models is poor, it is recommended to use a "comprehensive model". <br>"Comparison model" is only used for mixed image engineering and is suitable for comparison segmentation.<br>
+**Stable transformation :** <br>With stable transformation enabled, the model's adaptability to slight changes in the target can be improved, but the training and inference speed will be 20% slower.<br>
+
+
+
+**Geometric augmentation :**<br>
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip :** <br>Flip the training image vertically with a 50% probability.<br>
+**Horizontal Flip :** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation :** <br>Randomly rotate the training image by a multiple of 90 degrees.<br>
+**Centrosymmetric rotation :**<br> Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area :**<br> Crop overflow areas caused by geometric transformations.<br>
+**Enable slight rotation :** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement :**<br> The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling :**<br> Randomly scale training data according to a certain proportion.<br>
+**Enable distortion :**<br> Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+
+
+**Image augmentation :**<br>
+It is recommended to only check the possible types of imaging changes.<br> By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+**Enable lighting change :** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 12 to enhance brightness. <br>**Light intensity range :** <br>adjustment range 0-2.<br>
+**Enable contrast change :** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged, with a contrast change range of 0-1 to reduce contrast and 1-2 to enhance contrast. <br>**Contrast variation range:** <br>adjustment range 0-2.<br>
+**Enable noise :** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 gradually increasing the effect. <br>**Noise intensity :** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening :** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1-0 represents smoothing and 0-1 represents sharpening.<br>
+**Enable color filters :** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity :** <br>adjustment range 0-2.<br>
+**Enable lighting gradient :** <br>Simulate the scene of lighting intensity gradient caused by lighting position offset, and the effect of lighting gradient intensity 0-2 gradually increases. <br>**Light gradient intensity :** <br>adjustment range 0-2<br>
+
+
+
+
+#### Step 6 : Adjust inference parameters
+
+**Basic inference parameters**<br>
+**Inference batch size :** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process.<br>
+**Inference mode :**<br> Inference execution mode, default to quick start. <br>**There are several options :** <br>"**Quick start**" has a fast startup speed but average inference speed;<br> "**Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed; <br>"**Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.
+Filter parameters.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-284.png)
+
+**Pixel threshold :**<br> Adjust the range from 0 to 1, retain pixels with scores above the threshold, and then merge adjacent pixels into a region. <br>The higher the value, the stricter the standard, which can reduce missed detections;<br> The lower the value, the looser the standard, which can reduce the risk of passing the inspection. <br>In general, the default value can be maintained for scenarios.<br>
+**Region threshold :** <br>Adjust the range from 0 to 1. After filtering the pixel threshold, filter the reserved regions based on the region score, which means that a region will be directly filtered out instead of gradually decreasing and then being filtered out. <br>Use when maintaining pixel threshold filtering and detection area unchanged<br>
+Sketch Map:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-285.png)
+
+**Feature threshold**<br>
+**Enable Filter Parameters :**<br>
+Checking this box will activate the Filter parameters. <br>
+**Category Name :** <br>Defect Name.<br>
+**Area Range :**<br> When the filter is checked, only areas with sizes within the specified range will be considered as defects.<br>
+**Long Edge Range :** <br>When the filter is checked, only areas with long edges within the specified range will be considered as defects.<br>
+**Short Edge Range :** <br>When the filter is checked, only areas with short edges within the specified range will be considered as defects.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-286.png)
+
+#### Step 7 : Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-288.png)
+
+##### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-289.png)
+
+**Segmentation error function :**<br> The lower the value, the better the learning effect. <br>A large numerical value indicates inaccurate prediction of position or classification. <br>If the value is still decreasing at the end of training, **the number of training rounds** should be increased before training;<br> If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted.<br>
+**Defect pixel recall rate :** <br>The closer it is to 1, the more complete the defect detection is.<br>
+**Defect pixel accuracy :**<br> The closer it is to 1, the less defects are detected.<br>
+
+##### More
+
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively.<br>
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-290.png)<br>
+**Area accuracy :** <br>The accuracy calculated in units of defect area.<br>
+**Regional recall rate :** <br>The recall rate calculated in units of defect areas.<br>
+
+### Using Detect tools
+
+Detect Scenario: Designed for coarse localization of targets and outputting their category information. It is suitable for detecting defects with block-like features, coarse defect localization, product rough positioning, and presence.
+
+#### Step 1 : Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-291.png)
+
+#### Step 2 : Add label categories
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-292.png)
+
+#### Step 3 : Label the detection area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-293.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+1. **Use default labels :**<br>
+   After checking, the annotation will automatically use the selected label. <br>When labeling single category defects, it is recommended to check it.<br>
+2. **Save test results as annotations :** <br>After clicking, the test results will be converted to annotation results.<br>
+3. **Save as OK image and jump to :**<br> Save the current image as OK image and jump to the next image.<br>
+4. **Save :** <br>Save the current defect annotation without jumping to the next image.<br>
+5. **Save and jump :**<br> Save the current defect annotation and jump to the next image.<br>
+6. **Tag List :**<br> displays all current tags and their attributes. Check the checkbox before the label, and the image will display the corresponding label annotation<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-294.png)
+
+#### Step 4: Divide the training set
+
+**Method 1:** <br>Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-295.png)
+
+The model training assistant is divided into two functional sections :<br> **data partitioning** and **training set recommendation**.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-296.png)
+
+**Data partitioning**<br>
+**Proportional partitioning :**<br> All annotated data is divided into training and testing sets according to the specified ratio.<br>
+**Quantity division :** <br>All annotated data is divided into training and testing sets according to the specified quantity.<br>
+**Automatic inter class balancing :**<br> Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit.<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-297.png)
+
+#### Step 5 : Adjust training parameters
+
+**Reference channel**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>**Training parameters**<br>
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds :** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch :**<br> Adjust the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+**Maximum edge length :** <br>Adjust the range from 64 to 99999, scale the long edge of the input image to the maximum edge length, and scale the short edge proportionally. <br>If the algorithm calculates that the required maximum edge length is less than this parameter, the maximum edge length will be automatically set.<br>
+
+**Geometric augmentation**<br>
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip :** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip :** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation :** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation :** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area :** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation :** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement :**<br> The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling :** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion :** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation**<br>
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change :** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range :** <br>adjustment range 0-2<br>
+**Enable contrast change :** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged, with a contrast change range of 0-1 to reduce contrast and 1-2 to enhance contrast. <br>**Contrast variation range :** <br>adjustment range 0-2<br>
+**Enable noise :** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 gradually increasing the effect.<br> **Noise intensity :** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening :** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1-0 represents smoothing and 0-1 represents sharpening<br>
+**Enable color filters :** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity :** <br>adjustment range 0-2<br>
+**Enable lighting gradient :** <br>Simulate the scene of lighting intensity gradient caused by lighting position offset, and the effect of lighting gradient intensity 0-2 gradually increases.<br> **Light gradient intensity :** <br>adjustment range 0-2<br>
+
+**Data transformation**<br>
+**Custom input size :** <br>Customize the width and height of all input images. <br>The algorithm will scale the image to the set width and height according to this parameter<br>
+
+#### **Step 6: Adjust inference parameters**<br>
+
+**Inference network parameters**<br>
+**Inference batch size :** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode :** <br>Inference execution mode, default to quick start. <br>**There are several options :** <br>"**Quick start**" has a fast startup speed but average inference speed; <br>**"Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed; <br>**"Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.<br>
+**Inference parameters**<br>
+**Confidence threshold :** <br>Detection results with a confidence level greater than this threshold will be identified as targets<br>
+**Minimum target size :** <br>Only retain results with width and height greater than the minimum size<br>
+**Maximum number of targets :**<br> Only retain the N targets with the highest confidence score<br>
+**Score threshold :**<br>
+"You can set a score threshold for specific defect types, and detection areas with scores above the set value will be judged as defects."<br>
+**Feature threshold :**<br>
+**Enable Filter Parameters :** <br>Check to enable filter parameters.<br> **Category Name :** <br>Defect Name. <br>**Area Range :** <br>When checked, only areas with areas within the specified range will be considered as defects. <br>**Long Edge Range :** <br>When checked, only areas with long edges within the specified range will be considered as defects. <br>**Short Edge Range :** <br>When checked, only areas with short edges within the specified range will be considered as defects."<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-298.png)
+
+#### Step 7: Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-299.png)
+
+##### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-300.png)
+
+**Positioning box error function :**<br> A larger value indicates a larger positioning error, and the lower the value, the better the learning effect.<br> If the value is still decreasing at the end of the training, **the number of training rounds** should be increased before training; <br>If you end up with a higher value and there is no downward trend, you can adjust **the training set**, **annotations,** and **parameters**.<br>
+
+##### More
+
+Detailed information of the model,<br> including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-301.png)
+
+**Area accuracy :**<br> The accuracy calculated in units of defect area<br>
+**Regional recall rate :** <br>The recall rate calculated in units of defect areas<br>
+
+### Using Locate tools:
+
+Locate scenario: The algorithm can output information about the position, size, and angle of the target. It is suitable for finding and positioning single or multiple targets in an image, as well as achieving high - precision target positioning in complex scenarios with diverse targets and postures.
+
+#### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-302.png)
+
+#### Step 2: Add label categories
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-303.png)
+
+#### Step 3: Label the detection area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-304.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+1. **Use default labels:**<br>
+   After checking, the annotation will automatically use the selected label. <br>When labeling single category defects, it is recommended to check it<br>
+2. **Save test results as annotations:** <br>After clicking, the test results will be converted to annotation results<br>
+3. **Save as OK image and jump to:** <br>Save the current image as OK image and jump to the next image<br>
+4. **Save :**<br> Save the current defect annotation without jumping to the next image<br>
+5. **Save and jump :** <br>Save the current defect annotation and jump to the next image<br>
+6. **Tag List :** <br>displays all current tags and their attributes. <br>Check the checkbox before the label, and the image will display the corresponding label annotation<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-305.png)
+
+##### Single point positioning
+
+(1) First, draw a line segment parallel to the height or width of the target
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-139.png)
+
+(2) Then hold down the left mouse button to draw
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-140.png)
+
+##### Set template
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-306.png)![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-307.png)![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-308.png)
+
+**Node template**<br>
+Adaptation methods can be selected as either proportional or pixel based<br>
+
+**Parameters<br>**
+**Template Name:** <br>The current template name, supports modification.<br>
+**Template angle:** <br>The angle of the current template.<br>
+**Node Number:** <br>The number of the currently selected node. <br>Support adding and deleting nodes.<br>
+**Node type:** <br>The category of key points that a node can match. <br>Categories are distinguished by a string that defines the category. <br>Only key points and template nodes with consistent categories can match.<br>
+**Node Center:** <br>The center position of a node. <br>The goal of problem solving is to find a set of transformations so that the coordinates of each transformed node basically match the coordinates of the key points.<br>
+**Zoom**: <br>Filter by scaling ratio. <br>If the scaling ratio of the similar transformation corresponding to a matching pattern is not within this range, the matching will be filtered out.<br>
+**Rotation:** <br>Filter by rotation angle.<br> If the rotation angle of the similar transformation corresponding to a matching pattern is not within this range, the matching will be filtered out and rotated counterclockwise to be positive.<br>
+**Number of feature missed detections:** <br>If there are several nodes in the template that cannot be matched with key points, and the number of these unmatched nodes does not exceed this value, the corresponding matching pattern will also be retained in the output.<br> Due to the increase in search space size, the time consumption will increase to varying degrees. <br>The maximum value supported for setting is 3. <br>To avoid the problem of duplicate output of the same result, when this parameter is set to greater than 0, if a node can be matched to a matching pattern with fewer missed detections, it will not be matched to a matching pattern with more missed detections.<br>
+**Template retention quantity:** <br>Sort from small to large according to the matching distance, select the best few results, and the other results will be filtered out. <br>Default to keep all.<br>
+**Maximum allowable deviation of nodes:**<br> In the matching mode, there is inevitably a distance greater than 0 between each template node and the character position. <br>If the distance between a node and the character exceeds the value of this parameter, the matching will be filtered out.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-309.png)
+
+**Usage:**<br>
+**Method 1:** <br>Create from existing annotations: <br>Select the annotation box in sequence, right-click on the menu, and select "**Create Matching Template**"<br>
+**Method 2:** <br>First enter the template matching window, then manually add nodes and create templates<br>
+
+#### Step 4: Divide the training set
+
+**Method 1:** <br>Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-310.png)
+
+The model training assistant is divided into two functional sections: <br>**data partitioning** and **training set recommendation**.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-311.png)
+
+**Data partitioning**<br>
+**Proportional partitioning:**<br> All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-312.png)
+
+#### Step 5: Adjust training parameters
+
+**Reference channel**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>
+
+**Training parameters<br>**
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds:** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:** <br>Adjusting the range from 1 to 512, the number of images participating in training at each iteration of the network.<br> An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+
+**Geometric augmentation<br>**
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation**<br>
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range:** <br>adjustment range 0-2<br>
+**Enable contrast change:** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged. <br>The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:** <br>adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect. <br>**Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:** <br>Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases. <br>**Light gradient intensity:** <br>adjustment range 0-2<br>
+
+**Data transformation<br>**
+Determine based on image length, width, and model speed requirements. <br>Before inputting the model, convert the images uniformly to the set fixed size.<br>
+
+**Maximum edge length:** <br>Scales the long and short edges of the input image to the maximum edge length. <br>If the algorithm calculates that the required maximum edge length is less than this parameter, the maximum edge length will be automatically set model parameter <br>
+Choose a suitable basic model based on different detection targets and speed requirements.<br>
+**Positioning types:** <br>Both high-precision positioning and fast positioning are used for precise target positioning. <br>High precision positioning is suitable for scenarios with positioning accuracy of up to one pixel. <br>Compared to high-precision positioning, fast positioning has lower positioning accuracy, but at the same time, it has higher training and inference speed, lower graphics memory ratio, and is suitable for most scenarios.<br>
+**Prediction angle:** <br>After enabling this option, the network can learn the angle of the target and rotate it during annotation; <br>The non opening angle is always 0 ° <br>
+**Predictive radius:** <br>With this option enabled, the network can learn the width and height of the target, and the annotation can be of different sizes; <br>Always maintain consistent width and height when not turned on<br>
+
+#### Step 6: Adjust inference parameters
+
+**Inference network parameters**<br>
+**Inference batch size:** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:** <br>Inference execution mode, default to quick start. <br>**There are several options:** <br>**"Quick start"** has a fast startup speed but average inference speed; <br>**"Rapid inference (high precision)"** has a slightly slower starting speed but a faster inference speed; <br>**"Extreme inference"** has the fastest inference speed but may slightly decrease accuracy.<br>
+**Filter parameters**<br>
+**Confidence threshold:** <br>Detection results with a confidence level greater than this threshold will be identified as targets<br>
+**Search density:** <br>Keep only one result within the radius of the target size * density<br>
+
+#### Step 7: Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-313.png)
+
+##### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-314.png)
+
+**Angle error function:** <br>The lower the value, the better the learning effect. <br>Numerical representation of the difference between angle prediction and angle annotation<br>
+**Positioning error function:** <br>The lower the value, the better the learning effect. <br>The difference between numerical representation of coordinate prediction and coordinate annotation<br>
+If the value is still decreasing at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted.<br>
+
+##### More
+
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-315.png)
+
+**Area accuracy:** <br>The accuracy calculated in units of defect area<br>
+**Regional recall rate:** <br>The recall rate calculated in units of defect areas<br>
+
+### Using Assembly Verify tools
+
+Assembly Verify scenario: The algorithm can detect the position and quantity of targets in an image. By using templates, it can achieve automatic inspection of the component assembly scenario in the image.
+
+#### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-316.png)
+
+#### Step 2: Add label categories
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-317.png)
+
+#### Step 3: Label the detection area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-318.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+1. **Use default labels:**<br>
+   After checking, the annotation will automatically use the selected label. <br>When labeling single category defects, it is recommended to check it<br>
+2. **Save test results as annotations:** <br>After clicking, the test results will be converted to annotation results<br>
+3. **Save as OK image and jump to:** <br>Save the current image as OK image and jump to the next image<br>
+4. **Save:** <br>Save the current defect annotation without jumping to the next image<br>
+5. **Save and jump:** <br>Save the current defect annotation and jump to the next image<br>
+6. **Tag List:** <br>displays all current tags and their attributes. <br>Check the checkbox before the label, and the image will display the corresponding label annotation<br>
+
+##### Single point positioning
+
+(1) First, draw a line segment parallel to the height or width of the target
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-154.png)
+
+(2) Then hold down the left mouse button to draw
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-155.png)
+
+##### Set template
+
+**Layout template**<br>
+**Layout template workflow:**<br>
+The layout template needs to define several rectangular regions and preset the number of key points for each category within each region. <br>The template will check whether the number of key points in each region matches the preset value. <br>Based on whether the actual number of detected key points matches the preset quantity, it will determine whether it can be matched.<br> If the match is successful, it will return True.<br> If it cannot be matched (if the actual number of detected key points is not equal to the set target quantity), it will return False.<br>
+Allow multiple category key point checks within the same area.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-319.png)
+
+**Parameters**<br>
+**Template Name:** <br>The current template name, supports modification.<br>
+**Region:** <br>Supports adding and deleting regions.<br>
+**Regional Center:** <br>The central position of a region.<br>
+**Region size:** <br>The size of the region.<br>
+**Target Category:** <br>The target category of the current region, where one region can have multiple categories.<br>
+**Target quantity:**<br> The total number of matched targets in the current selected area (if the number of targets in the area is equal to this quantity, the result for that area is True, otherwise it is False)<br>
+**Add or delete layout areas:** <br>Click **the add** button to add a new layout area; <br>Select the existing area checkbox and click **the delete** button to delete the currently selected area.<br>
+**Add target category to the area:**<br> Click on **an existing area** and select the appropriate category checkbox in the target category to add a target category to that area.<br>
+
+**Create layout template<br>**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-320.png)
+
+After setting up, you need to click "**Start Matching**"
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-321.png)
+
+#### Step 4: Divide the training set
+
+**Method 1**: <br>Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-322.png)
+
+The model training assistant is divided into two functional sections: <br>**data partitioning** and **training set recommendation**.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-323.png)
+
+**Data partitioning**<br>
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-324.png)
+
+#### Step 5: Adjust training parameters
+
+**Reference channel<br>**
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>
+
+**Training parameters<br>**
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds:**<br> Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:** <br>Adjusting the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+
+**Geometric augmentation**<br>
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation**<br>
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness.<br> **Light intensity range:**<br> adjustment range 0-2<br>
+**Enable contrast change:** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged.<br> The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:**<br> adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect. <br>**Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:** <br>Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases. <br>**Light gradient intensity:** <br>adjustment range 0-2<br>
+
+**Data transformation**<br>
+Determine based on image length, width, and model speed requirements.<br> Before inputting the model, convert the images uniformly to the set fixed size.<br>
+**Maximum side length setting method:**<br>
+**Automatic application:** <br>When using the positioning model, the maximum edge length value is set to the maximum edge size of the original image. <br>When using the assembly inspection mode, the algorithm adaptively recommends the maximum edge length value based on the original image size and target size.<br>
+**Manual setting:** <br>The maximum side length is subject to manual setting.<br>
+**View:** <br>The actual maximum side length can be viewed in "**Help View Logs**".<br>
+**Algorithm description:** <br>The algorithm will scale the long edge of the image when input into the network to the maximum edge length, and scale the short edge proportionally when input into the network.<br>
+**Maximum edge length:** <br>The adjustment range is 64-30000.<br> It takes effect when manually setting the maximum edge length, scaling the long edge of the input image to the maximum edge length and scaling the short edge proportionally. <br>A larger maximum edge length will result in more accurate positioning, longer training inference time, and greater memory consumption.<br>
+
+**Model parameters**<br>
+**Prediction angle:** <br>After enabling this option, the network can learn the angle of the target and rotate it during annotation;<br> The non opening angle is always 0 ° <br>
+**Predictive radius:** <br>With this option enabled, the network can learn the width and height of the target, and the annotation can be of different sizes; <br>Always maintain consistent width and height when not turned on<br>
+
+#### Step 6: Adjust inference parameters
+
+**Inference network parameters**<br>
+**Inference batch size:** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:** <br>Inference execution mode, default to quick start. <br>**There are several options:** <br>**"Quick start"** has a fast startup speed but average inference speed; <br>**"Rapid inference (high precision)"** has a slightly slower starting speed but a faster inference speed; <br>**"Extreme inference"** has the fastest inference speed but may slightly decrease accuracy.<br>
+
+**Filter parameters<br>**
+**Confidence threshold:** <br>Detection results with a confidence level greater than this threshold will be identified as targets<br>
+**Search density:** <br>Keep only one result within the radius of the target size * density<br>
+
+#### Step 7: Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-325.png)
+
+##### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-326.png)
+
+**Angle error function:**<br> The lower the value, the better the learning effect. <br>Numerical representation of the difference between angle prediction and angle annotation<br>
+**Positioning error function:**<br> The lower the value, the better the learning effect. <br>The difference between numerical representation of coordinate prediction and coordinate annotation<br>
+If the value is still decreasing at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted.<br>
+
+##### More
+
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-327.png)
+
+**Area accuracy:**<br>The accuracy calculated in units of defect area<br>
+**Regional recall rate:** <br>The recall rate calculated in units of defect areas<br>
+
+## Using OCR tools
+
+OCR scenario: The algorithm is pre - trained with over 100,000 OCR character images. In the field, character recognition in new scenarios can be achieved with only a small amount of annotation. It is suitable for quickly and accurately identifying and reading character information on products or components in complex scenarios.
+
+### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-328.png)
+
+### Step 2: Adjust the character standard box
+
+First, adjust this box to the size of a rectangle surrounding a single character
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-329.png)
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-330.png)
+
+### Step 3: Direct inference
+
+ This tool has a built-in prefabricated model that can solve character recognition problems in most scenarios
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-331.png)
+
+If pre training cannot recognize, manual annotation and retraining can be used to obtain ideal results
+
+#### Manual annotation [It is recommended to enable pending tags to quickly annotate a string of characters]
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-332.png)
+
+After completing the annotation, enter the editing mode, select the characters one by one, and enter the string name
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-333.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+1. **Use default labels:**<br>
+   After checking, the annotation will automatically use the selected label. <br>When labeling single category defects, it is recommended to check it<br>
+2. **Save test results as annotations:** <br>After clicking, the test results will be converted to annotation results<br>
+3. **Save as OK image and jump to:** <br>Save the current image as OK image and jump to the next image<br>
+4. **Save:** <br>Save the current defect annotation without jumping to the next image<br>
+5. **Save and jump:** <br>Save the current defect annotation and jump to the next image<br>
+6. **Tag List:** <br>displays all current tags and their attributes. <br>Check the checkbox before the label, and the image will display the corresponding label annotation<br>
+
+
+#### Universal **model**
+
+**Applicable scenarios:** <br>Most OCR characters are fixed, and the universal model can solve character recognition in some scenarios without the need for annotation training, saving annotation training time.<br> It can also be converted into annotations based on the test results of the OCR universal model, for the purpose of adjusting the annotations in the next step. <br>**Usage restriction:** <br>Input images with consistent size. <br>Mainly used for auxiliary annotation. <br>
+*The universal model is used by default<br>
+**Reset Model:** <br>Clicking on **Reset Model** can overwrite the current model as a universal model<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-334.png)
+
+#### Set template
+
+The OCR module provides two template tools for integrating characters into strings<br>
+**String template<br>**
+**Application scenario:** <br>The characters of the string to be checked are arranged in a straight line, with characters<br>
+Multiple symbols<br>
+**Function introduction:** <br>Integrate recognition results arranged in a straight line into characters
+Symbol string, fast running speed. <br>And fixed filtering rules can be set to obtain the final result<br>
+**Character node template<br>**
+**Application scenario:** <br>The relative position of characters inside a string is fixed.<br>
+Unable to adapt to variable length strings and excessively long strings with unequal width fonts<br>
+**Function introduction:** <br>Define the spatial layout pattern of each character using a diagram,
+Match any shape string. <br>And fixed filtering rules can be set to obtain the final result<br>
+
+
+
+**User Guide**
+
+1.String template<br>
+(1) Click on template management
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-335.png)
+
+(2) Pop up template management interface
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-336.png)
+
+(3) Select template type
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-337.png)
+
+(4) Configure template parameters
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-338.png)
+
+(5) Introduction to Template Correction Function<br>
+**Character correction template:**<br>
+**Usage scenario:**<br> In a string, there are parts that remain completely unchanged, with some parts explicitly consisting of numbers or uppercase and lowercase characters. <br>Setting rules can reduce string error detection and convert characters that do not comply with the rules into characters that comply with the set rules for output<br>
+**usage method:**<br>
+Check "**Character Correction Template**" and enter the template rules according to the guidelines<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-339.png)
+
+**String filtering template:** (original regular expression)<br>
+**Usage scenario:** <br>When performing template matching, strings that do not comply with the rules need to be filtered out and not matched<br>
+**usage method:**<br>
+Check "**String Filter Template**" and enter the template rules according to the guidelines<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-340.png)
+
+(6) Click to **start matching** to execute template matching
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-341.png)
+
+2.Character node template<br>
+   (1) Enter editing mode, select the characters you want to match into a string, right-click, and select Create Template<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-342.png)
+
+(2) Enter the character node matching details page and set the required parameters
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-343.png)
+
+(3) Introduction to Template Correction Function<br>
+**Character correction template:**<br>
+**Usage scenario:**<br> In a string, there are parts that remain completely unchanged, with some parts explicitly consisting of numbers or uppercase and lowercase characters. <br>Setting rules can reduce string error detection and convert characters that do not comply with the rules into characters that comply with the set rules for output<br>
+**usage method:**<br>
+Check "**Character Correction Template**" and enter the template rules according to the guidelines<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-344.png)
+
+(4) Click to **start matching** to execute template matching
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-345.png)
+
+### Step 4: Divide the training set
+
+**Method 1**:<br> Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-346.png)
+
+The model training assistant is divided into two functional sections: <br>data partitioning and training set recommendation.
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-347.png)
+
+**Data partitioning**<br>
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:**<br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-348.png)
+
+### Step 5: Adjust training parameters
+
+**Reference channel**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>
+
+**Training parameters<br>**
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds:** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:**<br> Adjusting the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+**Character polarity:** <br>The polarity of characters and background in an image. <br>"White background black text" refers to black characters on a white background, "black background white text" refers to white characters on a black background, and "unclear polarity" refers to unclear polarity or the presence of both polarities in the dataset. <br>If set according to the relative grayscale relationship between characters and background, the effect will be improved<br>
+
+**Geometric augmentation<br>**
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation<br>**
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range:**<br> adjustment range 0-2<br>
+**Enable contrast change:** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged. <br>The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:** <br>adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect.<br> **Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:** <br>Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases.<br> **Light gradient intensity:** <br>adjustment range 0-2<br>
+
+### Step 6: Adjust inference parameters
+
+**Character box width and height**<br>
+Set character width and height through movable character boxes on the canvas <br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-188.png)
+
+**Inference network parameters<br>**
+**Inference batch size:** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:**<br> Inference execution mode, default to quick start. <br>**There are several options:** <br>"**Quick start**" has a fast startup speed but average inference speed;<br> "**Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed; <br>"**Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.<br>
+**Filter parameters**<br>
+**Confidence threshold:** <br>Exceeding this threshold will be recognized as the target<br>
+**Search density:** <br>Use NMS to filter out duplicate results, larger values will retain fewer results<br>
+
+### Step 7: Start training and inferences
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-349.png)
+
+#### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-351.png)
+
+**Character width and height error function:** <br>The lower the value, the better the learning effect. <br>A larger value indicates that the predicted position is inaccurate. <br>If the value is still decreasing at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted.<br>
+**Character position error function:**<br> The lower the value, the better the learning effect. <br>A larger value indicates that the bounding box size prediction is inaccurate.<br> If the value is still decreasing at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted.<br>
+
+#### More
+
+Detailed information of the model, <br>including recall rate, accuracy rate, average accuracy rate, and label average accuracy rate<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-352.png)
+
+#### OCR confusion matrix
+
+Confusion matrix is a commonly used model evaluation tool, with manual annotation vertically and inference results horizontally. <br>The confusion matrix can intuitively understand which class of samples the model performs poorly in and which other classes are easily confused with.<br>
+**Usage rules:<br>**
+(1) **First, filter the dataset range:**<br>
+ All: The confusion matrix for all images.<br>
+**Name retrieval:** <br>Only display the confusion matrix of the filtered image based on the image storage name.<br>
+**Tag retrieval:** <br>Only display the confusion matrix of the filtered image based on ag.<br>
+**Training set:**<br> Only display the confusion matrix of the training set.<br>
+**Test set:** <br>Only display the confusion matrix of the test set.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-353.png)
+
+(2) After selecting the dataset, you can choose whether to view the image level matrix or the region level matrix:<br>
+Image level is a qualitative result based on the entire image.<br>
+The regional level is a qualitative result based on the region of each image.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-354.png)
+
+(3) Then you can choose whether to view the quantity matrix or the probability matrix.<br>
+The quantity matrix is the result of statistics based on the number of items.<br>
+The probability matrix is the result of statistics conducted proportionally.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-355.png)
+
+(4) After filtering to the desired result, click on **View Details** and click on any grid in the matrix. <br>The image list will automatically jump to the corresponding image according to the filtering rules.<br> It is possible to verify the results of each image in order to further optimize the model in a targeted manner.<br>
+(5) Click to **view details** to see the complete confusion matrix<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-356.png)
+
+## Using Anomaly Segment tools:
+
+Anomaly Segment Scenario: The algorithm can output the area and location information of defect regions in the detected image by learning from OK images, realizing the anomaly detection function. The on - site usage method is as follows: First, use other supervised AI modules to detect known defects, and then use the unsupervised module to control and detect uncommon abnormal defects on the production line.
+
+### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-357.png)
+
+### Step 2: Save the OK image
+
+The **S** key on the keyboard can save images and jump to the next one
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-279.png)
+
+2. **Save test results as annotations:** <br>After clicking, the test results will be converted to annotation results<br>
+3. **Save as OK image and jump to:** <br>Save the current image as OK image and jump to the next image<br>
+4. **Save:** <br>Save the current defect annotation without jumping to the next image<br>
+5. **Save and jump:** <br>Save the current defect annotation and jump to the next image<br>
+6. **Tag List:**<br> displays all current tags and their attributes. <br>Check the checkbox before the label, and the image will display the corresponding label annotation<br>
+
+### Step 3: Label defective images as the test set
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-358.png)
+
+### Step 4: Divide the training set
+
+**Method 1:**<br> Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-359.png)
+
+The model training assistant is divided into two functional sections: <br>**data partitioning** and **training set recommendation**.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-360.png)
+
+**Data partitioning<br>**
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing.<br> If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-361.png)
+
+### Step 5: Adjust training parameters
+
+**Reference channel:**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>
+
+**Training parameters<br>**
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training.<br>
+**Training rounds:** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:** <br>Adjusting the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed, with common values of 2, 4, 8, and 16.<br>
+
+**Data transformation<br>**
+**Image segmentation training:**<br> After segmenting the image, it is sent to the network for training. <br>When the data has good local consistency (such as texture type cloth or plain surface type glass), it can be considered to be checked. <br>The maximum accuracy is maximized, and the training speed is improved more significantly. <br>If the local consistency of the image is poor, it may lead to unsatisfactory inference results<br>
+**Maximum accuracy:** <br>Adjust the range from 1 to 20, scale the short edge of the input image to {256 * maximum accuracy}, and scale the long edge proportionally. <br>When the algorithm calculates that the set maximum accuracy is higher than the required accuracy, the accuracy will automatically decrease. <br>The actual accuracy can be queried in the configuration file of the model obtained after training.<br>
+
+**Model parameters<br>**
+**Model architecture:** <br>Simple models have faster training speed and are suitable for fast iteration and detection of large and high contrast defects. <br>Compared to simple models, complex models have slower training speed, but their defect detection ability has been improved. <br>There is no difference in inference speed between the two<br>
+**Logic defect detection:** <br>If checked, it can improve the sensitivity of the model to global logic defect detection (such as printing too many, too few, or missing characters), but it will slightly increase training and inference time. <br>After selecting logical defect detection, the score range in the score distribution chart changes from 0-1 to 0-2.<br>
+
+**Geometric augmentation<br>**
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating the possibility of similar images appearing in actual scenes, the corresponding generalization ability of the model is improved.<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation<br>**
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range:** <br>adjustment range 0-2<br>
+**Enable contrast change:** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged. <br>The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:** <br>adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect. <br>**Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:** <br>Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases. <br>**Light gradient intensity:** <br>adjustment range 0-2s<br>
+
+### Step 6: Adjust inference parameters
+
+**Inference network parameters<br>**
+**Inference batch size:** <br>The number of images that you want to infer simultaneously, usually with a default value of 1.<br> Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:** <br>Inference execution mode, default to quick start. <br>**There are several options:** <br>**"Quick start**" has a fast startup speed but average inference speed; <br>"**Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed; <br>"**Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.<br>
+
+**Score threshold**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-362.png)
+
+**Pixel threshold:** <br>Adjust the range from 0 to 1, retain pixels with scores above the threshold, and then merge adjacent pixels into a region. <br>The higher the value, the stricter the standard, which can reduce missed detections; <br>The lower the value, the looser the standard, which can reduce the risk of passing the inspection. <br>In general, the default value can be maintained for scenarios<br>
+**Region threshold:** <br>Adjust the range from 0 to 1. <br>After filtering the pixel threshold, filter the reserved regions based on the region score, which means that a region will be directly filtered out instead of gradually decreasing and then being filtered out.<br> Use when maintaining pixel threshold filtering and detection area unchanged<br>
+
+**Sketch Map:**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-363.png)
+
+**Feature threshold**<br>
+**Enable Filter Parameters:**<br>
+Checking this box will activate the Filter parameters.
+
+
+* **Category Name:** Defect Name.<br>
+* **Area Range:** When the filter is enabled, only areas with an area within the specified range will be considered as defects.<br>
+* **Long Edge Range:** When the filter is enabled, only areas with a long edge within the specified range will be considered as defects.<br>
+* **Short Edge Range:** When the filter is enabled, only areas with a short edge within the specified range will be considered as defects.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-364.png)![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-365.png)
+
+**Inference parameters**<br>
+**Defect detection precision:**<br>
+"Generally set as the minimum diameter of defects to be detected.<br> The smaller this value is set, the more precise the detection results will be, and smaller defects can be detected. <br>However, the defect scores and image scores will be biased towards being higher, causing the score distribution graph to shift to the right, making it more prone to false positives. <br>Conversely, setting this value larger will result in coarser detection results, covering a larger range, and shifting the score distribution graph to the left. <br>Note that adjusting this value requires corresponding adjustments to the Score threshold to ensure the results align with expectations."<br>
+**Sampling interval:** <br>Smaller values will make the results more accurate, but will increase inference time<br>
+
+### Step 7: Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-366.png)
+
+#### Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-367.png)
+
+**UNSUPERVISED SEGMENT Error Function:** <br>The lower the value, the better the learning effect. <br>A larger value indicates inaccurate predicted location or classification. <br>If the value is still decreasing at the end of the training, **the number of training rounds** should be increased and train again; <br>If the value is high at the end of the training, without a decreasing trend, **the training set**, **marks**, and **parameters** can be adjusted.<br>
+
+#### More
+
+Detailed information of the model, <br>including recall, accuracy, number of annotations, recall, regional accuracy, and regional recall for the training and testing sets, respectively<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-368.png)
+
+**Area accuracy:** <br>The accuracy calculated in units of defect area<br>
+**Regional recall rate:** <br>The recall rate calculated in units of defect areas<br>
+
+### Step 8: Adjust the detection threshold based on the score distribution map
+
+**Usage:**<br>
+When setting the threshold, it is important to clearly distinguish between OK and NG. <br>That is to say, double-click on the gap between the red and green curves to set the threshold<br>
+If there is no gap between the red and green curves, it means that the training effect is not good enough, and adjusting the threshold is not meaningful at this time. <br>Suggest continuing to optimize the model until the gap becomes apparent<br>
+**Explanation information:**
+Using an integral plot, the horizontal axis x still represents the score, the interval [0,1], the vertical axis y represents the quantity, and num represents the number of images<br>
+The formula for the green curve is: y=num (x~1);<br>
+The formula for the red and purple curves is: y=num (0~x)<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-369.png)
+
+**Auxiliary information:**<br>
+**The filtering items include:**<br> complete set, training set, and test set<br>
+The mouse scrolling wheel can scale the distribution map.<br>
+Keyboard key **Z** restoration, keyboard **Ctrl+Z** restoration, Alt+left mouse button drag distribution map. <br>When hovering the mouse, specific coordinate information can be displayed<br>
+
+## Using Classify tools:
+
+Classify Scenario: The principle of algorithm detection is to learn the texture features (such as grayscale values, contrast, texture, and shape) in the entire image, and then output the category to which the whole image belongs. It is suitable for image classification requirements where the defect area accounts for a relatively large proportion of the image, the features are obvious, and the defects are macroscopic features.
+
+### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-370.png)
+
+### Step 2: Add label categories
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-371.png)
+
+### Step 3: Label the detection area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-372.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+### Step 4: Divide the training set
+
+**Method 1:** <br>Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-373.png)
+
+The model training assistant is divided into two functional sections: <br>**data partitioning** and **training set recommendation**.<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-374.png)
+
+**Data partitioning**<br>
+**Proportional partitioning:** <br>All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-375.png)
+
+### Step 5: Adjust training parameters
+
+**Reference channel**<br>
+Convert the original image to a color or grayscale image for training, while aqimg converts each image separately.<br>
+
+**Training parameters<br>**
+The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training<br>
+**Training rounds:** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:** <br>Adjust the range from 1 to 512, the number of images participating in training at each iteration of the network.<br> An appropriate batch can fully utilize hardware performance and improve convergence speed. <br>Common values include 2, 4, 8, 16, and the classification module needs to be set larger, usually 32, 64.<br>
+**Model architecture:** <br>Fast model training, faster inference speed, lower memory usage, low accuracy when there are more than 10 categories or unclear category differentiation, suitable for most scenarios. <br>High precision models may have higher accuracy, but slower training and inference speeds, higher memory usage, and are suitable for scenarios with multiple categories or difficult classification<br>
+**Detection of small targets:** <br>Used when the target proportion is small<br>
+
+**Data transformation<br>**
+Determine based on image length, width, and model speed requirements. <br>Before inputting the model, convert the image uniformly to the set fixed size<br>
+**Input image width:**<br> adjustment range of 32~10240, input image width<br>
+**Input image height:** <br>adjustment range of 32~10240, input image height<br>
+
+**Geometric augmentation**<br>
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating that similar images may appear in actual scenes, the model's corresponding generalization ability is improved<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:**<br> Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation<br>**
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range:** <br>adjustment range 0-2<br>
+**Enable contrast change:** <br>Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged. <br>The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:** <br>adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect. <br>**Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:** <br>Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases.<br> **Light gradient intensity:** <br>adjustment range 0-2<br>
+
+### Step 6: Adjust inference parameters
+
+**Inference batch size:** <br>The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:** <br>Inference execution mode, default to quick start. <br>**There are several options:** <br>"**Quick start**" has a fast startup speed but average inference speed; <br>"**Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed; <br>"**Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.<br>
+**Heat map visualization:** <br>After enabling visualization, the heat map analysis network can obtain the final classification result based on which part of the information<br>
+
+### Step 7: Start training and inference
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-376.png)
+
+Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-377.png)
+
+**Classification accuracy:** <br>The higher the numerical value, the better the learning effect. <br>A lower value indicates inaccurate classification.<br> If the value is still rising at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is low at the end of the training and there is no upward trend, **the training set**, **annotations**, and **parameters** can be adjusted<br>
+**Error function:** <br>The lower the value, the better the effect. <br>If the resin is still declining at the end of the training, **the number of training rounds** should be increased before training; <br>If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted<br>
+
+## Using Anomaly Classify tools:
+
+Anomaly Classify Scenario: The algorithm learns from images of the OK category and has the function of marking images that do not belong to this category as NG. It is applicable to the scenario of sorting out abnormal products on the production line.
+
+### Step 1: Set up the view
+
+Set the view according to actual needs, click on **the application**, and jump to **the tools main page**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-378.png)
+
+### Step 2: Label the detection area
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-379.png)
+
+The **S** key on the keyboard can save images and jump to the next one
+
+### Step 3: Divide the training set
+
+**Method 1:**<br> Automatic partitioning
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-380.png)
+
+**Data partitioning**<br>
+**Proportional partitioning:**<br> All annotated data is divided into training and testing sets according to the specified ratio<br>
+**Quantity division:** <br>All annotated data is divided into training and testing sets according to the specified quantity<br>
+**Automatic inter class balancing:** <br>Use a specified proportion as the total number of training sets, then evenly distribute them to each defect category, and finally divide an equal number of images according to the defect category as the training set, achieving inter class balancing. <br>If the upper limit of a certain category is insufficient, it will be added according to the maximum limit<br>
+
+**Method 2**<br>
+Users manually join the training set, supporting multiple selections
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-381.png)
+
+### Step 4: Adjust training parameters
+
+**The parameters that often need to be adjusted during model training can directly affect the effectiveness and speed of model training<br>**
+**Training rounds:** <br>Adjust the range from 1 to 20000, and the training set images will participate in one training session for each iteration.<br>
+**Training batch:** <br>Adjust the range from 1 to 512, the number of images participating in training at each iteration of the network. <br>An appropriate batch can fully utilize hardware performance and improve convergence speed. <br>Common values include 2, 4, 8, 16, and the classification module needs to be set larger, usually 32, 64.<br>
+
+**Data transformation<br>**
+Determine based on image length, width, and model speed requirements. <br>Before inputting the model, convert the image uniformly to the set fixed size<br>
+**Input image width:** <br>adjustment range of 32~10240, input image width<br>
+**Input image height:** <br>adjustment range of 32~10240, input image height<br>
+
+**Geometric augmentation<br>**
+It is recommended to only check the possible types of geometric variations. <br>By subjecting the original training set to a certain degree of random geometric changes within a certain range, simulating that similar images may appear in actual scenes, the model's corresponding generalization ability is improved<br>
+**Vertical Flip:** <br>Flip the training image vertically with a 50% probability<br>
+**Horizontal Flip:** <br>Flip the training image horizontally with a 50% probability<br>
+**Vertical rotation:** <br>Randomly rotate the training image by a multiple of 90 degrees<br>
+**Centrosymmetric rotation:** <br>Randomly rotate the training image by a multiple of 180 degrees<br>
+**Crop overflow area:** <br>Crop overflow areas caused by geometric transformations<br>
+**Enable slight rotation:** <br>Enable slight rotation<br>
+**Enable vertical and horizontal movement:** <br>The image is randomly shifted horizontally or vertically by a certain proportion<br>
+**Enable scaling:** <br>Randomly scale training data according to a certain proportion<br>
+**Enable distortion:** <br>Randomly distort training data to simulate image distortion caused by factors such as lens aging<br>
+
+**Image augmentation**<br>
+It is recommended to only check the possible types of imaging changes. <br>By performing random imaging changes on the original training set within a certain range, similar images may appear in simulated actual scenes, improving the corresponding generalization ability of the model.<br>
+
+**Enable lighting change:** <br>The training set images undergo linear grayscale transformation, with a lighting intensity range of 0-1 to reduce brightness and 1-2 to enhance brightness. <br>**Light intensity range:** <br>adjustment range 0-2<br>
+**Enable contrast change:**<br> Adjust the contrast of the training set image while ensuring that the overall brightness of the image remains basically unchanged. <br>The contrast change range is from 0 to 1 to reduce contrast and from 1 to 2 to enhance contrast. <br>**Contrast variation range:**<br> adjustment range 0-2<br>
+**Enable noise:** <br>Simulate random noise generated by the camera or external environment, with a noise intensity of 0-2 and gradually increasing the effect. <br>**Noise intensity:** <br>adjustment range 0-2<br>
+**Enable smoothing/sharpening:** <br>Simulate a scene with more accurate lens focus by sharpening the image. <br>After activation, randomly smooth or sharpen the training image, where -1~0 represents smoothing and 0~1 represents sharpening<br>
+**Enable color filters:** <br>Simulate the lighting effects generated by different colored lights or adding filters (only supports color images), control the maximum intensity allowed by the color filter intensity, and gradually enhance the 0-2 effect. <br>**Color filter intensity:** <br>adjustment range 0-2<br>
+**Enable lighting gradient:**<br> Simulate the scene of lighting intensity gradient caused by lighting position shift, and the effect of lighting gradient intensity 0-2 gradually increases. <br>**Light gradient intensity:** <br>adjustment range 0-2<br>
+
+### Step 5: Adjust inference parameters
+
+**Inference batch size:**<br> The number of images that you want to infer simultaneously, usually with a default value of 1. <br>Note that setting a larger batch but not providing enough images may slow down the inference process<br>
+**Inference mode:** <br>Inference execution mode, default to quick start. <br>**There are several options:** <br>"**Quick start**" has a fast startup speed but average inference speed;<br> "**Rapid inference (high precision)**" has a slightly slower starting speed but a faster inference speed;<br> "**Extreme inference**" has the fastest inference speed but may slightly decrease accuracy.<br>
+**NG threshold:** <br>When the score is less than Ng threshold, the image will be set to OK, and when the score is greater than Ng threshold, it will be set to NG<br>
+**Defect radius:** <br>After selecting automatic setting, the network will automatically adjust the defect radius. <br>Do not check automatic setting, you can set the defect radius yourself<br>
+
+### Step 6: Start training and inference
+
+Training process curve
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-382.png)
+
+**Unsupervised classification error function:**<br> The lower the value, the better the learning effect. <br>A large value indicates poor learning performance of the OK graph. <br>If the value is still in the process of decreasing at the end of training, **the number of training rounds** should be increased before training;<br> If the value is high at the end of the training and there is no downward trend, **the training set**, **annotations**, and **parameters** can be adjusted<br>
+
+### Step 7: Adjust the detection threshold based on the score distribution map
+
+**Usage:**<br>
+When setting the threshold, it is important to clearly distinguish between OK and NG.<br> That is to say, double-click on the gap between the red and green curves to set the threshold
+If there is no gap between the red and green curves, it means that the training effect is not good enough, and adjusting the threshold is not meaningful at this time. <br>Suggest continuing to optimize the model until the gap becomes apparent<br>
+**Explanation information:**<br>
+Using an integral plot, the horizontal axis x still represents the score, the interval [0,1], the vertical axis y represents the quantity, and num represents the number of images<br>
+The formula for the green curve is: y=num (x~1);<br>
+The formula for the red and purple curves is: y=num (0~x)<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-383.png)
+
+**Auxiliary information:**<br>
+**The filtering items include:** <br>complete set, training set, and test set<br>
+The mouse scrolling wheel can scale the distribution map.<br>
+Keyboard key **Z** restoration, keyboard **Ctrl+Z** restoration, **Alt+left** mouse button drag distribution map. <br>When hovering the mouse, specific coordinate information can be displayed<br>
+
+## Using Factory Mode:
+
+Factory Mode Scenario: After the model training of all modules is completed, if you want to use the historical image data stored in on - site machines to conduct batch tests on the model's performance and then select the missed - detection images to optimize the model, you can achieve this through the factory mode.
+
+### Applicable scenarios
+
+The core usage of the factory model is to validate data and help iterate the model in the early stages of the project. <br>For example, for on-site projects, during the machine construction phase, after a day of running, there may be some valuable datasets for the iterative mode (those that have been passed or missed). <br>But when it comes to material leakage, it cannot be directly detected, especially if it is missed. <br>So, all images can be added, inferred, and verified through factory mode to accelerate project progress.<br>
+
+### Operation process
+
+1.First, complete the tree process construction in regular mode and train all AIDI modules into models<br>
+
+2.Then find the factory mode in **the menu bar - tools**, and click to enter **the factory mode**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-384.png)
+
+3.After entering factory mode, it is necessary to manually add images as a verification source
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-385.png)
+
+4.There are two ways to import data sources:<br>
+(1) Import from local:
+After selecting "**Select from local**", the File Explorer will pop up, and users can select local images to add to the image list as the verification source<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-386.png)
+
+(2) Import from regular mode:<br>
+After selecting "**Import from regular mode**", a list of images (original image) in regular mode will pop up, allowing you to select the desired data for import. Supports multiple and all selections<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-387.png)
+
+When there are many images, the loading of this window may be slightly slow. <br>Please be patient.<br>
+The data supports multiple and all selections. <br>You can use the middle mouse button to scroll and view all ranges.<br> After selecting the data, you need to manually click **the import** button. <br>If you want to cancel the import operation, please click **the cancel** button<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-388.png)
+
+5.After adding the image, a dialog box will pop up indicating whether to immediately inference. <br>It is recommended to choose to inference immediately. <br>In the factory mode, all models will inference one by one according to the module order process<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-389.png)
+
+**Branch inference and global inference:**
+
+1. Branch inference: Click **the inference** button in the tree view interface to execute the inference of a single branch (its complete branch)<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-390.png)
+
+2. Global inference: Click on the "**Global inference**" button in the upper right corner of the main interface to execute all branch inference<br>
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-391.png)
+
+**Quick addition of problem images to regular mode:<br>**
+Right click on "**Add to Normal Mode**" in the image list to quickly add images to the input node of normal mode
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-392.png)
+
+**Quick Tag Setting Function:**<br>
+After successfully importing images, you can quickly set tags for this batch of images, making it easier to mark image features for searching and filtering<br>
+**inference later:<br>**
+Not recommended for selection. <br>After selection, users need to manually click the inference button to perform inference operations on the image<br>
+
+6. Then, you can see the inference effect of each module model in the factory data on the main canvas<br>
+7. When switching between modules, the image list will automatically locate to the position before the switch
+
+## Using Regional Calculation tools:
+
+Region calculation scenario: You can write a Python script tool within this module to summarize and edit the result information from other modules, enabling the implementation of logic programming under complex NG judgment rules.
+
+### Application scenarios
+
+**Scenario 1**<br>
+Scenarios where multiple module results need to be integrated and given to other algorithm tools after integration<br>
+    **Integration of single module results:** <br>via view converter<br>
+    The integrated results will provide a scenario for the comprehensive judgment tool<br>
+    **Need to visualize the integration results:** <br>using region calculation tools (such as unsupervised+classification results integrated into detection areas with classification)<br>
+    **No need to visualize the integration results:**<br> through comprehensive judgment tools<br>
+
+**Scenario 2**<br>
+A certain project currently requires some simple traditional image processing algorithms (such as finding Blob after binarization). <br>Similar image processing algorithms can be implemented in region computing tools to output detection results<br>
+
+**Scenario 3**<br>
+Support the implementation of absolute detection algorithm solutions
+
+### Usage
+
+Select **the add** tool after any one of the multiple modules you want to connect to:
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-393.png)
+
+Then select **the area calculation** tool
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-394.png)
+
+Select multiple modules to participate in the calculation and click **Finish**
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-395.png)
+
+Enter the main interface of the area calculation tool and click on: <br>Edit Area Calculation Script
+
+![Alt text](D:/阿丘/智能客服/3.2doc_0317/3.2doc-en/source/image-396.png)
+
+Refer to the user guide and write the required Python scripts
+

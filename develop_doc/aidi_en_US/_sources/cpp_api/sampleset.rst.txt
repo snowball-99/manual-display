@@ -1,0 +1,83 @@
+Sample Set Management
+=====================
+
+
+SampleSet
+----------
+
+.. doxygenclass:: visionflow::data::ReadOnlySampleSet
+   :members:
+
+.. doxygentypedef:: visionflow::ReadOnlySampleSet
+
+.. doxygenclass:: visionflow::data::SampleSet
+   :members:
+
+.. doxygentypedef:: visionflow::SampleSet
+
+.. doxygenclass:: visionflow::data::SampleSetIterator
+   :members:
+
+.. doxygentypedef:: visionflow::SampleSetIterator
+
+PropertySet
+-----------
+
+.. doxygenclass:: visionflow::data::ReadOnlyPropertySet
+   :members:
+
+.. doxygentypedef:: visionflow::ReadOnlyPropertySet
+
+.. doxygenclass:: visionflow::data::PropertySet
+   :members:
+
+.. doxygentypedef:: visionflow::PropertySet
+
+.. doxygenclass:: visionflow::data::PropertyWriteBatch
+   :members:
+
+.. doxygentypedef:: visionflow::PropertyWriteBatch
+
+.. doxygenclass:: visionflow::data::SampleWriteBatch
+   :members:
+
+.. doxygentypedef:: visionflow::SampleWriteBatch
+
+.. doxygenclass:: visionflow::data::PropertySetIterator
+   :members:
+
+.. doxygentypedef:: visionflow::PropertySetIterator
+
+.. doxygenclass:: visionflow::data::PropertySetIterTPL
+   :members:
+
+.. doxygenclass:: visionflow::data::ReadOnlyPropertySetTPL
+   :members:
+
+Abstract Interfaces
+-------------------
+
+.. doxygenclass:: visionflow::data::IReadOnlyPropertySet
+   :members:
+
+.. doxygenclass:: visionflow::data::IPropertySetIterator
+   :members:
+
+ReadOnlyPropertySetView
+-----------------------
+.. doxygenclass:: visionflow::data::ReadOnlyPropertySetView
+   :members:
+
+.. doxygentypedef:: visionflow::ReadOnlyPropertySetView
+
+ReadOnlySampleSetView
+-----------------------
+.. doxygenclass:: visionflow::data::ReadOnlySampleSetView
+   :members:
+
+.. doxygentypedef:: visionflow::ReadOnlySampleSetView
+
+.. doxygenclass:: visionflow::data::ReadOnlySampleSetViewIterator
+   :members:
+
+.. doxygentypedef:: visionflow::ReadOnlySampleSetViewIterator

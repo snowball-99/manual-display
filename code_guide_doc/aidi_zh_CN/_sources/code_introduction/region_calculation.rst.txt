@@ -1,0 +1,62 @@
+Guidelines for Editing Regional Calculation Scripts
+##############################################################
+
+Basic instructions
+*************************
+
+The regional calculation script currently only supports Python language and supports Python versions 3.10 and above
+
+Basic Principles
+*************************
+
+The region calculation script processes each Sample through an entry function and returns a ``PolygonRegionList`` as the result output
+
+How to write region calculation scripts
+**********************************************
+
+Entry function
+++++++++++++++++++++++
+
+.. code-block:: python
+
+    def region_calculate(sample: vf.ISample) -> vf.props.PolygonRegionList
+
+Basic examples
+++++++++++++++++++++++++
+
+Requirement: A project consisting of unsupervised segmentation and classification tools, named UnsuperSeg and Cls. The detection area obtained from unsupervised segmentation needs to be classified to obtain a classified area.
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        #coding=utf-8
+        # First, import the file into the database
+        import visionflow as vf
+
+        # Introducing a geometric calculation library
+        from visionflow import geometry as geo
+
+
+        # Define Entry function region calculate
+        def region_calculate(sample: vf.ISample) -> vf.props.PolygonRegionList:
+            ply_region_list = vf.props.PolygonRegionList()
+            unsuper_result = sample.get(vf.ToolNodeId("UnsuperSeg/pred"))
+            cls_result = sample.get(vf.ToolNodeId("Cls/pred"))
+
+            for unsuper_id, unsuper_region in unsuper_result:
+                unsuper_center = geo.center(unsuper_region.polygon())
+                for cls_id, cls_region in cls_result:
+                    cls_center = geo.center(cls_region.polygon())
+                    if geo.distance(unsuper_center, cls_center) < 2.0:
+                        unsuper_region.set_name(cls_region.name())
+                        break
+                # It is necessary to determine whether the category assignment was successful here
+                if unsuper_region.name() != "NG":
+                    ply_region_list.add(unsuper_region)
+                    
+            return ply_region_list
+
+List of commonly used functions
+++++++++++++++++++++++++++++++++++++++++
+List of commonly used functions during script editing process, please refer to :doc:`common use funtion list <../common_function>`

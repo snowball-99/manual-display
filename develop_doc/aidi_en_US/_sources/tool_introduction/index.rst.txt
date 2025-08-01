@@ -1,0 +1,18 @@
+算法工具说明
+#################
+
+.. toctree::
+   :maxdepth: 1
+
+   segmentation.rst
+   unsuper_segmentation.rst
+   unsuper_classification.rst
+   location.rst
+   assemblyverification.rst
+   detection.rst
+   classification.rst
+   incremental_check.rst
+   OCR.rst
+   geometry_search.rst
+   camera_calibration.rst
+   el_unsuper_seg.rst

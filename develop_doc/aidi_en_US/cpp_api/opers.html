@@ -1,0 +1,606 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Tools" href="tools.html" /><link rel="prev" title="Configurator Types" href="confs.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Operator Types and Factory - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="cpp_index.html">C++ API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confs.html">Configurator Types</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="operator-types-and-factory">
+<h1>Operator Types and Factory<a class="headerlink" href="#operator-types-and-factory" title="Link to this heading">#</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers8IServiceE">
+<span id="_CPPv3N10visionflow5opers8IServiceE"></span><span id="_CPPv2N10visionflow5opers8IServiceE"></span><span id="visionflow::opers::IService"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_service"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IService</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers8IServiceE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1opers_1_1_i_service"><span class="std std-ref">IService</span></a> interface for Operator. </p>
+<p>The <a class="reference internal" href="#classvisionflow_1_1opers_1_1_i_service"><span class="std std-ref">IService</span></a> object will be created before any operator initialize and passed to the operator to provide all required data or save data for init. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers8IService14context_existsEv">
+<span id="_CPPv3NK10visionflow5opers8IService14context_existsEv"></span><span id="_CPPv2NK10visionflow5opers8IService14context_existsEv"></span><span id="visionflow::opers::IService::context_existsC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_service_1a98f0dcf550be4f85b37cb19616d5fa07"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">context_exists</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers8IService14context_existsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if previous context exists or not. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if previous context exists. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>false if previous context not exists. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers8IService12load_contextEv">
+<span id="_CPPv3NK10visionflow5opers8IService12load_contextEv"></span><span id="_CPPv2NK10visionflow5opers8IService12load_contextEv"></span><span id="visionflow::opers::IService::load_contextC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_service_1a7eeace8a674841a99e745dddde2300f1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="common.html#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load_context</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers8IService12load_contextEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get Context saved after the previous execution, which will be empty if it’s the first execution or the previous execution has not saved any context. You can call <a class="reference internal" href="#classvisionflow_1_1opers_1_1_i_service_1a98f0dcf550be4f85b37cb19616d5fa07"><span class="std std-ref">context_exists()</span></a> to check if context exists before get it. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="common.html#classvisionflow_1_1_buffer"><span class="std std-ref">visionflow::Buffer</span></a> The context buffer saved after the previous execution. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers8IService12save_contextERK6Buffer">
+<span id="_CPPv3N10visionflow5opers8IService12save_contextERK6Buffer"></span><span id="_CPPv2N10visionflow5opers8IService12save_contextERK6Buffer"></span><span id="visionflow::opers::IService::save_context__BufferCR"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_service_1a70ecb79b3bd984945e405b5e58667478"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save_context</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers8IService12save_contextERK6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Save current Operator context. </p>
+<p>After the Operator process success, you can call this method to save current context which maybe useful for the next execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> – The current Operator context. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers8IService15get_script_sinkEv">
+<span id="_CPPv3N10visionflow5opers8IService15get_script_sinkEv"></span><span id="_CPPv2N10visionflow5opers8IService15get_script_sinkEv"></span><span id="visionflow::opers::IService::get_script_sink"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_service_1a80394493a60b1badfb9c54ebd326c460"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="core.html#_CPPv4N10visionflow14IScriptStdSinkE" title="visionflow::IScriptStdSink"><span class="n"><span class="pre">IScriptStdSink</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_script_sink</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow5opers8IService15get_script_sinkEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the script sink. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::shared_ptr&lt;IScriptStdSink&gt; </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperatorE">
+<span id="_CPPv3N10visionflow5opers9IOperatorE"></span><span id="_CPPv2N10visionflow5opers9IOperatorE"></span><span id="visionflow::opers::IOperator"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IOperator</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperatorE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1opers_1_1_i_operator"><span class="std std-ref">IOperator</span></a> Interface for Operator. </p>
+<p>An Operator is a data processing unit which can be initialized with list of predefined parameters and can generate list of output properties with specific types for each list of input properties of specific types. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator8PropListE">
+<span id="_CPPv3N10visionflow5opers9IOperator8PropListE"></span><span id="_CPPv2N10visionflow5opers9IOperator8PropListE"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1a57134b81991930fe44a60ceed7551302"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PropList</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow5propsE" title="visionflow::props"><span class="n"><span class="pre">props</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="props.html#_CPPv4N10visionflow5props9IPropertyE" title="visionflow::props::IProperty"><span class="n"><span class="pre">IProperty</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator8PropListE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Vector of <a class="reference internal" href="props.html#classvisionflow_1_1props_1_1_i_property"><span class="std std-ref">props::IProperty</span></a>’s shared pointer. </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator9ParamListE">
+<span id="_CPPv3N10visionflow5opers9IOperator9ParamListE"></span><span id="_CPPv2N10visionflow5opers9IOperator9ParamListE"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1a199bf9184f65714bafb7bf635474103f"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ParamList</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow5paramE" title="visionflow::param"><span class="n"><span class="pre">param</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="param.html#_CPPv4N10visionflow5param10IParameterE" title="visionflow::param::IParameter"><span class="n"><span class="pre">IParameter</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator9ParamListE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Vector of <a class="reference internal" href="param.html#classvisionflow_1_1param_1_1_i_parameter"><span class="std std-ref">param::IParameter</span></a>’s shared pointer. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator7set_idsE10ToolNodeIdNSt6vectorI10ToolNodeIdEENSt6vectorI10ToolNodeIdEE">
+<span id="_CPPv3N10visionflow5opers9IOperator7set_idsE10ToolNodeIdNSt6vectorI10ToolNodeIdEENSt6vectorI10ToolNodeIdEE"></span><span id="_CPPv2N10visionflow5opers9IOperator7set_idsE10ToolNodeIdNSt6vectorI10ToolNodeIdEENSt6vectorI10ToolNodeIdEE"></span><span id="visionflow::opers::IOperator::set_ids__ToolNodeId.std::vector:ToolNodeId:.std::vector:ToolNodeId:"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1af4044c0a8cbfe30e67cc16b44f3f1032"></span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperatorE" title="visionflow::opers::IOperator"><span class="n"><span class="pre">IOperator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_ids</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">self_id</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">input_ids</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">output_ids</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator7set_idsE10ToolNodeIdNSt6vectorI10ToolNodeIdEENSt6vectorI10ToolNodeIdEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the input and output properties ids. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self_id</strong> – The operator id. </p></li>
+<li><p><strong>input_ids</strong> – The input properties ids. </p></li>
+<li><p><strong>output_ids</strong> – The output properties ids. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers9IOperator7oper_idEv">
+<span id="_CPPv3NK10visionflow5opers9IOperator7oper_idEv"></span><span id="_CPPv2NK10visionflow5opers9IOperator7oper_idEv"></span><span id="visionflow::opers::IOperator::oper_idC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1ab48b06eccd768ece444f6a74d4a0d5db"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">oper_id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers9IOperator7oper_idEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the operator id. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#classvisionflow_1_1_tool_node_id"><span class="std std-ref">ToolNodeId</span></a> The id of the operator. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers9IOperator14input_prop_idsEv">
+<span id="_CPPv3NK10visionflow5opers9IOperator14input_prop_idsEv"></span><span id="_CPPv2NK10visionflow5opers9IOperator14input_prop_idsEv"></span><span id="visionflow::opers::IOperator::input_prop_idsC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1aa32c0448cd722eca53fa17bc37451381"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">input_prop_ids</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers9IOperator14input_prop_idsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the input properties ids. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NO_DISCARD input properties ids. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers9IOperator15output_prop_idsEv">
+<span id="_CPPv3NK10visionflow5opers9IOperator15output_prop_idsEv"></span><span id="_CPPv2NK10visionflow5opers9IOperator15output_prop_idsEv"></span><span id="visionflow::opers::IOperator::output_prop_idsC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1addf16215387077bb9bffc45a439a335e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><span class="n"><span class="pre">ToolNodeId</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">output_prop_ids</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers9IOperator15output_prop_idsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the output properties ids. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NO_DISCARD output properties ids. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamList">
+<span id="_CPPv3N10visionflow5opers9IOperator10initializeERK9ParamList"></span><span id="_CPPv2N10visionflow5opers9IOperator10initializeERK9ParamList"></span><span id="visionflow::opers::IOperator::initialize__ParamListCR"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1a465e8f1875f6f2c5b91a2f4a23e5c46a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator9ParamListE" title="visionflow::opers::IOperator::ParamList"><span class="n"><span class="pre">ParamList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamList" title="Link to this definition">#</a><br /></dt>
+<dd><p><p>Interface to initialize the operator with the given parameters. The derived class should implement this method initialize(or initialize</p>
+<p>(param, service)) to initialize the operator.</p>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>param</strong> – List of parameters, all should be derived from <a class="reference internal" href="param.html#classvisionflow_1_1param_1_1_i_parameter"><span class="std std-ref">param::IParameter</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamListR8IService">
+<span id="_CPPv3N10visionflow5opers9IOperator10initializeERK9ParamListR8IService"></span><span id="_CPPv2N10visionflow5opers9IOperator10initializeERK9ParamListR8IService"></span><span id="visionflow::opers::IOperator::initialize__ParamListCR.IServiceR"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1ac5ff445f3908b9f29468106b28a9bfe2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator9ParamListE" title="visionflow::opers::IOperator::ParamList"><span class="n"><span class="pre">ParamList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param</span></span>, <a class="reference internal" href="#_CPPv4N10visionflow5opers8IServiceE" title="visionflow::opers::IService"><span class="n"><span class="pre">IService</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamListR8IService" title="Link to this definition">#</a><br /></dt>
+<dd><p><p>Interface to initialize the operator with the given parameters and service. The derived class should implement this method(or</p>
+<p>initialize(param)) to initialize the operator.</p>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – List of parameters, all should be derived from <a class="reference internal" href="param.html#classvisionflow_1_1param_1_1_i_parameter"><span class="std std-ref">param::IParameter</span></a>. </p></li>
+<li><p><strong>service</strong> – Help to save data or load data to accelerate initialize. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers9IOperator23initialize_with_serviceERK9ParamListP8IService">
+<span id="_CPPv3N10visionflow5opers9IOperator23initialize_with_serviceERK9ParamListP8IService"></span><span id="_CPPv2N10visionflow5opers9IOperator23initialize_with_serviceERK9ParamListP8IService"></span><span id="visionflow::opers::IOperator::initialize_with_service__ParamListCR.IServiceP"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1addc0806125566c697994c4ff7e90044c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize_with_service</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator9ParamListE" title="visionflow::opers::IOperator::ParamList"><span class="n"><span class="pre">ParamList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param</span></span>, <a class="reference internal" href="#_CPPv4N10visionflow5opers8IServiceE" title="visionflow::opers::IService"><span class="n"><span class="pre">IService</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">service</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow5opers9IOperator23initialize_with_serviceERK9ParamListP8IService" title="Link to this definition">#</a><br /></dt>
+<dd><p>Interface to initialize the operator with the given parameters and service. it recommend to using this function to init operator instead of initialize. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – List of parameters, all should be derived from <a class="reference internal" href="param.html#classvisionflow_1_1param_1_1_i_parameter"><span class="std std-ref">param::IParameter</span></a>. </p></li>
+<li><p><strong>service</strong> – Help to save data or load data to accelerate initialize. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers9IOperator7executeER7ISample">
+<span id="_CPPv3NK10visionflow5opers9IOperator7executeER7ISample"></span><span id="_CPPv2NK10visionflow5opers9IOperator7executeER7ISample"></span><span id="visionflow::opers::IOperator::execute__ISampleRC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1a2172996f3e10e992e4890b33add6b6ad"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">execute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="core.html#_CPPv4N10visionflow7ISampleE" title="visionflow::ISample"><span class="n"><span class="pre">ISample</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sample</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers9IOperator7executeER7ISample" title="Link to this definition">#</a><br /></dt>
+<dd><p>Execute the operator with given sample. By default it dispatches properties to overloaded functions that use a list of properties as arguments. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample</strong> – <strong>[inout]</strong> The sample contains the input and output properties. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow5opers9IOperator7executeERK8PropList8PropList">
+<span id="_CPPv3NK10visionflow5opers9IOperator7executeERK8PropList8PropList"></span><span id="_CPPv2NK10visionflow5opers9IOperator7executeERK8PropList8PropList"></span><span id="visionflow::opers::IOperator::execute__PropListCR.PropListC"></span><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1aa093dc2fddb5759d9f6552adf22b1b62"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">execute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator8PropListE" title="visionflow::opers::IOperator::PropList"><span class="n"><span class="pre">PropList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">inputs</span></span>, <a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator8PropListE" title="visionflow::opers::IOperator::PropList"><span class="n"><span class="pre">PropList</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">outputs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow5opers9IOperator7executeERK8PropList8PropList" title="Link to this definition">#</a><br /></dt>
+<dd><p>Initialize the operator with the given properties and generate the output properties. This function is called after the operator is initialized. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – <strong>[in]</strong> List of input properties. All properties in the input list is readonly. </p></li>
+<li><p><strong>outputs</strong> – <strong>[out]</strong> List of output properties. All output properties are allocated by the caller in advance. The implementer of the Operator can no longer modify the address of the property object in the <code class="docutils literal notranslate"><span class="pre">execute</span></code> phase, nor can it delete or add a property object, but can only modify the value of each property object. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK10visionflow5opers9IOperator2asERK12OperatorTypev">
+<span id="_CPPv3I0ENK10visionflow5opers9IOperator2asEv"></span><span id="_CPPv2I0ENK10visionflow5opers9IOperator2asEv"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OperatorType</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classvisionflow_1_1opers_1_1_i_operator_1a3bd029755c7a64ad5d5071f8c7333c3c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0ENK10visionflow5opers9IOperator2asERK12OperatorTypev" title="visionflow::opers::IOperator::as::OperatorType"><span class="n"><span class="pre">OperatorType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">as</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK10visionflow5opers9IOperator2asERK12OperatorTypev" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert the operator into its derived type. Caller should make sure the type is correct. or std::bad_cast will be thrown. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>OperatorType</strong> – The derived class of <a class="reference internal" href="#classvisionflow_1_1opers_1_1_i_operator"><span class="std std-ref">IOperator</span></a>. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>const OperatorType&amp; The derived type of the operator. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers7FactoryE">
+<span id="_CPPv3N10visionflow5opers7FactoryE"></span><span id="_CPPv2N10visionflow5opers7FactoryE"></span><span id="visionflow::opers::Factory"></span><span class="target" id="classvisionflow_1_1opers_1_1_factory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Factory</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow6detailE" title="visionflow::detail"><span class="n"><span class="pre">detail</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="core.html#_CPPv4I00EN10visionflow6detail7FactoryE" title="visionflow::detail::Factory"><span class="n"><span class="pre">Factory</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N10visionflow5opers4MetaE" title="visionflow::opers::Meta"><span class="n"><span class="pre">Meta</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperatorE" title="visionflow::opers::IOperator"><span class="n"><span class="pre">IOperator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow6detailE" title="visionflow::detail"><span class="n"><span class="pre">detail</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="core.html#_CPPv4I00EN10visionflow6detail19CreatorMutableMixinE" title="visionflow::detail::CreatorMutableMixin"><span class="n"><span class="pre">CreatorMutableMixin</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N10visionflow5opers4MetaE" title="visionflow::opers::Meta"><span class="n"><span class="pre">Meta</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow5opers7CreatorE" title="visionflow::opers::Creator"><span class="n"><span class="pre">Creator</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers7FactoryE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers4MetaE">
+<span id="_CPPv3N10visionflow5opers4MetaE"></span><span id="_CPPv2N10visionflow5opers4MetaE"></span><span id="visionflow::opers::Meta"></span><span class="target" id="structvisionflow_1_1opers_1_1_meta"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Meta</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers4MetaE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Operator <a class="reference internal" href="#structvisionflow_1_1opers_1_1_meta"><span class="std std-ref">Meta</span></a> info. </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow5opers7CreatorE">
+<span id="_CPPv3N10visionflow5opers7CreatorE"></span><span id="_CPPv2N10visionflow5opers7CreatorE"></span><span class="target" id="namespacevisionflow_1_1opers_1a1f3d06dab31d706e1dc55217ab4bfb36"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow5opersE" title="visionflow::opers"><span class="n"><span class="pre">opers</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Creator</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperatorE" title="visionflow::opers::IOperator"><span class="n"><span class="pre">IOperator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow5opers7CreatorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Operator creator. </p>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="tools.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Tools</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="confs.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Configurator Types</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Operator Types and Factory</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers8IServiceE"><code class="docutils literal notranslate"><span class="pre">IService</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers8IService14context_existsEv"><code class="docutils literal notranslate"><span class="pre">IService::context_exists()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers8IService12load_contextEv"><code class="docutils literal notranslate"><span class="pre">IService::load_context()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers8IService12save_contextERK6Buffer"><code class="docutils literal notranslate"><span class="pre">IService::save_context()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers8IService15get_script_sinkEv"><code class="docutils literal notranslate"><span class="pre">IService::get_script_sink()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperatorE"><code class="docutils literal notranslate"><span class="pre">IOperator</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator8PropListE"><code class="docutils literal notranslate"><span class="pre">IOperator::PropList</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator9ParamListE"><code class="docutils literal notranslate"><span class="pre">IOperator::ParamList</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator7set_idsE10ToolNodeIdNSt6vectorI10ToolNodeIdEENSt6vectorI10ToolNodeIdEE"><code class="docutils literal notranslate"><span class="pre">IOperator::set_ids()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers9IOperator7oper_idEv"><code class="docutils literal notranslate"><span class="pre">IOperator::oper_id()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers9IOperator14input_prop_idsEv"><code class="docutils literal notranslate"><span class="pre">IOperator::input_prop_ids()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers9IOperator15output_prop_idsEv"><code class="docutils literal notranslate"><span class="pre">IOperator::output_prop_ids()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamList"><code class="docutils literal notranslate"><span class="pre">IOperator::initialize()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator10initializeERK9ParamListR8IService"><code class="docutils literal notranslate"><span class="pre">IOperator::initialize()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers9IOperator23initialize_with_serviceERK9ParamListP8IService"><code class="docutils literal notranslate"><span class="pre">IOperator::initialize_with_service()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers9IOperator7executeER7ISample"><code class="docutils literal notranslate"><span class="pre">IOperator::execute()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow5opers9IOperator7executeERK8PropList8PropList"><code class="docutils literal notranslate"><span class="pre">IOperator::execute()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4I0ENK10visionflow5opers9IOperator2asERK12OperatorTypev"><code class="docutils literal notranslate"><span class="pre">IOperator::as()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers7FactoryE"><code class="docutils literal notranslate"><span class="pre">Factory</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers4MetaE"><code class="docutils literal notranslate"><span class="pre">Meta</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow5opers7CreatorE"><code class="docutils literal notranslate"><span class="pre">Creator</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

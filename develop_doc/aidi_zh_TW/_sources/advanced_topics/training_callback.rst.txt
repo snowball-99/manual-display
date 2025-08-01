@@ -1,0 +1,70 @@
+训练进度回调
+###############
+
+VisionFlow中包含许多AI工具，这些AI工具在训练时，你可以通过给训练器（ :cpp:class:`visionflow::ConfigureRuntime` ）
+传递一个进度回调接口的实现即可在训练过程中通过回调接口接收到训练器报告的训练进度：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include <iostream>
+        #include "visionflow/utils/tasks/progress_callback.hpp"
+
+        class MyProgressBar: public visionflow::util::IProgressCallback {
+        public:
+            visionflow::TaskCtrlSignal on_progress(int total, int progress, const char *progress_info) {
+                std::cout << progress <<  "/" << total << ": " << progress_info << std::endl;
+
+                // 如果想要停止任务，则可以返回 kStop 或 kAbort
+                return visionflow::TaskCtrlSignal::kContinue;
+            }
+        };
+
+        void train_func(visionflow::Project* proj) {
+            // 其他训练准备工作，具体请查阅 Runtime相关文档
+            config_runtime = project->create_config_runtime({my_tool_id, "trainer"}, {/*options*/});
+            auto data_service = adapt(project, config_runtime);
+
+            // 设置进度回调
+            MyProgressBar progress_bar;
+            data_service.set_progress_callback(&progress_bar);
+
+            // 启动训练
+            config_runtime.initialize(data_service);
+            config_runtime.execute(data_service);
+        }
+
+进度回调除了报告进度信息外，还是一个调用方控制训练器和通信的重要通道，聂可以通过在进度回调中返回
+:cpp:enumerator:`visionflow::TaskCtrlSignal::kStop` 或 :cpp:enumerator:`visionflow::TaskCtrlSignal::kAbort`
+来中止或提前终止任务。
+
+进度回调函数的参数 `progress_info` 中也会附带一些和当前任务相关的一些数据信息，对于不同的任务，这些数据内容可能是不同的，但
+这个数据内容都是一个json对象序列化后的字符串，且一般情况下，json对象中都会有一个 `Message` 成员。对于AI工具训练时的进度信息而言，
+其中会包含当前工具训练的Loss数据以及预计剩余训练时间，内容示例如下：
+
+.. code-block:: json
+
+    {
+        "Loss": {
+            "nacc": 0.704343,
+            "pacc": 0.912434
+        },
+        "Time Left": 189.24,
+        "Message": "Some string"
+    }
+
+部分存在训练参数自适应的AI工具也会在训练开始时通过进度消息传出自适应的参数的实际取值，例如，在分割工具训练开始时，会以如下的格式
+报告参数中的“精度等级”的实际取值：
+
+.. code-block:: json
+
+    {
+        "Auto Parameters": {
+            "Resolution Level": 4,
+        },
+        "Message": "Some string"
+    }
+
+不同工具在不同工作阶段实际通过进度消息传递的信息可能不同，详情请阅读具体的工具相关文档或咨询相关负责人，并注意在你的代码中做好针对
+进度消息中内容变化的兼容性处理。

@@ -1,0 +1,172 @@
+Instructions for built-in function templates
+#######################################################
+
+Region partitioning function Split Poly
+**************************************************
+
+Definition of Details
++++++++++++++++++++++++++++++++++++
+* Function: Splits multiple Polygons into specified sized slices, commonly used in view converter scripts to generate uniformly sized views for subsequent algorithm tools to achieve input size normalization
+* Input:
+    - polys: Polygons for target segmentation
+    - tg_width: Target block width
+    - tg_height: Target block height
+    - image_width=0: Original image width
+    - image_height=0: Original image height
+    - overlap_width=0: Horizontal spacing between target blocks, default to 0
+    - overlap_height=0: Vertical spacing between target blocks, default to 0
+    - discard_out_range=False: Whether to discard out-of-range parts; if False, fill with mask, default to False
+    - is_segment_mode=False: Whether the preceding module is a segmentation module; if True, compute angles based on minimum bounding rectangle and normalize, angles range in (-90, 90]
+    - enable_auto_mask=False: Whether to enable automatic mask; if True, draw masks corresponding to defects in each target block
+    - erode_dilate_value=0: Parameter for automatic mask erosion and dilation; >0 for erode, <0 for dilate, default to 0
+    - reverse_mask=False: Whether to invert the automatic mask; if enabled and enable_auto_mask is True, invert the mask
+    - with_angle=False: Whether to cut blocks based on polygon angles, default to False
+    - iou_thres=0.8: Threshold for removing duplicate blocks. If overlap ratio between two blocks exceeds this threshold, only one is retained
+* Output:
+    - View_list: View list
+* For detailed usage scenarios, please refer to the Basic Example chapter in the :doc:`view transform code guide <code_introduction/view_transform>` section of the doc: View Conversion Script Editing Guide
+
+Relative Grayscale measurement function
+**********************************************
+.. image:: images/cs_help_relative_grayscale_description.png
+
+Weld bead width measurement function
+********************************************
+
+Measurement instructions
++++++++++++++++++++++++++++++++++
+Using a group of line segments to define the measurement position, a group of line segments is used to represent the measurement position, as shown below. The red line segment represents the measurement position, and the distance between the intersection point of the closed shape is used as the measurement width. Measure each area, and the measured values are the maximum and minimum values of all measurement positions in that area. If a certain area does not have a defined measurement position, its maximum width will be outputted as -1
+
+.. image:: images/cs_help_measurement_instructions.png
+
+Definition of Details
+++++++++++++++++++++++++++++++++
+
+* Input: AI segmentation result (``MultiPolygon2f``) and the required measurement position (``MultiSegment2f``)
+* Output: The maximum and minimum width values at all measurement positions
+* Details of width definition:
+
+    - Width definition: The distance between the intersection point of a line segment and a polygon (normal situation, as shown in green in the figure below)
+
+    - Line segment without intersection with polygon: ignore this measurement position (as shown by the red dashed line in the figure below)
+
+    - When there are an odd number of intersections between a line segment and the same polygon: ignore this measurement position (as shown by the solid red line in the figure below)
+
+    - When there are more than 2 intersection points between a line segment and a polygon: return the distance between the outermost two points as the width, or ignore (temporarily choose to ignore) (This method still fails, as shown in the purple figure below, which still has errors)
+
+    - When calculating the intersection point between a line segment and a polygon, only the outer ring of the polygon is considered
+
+    - When there are N intersection points, this measurement position is ignored because it is impossible to distinguish whether it is normal or not
+
+    - In summary, only the scene where there are two intersection points between the line segment and the polygon, and both ends of the line segment are outside the polygon, is retained.
+
+    - Only the position measurement of the green line segment is valid in the following figure.
+
+    .. image:: images/cs_help_effective_measurement.png
+
+Example code
+++++++++++++++++
+ .. code-block:: python
+
+    # The region_list segmentation model segments the weld bead area, which can be obtained by referring to the following section: doc: 'Comprehensive Judgment Script Editing Guide<integration_classify>'
+    region_list = {}    
+
+    # measure_segs represents the measurement position of the weld bead. If the measurement position is fixed, the measurement position can be directly defined in this script (as currently defined, three measurement positions are defined). If each image is different, it should be passed in as a parameter
+    measure_segs = [geo.LineString2f(geo.Point2f(464, 461), geo.Point2f(464, 651)), 
+                    geo.LineString2f(geo.Point2f(757, 441), geo.Point2f(788, 852)), 
+                    geo.LineString2f(geo.Point2f(821, 527), geo.Point2f(887, 852))]
+
+    def pass_func(max_width, min_width) -> bool:
+        """
+        Determine whether the maximum and minimum widths of the weld bead width are NG
+        : param max_width: The maximum width of the weld bead, which is the effective width when it is a positive number, and -1 indicates that the width measurement result is invalid
+        : param min_width: The minimum width of the weld bead
+                """
+        # Please define the judgment criteria based on your needs here
+        return max_width > 10 and min_width < 300
+
+
+    #Measure_segs is a group of decision line segments passed in by the user
+    #TODO pass_func ->bool, a user-defined judgment function that determines whether the current weld bead is qualified
+    def measure_weld(region_list, measure_segs, pass_func):
+        """
+        measure weld region width(max_width and min_width) at measure_segs positino
+        : param regionlist: The weld bead area inferred by AI, only considering the outer ring of the weld bead during measurement
+        : param measures_segs: represents the group of line segments that need to be measured, list (LineString2f), each line segment (represented by LineString2f) represents a measurement position, and each line segment can only contain two points
+        : param pass_fun: Determination function for weld bead width
+        : return: The maximum and minimum values of the weld bead width in all regions are represented as follows: [(max, min), (max, min),...], with a list length equal to regions_list. For each weld bead area, the maximum width is -1 if a measurement area fails
+        """
+
+        res = []
+
+        for id, region in region_list:
+            ring = region.polygon().outer
+            min_width, max_width = float("inf"), -1
+            for seg in measure_segs:
+                if len(seg) != 2:
+                    continue
+                # assert(len(seg) == 2, 'Each measure segment line must only have 2 points')
+                insects = geo.intersection(ring, seg)
+                # There can only be two intersections
+                if len(insects) == 2:
+                    # Both points need to be outside the area
+                    if geo.covered_by(seg[0], ring) or geo.covered_by(seg[1], ring):
+                        continue
+                    dist = geo.distance(insects[0], insects[1])
+                    max_width, min_width = max(max_width, dist), min(min_width, dist)
+            res.append((max_width, min_width))
+
+        # Call your judgment rule to determine if the width is OK
+        for max_w, min_w in res:
+            if pass_func(max_w, min_w) is False:
+                return False
+        return True
+
+Region deduplication function Nms By Center Distance
+*******************************************************
+
+Definition of Details
++++++++++++++++++++++++++++++++++++
+* Function: The deduplication of regions is completed by the distance between the regional centers. When the distance between the centers of two regions is less than center_dis, only one of them is retained.
+* Input:
+    - polys: Polygons for target segmentation
+    - center_dis: the distance between the centers of two regions
+* Output:
+    - ply_region_list: Polygons List
+    
+Example code
+++++++++++++++++
+ .. code-block:: python
+
+    def nms_by_center_dis(region_list, center_dis):
+        copy_region_list = []
+        for id, region in region_list:
+            center = geo.center(region.polygon())
+            copy_region_list.append((str(center.x)+str(center.y)+str(region.score()), region))
+        copy_region_list = sorted(copy_region_list, key=lambda x: x[0])  
+        region_id_list = []
+        center_list = []
+        region_list = []
+        region_score = []
+        for id, region in copy_region_list:
+            region_id_list.append(id)
+            region_list.append(region)
+            region_score.append(region.score())
+            center = geo.center(region.polygon())
+            center_list.append((center.x, center.y))
+        ply_region_list = vf.props.PolygonRegionList()
+        center_list_arr = np.array(center_list)
+        distances = np.sqrt(np.sum((center_list_arr[:, np.newaxis] - center_list_arr) ** 2, axis=-1))
+        keep_id_list = set()
+        for i in range(len(region_id_list)):
+            keep_i = True
+            for keep_id in keep_id_list:
+                # If the center distance is less than center-dis, it is considered overlapping
+                if distances[i, keep_id] < center_dis:
+                    keep_i = False
+                    break
+            if keep_i:
+                ply_region_list.add(region_list[i])
+                keep_id_list.add(i)
+
+        return ply_region_list

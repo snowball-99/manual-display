@@ -1,0 +1,112 @@
+增量训练检查（分割、分类）
+==============================
+
+增量训练前的检查包括三个部分：
+
+1. 由于关键数据( ``context``, ``model_weights``)缺失导致的检查失败，没有办法自行恢复。
+
+2. 和普通训练一样的通用检查。
+
+3. 参数或训练数据不支持增量训练，可以通过提示信息，自行修改参数或者数据集后通过该检查。
+
+
+增量训练检查失败信息的捕获
+*******************************
+
+原因3会抛出异常 :cpp:class:`visionflow::excepts::IncrementalTrainNotSupported` 。
+
+详细异常信息的获取：
+
+1. 首先捕获异常 ``IncrementalTrainNotSupported`` ，通过 ``details`` 函数获取到详细的异常信息；
+
+2. 然后解析异常信息，其是一个 ``json::array`` 格式的字符串，解析后便会得到所有检查失败的原因；
+
+3. 最后遍历获取 ``json::array`` 每一条 ``error`` ， ``error`` 是一个 ``json::object``，包含了两个字段 ``type``, ``message`` :
+
+   1. ``type``： 具体的错误类型（详见 `异常类型说明`_ ）；
+
+   2. ``message``： 具体的错误信息；
+
+示例如下：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        try {
+          // 增量训练
+        } catch (const visionflow::excepts::DefaultException &ex) {
+            if(!ex.details().empty){
+                // 以 json 格式解析数据
+                auto details = nlohmann::json::parse(ex.details());
+                for(const auto& data : details){
+                    auto type = data.at("type").get<std::string>();
+                    auto message = data.at("message").get<std::string>();
+                }
+            }
+        }
+
+异常类型说明
+***************************
+
+.. list-table::
+    :header-rows: 1
+
+    * - 异常类型
+      - 原因
+    * - InvalidClasses
+      - 类别发生了改变
+    * - InvalidBaseColor
+      - 基准色彩发生了改变
+    * - InvalidImageVisualSize
+      - 可视图数量发生了改变
+    * - TrainingParametersChanged
+      - 训练参数发生了改变
+    * - ModelArchNotSupported
+      - 模型不支持，分割模块中只有101、102模型支持增量训练
+    * - ContrastiveClassificationNotSupported
+      - 比对分类不支持增量训练
+
+
+示例
+***************************
+.. tab:: json
+
+    .. code-block::
+
+      [
+      {
+          "message": "Contrastive classification is currently not supported in the incremental training mode.",
+          "type": "ContrastiveClassificationNotSupported"
+      },
+      {
+          "message": [
+              {
+                  "op": "replace",
+                  "path": "/input_shape/base_input_height",
+                  "value": 32
+              },
+              {
+                  "op": "replace",
+                  "path": "/input_shape/base_input_width",
+                  "value": 64
+              }
+          ],
+          "type": "TrainingParametersChanged"
+      }
+      ]
+
+
+表示有2种原因造成了增量训练检查失败，原因1是增量训练不支持比对分类，
+原因2是由于 ``base_input_height`` 的值应该为32才能支持增量训练；
+``base_input_width`` 的值应该为64才能支持增量训练，训练参数改变导致不支持增量训练。
+
+其他
+***************************
+
+1. 除了 ``TrainingParametersChanged`` 以外，其他类型的检查失败的 ``message`` 都已经翻译且对于用户较好理解，可以依次直接输出。
+
+2. ``TrainingParametersChanged`` 的 ``message`` 会输出 ``json::array`` 表示所有因修改导致检查不通过的参数，
+   具体包含的字段和含义可以参考上述例子，这部分信息可用于将参数恢复为可以通过检查的值，
+   将 ``json::array`` 中的每一个 ``json_patch`` 应用到当前参数中（参考 `json_patch <https://json.nlohmann.me/api/basic_json/patch/>`_），
+   即将 ``path`` 对应的参数的值修改为 ``value`` 字段的值即可通过检查。

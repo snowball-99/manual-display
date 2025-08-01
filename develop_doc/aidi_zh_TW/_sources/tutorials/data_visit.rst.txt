@@ -1,0 +1,633 @@
+通过数据集管理工程数据
+#######################
+在VisionFlow中, 数据被分成: :term:`Parameter` 参数和 :term:`Property` 属性两种类型。本节会通过一些例子详细介绍如何访问、更新 **property** 属性类型的数据。
+
+所有的属性数据 **property** 都被保存在数据库中并被组织成 **SampleSet** 数据集这种数据结构，通过高层接口的抽象隐藏了底层实现细节提升易用性。
+
+通过数据集 :term:`SampleSet` 获取数据 :term:`Sample`
+====================================================
+样本集是以样本id和样本数据作为键值对组成的容器。样本集中包含什么样的属性类型是由工程(里的计算流程图)决定的。
+
+样本是以属性节点id(**ToolNodeId**)和属性数据作为键值对组成的容器。
+
+.. note:: 样本集包含了访问数据库的句柄，在析构样本集对象时数据库的引用计数会减一。
+
+上面提到了样本集里的属性类型是由工程决定的，以下列出 **Project** 中会影响样本集包含何种属性的接口：
+
+  :cpp:func:`visionflow::Project::add_tool`
+  :cpp:func:`visionflow::Project::remove_tool`
+  :cpp:func:`visionflow::Project::copy_tool`
+  :cpp:func:`visionflow::Project::copy_tool_group`
+
+这四个接口都会影响工程中的计算流程图的结构，所有每次调用这些接口都会改变样本集中包含的属性。
+
+例如，给工程添加一个工具会将这个工具内部包含的属性节点添加到样本集中作为占位符(同时也会加入到数据库中)。
+
+LazySample和Sample
+*********************
+LazySample和Sample都可以获取到属性数据。它们的区别是：LazySample可以通过数据库获取属性数据，而Sample不能。
+
+任何对LazySample和Sample的修改都不会影响到数据库中的数据，除非你通过接口 :cpp:func:`visionflow::data::SampleSet::update` 将这些修改提交.
+
+LazySample
+----------
+当第一次访问或修改数据时， **LazySample** 会从数据库中读取,并将这次访问或修改缓存在内存中。
+当再次访问之前已被访问或修改过的数据时， **LazySample** 会从缓存中读取数据，因此访问速度会更快。
+
+除此之外，当更新一个 **LazySample** 到 **SampleSet** 时, **LazySample** 会检测出哪些属性数据被修改过，
+只有这些被修改的属性会被更新到数据库中，这也会提高数据库的更新速度。
+
+关于LazySample的更多信息，请查看 :cpp:class:`visionflow::LazySample`.
+
+Sample
+------
+**Sample** 仅仅只是一个存放离线的属性数据的容器。你往里面设置什么数据，它存放的就是什么数据。
+因此通过 **Sample** 得到的属性数据有可能是过时的(数据库被修改)。
+
+一般而言，你应该通过 :cpp:func:`visionflow::LazySample::fetch` 接口得到一个 **Sample** 对象。
+该 **Sample** 对象中存储了LazySample::fetch函数调用时刻、数据库存放的该样本的各个属性的数据。
+
+查看Sample中存放的属性
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+  - 使用 :cpp:func:`visionflow::Sample::property_types` 获取Sample中存储的全部属性名称和类型。
+  - 使用 :cpp:func:`visionflow::Sample::get` 获取Sample中某个属性的值。
+    此接口返回的是基类 :cpp:class:`visionflow::props::IProperty` 的共享指针。
+    visionflow提供了 **as** 方法可以转换到特定的子类访问数据，你也可以通过 **to_json**、 **to_xml** 等序列化方法查看具体的值。
+
+当更新一个 **Sample** 到 **SampleSet** 时, **Sample** 中的所有属性数据都会被更新到数据库中，即使某些属性并没有被更改过。
+这会影响性能。
+
+.. note:: 更新数据库时请尽量使用LazySample。Sample更多的用途是存储一份离线数据。
+
+关于Sample的更多信息，请查看 :cpp:class:`visionflow::Sample`.
+
+SampleSetIterator
+*****************
+这是一个用于迭代 **SampleSet** 的迭代器类，提供了类似 **std::literator** 的接口和使用体验。
+
+**SampleSetIterator** 的用法示例:
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // get SampleSet from Project
+      visionflow::SampleSet sample_set = project->main_sample_set();
+
+      // print information of samples iteratively
+      for(visionflow::SampleSetIterator iter = sample_set.begin(); iter != sample_set.end(); ++iter){
+          std::cout << "sample id = " << iter.key() << std::endl;
+          std::cout << "sample created time = " << iter.descriptor().created_time << std::endl;
+      }
+
+      // find a sample with specific id
+      uint32_t id = 1;
+      auto iter = sample_set.find(id);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+关于SampleSetIterator的更多信息，请查看 :cpp:class:`visionflow::data::SampleSetIterator`
+
+SampleDescriptor
+**********************************************************
+这是一个用于描述样本信息的数据结构。里面存储了样本的创建时间和样本标签。
+
+通过接口 :cpp:func:`visionflow::data::ReadOnlySampleSet::sample_descriptor` 获取特定样本id的样本描述信息。
+
+更新SampleDescriptor
+-----------------------
+当你需要更新样本描述信息时，使用接口：
+
+:cpp:func:`void visionflow::data::SampleSet::update(uint32_t id, const SampleDescriptor &data)`
+
+或者
+
+:cpp:func:`void visionflow::data::SampleSet::update(const SampleSetIterator &iter, const ISample &data)`
+
+以下示例代码展示了如何给样本集中的第一个样本添加新的样本标签：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // get the SampleSet from Project
+      visionflow::SampleSet sample_set = project->main_sample_set();
+
+      //get the SampleSetIterator of the sample to be updated
+      auto iter = sample_set.begin();
+
+      //get the old SampleDescriptor
+      visionflow::SampleDescriptor desp = iter.descriptor();
+
+      // add a new_tag to descriptor
+      desp.tags.add("new_tag");
+
+      // update to SampleSet by SampleSetIterator
+      sample_set.update(iter, desp);
+
+      // you may also update by id of the sample
+      // sample_set.update(iter.key(), desp);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+关于样本描述信息的更多信息，请查看 :cpp:class:`visionflow::SampleDescriptor`.
+
+添加Sample
+**********
+通过接口 :cpp:func:`visionflow::data::SampleSet::add_empty_sample` 可以向样本集中添加一个空的样本并获得其样本id。
+该空样本中仅含有与样本集中一样的属性数量和类型，但是具体的属性数据是空的。
+
+你也可以通过接口 :cpp:func:`visionflow::data::SampleSet::add` 向样本集中添加一个已存在的样本并获得其样本id。
+
+.. note:: 你需要确保样本和样本集所包含的属性数量和类型是一致的，这样样本才能被加入到样本集中，否则添加样本时会抛出异常 :cpp:class:`visionflow::excepts::PropertyTypeMismatch` 。
+
+假设我们已知 **Input** 工具的结构(通过 :doc:`工具清单及详细流程图 <../auto_docs/tools>` 查看更多工具详细结构图),
+接下来的示例代码展示了如何为样本添加一个图片属性，并向样本集中添加四个这样的样本：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // add Input tool into Project
+      project->add_tool("Input");
+
+      // get the SampleSet from Project
+      visionflow::SampleSet sample_set = project->main_sample_set();
+
+      //create an empty sample
+      auto sample = sample_set.create_empty_sample();
+
+      // load an image from file
+      visionflow::props::Image img;
+      img.set_image(visionflow::img::Image::FromFile("D:/path/to/img_1.jpg"));
+
+      //set the Image property data
+      sample.set({"Input/image"},
+                 std::make_shared<visionflow::props::Image>(img));
+
+      // add four samples into SampleSet
+      sample_set.add(sample); // sample id == 1
+      sample_set.add(sample); // sample id == 2
+      sample_set.add(sample); // sample id == 3
+      sample_set.add(sample); // sample id == 4
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+更新Sample
+*************
+可以将已有的样本通过样本id或 **SampleSetIterator** 迭代器更新到样本集中：
+:cpp:func:`void visionflow::data::SampleSet::update(uint32_t id, const ISample &data)`
+
+.. warning::
+
+  SampleSet中必须存在样本id，并且被更新的样本的属性数量和类型需要与样本集一致，否则会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` 或 :cpp:class:`visionflow::excepts::PropertyTypeMismatch` .
+
+:cpp:func:`void visionflow::data::SampleSet::update(const SampleSetIterator &iter, const ISample &data)`
+
+.. warning::
+
+  SampleSetIterator需要指向一个在样本集中存在的样本， 并且被更新的样本的属性数量和类型需要与样本集一致，否则会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` 或 :cpp:class:`visionflow::excepts::PropertyTypeMismatch` .
+
+以下示例代码展示了如何通过更新接口将新的图片属性更新到样本集(接上文的示例代码)：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // already add Input tool into Project
+
+      // add new empty sample into SampleSet and get its id
+      LazySample sample = sample_set.at(1);
+
+      // load new image from file
+      visionflow::props::Image img;
+      img.set_image(visionflow::img::Image::FromFile("D:/path/to/new_img.jpg"));
+
+      //set the Image property data
+      sample.set({"Input/image"},
+                 std::make_shared<visionflow::props::Image>(img));
+
+      // update sample_set with LazySample
+      sample_set.update(new_id, sample);
+
+      // you may also update by iterator
+      // sample_set.update(sample_set.find(new_id), sample);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+
+移除sample
+************
+通过样本id从样本集中移除样本:
+  :cpp:func:`void visionflow::data::SampleSet::erase(uint32_t id);`
+
+.. warning::
+
+  SampleSet中必须存在该样本id，否则会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` .
+
+通过样本迭代器从样本集中移除样本:
+  :cpp:func:`SampleSetIterator visionflow::data::SampleSet::erase(const SampleSetIterator &iter)`
+
+.. warning::
+
+  SampleSetIterator必须指向一个样本集中存在的样本，否则会抛出异常 :cpp:class:`visionflow::excepts::InvalidIterator` .
+
+通过 :term:`PropertySet` 访问 :term:`Property`
+==============================================
+  PropertySet是一个管理样本集中所有样本的单个同一属性数据的数据结构。样本集中所有样本的某个属性都存储在属性集中。
+
+  PropertySet同时还记录了所有样本的该属性的最后更新时间。
+
+.. note::
+
+  与SampleSet类似，PropertySet同样也维护了一个数据库句柄，PropertySet析构时也会减少数据库的引用计数。
+
+PropertySetIterator
+*******************
+  与SampleSet类似，PropertySet同样也提供了迭代器类型： :cpp:class:`visionflow::data::PropertySetIterator`。
+
+以下示例代码展示了如何通过PropertySetIterator迭代获取样本集中所有样本的图片属性：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // get the PropertySet of Image
+      visionflow::data::PropertySet property_set = sample_set.property_set({"Input", visionflow::Input::image});
+
+      for (auto iter = property_set.begin(); iter.valid(); ++iter) {
+          std::cout << "sample id :" << iter.key() << std::endl;
+
+          // convert to props::Image ptr
+          auto img = iter.value()->as<visionflow::props::Image>();
+          // use img property to do some work ...
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+
+访问和修改PropertySet中的属性
+******************************
+你可以通过样本id或者PropertySetIterator来访问或修改更新属性集中的属性。
+
+.. warning::
+
+  样本id必须在样本集中存在，否则会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` .
+
+  PropertySetIterator必须指向属性集中存在的属性，否则会抛出异常 :cpp:class:`visionflow::excepts::InvalidIterator` .
+
+以下示例代码展示了如何更新属性集中的图片属性：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // get the PropertySet of Image
+      visionflow::data::PropertySet property_set = sample_set.property_set({"Input", visionflow::Input::image});
+
+      // get last update time
+      std::cout << "last time:" << property_set.last_update_time();
+
+      // get property type
+      assert(property_set.property_type() == "visionflow::props::Image");
+
+      // check sample not empty
+      assert(property_set.sample_empty() == false);
+      assert(property_set.data_exists(1) == true);
+
+      // get image property by sample id
+      auto img_of_sample_1 = property_set.at(1);
+
+      // reset a new image to the image property
+      img_of_sample_1->set_image(visionflow::img::Image::FromFile("D:/path/to/new_img.jpg"));
+
+      // update PropertySet by sample id
+      property_set.update(1, *img_of_sample_1);
+
+      // erase PropertySet by iterator
+      const auto&iter = property_set.find(4);
+      property_set.erase(iter);
+
+      // now the image property in sample 4 will be erased
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+
+WriteBatch提供更好的性能
+=================================
+由于每次将样本的修改更新到数据库都会引发磁盘I/O，因此频繁的更新将会花费很多性能开销。
+
+我们提供WriteBatch批量更新功能，允许将多次修改缓存到内存中，最后将这些修改一次性的更新到数据库并落盘，减少频繁的数据库访问以提升性能。
+
+PropertyWriteBatch
+******************
+PropertyWriteBatch缓存所有对属性集的修改操作。
+
+.. note::
+
+  对于同一个样本，只有最后的修改会生效(之前缓存的修改将被覆盖)。
+
+.. warning::
+
+  你需要确保被修改的样本存在于样本集中，否则在更新PropertyWriteBatch时会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` 。
+
+以下示例代码展示了如何使用 **PropertyWriteBatch** 批量更新属性集：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // get the PropertySet of Image
+      visionflow::data::PropertySet property_set = sample_set.property_set({"Input", visionflow::Input::image});
+
+      // firstly, create a PropertyWriteBatch
+      PropertyWriteBatch prop_write_batch = property_set.create_write_batch();
+
+      // catch all your modification on image PropertySet for different samples
+
+      // update sample 1 with img_101
+      visionflow::props::Image img_101;
+      img_101.set_image(visionflow::img::Image::FromFile("D:/path/to/img_101.jpg"));
+      prop_write_batch.update(1, img_101);
+
+      // update sample 2 with img_102
+      visionflow::props::Image img_102;
+      img_102.set_image(visionflow::img::Image::FromFile("D:/path/to/img_102.jpg"));
+      prop_write_batch.update(2, img_102);
+
+      // erase image property in sample 3
+      prop_write_batch.erase(3);
+
+      // erase image property in sample 2
+      // this will overwrite previous update operator
+      prop_write_batch.erase(2);
+
+      // update to database at once
+      property_set.write_batch(prop_write_batch);
+
+      // now all the modification are update to database
+      // image property in:
+      //          sample 1 will update to img_101;
+      //          sample 2 and sample 3 will be erased;
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+SampleWriteBatch
+****************
+SampleWriteBatch缓存了所有对样本集的修改操作，例如更新整个样本数据、更新某个样本里的某个属性数据或是更新样本描述信息。
+
+.. note::
+
+  同样的，对于同一个样本的同一个数据，只有最后的修改会生效(之前缓存的修改将被覆盖)。
+
+.. warning::
+
+  你需要确保被修改的样本存在于样本集中，否则在批量更新SampleWriteBatch时会抛出异常 :cpp:class:`visionflow::excepts::SampleNotFound` 。
+
+以下示例代码展示了如何使用 **SampleWriteBatch** 批量更新样本集：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // firstly, create a SampleWriteBatch
+      SampleWriteBatch sample_write_batch = sample_set.create_write_batch();
+
+      const visionflow::ToolNodeId img_prop_id = {"Input/image"};
+
+      // catch all your modification to SampleWriteBatch
+
+      // update sample 1 with img_101
+      visionflow::props::Image img_101;
+      img_101.set_image(visionflow::img::Image::FromFile("D:/path/to/img_101.jpg"));
+      sample_write_batch.update(
+          1, img_prop_id, std::make_shared<visionflow::props::Image>(img_101));
+
+      // update sample 2 with img_102
+      visionflow::props::Image img_102;
+      img_102.set_image(visionflow::img::Image::FromFile("D:/path/to/img_102.jpg"));
+      sample_write_batch.update(
+          2, img_prop_id, std::make_shared<visionflow::props::Image>(img_102));
+
+      // erase in sample 3
+      sample_write_batch.erase(3);
+
+      // erase image property in sample 2
+      // this will overwrite previous update operator
+      sample_write_batch.erase(2, img_prop_id);
+
+      // update to database at once
+      sample_set.write_batch(sample_write_batch);
+
+      // now all the modification are update to database
+      // image property in:
+      //          sample 1 will update to img_101;
+      //          sample 2 will be erased;
+      // and the whole sample 3 will be erased from SampleSet;
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+数据过滤
+===========
+**SampleSet** 和 **PropertySet** 都提供过滤功能，允许你通过设置自定义过滤条件来获得你想要的某些数据。
+过滤条件是包含了一个函数的Python脚本字符串。
+
+.. _python-script-note:
+
+.. note::
+
+  为了能够正确的编写python脚本的过滤条件，你需要了解如下信息:
+    1. 你需要十分注意缩进，缩进在Python中非常重要，错误的缩进会导致Python语法错误；
+    2. 脚本中需要包含一个实现了具体的过滤逻辑的过滤函数，并返回一个布尔类型的结果作为过滤条件的结果的函数；
+    3. 函数名必须为"**vflow_filter**"，并接受一个 **Sample(ReadOnlySampleSetView)** 或 **Property(ReadOnlyPropertySetView)** 作为参数；
+    4. 你需要将引入正确的Visionflow模块，Visionflow的Python模块与C++中的命名空间相同。
+
+.. warning::
+
+  Python脚本必须符合Python语法，否则执行时会抛出异常 :cpp:class:`visionflow::excepts::PythonSyntaxError` 或 :cpp:class:`visionflow::excepts::PythonScriptError` 。
+
+ReadOnlySampleSetView
+*********************
+ReadOnlySampleSetView允许过滤出满足过滤脚本条件的样本。
+
+以下示例代码展示了如何使用ReadOnlySampleSetView过滤出图片大小在1024*1024到2048*2048之间的样本：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // firstly, write our filter script
+      const std::string filter_script = R"(
+      from visionflow import *
+      from visionflow.props import *
+      from visionflow.img import *
+      def vflow_filter(sample):
+        img_prop_id = ToolNodeId("Input", Input.image)
+
+        if not(sample.exist_property_data(img_prop_id)):
+            return False
+        img = sample.get(img_prop_id).image();
+        return  1024 <= img.size().w <= 2048 and 1024 <= img.size().h <= 2048 )";
+
+      auto sample_view = sample_set.filter(filter_script);
+
+      // if image in sample 1 meet the filter requirement, then its id will exist
+      // assert(sample_filter.exists(1));
+
+      // so to other samples
+      // assert(sample_filter.exists(2));
+      assert(sample_view.ids() == std::vector<uint32_t>{1, 2});
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+关于 **ReadOnlySampleSetView** 的更多信息，请查看 :cpp:class:`visionflow::data::ReadOnlySampleSetView`.
+
+ReadOnlyPropertySetView
+***********************
+ReadOnlyPropertySetView提供了两种过滤方式：
+  1. 可以设置要过滤的样本id，将某些id的样本直接排除在外(此过滤方式是在样本层面直接过滤)；
+  2. 设置Python脚本过滤，该脚本以属性为参数，过滤出的样本中属性满足脚本的要求(此过滤方式是考察属性层面是否满足过滤条件)；
+
+ReadOnlyPropertySetView的过滤脚本要求与ReadOnlySampleSetView一致，唯一的不同就是其接受的参数为属性而不是样本。(:ref:`Script Helper<python-script-note>`)
+
+以下示例代码展示了如何使用ReadOnlyPropertySetView过滤出图片大小在1024*1024到2048*2048之间的样本，并且排除了样本id等于1的样本：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      // firstly,
+      const visionflow::ToolNodeId img_prop_id = {"Input/image"};
+
+      // secondly, write our filter script
+      const std::string filter_script = R"(
+      from visionflow import *
+      from visionflow.props import *
+      from visionflow.img import *
+      def vflow_filter(prop):
+        img = prop.image();
+        return  1024 <= img.size().w <= 2048 and 1024 <= img.size().h <= 2048 )";
+
+      PropertySet img_prop_set = sample_set.property_set(img_prop_id);
+
+      ReadOnlyPropertySetView img_prop_view = img_prop_set.fitler(filter_script);
+
+      // if image in sample 1 meet the filter requirement of the python script, then its id will exist
+      assert(img_prop_view.sample_exists(1));
+      assert(img_prop_view.data_exists(1));
+
+       // if image in sample 2 not meet the filter requirement of the python script, then it will be filtered out
+      assert(img_prop_view.sample_exists(2));
+      assert(img_prop_view.data_exists(2) == false);
+
+      // all sample with filter ids will be filtered out
+      // no matter they meet the filter requirement of the python script or not
+      img_prop_view.set_filter_ids({1});
+      assert(img_prop_view.sample_exists(1) == false);
+      assert(img_prop_view.data_exists(1) == false);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+关于 **ReadOnlyPropertySetView** 的更多信息，请查看 :cpp:class:`visionflow::data::ReadOnlyPropertySetView` 。

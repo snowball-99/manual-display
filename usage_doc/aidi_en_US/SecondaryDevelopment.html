@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secondary Development Guidelines &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference" href="Reference.html" />
+    <link rel="prev" title="Getting Started" href="opintro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">Introduction to AIDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Secondary Development Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recommended-development-environment">2、Recommended Development Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exporting-visual-studio-sample-project-or-sample-code">3、Exporting “Visual Studio Sample Project” or “Sample Code”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-sample-project">3.1 Exporting Sample Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#exporting-c-sample-project">3.1.1 Exporting C++ Sample Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporting-c-project">3.1.2 Exporting C# Project</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-sample-code">3.2 Exporting Sample Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#exporting-c-code">3.2.1 Exporting C++ Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">3.2.2 Exporting C# Code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Secondary Development Guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/SecondaryDevelopment.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="secondary-development-guidelines">
+<h1>Secondary Development Guidelines<a class="headerlink" href="#secondary-development-guidelines" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>1. Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>AIDI 3.2 provides a user-friendly secondary development assistance feature, allowing users to export customised sample code, models, and documentation based on their AI modules and parameter configurations through the GUI interface. This process not only simplifies the integration workflow, but also ensures that users can efficiently conduct secondary development tailored to their specific business needs, accelerating the deployment of AI technology in real-world industrial applications.</p>
+</section>
+<section id="recommended-development-environment">
+<h2>2、Recommended Development Environment<a class="headerlink" href="#recommended-development-environment" title="Link to this heading"></a></h2>
+<p>Development system: Win 10/11<br>
+Compilation tool: Visual Studio 2022 (minimum support for Visual Studio 2013)<br>
+Goal framework: Support NET Framework 4.5 or above</p>
+</section>
+<section id="exporting-visual-studio-sample-project-or-sample-code">
+<h2>3、Exporting “Visual Studio Sample Project” or “Sample Code”<a class="headerlink" href="#exporting-visual-studio-sample-project-or-sample-code" title="Link to this heading"></a></h2>
+<p>After completing model training, click on “Model - Model and Sample Code Export” in the software toolbar to export the “Visual Studio Sample Project” or “Sample Code”.</p>
+<p><img alt="Alt text" src="_images/image-401.png" /></p>
+<p><img alt="Alt text" src="_images/image-402.png" /></p>
+<section id="exporting-sample-project">
+<h3>3.1 Exporting Sample Project<a class="headerlink" href="#exporting-sample-project" title="Link to this heading"></a></h3>
+<p>In the pop-up window under “Export Format”, select “Export Sample Project”.</p>
+<p><img alt="Alt text" src="_images/image-403.png" /></p>
+<p>3.1.2  Select the “Visual Studio version”.</p>
+<p><img alt="Alt text" src="_images/image-404.png" /></p>
+<p>3.1.3 Choose the “Select Programing Language”, “Select Module” and “Select Export Path” Click the “Export Model” button.</p>
+<p><img alt="Alt text" src="_images/image-405.png" /></p>
+<section id="exporting-c-sample-project">
+<h4>3.1.1 Exporting C++ Sample Project<a class="headerlink" href="#exporting-c-sample-project" title="Link to this heading"></a></h4>
+<ol class="simple">
+<li><p>After completing the export, the Visual Studio sample project will include the following C++ project files.</p></li>
+</ol>
+<p><img alt="_images/image-406.png" src="_images/image-406.png" /></p>
+<p>2.Open the solution file with the “.sln” extension. Then, open the “Project - Properties” window, ensure that the “Configuration” and “Platform” settings are correct, and change the C++ language standard to “ISO C++ 17 Standard.”</p>
+<p><img alt="Alt text" src="_images/image-407.png" /></p>
+<p><img alt="Alt text" src="_images/image-408.png" /></p>
+<p>3.Click the “Local Windows Debugger” button, and the code will execute correctly.</p>
+<p><img alt="Alt text" src="_images/image-409.png" />
+<img alt="Alt text" src="_images/image-410.png" /></p>
+</section>
+<section id="exporting-c-project">
+<h4>3.1.2 Exporting C# Project<a class="headerlink" href="#exporting-c-project" title="Link to this heading"></a></h4>
+<p>1.After completing the export, the Visual Studio sample project will include the following C# project files.</p>
+<p><img alt="Alt text" src="_images/image-411.png" /></p>
+<p>2.Open the solution file with the “.sln” extension, then select “Project - Properties” and uncheck “Build - Prefer 32-bit.”</p>
+<p><img alt="Alt text" src="_images/image-412.png" />
+<img alt="Alt text" src="_images/image-413.png" /></p>
+<p>3.Click “Start” and the code will execute correctly.</p>
+<p><img alt="Alt text" src="_images/image-414.png" />
+<img alt="Alt text" src="_images/image-415.png" /></p>
+</section>
+</section>
+<section id="exporting-sample-code">
+<h3>3.2 Exporting Sample Code<a class="headerlink" href="#exporting-sample-code" title="Link to this heading"></a></h3>
+<p>In the pop-up window, select “Export Sample Code - Development Language - Module - Path - Model Name,” then click the “Export” button to complete the sample code export.</p>
+<p><img alt="Alt text" src="_images/image-416.png" /></p>
+<section id="exporting-c-code">
+<h4>3.2.1 Exporting C++ Code<a class="headerlink" href="#exporting-c-code" title="Link to this heading"></a></h4>
+<p>1.After completing the C++ sample code export, the software will generate the following files.</p>
+<p><img alt="Alt text" src="_images/image-417.png" /></p>
+<p>2.Open Visual Studio and create a C++ Console Application.</p>
+<p><img alt="Alt text" src="_images/image-418.png" /></p>
+<p>3.In the project, select the x64  (AIDI does not support x32; the configuration manager must select 64-bit).</p>
+<p><img alt="Alt text" src="_images/image-419.png" /></p>
+<p>4.Add the <code class="docutils literal notranslate"><span class="pre">example.cpp</span></code> file exported by AIDI to the “Source Files” folder.</p>
+<p><img alt="Alt text" src="_images/image-471.png" /></p>
+<p>5.In “Project - Properties - Configuration Properties - VC++ Directories - Include Directories,” add the required header file directory, as shown below，Example:</p>
+<p>“Installation Directory\AIDI-3.2.0-stable-20240822\develop\C++\include”</p>
+<p>“Installation Directory\AIDI-3.2.0-stable-20240822\develop\C++\lib”</p>
+<p><img alt="Alt text" src="_images/image-472.png" /></p>
+<p>6.In “Project - Properties - Configuration - Linker - Input - Additional Dependencies,” add “visionflow.if.lib”</p>
+<p><img alt="Alt text" src="_images/image-473.png" /></p>
+<p>7.If using Debug mode, go to “Properties” -&gt; “Linker” -&gt; “Debugging” and ensure that the “Generate Debug Info” field is set to “Generate Debug Information (/DEBUG).”</p>
+<p><img alt="Alt text" src="_images/image-474.png" /></p>
+<p>8.Click the Debugger button.</p>
+<p><img alt="Alt text" src="_images/image-475.png" /></p>
+<p>9.The correct execution result is as follows.</p>
+<p><img alt="Alt text" src="_images/image-476.png" /></p>
+</section>
+<section id="id1">
+<h4>3.2.2 Exporting C# Code<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<ol class="simple">
+<li><p>After completing the C# sample code export, the software will generate the following files.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-477.png" /></p>
+<p>2.Open Visual Studio and create a C# Console Application.</p>
+<p><img alt="Alt text" src="_images/image-478.png" /></p>
+<p>3.In the project, select the x64  (AIDI does not support x32; the configuration manager must select 64-bit).</p>
+<p><img alt="Alt text" src="_images/image-479.png" /></p>
+<p>4.In the “Solution Explorer”, right - click on the project, select “Add”, and then add the exported “example.cs” file and the AIDI file located at “Installation Directory/develop/csharp/visionflow.cs” to the project.</p>
+<p><img alt="Alt text" src="_images/image-480.png" /></p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="opintro.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

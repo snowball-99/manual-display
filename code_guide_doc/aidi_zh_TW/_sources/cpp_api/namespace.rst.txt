@@ -1,0 +1,17 @@
+Namespace
+==========
+
+.. doxygennamespace:: visionflow
+   :desc-only:
+
+.. doxygennamespace:: visionflow::img
+   :desc-only:
+
+.. doxygennamespace:: visionflow::excepts
+   :desc-only:
+
+.. doxygennamespace:: visionflow::geometry
+   :desc-only:
+
+.. doxygennamespace:: visionflow::props
+   :desc-only:

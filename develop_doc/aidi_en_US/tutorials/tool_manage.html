@@ -1,0 +1,898 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="数据集" href="dataset.html" /><link rel="prev" title="工作区" href="workspace.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>管理工程中的工具 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>管理工程中的工具<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>在 <a class="reference internal" href="project.html"><span class="doc">打开一个工程</span></a> 后，可以管理其中的工具。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="n">project</span> <span class="o">=</span> <span class="n">visionflow</span><span class="p">::</span><span class="n">Project</span><span class="p">::</span><span class="n">Open</span><span class="p">(</span><span class="o">...</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h2>添加工具<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project8add_toolERKNSt6stringERKNSt6stringE" title="visionflow::Project::add_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::add_tool()</span></code></a> 函数向工程中添加工具。</p>
+<p>该函数接收2个参数。</p>
+<p>第1个为字符串，指定工具类型。可用的工具包括VisionFlow内置的输入（Input）、
+分割（Segmentation）等，和用户通过 <a class="reference internal" href="../cpp_api/tools.html#_CPPv4N10visionflow5graph11ToolFactory8RegisterERKNSt6stringERK8ToolMeta" title="visionflow::graph::ToolFactory::Register"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::graph::ToolFactory::Register()</span></code></a>
+自行注册的工具。可以使用 <a class="reference internal" href="../cpp_api/tools.html#_CPPv4N10visionflow5graph11ToolFactory15GetAllToolNamesEv" title="visionflow::graph::ToolFactory::GetAllToolNames"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::graph::ToolFactory::GetAllToolNames()</span></code></a> 获取。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果指定的工具类型有误，将抛出 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts15InvalidToolTypeE" title="visionflow::excepts::InvalidToolType"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidToolType</span></code></a> 异常。</p>
+</div>
+<p>第2个参数可选，为工具的唯一标识符，默认为空字符串。
+当参数留空时，VisionFlow会根据工具类型生成一个不冲突的标识符。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果指定了标识符，且工程中已经存在的同名工具，将抛出 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts16ToolAlreadyExistE" title="visionflow::excepts::ToolAlreadyExist"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolAlreadyExist</span></code></a> 异常。</p>
+</div>
+<p>函数返回新添加工具的标识符。如果通过参数指定了标识符，则返回的标识符一定与指定的相同。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 自动生成一个标识符 返回的标识符可能形如 Input_1</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">tool_id_input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">);</span>
+<span class="c1">// 指定标识符 只要成功添加，保证返回的标识符一定与指定的相同</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">tool_id_seg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Segmentation&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">tool_id_seg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">);</span>
+<span class="c1">// 指定标识符，但是工程中已经存在同名工具，抛出异常</span>
+<span class="c1">// std::string exception = project-&gt;add_tool(&quot;Segmentation&quot;, &quot;Seg_1&quot;);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>查看现有工具列表<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project9tool_listEv" title="visionflow::Project::tool_list"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::tool_list()</span></code></a> 函数获取工程中所有工具的标识符列表。</p>
+</section>
+<section id="id4">
+<h2>查看工具内的节点名称列表<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>每个内嵌工具的工具名称可以通过 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project8add_toolERKNSt6stringERKNSt6stringE" title="visionflow::Project::add_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::add_tool()</span></code></a> 函数的第二个参数 <code class="docutils literal notranslate"><span class="pre">tool_id</span></code> 指定，
+但工具里包含的节点名称是固定的，并且存放在以工具类型命名的结构体中（ <a class="reference internal" href="../cpp_api/node_names.html"><span class="doc">节点名常量</span></a> ）。
+例如，分割工具的节点名称存放在 <a class="reference internal" href="../cpp_api/node_names.html#_CPPv4N10visionflow12SegmentationE" title="visionflow::Segmentation"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">visionflow::Segmentation</span></code></a> 结构体中。</p>
+</section>
+<section id="id5">
+<h2>在工具之间建立连接<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h3>手动连接<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project7connectERK10ToolNodeIdRK10ToolNodeId" title="visionflow::Project::connect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::connect()</span></code></a> 函数手动建立连接。</p>
+<p>该函数接收2个参数，为 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">visionflow::ToolNodeId</span></code></a> 类型，分别指定源节点和目标节点。
+每个 <code class="docutils literal notranslate"><span class="pre">ToolNodeId</span></code> 中包括工具标识符、节点标识符和可省略的下标。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>每个工具中包含的各个节点名可以使用 <code class="docutils literal notranslate"><span class="pre">visionflow::{ToolType}::{node_name}</span></code> 获取。
+例如，分割工具中的预测结果为 <a class="reference internal" href="../cpp_api/node_names.html#_CPPv4N10visionflow12Segmentation4predE" title="visionflow::Segmentation::pred"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">visionflow::Segmentation::pred</span></code></a>，详见 <a class="reference internal" href="#id4">查看工具内的节点名称列表</a> 。</p>
+</div>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 将输入工具的图像输出连接到分割工具的图像输入</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">image</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// 另一种可能的ToolNodeId形式</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">views</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">views</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// 含有下标的节点标识符</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Integration&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Integration</span><span class="o">::</span><span class="n">properties</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">});</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">match_result</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Integration/properties[1]&quot;</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>如果2个节点之间已经存在连接，将不进行任何操作。
+如果指定的目标节点含有合法下标，将源节点连接到目标节点的指定下标；覆盖此下标已经存在的连接。
+如果指定的目标节点不含下标，且目标节点的输入数量仍有剩余，将自动连接到目标节点的下一个输入下标。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>必须保证源和目标标识符正确、不会成环、输入输出方向正确、类型匹配。如果存在错误，将抛出以下异常：
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12NodeNotFoundE" title="visionflow::excepts::NodeNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::NodeNotFound</span></code></a>
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14LoopConnectionE" title="visionflow::excepts::LoopConnection"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::LoopConnection</span></code></a> <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts17InvalidConnectionE" title="visionflow::excepts::InvalidConnection"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidConnection</span></code></a>
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts16DataTypeMismatchE" title="visionflow::excepts::DataTypeMismatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DataTypeMismatch</span></code></a> <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts18InActiveOutputNodeE" title="visionflow::excepts::InActiveOutputNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InActiveOutputNode</span></code></a></p>
+</div>
+</section>
+<section id="id7">
+<h3>自动连接（不推荐）<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project12auto_connectERKNSt6stringERKNSt6stringE" title="visionflow::Project::auto_connect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::auto_connect()</span></code></a> 函数尝试自动建立连接。
+该函数接收2个参数，分别为源工具标识符和目标工具标识符。</p>
+<p>该函数会尽可能为目标工具的所有输入节点建立连接。如果目标工具存在多输入节点，
+或存在函数无法自动建立连接的输入节点，均认为自动连接失败，
+函数返回 <code class="docutils literal notranslate"><span class="pre">false</span></code> ，不会做出任何更改。如果连接成功，函数返回 <code class="docutils literal notranslate"><span class="pre">true</span></code> 。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>该函数建立的连接可能并不符合预期。因此，<strong>不推荐</strong> 在复杂的工程中使用该函数。</p>
+<p>即使成功自动连接，也应仔细检查建立的连接是否是用户所期望的。</p>
+</div>
+<p>尝试建立连接的逻辑如下：</p>
+<blockquote>
+<div><p>可以使用的输出节点范围是：源工具的所有输出节点，以及源工具的所有前序依赖的输出节点，按照拓扑顺序</p>
+<p>4次遍历仍未建立连接的输入节点，优先选择尚未连接且数据特征完全匹配的输出节点，
+然后选择已经连接或数据特征不完全匹配的输出节点。具体逻辑是：</p>
+<ol class="arabic simple">
+<li><p>尚未连接、与输入节点的特征要求完全匹配的输出节点</p></li>
+<li><p>尚未建立连接的输出节点中，能满足输入要求特征的其他输出节点（不是完全匹配，即输出特征多于输入特征）</p></li>
+<li><p>所有输出节点中，特征完全匹配的输出节点</p></li>
+<li><p>所有输出节点中，能满足输入要求的任何输出节点</p></li>
+</ol>
+</div></blockquote>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">auto_connect</span><span class="p">(</span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">);</span>
+<span class="c1">// 如果 ok==false，保证不对工程做出任何更改</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>修改连接关系<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<section id="id9">
+<h3>修改现有连接<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>对于已经建立的连接，可以通过 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project7connectERK10ToolNodeIdRK10ToolNodeId" title="visionflow::Project::connect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::connect()</span></code></a> 函数修改连接关系。</p>
+<p>通过参数传入新的源工具的标识符和节点，和已经连接的目标工具、节点、下标，即断开目标工具原有连接，
+在传入参数节点之间建立新连接。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 现有连接</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_1/image&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Integration/properties[0]&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// 修改连接：Input_1/image 到 Integration/properties[0] 的连接断开</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">connect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_2/image&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Integration/properties[0]&quot;</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>断开连接<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project10disconnectERK10ToolNodeIdRK10ToolNodeId" title="visionflow::Project::disconnect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::disconnect()</span></code></a> 函数断开连接。</p>
+<section id="id11">
+<h4>指定上下游节点的重载<a class="headerlink" href="#id11" title="Link to this heading">#</a></h4>
+<p>函数接收2个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::ToolNodeId</span></code></a> 类型的参数，分别指定要断开连接的源节点和目标节点。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 断开连接</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">disconnect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Input_1/image&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Integration/properties[0]&quot;</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>需保证指定的源节点和目标节点存在、输入输出方向正确、类型正确、连接存在，否则将抛出以下异常：
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12NodeNotFoundE" title="visionflow::excepts::NodeNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::NodeNotFound</span></code></a>
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts17InvalidConnectionE" title="visionflow::excepts::InvalidConnection"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidConnection</span></code></a> <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts13InvalidNodeIdE" title="visionflow::excepts::InvalidNodeId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidNodeId</span></code></a></p>
+<p>如果指定了下标，且下标超过实际连接数， <strong>不会抛出异常</strong> ，也不做任何更改。</p>
+</div>
+</section>
+<section id="id12">
+<h4>只指定下游节点的重载<a class="headerlink" href="#id12" title="Link to this heading">#</a></h4>
+<p>函数接收1个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow10ToolNodeIdE" title="visionflow::ToolNodeId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::ToolNodeId</span></code></a> 类型的参数，指定要断开连接的下游节点。</p>
+<p>如果参数指定了下标，只断开该下标的连接；否则，断开该节点上的所有连接。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">-&gt;</span><span class="n">disconnect</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Integration/properties[0]&quot;</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="id13">
+<h2>删除工具<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project11remove_toolERKNSt6stringEb" title="visionflow::Project::remove_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::remove_tool()</span></code></a> 函数删除工具。</p>
+<p>函数接收2个参数。第1个为工具的标识符。</p>
+<p>第2个参数 <code class="docutils literal notranslate"><span class="pre">remove_all_depends_on_this</span></code> 为可选的删除策略，默认为 <code class="docutils literal notranslate"><span class="pre">false</span></code> ，即只删除本工具；
+如果传入 <code class="docutils literal notranslate"><span class="pre">true</span></code> ，将同时删除所有直接或间接依赖于本工具的工具。</p>
+<p>函数会删除工具、断开所有与被删除工具的连接、删除工具中的所有数据和自定义内容。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 删除工具</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">remove_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">);</span>
+
+<span class="c1">// 删除工具和下游所有依赖该工具的工具</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">remove_tool</span><span class="p">(</span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果传入工具标识符不存在， <strong>不会</strong> 抛出异常，不进行任何修改。</p>
+</div>
+</section>
+<section id="id14">
+<h2>复制工具<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
+<section id="id15">
+<h3>复制单个工具<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project9copy_toolERKNSt6stringERKNSt6stringERKN5graph15CopyToolOptionsE" title="visionflow::Project::copy_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool()</span></code></a> 函数复制单个工具。</p>
+<p>函数接收3个参数。第1个为被复制的工具标识符。第2个为可选参数，指定新工具的标识符；默认为空字符串，
+表示自动生成新标识符。第3个为 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow5graph15CopyToolOptionsE" title="visionflow::graph::CopyToolOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::graph::CopyToolOptions</span></code></a> 类型可选参数，指定复制策略。</p>
+<p>复制策略包含2个字段。</p>
+<p><code class="docutils literal notranslate"><span class="pre">auto_connect</span></code> 指定是否为新复制的工具建立连接，默认为 <code class="docutils literal notranslate"><span class="pre">false</span></code> ，即新复制的工具上不带有任何连接。</p>
+<p><code class="docutils literal notranslate"><span class="pre">tool_maps</span></code> 为 <code class="docutils literal notranslate"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></code> ，仅在 <code class="docutils literal notranslate"><span class="pre">auto_connect</span></code> 为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 时有效，
+对于源工具的每个上游连接，如果 <code class="docutils literal notranslate"><span class="pre">tool_maps</span></code> 中存在上游工具标识符的映射，新工具将连接到映射的工具上；
+否则将与源工具连接到相同的上游工具。</p>
+<p>举例说明，假设工程中现有如图所示的工具</p>
+<a class="reference internal image-reference" href="../_images/tutorial-tool_manage-copy_tool.png"><img alt="../_images/tutorial-tool_manage-copy_tool.png" class="align-center" src="../_images/tutorial-tool_manage-copy_tool.png" style="width: 50%;" /></a>
+<p>指定将源工具复制一份， <code class="docutils literal notranslate"><span class="pre">CopyToolOptions</span></code> 为 <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">true,</span> <span class="pre">{{&quot;B1&quot;,</span> <span class="pre">&quot;B2&quot;}}</span> <span class="pre">}</span></code> 。
+复制的结果如下图，可见新工具到上游A的连接仍然存在，到上游B1的连接被重新映射到B2。</p>
+<a class="reference internal image-reference" href="../_images/tutorial-tool_manage-copy_tool-1.png"><img alt="../_images/tutorial-tool_manage-copy_tool-1.png" class="align-center" src="../_images/tutorial-tool_manage-copy_tool-1.png" style="width: 50%;" /></a>
+<p>函数返回新工具的标识符。如果通过传入参数指定了标识符，保证返回的标识符与传入参数相同。
+源工具内部的数据都将被原样复制。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 新的工具有新生成的标识符、源工具的数据，没有连接</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">new_seg_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">);</span>
+<span class="c1">// 新工具标识符固定为 Seg_2</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">new_seg_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_2&quot;</span><span class="p">);</span>
+<span class="c1">// 新工具的有新生成的标识符，与源工具连接到相同的上游工具</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">new_seg_3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// 源工具原来向上连接到 Input_1，新工具连接到 Input_2</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">new_seg_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Input_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Input_2&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果源工具标识符为空或不存在，分别抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts13InvalidToolIdE" title="visionflow::excepts::InvalidToolId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidToolId</span></code></a> 和
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> 异常。</p>
+<p>如果指定了新工具标识符，但此标识符已经存在，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts16ToolAlreadyExistE" title="visionflow::excepts::ToolAlreadyExist"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolAlreadyExist</span></code></a> 异常。</p>
+<p>如果指定了 <code class="docutils literal notranslate"><span class="pre">tool_maps</span></code> ，但其中指定的新上游工具标识符不存在，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> 异常。</p>
+</div>
+</section>
+<section id="id16">
+<h3>复制工具组<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project15copy_tool_groupERKNSt3setINSt6stringEEERKN5graph15CopyToolOptionsE" title="visionflow::Project::copy_tool_group"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool_group()</span></code></a> 函数复制工具组。</p>
+<p>函数接收2个参数。第1个为 <code class="docutils literal notranslate"><span class="pre">std::set&lt;std::string&gt;</span></code> ，指定将被复制的工具标识符。
+第2个为可选的 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow5graph15CopyToolOptionsE" title="visionflow::graph::CopyToolOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::graph::CopyToolOptions</span></code></a> 类型参数以指定复制策略。</p>
+<p>复制工具组时不支持指定新工具的标识符，都由VisionFlow自动生成。</p>
+<p>当传入的 <code class="docutils literal notranslate"><span class="pre">CopyToolOptions</span></code> 中 <code class="docutils literal notranslate"><span class="pre">auto_connect</span></code> 为 <code class="docutils literal notranslate"><span class="pre">false</span></code> 时，
+新复制的工具将不包含任何连接，包括源工具组内部的连接也被删除；为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 时，
+工具组内部的连接将原样被复制，组内工具的上游连接如复制单个工具一样被复制。</p>
+<p>函数返回一个 <code class="docutils literal notranslate"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></code> ，为源工具标识符到复制工具标识符的映射。</p>
+<p>举例说明，工程中现有如图所示的工具，将工具A、B、C作为一组复制一份。</p>
+<a class="reference internal image-reference" href="../_images/tutorial-tool_manage-copy_tool_group-1.png"><img alt="../_images/tutorial-tool_manage-copy_tool_group-1.png" class="align-center" src="../_images/tutorial-tool_manage-copy_tool_group-1.png" style="width: 50%;" /></a>
+<p>传入 <code class="docutils literal notranslate"><span class="pre">CopyToolOptions</span></code> 为 <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">true</span> <span class="pre">}</span></code> ，即保留内部和上游的连接关系，结果如图所示</p>
+<a class="reference internal image-reference" href="../_images/tutorial-tool_manage-copy_tool_group-2.png"><img alt="../_images/tutorial-tool_manage-copy_tool_group-2.png" class="align-center" src="../_images/tutorial-tool_manage-copy_tool_group-2.png" style="width: 50%;" /></a>
+<p>复制工具组也支持将上游连接映射到新的工具，请参考复制单个工具的例子。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 这样复制出的两个工具不具有任何连接</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">copied_tools_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool_group</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_2&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// Seg_1 与 Seg—_2 之间如果有连接，新工具间也复制相同的连接</span>
+<span class="c1">// Seg_1 Seg_2 的上游连接也被复制</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">copied_tools_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">copy_tool_group</span><span class="p">({</span><span class="w"> </span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_2&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>抛出异常的情况与复制单个工具相同。</p>
+</div>
+</section>
+<section id="copy-tool-from-proj">
+<span id="id17"></span><h3>跨工程复制工具<a class="headerlink" href="#copy-tool-from-proj" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project19copy_tool_from_projERK7ProjectRKNSt6stringERKNSt6stringERK23CopyToolFromProjOptions" title="visionflow::Project::copy_tool_from_proj"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool_from_proj()</span></code></a> 函数从另一个工程复制工具。</p>
+<p>在进行复制前，需要先打开源工程和目标工程，并在目标工程中创建一个与被复制工具类型相同的工具。
+在目标工程中调用该函数，并将源工程作为参数传入。</p>
+<p>该函数 <strong>不能</strong> 用于在同一工程内复制工具，如果需要在同一工程内复制工具，请使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project9copy_toolERKNSt6stringERKNSt6stringERKN5graph15CopyToolOptionsE" title="visionflow::Project::copy_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::copy_tool()</span></code></a> 函数。</p>
+<p>函数接收4个参数，第1个为 <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">visionflow::Project</span> <span class="pre">&amp;</span></code> 数据源工程的引用。
+第2个参数为源工程中被复制工具的工具标识符。
+第3个参数为当前工程中目标工具的标识符。
+第4个参数为可选的 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow23CopyToolFromProjOptionsE" title="visionflow::CopyToolFromProjOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::CopyToolFromProjOptions</span></code></a> 类型，指定复制策略。</p>
+<p>复制时，目标工具上绑定的用户自定义数据将被清空，并由源工具的用户自定义数据覆盖。</p>
+<p>默认不复制计算节点上的上下文数据。
+如果将 <code class="docutils literal notranslate"><span class="pre">CopyToolFromProjOptions</span></code> 中 <code class="docutils literal notranslate"><span class="pre">copy_compute_context</span></code> 字段设为 <code class="docutils literal notranslate"><span class="pre">true</span></code>，
+函数将用源工具的计算节点上下文完全覆写目标工具的计算节点上下文。
+此处完全覆写是指，如果源工具的节点有上下文数据，目标工具对应节点的上下文数据将被设置为此值；
+否则，对应节点的上下文数据将被清空。</p>
+<p>默认将用源工具的所有参数节点完全覆写目标工具的参数节点。
+将 <code class="docutils literal notranslate"><span class="pre">CopyToolFromProjOptions</span></code> 中 <code class="docutils literal notranslate"><span class="pre">params_selection</span></code> 字段设为需要复制的参数节点名称，
+函数将只在这些节点上执行覆写。
+对于没有被选中的参数节点，如果 <code class="docutils literal notranslate"><span class="pre">params_clear_nonselected</span></code> 字段为 <code class="docutils literal notranslate"><span class="pre">true</span></code>，它们将被清空；否则，它们在目标工具的旧数据保持不变。</p>
+<p>默认不复制工具关联的任何属性数据。将 <code class="docutils literal notranslate"><span class="pre">CopyToolFromProjOptions</span></code> 中 <code class="docutils literal notranslate"><span class="pre">copy_properties</span></code> 字段设为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 以复制属性数据。
+复制属性数据时的行为由 <code class="docutils literal notranslate"><span class="pre">CopyToolFromProjOptions</span></code> 中 <code class="docutils literal notranslate"><span class="pre">prop_options</span></code> 字段控制；
+这一字段类型为 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow31CopyToolFromProjPropertyOptionsE" title="visionflow::CopyToolFromProjPropertyOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::CopyToolFromProjPropertyOptions</span></code></a>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">prop_options</span></code> 的各个字段含义如下：</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">from_input_tool</span></code> 和 <code class="docutils literal notranslate"><span class="pre">to_input_tool</span></code> 字段分别指定源工程和目标工程中的输入工具标识符。
+输入工具将被用来确定样本的指纹。拥有相同指纹的样本被视为同一样本，可以从源工程的样本把属性数据复制到目标工程的同一样本。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">props_selection</span></code> 字段指定需要复制的属性节点名称。如果为空，将复制该工具所有属性节点上的数据。未被选中的属性数据将保持原样。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_set_mapping</span></code> 字段指定源工程到目标工程样本集的映射关系。如果为空，源工程中的样本集将映射到目标样本集的同名样本集。
+样本的匹配是在每一对样本集内部分别进行；即，如果源工程的A样本集和目标工程的B样本集有一对同一样本，除非指定了从A到B的映射，否则不会在这一对样本之间复制数据。</p></li>
+<li><p>如果目标样本的一个属性数据为空，将从源样本取值复制过来。
+如果该属性数据不为空，当 <code class="docutils literal notranslate"><span class="pre">preserve_exist_props</span></code> 字段设置为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 时，将不会复制这一样本的这一属性，保留旧的数据。
+当 <code class="docutils literal notranslate"><span class="pre">preserve_exist_props</span></code> 字段设置为 <code class="docutils literal notranslate"><span class="pre">false</span></code> 时，如果源样本的这一属性有数据，将用源的数据覆盖目标的旧数据；
+如果源样本这一属性为空，并且设定了 <code class="docutils literal notranslate"><span class="pre">erase_exist_prop_if_source_empty</span></code> 字段为 <code class="docutils literal notranslate"><span class="pre">true</span></code>，将清空目标样本的这一属性。</p></li>
+</ol>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Project</span><span class="o">::</span><span class="n">Open</span><span class="p">(...);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Project</span><span class="o">::</span><span class="n">Open</span><span class="p">(...);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">target_tool_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Segmentation&quot;</span><span class="p">);</span>
+<span class="n">CopyToolFromProjOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">copy_compute_context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">params_selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;trainer.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sample_recommend.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;infer.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">};</span>
+<span class="n">options</span><span class="p">.</span><span class="n">params_clear_nonselected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">copy_properties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">from_input_tool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Input_1&quot;</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">to_input_tool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Input_2&quot;</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">sample_set_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="s">&quot;source_sample_set&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;target_sample_set&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;another_source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;another_target&quot;</span><span class="p">}};</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">props_selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"> </span><span class="c1">// for copying all properties</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">preserve_exist_props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">prop_options</span><span class="p">.</span><span class="n">erase_exist_prop_if_source_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">target</span><span class="p">.</span><span class="n">copy_tool_from_proj</span><span class="p">(</span><span class="o">*</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source_tool_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">target_tool_id</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果源工程和目标工程是同一个工程，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts15InvalidArgumentE" title="visionflow::excepts::InvalidArgument"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidArgument</span></code></a> 异常。</p>
+<p>如果指定的两个工具不存在，或工具不是相同类型，分别抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> 和
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts15InvalidToolTypeE" title="visionflow::excepts::InvalidToolType"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidToolType</span></code></a> 异常。</p>
+</div>
+</section>
+<section id="id18">
+<h3>从模型复制工具<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow5Model17copy_tool_to_projER7ProjectRKNSt6stringERKNSt6stringERK26ModelCopyToolToProjOptions" title="visionflow::Model::copy_tool_to_proj"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Model::copy_tool_to_proj()</span></code></a> 函数将模型中的工具复制到工程中。</p>
+<p>在进行复制前，需要先打开模型和目标工程，并在目标工程中创建一个与被复制工具类型相同的工具。
+在模型中调用该函数，并将目标工程作为参数传入。</p>
+<p>函数接收4个参数，第1个为 <code class="docutils literal notranslate"><span class="pre">visionflow::Project</span> <span class="pre">&amp;</span></code> 目标工程的引用。
+第2个参数为源工程中被复制工具的工具标识符。
+第3个参数为当前工程中目标工具的标识符。
+第4个参数为可选的 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow26ModelCopyToolToProjOptionsE" title="visionflow::ModelCopyToolToProjOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::ModelCopyToolToProjOptions</span></code></a> 类型，指定复制策略。</p>
+<p>参数控制复制行为的方式请参考 <a class="reference internal" href="#copy-tool-from-proj"><span class="std std-ref">跨工程复制工具</span></a> 。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Project</span><span class="o">::</span><span class="n">Open</span><span class="p">(...);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Model</span><span class="p">(...);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">target_tool_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Segmentation&quot;</span><span class="p">);</span>
+<span class="n">ModelCopyToolToProjOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">copy_compute_context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">params_selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;trainer.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sample_recommend.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;infer.args&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">};</span>
+<span class="n">options</span><span class="p">.</span><span class="n">params_clear_nonselected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">source</span><span class="p">.</span><span class="n">copy_tool_to_proj</span><span class="p">(</span><span class="o">*</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source_tool_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">target_tool_id</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>重命名工具<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project11rename_toolERKNSt6stringERKNSt6stringE" title="visionflow::Project::rename_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::rename_tool()</span></code></a> 函数重命名工具。</p>
+<p>函数接收2个字符串参数，为工具当前的标识符和新的标识符。</p>
+<p>函数将用新的标识符新建一个相同的工具，然后复制数据和连接，最后删除原工具。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">-&gt;</span><span class="n">rename_tool</span><span class="p">(</span><span class="s">&quot;Seg_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Seg_1_renamed&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果任何一个标识符为空，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts13InvalidToolIdE" title="visionflow::excepts::InvalidToolId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::InvalidToolId</span></code></a> 异常。</p>
+<p>如果旧工具不存在，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12ToolNotFoundE" title="visionflow::excepts::ToolNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolNotFound</span></code></a> 异常。</p>
+<p>如果新工具标识符已经存在，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts16ToolAlreadyExistE" title="visionflow::excepts::ToolAlreadyExist"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::ToolAlreadyExist</span></code></a> 异常。</p>
+<p>在复制数据时还可能抛出 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts16DatasetNotExistsE" title="visionflow::excepts::DatasetNotExists"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DatasetNotExists</span></code></a>
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts20DatasetAlreadyExistsE" title="visionflow::excepts::DatasetAlreadyExists"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DatasetAlreadyExists</span></code></a>
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12RocksDBErrorE" title="visionflow::excepts::RocksDBError"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::RocksDBError</span></code></a> 异常。</p>
+</div>
+</section>
+<section id="id20">
+<h2>导出/导入工程模板<a class="headerlink" href="#id20" title="Link to this heading">#</a></h2>
+<p>工程模板是一个JSON文件，工程中的工具和其连接关系可以被导出为工程模板，从工程模板可以导入这些工具和之间的连接。</p>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project20export_proj_templateERKNSt6stringE" title="visionflow::Project::export_proj_template"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::export_proj_template()</span></code></a> 函数导出工程模板，
+使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project20import_proj_templateERKNSt6stringE" title="visionflow::Project::import_proj_template"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::import_proj_template()</span></code></a> 函数导入工程模板。</p>
+<p>2个函数都只接收1个参数，指定工程模板文件的路径。</p>
+<p>工程模板的导入等价于向工程中添加模板中的所有工具，然后在这些工具之间建立连接。
+因此，导入时工程内可以含有其他工具和连接，只要其标识符不与模板内冲突即可。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">-&gt;</span><span class="n">export_proj_template</span><span class="p">(</span><span class="s">&quot;template.json&quot;</span><span class="p">);</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">import_proj_template</span><span class="p">(</span><span class="s">&quot;template.json&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>导出的工程模板内容如以下所示， <code class="docutils literal notranslate"><span class="pre">tools</span></code> 是工具标识符到其类型的映射， <code class="docutils literal notranslate"><span class="pre">connections</span></code> 是连接关系的数组。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Input_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Segmentation_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Segmentation&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;connections&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;from_node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;from_tool_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Input_1&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;to_node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;to_tool_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Segmentation_1&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;from_node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;views&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;from_tool_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Input_1&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;to_node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;views&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;to_tool_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Segmentation_1&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>导出模板时，如果指定的输出文件已经存在或无法正常创建，分别抛出
+<a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts11FileExistedE" title="visionflow::excepts::FileExisted"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::FileExisted</span></code></a> 和 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14CanNotOpenFileE" title="visionflow::excepts::CanNotOpenFile"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::CanNotOpenFile</span></code></a> 异常。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>导入模板时，如果指定输入文件无法正常打开，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14CanNotOpenFileE" title="visionflow::excepts::CanNotOpenFile"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::CanNotOpenFile</span></code></a> 异常；</p>
+<p>如果文件内容损坏导致无法导入，抛 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts17DeSerializeFailedE" title="visionflow::excepts::DeSerializeFailed"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DeSerializeFailed</span></code></a> 异常;</p>
+<p>如果导入时添加工具出错，或在添加的工具之间建立连接出错，均抛出异常，
+可参考对应函数 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project8add_toolERKNSt6stringERKNSt6stringE" title="visionflow::Project::add_tool"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::add_tool()</span></code></a> 和 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project7connectERK10ToolNodeIdRK10ToolNodeId" title="visionflow::Project::connect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::connect()</span></code></a>。</p>
+</div>
+</section>
+<section id="id21">
+<h2>查看工程检测流程<a class="headerlink" href="#id21" title="Link to this heading">#</a></h2>
+<section id="graphviz">
+<span id="check-graphviz"></span><h3>获取Graphviz结构图<a class="headerlink" href="#graphviz" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project11to_graphvizERKN5graph14DotInfoOptionsE" title="visionflow::Project::to_graphviz"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::to_graphviz()</span></code></a> 函数将工程转换成Graphviz的dot语言。</p>
+<p>该函数接收1个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow5graph14DotInfoOptionsE" title="visionflow::graph::DotInfoOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::graph::DotInfoOptions</span></code></a> 参数，用于指定是否导出特定元素。</p>
+<p><code class="docutils literal notranslate"><span class="pre">DotInfoOptions</span></code> 有3个字段，依次为： <code class="docutils literal notranslate"><span class="pre">with_node_type</span></code> 控制是否显示节点类型，
+<code class="docutils literal notranslate"><span class="pre">with_node_docs</span></code> 控制是否显示节点描述， <code class="docutils literal notranslate"><span class="pre">with_update_time</span></code> 控制是否显示节点更新时间。</p>
+<p>以上3个字段均默认为 <code class="docutils literal notranslate"><span class="pre">true</span></code> ，即导出的图示含有最多信息。</p>
+<p>可以使用一些工具，如 <a class="reference external" href="https://dreampuf.github.io/GraphvizOnline/">Graphviz Online</a> ，查看导出的图示。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">dotlang</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">to_graphviz</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id22">
+<h3>获取工具内部信息<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<p>使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project9tool_infoERKNSt6stringE" title="visionflow::Project::tool_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::tool_info()</span></code></a> 函数获取工具的信息。</p>
+<p>该函数接收1个参数，为工具标识符。返回一个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow8ToolInfoE" title="visionflow::ToolInfo"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::ToolInfo</span></code></a> 对象。
+通过该对象，可以查询工具类型、输入输出、内部计算节点等。</p>
+<section id="toolinfo">
+<span id="tool-info"></span><h4><code class="docutils literal notranslate"><span class="pre">ToolInfo</span></code> 对象的详细用法<a class="headerlink" href="#toolinfo" title="Link to this heading">#</a></h4>
+<section id="id23">
+<h5>工具一般信息<a class="headerlink" href="#id23" title="Link to this heading">#</a></h5>
+<p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo2idEv" title="visionflow::ToolInfo::id"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::id()</span></code></a> 和 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo4typeEv" title="visionflow::ToolInfo::type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::type()</span></code></a>
+函数返回工具的标识符和类型。</p>
+</section>
+<section id="id24">
+<h5>数据节点（数据边/属性或参数）<a class="headerlink" href="#id24" title="Link to this heading">#</a></h5>
+<p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo11input_edgesEv" title="visionflow::ToolInfo::input_edges"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::input_edges()</span></code></a> <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo12output_edgesEv" title="visionflow::ToolInfo::output_edges"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::output_edges()</span></code></a>
+和 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo10data_edgesEv" title="visionflow::ToolInfo::data_edges"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::data_edges()</span></code></a> 函数返回一个 <code class="docutils literal notranslate"><span class="pre">std::vector&lt;visionflow::DataEdge&gt;</span></code> ，
+分别为工具的输入、输出数据节点和所有数据节点（包括输入输出）。</p>
+<p>对于每个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow8DataEdgeE" title="visionflow::DataEdge"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::DataEdge</span></code></a> 对象，可以获取的信息有：</p>
+<ol class="arabic simple">
+<li><p>节点标识符 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge2idEv" title="visionflow::DataEdge::id"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::id()</span></code></a></p></li>
+<li><p>允许的最大连接数 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge17allow_max_connectEv" title="visionflow::DataEdge::allow_max_connect"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::allow_max_connect()</span></code></a></p></li>
+<li><p>概念类型（属性或参数） <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge7cpt_tagEv" title="visionflow::DataEdge::cpt_tag"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::cpt_tag()</span></code></a></p></li>
+<li><p>是否是虚拟输入节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge15is_virtual_portEv" title="visionflow::DataEdge::is_virtual_port"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::is_virtual_port()</span></code></a></p></li>
+<li><p>是否是工具的输出节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge14is_tool_outputEv" title="visionflow::DataEdge::is_tool_output"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::is_tool_output()</span></code></a></p></li>
+<li><p>使用该数据的计算节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge7used_byEv" title="visionflow::DataEdge::used_by"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::used_by()</span></code></a></p></li>
+</ol>
+<p>如果是虚拟输入节点，还可以获取：</p>
+<ol class="arabic simple">
+<li><p>其要求的数据特征 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge17required_featuresEv" title="visionflow::DataEdge::required_features"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::required_features()</span></code></a></p></li>
+<li><p>连接到的上游工具 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge9redirectsEv" title="visionflow::DataEdge::redirects"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::redirects()</span></code></a></p></li>
+</ol>
+<p>如果不是虚拟输入节点，还可以获取：</p>
+<ol class="arabic simple">
+<li><p>节点是否使能 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge9is_activeEv" title="visionflow::DataEdge::is_active"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::is_active()</span></code></a></p></li>
+<li><p>节点的数据类型 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge4typeEv" title="visionflow::DataEdge::type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::type()</span></code></a></p></li>
+<li><p>产生该数据的计算节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge12generated_byEv" title="visionflow::DataEdge::generated_by"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::generated_by()</span></code></a></p></li>
+<li><p>更新时间 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge16last_update_timeEv" title="visionflow::DataEdge::last_update_time"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::last_update_time()</span></code></a></p></li>
+</ol>
+</section>
+<section id="id25">
+<h5>计算节点（算子和配置器）<a class="headerlink" href="#id25" title="Link to this heading">#</a></h5>
+<p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo13compute_nodesEv" title="visionflow::ToolInfo::compute_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::compute_nodes()</span></code></a> 函数返回一个 <code class="docutils literal notranslate"><span class="pre">std::vector&lt;visionflow::ComputeNode&gt;</span></code> ，
+为工具的所有计算节点。</p>
+<p>对于每个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow11ComputeNodeE" title="visionflow::ComputeNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::ComputeNode</span></code></a> 对象，可以获取的信息有：</p>
+<ol class="arabic simple">
+<li><p>节点标识符 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode2idEv" title="visionflow::ComputeNode::id"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::id()</span></code></a></p></li>
+<li><p>节点类型 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode4typeEv" title="visionflow::ComputeNode::type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::type()</span></code></a></p></li>
+<li><p>概念类型（算子或配置器） <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode7cpt_tagEv" title="visionflow::ComputeNode::cpt_tag"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::cpt_tag()</span></code></a></p></li>
+<li><p>最后更新时间 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode16last_update_timeEv" title="visionflow::ComputeNode::last_update_time"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::last_update_time()</span></code></a></p></li>
+<li><p>使用的参数 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode11param_nodesEv" title="visionflow::ComputeNode::param_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::param_nodes()</span></code></a></p></li>
+<li><p>所有输入节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode11input_nodesEv" title="visionflow::ComputeNode::input_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::input_nodes()</span></code></a></p></li>
+<li><p>所有输出节点 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode12output_nodesEv" title="visionflow::ComputeNode::output_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::output_nodes()</span></code></a></p></li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="dataset.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">数据集</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="workspace.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">工作区</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">管理工程中的工具</a><ul>
+<li><a class="reference internal" href="#id2">添加工具</a></li>
+<li><a class="reference internal" href="#id3">查看现有工具列表</a></li>
+<li><a class="reference internal" href="#id4">查看工具内的节点名称列表</a></li>
+<li><a class="reference internal" href="#id5">在工具之间建立连接</a><ul>
+<li><a class="reference internal" href="#id6">手动连接</a></li>
+<li><a class="reference internal" href="#id7">自动连接（不推荐）</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">修改连接关系</a><ul>
+<li><a class="reference internal" href="#id9">修改现有连接</a></li>
+<li><a class="reference internal" href="#id10">断开连接</a><ul>
+<li><a class="reference internal" href="#id11">指定上下游节点的重载</a></li>
+<li><a class="reference internal" href="#id12">只指定下游节点的重载</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">删除工具</a></li>
+<li><a class="reference internal" href="#id14">复制工具</a><ul>
+<li><a class="reference internal" href="#id15">复制单个工具</a></li>
+<li><a class="reference internal" href="#id16">复制工具组</a></li>
+<li><a class="reference internal" href="#copy-tool-from-proj">跨工程复制工具</a></li>
+<li><a class="reference internal" href="#id18">从模型复制工具</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19">重命名工具</a></li>
+<li><a class="reference internal" href="#id20">导出/导入工程模板</a></li>
+<li><a class="reference internal" href="#id21">查看工程检测流程</a><ul>
+<li><a class="reference internal" href="#graphviz">获取Graphviz结构图</a></li>
+<li><a class="reference internal" href="#id22">获取工具内部信息</a><ul>
+<li><a class="reference internal" href="#toolinfo"><code class="docutils literal notranslate"><span class="pre">ToolInfo</span></code> 对象的详细用法</a><ul>
+<li><a class="reference internal" href="#id23">工具一般信息</a></li>
+<li><a class="reference internal" href="#id24">数据节点（数据边/属性或参数）</a></li>
+<li><a class="reference internal" href="#id25">计算节点（算子和配置器）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

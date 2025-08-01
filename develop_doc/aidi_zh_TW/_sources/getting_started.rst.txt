@@ -1,0 +1,1070 @@
+VisionFlow 入门教程
+######################
+
+我们已经在 :doc:`在开发环境中引入VisionFlow <install>` 文档中解释了如何将 VisionFlow 添加为
+您项目的依赖项。现在，我们将通过一个简单的示例快速演示 VisionFlow 中的主要功能及接口的使用。
+
+这个示例将包括从创建工程、添加工具、添加数据和标注，训练模型，到部署模型的完整工作流程。如果您对如
+何通过 VisionFlow 接口创建工程和训练模型不感兴趣，只想知道如何部署已导出为模型文件的训练好的模型，
+那么您可以从 `加载导出的模型`_ 部分开始阅读。
+
+初始化VisionFlow
+-----------------
+
+VisionFlow 库有一些在运行时需要指定并且必须在调用任何其他接口之前设置的全局配置，包括：
+
+1. 日志输出设置：通过设置日志输出选项，您可以自定义 VisionFlow 的日志输出方式，例如指定文件路径、
+   回调函数、标准输出/终端或 MSVC 调试器。
+
+2. 语言偏好：VisionFlow 支持多种语言。默认情况下，在初始化过程中，语言偏好会自动设置为与您的操作系统
+   语言匹配。如果您希望使用不同的语言，可以通过初始化参数来指定。
+
+3. 授权设置：VisionFlow 中的部分功能需要商业授权（加密狗），一般情况下，VisionFlow会自动从你的执行
+   环境中自动查找授权。但部分情况下，你可能希望自行指定使用的授权设备的ID，授权设备ID也可以在初始化时
+   指定。
+
+4. 产品标识设置：详情请移步 :ref:`product_mark`。
+
+5. 自动设置训练集测试集的高低阈值大小：用于根据旧视图的数据集情况自动给新生成的视图添加到训练集、测试集中。
+   详情请移步 :cpp:class:`visionflow::InitOptions` (默认为0.1和0.85，一般情况下不需要修改此项配置)。
+
+以下是 VisionFlow 初始化的示例：
+
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include <iostream>
+        #include "visionflow/visionflow.hpp"
+
+        namespace vflow = visionflow;
+
+        void my_logger_output(int log_level, const char *content, size_t len) {
+            if (log_level > 2) {
+                std::cout << std::string(content, len) << std::endl;
+            }
+        }
+
+        int main(int /*argc*/, char ** /*argv*/) try {
+
+            vflow::InitOptions opts;
+
+            // Set the log output file.
+            opts.logger.file_sink = "visionflow.log";
+            // Set whether to output the logs to the standard output terminal.
+            opts.logger.stdout_sink = true;
+            // You can customize the handling of VisionFlow's log output by setting a log output callback function.
+            // opts.logger.func_sink = my_logger_output;
+
+            // Set the language to Chinese.
+            opts.language = "zh_CN";
+
+            // opts.license.license_id = "your license device id";
+
+            // opts.product_mark = "YourProductName";
+            // opts.compatible_product_marks = {"AIDI", "OtherProduct"};
+
+            vflow::initialize(opts);
+
+            return 0;
+        } catch (const std::exception &ex) {
+            std::cerr << "Unexpected Escaped Exception: " << ex.what();
+            return -1;
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        import visionflow as vflow
+
+        if __name__ == "__main__":
+            opts = vflow.InitOptions()
+
+            # 指定log文件
+            opts.logger.file_sink = "visionflow.log"
+            opts.logger.stdout_sink = True
+            opts.language = "zh_CN"
+
+            # opts.license.license_id = "your license device id"
+            # opts.product_mark = "YourProductName"
+            # opts.compatible_product_marks = ["AIDI", "OtherProduct"]
+
+            vflow.initialize(opts)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        using System;
+        using System.Runtime.InteropServices;
+
+        public class Program
+        {
+            public static void Main()
+            {
+                try
+                {
+                    visionflow.InitOptions opts = new visionflow.InitOptions();
+
+                    // Set the log output file.
+                    opts.logger.file_sink = "visionflow.log";
+                    // Set whether to output the logs to the standard output terminal.
+                    opts.logger.stdout_sink = true;
+
+                    // Set the language to Chinese.
+                    opts.language = "zh_CN";
+
+                    // opts.license.license_id = "your license device id";
+
+                    // opts.product_mark = "YourProductName";
+                    // opts.compatible_product_marks = new std.VectorString{"AIDI", "OtherProduct"};
+
+                    visionflow_global.initialize(opts);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+        }
+
+
+创建工程
+------------
+
+:term:`Project` 是 VisionFlow 中管理数据和处理工作流的基本单位。在继续进行任何后续步骤之前，
+我们必须首先创建一个项目：
+
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        vflow::ProjectDescriptor desc;
+
+        desc.workspace_token = "D:/the/path/to/workspace";
+        desc.project_name = "my_first_project";
+
+        auto out_desc = vflow::Project::Create(desc);
+
+        std::cout << "My first VisionFlow project created at: "
+                  << out_desc.created_time << std::endl;
+        std::cout << "The VisionFlow version which the project created by: "
+                  << out_desc.sdk_version << std::endl;
+
+        // And then you can open the project with the desc or the output_desc.
+        auto project = vflow::Project::Open(desc);
+
+        std::cout << "My first VisionFlow project name is: "
+                  << project->descriptor().project_name << std::endl;
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        desc = vflow.ProjectDescriptor(workspace_token = "./workspace", project_name = "test")
+        out_desc  = vflow.Project.Create(desc)
+
+        print("My first VisionFlow project created at: ", out_desc.created_time)
+        print("The VisionFlow version which the project created by: ", out_desc.sdk_version)
+
+        # And then you can open the project with the desc or the output_desc.
+        project = vflow.Project.Open(desc)
+
+        print("My first VisionFlow project name is: ", project.descriptor().project_name)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var desc = new visionflow.ProjectDescriptor();
+
+        desc.workspace_token = "D:/the/path/to/workspace";
+        desc.project_name = "my_first_project";
+
+        var out_desc = visionflow.Project.Create(desc);
+
+        Console.WriteLine("My first VisionFlow project created at: " + out_desc.created_time);
+        Console.WriteLine("The VisionFlow version which the project created by: " + out_desc.sdk_version);
+
+        var project = visionflow.Project.Open(desc);
+
+        Console.WriteLine("My first VisionFlow project name is: " + project.descriptor().project_name);
+
+
+添加工具
+--------------
+
+VisionFlow 提供了不同的算法工具，您可以自由地组合和连接这些工具以完成不同的处理流程。
+您可以在 :doc:`工具及详细流程图 <auto_docs/tools>` 中找到 VisionFlow 提供的所有
+工具的功能说明及每一个工具的详细内部图结构。
+
+您也可以在 :doc:`节点名常量<../cpp_api/node_names>` 中查看工具中所有节点的名称。
+节点名称作为字符串常量存放在：visionflow命名空间下，以工具类型为结构体标识符的结构体中。
+如果图结构中的节点名包含'.'，则常量名会将'.'替换为'_'，否则二者完全相同。
+
+.. note::
+
+    例如:分割工具的预测结果节点名为 :cpp:var:`visionflow::Segmentation::pred`;
+
+    分割工具的训练参数节点名为 :cpp:var:`visionflow::Segmentation::trainer_args`;
+
+在这个示例中，我们将添加一个 **Input** 工具和一个 **Segmentation** 工具，并将
+**Segmentation** 工具连接到 **Input** 工具的输出：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string input_id = project->add_tool("Input");
+        std::string segmentation_id = project->add_tool("Segmentation");
+
+        bool connected = project->auto_connect(input_id, segmentation_id);
+        if (!connected) {
+            std::cerr << "auto_connect failed, Please use Project::connect instead."
+                      << std::endl;
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        input_id = project.add_tool("Input")
+        segmentation_id = project.add_tool("Segmentation")
+
+        connected = project.auto_connect(input_id, segmentation_id)
+        if not connected:
+            print("auto_connect failed, Please use Project::connect instead.")
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var input_id = project.add_tool("Input");
+        var segmentation_id = project.add_tool("Segmentation");
+
+        var connected = project.auto_connect(input_id, segmentation_id);
+        if (!connected)
+        {
+            Console.WriteLine("auto_connect failed, Please use Project::connect instead.");
+        }
+
+导入图片
+-----------
+
+在 VisionFlow 中，我们使用 :term:`SampleSet` 来管理项目内的数据。所有对 :term:`Sample`
+数据的管理都通过 :term:`SampleSet` 或 :term:`PropertySet` 进行。一个项目可以有多个
+:term:`SampleSet` ，通常包括一个用于训练和验证模型的主数据集。不过，您也可以根据需要创建额外的
+:term:`SampleSet` 。将图像数据添加到项目中意味着将图像数据添加到项目内的一个数据集。以下是一个
+从工程中获取 :term:`SampleSet` 或 :term:`PropertySet` 的示例：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/node_names.hpp" // 引入节点名常量头文件
+
+        auto sample_set = project->main_sample_set();
+        auto input_image_set = sample_set.property_set({input_id, vflow::Input::image});
+
+        // Or you can get the read only sample set and read only property set:
+        // auto ro_sample_set = project->readonly_main_sample_set();
+        // auto ro_input_image_set = sample_set.readonly_property_set({input_id, vflow::Input::image});
+
+
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        sample_set = project.main_sample_set()
+        input_image_id = vflow.ToolNodeId(input_id, vflow.Input.image)
+        input_image_set = sample_set.property_set(input_image_id)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var sample_set = project.main_sample_set();
+        var input_image_set = sample_set.property_set(new visionflow.ToolNodeId(input_id, visionflow.Input.image));
+
+        // 注意：我们要求在 Project 析构前，它所属的所有 SampleSet 或 PropertySet 都被析构，否则将导致不可恢复的异常。
+        // 由于 C# 的析构是受垃圾回收控制，将这个析构交给 C# 运行时可能导致析构顺序不正确。
+        // 因此，在使用完毕后，请手动调用 SampleSet.Dispose() 和 PropertySet.Dispose()。
+
+导入图像到项目中有几种不同的方法。如果您想要将一系列图像文件导入到项目中，可以使用辅助类型
+:cpp:class:`visionflow::helper::InputHelper` 来完成这个任务。以下是一个示例：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        const auto old_sample_num = sample_set.size();
+
+        vflow::helper::InputHelper input_helper(project.get());
+
+        for (int i = 0; i < 100; ++i) {
+            input_helper.add_image("D:/path/to/image/" + std::to_string(i) + ".png");
+        }
+        // Import and commit the images.
+        auto receipts = input_helper.commit();
+
+        // Some image may be improted failed, you can get the reason from the receipts:
+        size_t success_count = 0;
+        for (const auto &receipt : receipts) {
+            if (receipt.is_success) {
+                success_count ++;
+            }else {
+                std::cout << "Failed to import image " << receipt.image_files[0]
+                          << " as: " << receipt.error_message << std::endl;
+            }
+        }
+
+        // And then you can get the sample from the sample set:
+        assert(sample_set.size() - old_sample_num == success_count);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        old_sample_num = sample_set.size()
+        input_helper = vflow.helper.InputHelper(project)
+
+        for i in range(1, 11):
+            input_helper.add_image(kStorageDir + "/data/{}.png".format(i))
+
+        receipts = input_helper.commit()
+
+        success_count = 0
+        for receipt in receipts:
+            if receipt.is_success:
+                success_count += 1
+            else :
+                print("Failed to import image ", receipt.image_files[0], " as: ", receipt.error_message)
+
+        assert sample_set.size() - old_sample_num == success_count
+
+        # 注意工程需要存在InputImageParam参数才能导入图片
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var old_sample_num = sample_set.size();
+
+        var input_helper = new visionflow.helper.InputHelper(project);
+
+        for (int i = 0; i < 100; ++i)
+        {
+            input_helper.add_image($"D:/path/to/image/{i}.png");
+        }
+        var receipts = input_helper.commit();
+
+        int success_count = 0;
+        foreach (var receipt in receipts)
+        {
+            if (receipt.is_success)
+            {
+                success_count++;
+            }
+            else
+            {
+                Console.WriteLine($"Failed to import image {receipt.image_files[0]} as: {receipt.error_message}");
+            }
+        }
+
+        if (sample_set.size() - old_sample_num != success_count)
+        {
+            Console.WriteLine("Sample set size not match!");
+        }
+
+
+在某些情况下，您的图像可能不存在于文件系统中，而是已经加载到内存中。在这种情况下，您可以使用函数
+:cpp:func:`visionflow::helper::add_image_to_sample` 快速将图像添加到一个样本集中：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // We have a image loaded into memory:
+        auto image = vflow::Image::FromFile("D:/path/to/image/0.png");
+
+        // Create a sample template from the sample set:
+        auto sample = sample_set.create_empty_sample();
+        // Add the the image into sample:
+        vflow::helper::add_image_to_sample(sample, image, input_id, true, 512);
+        // Add the sample to sample set:
+        sample_set.add(sample);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        image = vflow.img.Image.FromFile(kStorageDir + "/data/1.png")
+        sample  = sample_set.create_empty_sample()
+        vflow.helper.add_image_to_sample(sample, image, input_id, True, 512)
+        sample_set.add(sample)
+
+        image_info_id = vflow.ToolNodeId(input_id, vflow.Input.image_info)
+        image_info_set = sample_set.property_set(image_info_id)
+        for id, image_info in image_info_set:
+            print(id, image_info.import_time())
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // We have a image loaded into memory:
+        var image = visionflow.img.Image.FromFile("D:/path/to/image/0.png");
+
+        // Create a sample template from the sample set:
+        var sample = sample_set.create_empty_sample();
+        // Add the the image into sample:
+        visionflow_helpers_global.add_image_to_sample(sample, image, input_id, true, 512);
+        // Add the sample to sample set:
+        sample_set.add(sample);
+
+.. note::
+    函数 :cpp:func:`visionflow::helper::add_image_to_sample` 的接口文档提供了关于该函数
+    详细的功能说明，这可以帮助您深入理解其更多详细使用方法和运行原理。如果您想更深入地了解
+    VisionFlow 的数据管理机制，强烈建议仔细阅读该文档。
+
+.. note::
+    通过 :cpp:func:`visionflow::helper::add_image_to_sample` 初始化的sample，若需将其添
+    加到样本集，则thumbnail_long_side参数不能为0。
+
+添加标注
+--------------
+
+在介绍如何向数据集添加标注之前，让我们简要解释一下如何通过 :term:`PropertySet` 中读取和写入数据。
+:term:`PropertySet` 是一个可以被迭代访问的数据容器。每个属性集对应处理流程中的一个数据节点，
+并包含数据集中所有样本在该节点上的数据。以我们之前添加的图像属性集为例，我们可以按如下方式访问其
+中的数据（您可以参考 :cpp:class:`visionflow::data::PropertySet` 的文档，了解与 PropertySet
+相关的更多接口信息）：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 获取属性集.
+        auto image_set = sample_set.property_set({input_id, vflow::Input::image});
+        // 遍历属性集中的数据.
+        for (const auto &[sample_id, image_prop] : image_set) {
+            if (image_prop) { // 如果某个样本在此数据节点上的数据不存在，则会返回空指针.
+                image_prop->as<vflow::props::Image>().image().show(10);
+            } else {
+                auto modify_image = vflow::Image::FromFile("D:/path/to/image/0.png");
+                vflow::props::Image new_prop(modify_image);
+                // 更新属性集中的数据.
+                image_set.update(sample_id, new_prop);
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        sample  = sample_set.create_empty_sample()
+        sample_set.add(sample)
+
+        image_set = sample_set.property_set(vflow.ToolNodeId(input_id, vflow.Input.image))
+        for sample_id, image_prop in image_set:
+            if image_prop:
+                image_prop.image().show(10)
+            else:
+                modify_image  = vflow.img.Image.FromFile(kStorageDir + "/data/1.png")
+                new_prop = vflow.props.Image(modify_image)
+                image_set.update(sample_id, new_prop)
+                assert image_set.at(sample_id)
+                print("update image successfully")
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // 获取属性集.
+        var image_set = sample_set.property_set(new visionflow.ToolNodeId(input_id, visionflow.Input.image));
+        // 遍历属性集中的数据.
+        foreach (var (sample_id, image_prop) in image_set)
+        {
+            if (image_prop == null) // 如果某个样本在此数据节点上的数据不存在，则会返回空指针.
+            {
+                var modify_image = visionflow.img.Image.FromFile("D:/path/to/image/0.png");
+                var new_prop = new visionflow.props.Image(modify_image);
+                // 更新属性集中的数据.
+                image_set.update(sample_id, new_prop);
+            }
+        }
+
+
+通过这种方式，我们可以将在图像导入过程中生成的所有视图添加到训练集中（这对于后续的训练是必要的，
+因为只有添加到训练集的视图才会参与训练过程）：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto views_set = sample_set.property_set({input_id, vflow::Input::views});
+
+        for (auto [sample_id, views_prop] : views_set) {
+            if (views_prop) {
+                for (auto &[view_id, view] : views_prop->as<vflow::props::ViewList>()) {
+                    view.set_split_tag(vflow::kTrain);
+                }
+                views_set.update(sample_id, *views_prop);
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        views_set = sample_set.property_set(vflow.ToolNodeId(input_id, vflow.Input.views))
+        for sample_id, views_prop in views_set:
+            if views_prop:
+                for view_id, view in views_prop:
+                    view.set_split_tag(vflow.kTrain)
+
+                views_set.update(sample_id, views_prop)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var views_set = sample_set.property_set(new visionflow.ToolNodeId(input_id, visionflow.Input.views));
+
+        foreach (var (sample_id, views_prop) in views_set)
+        {
+            if (views_prop != null)
+            {
+                var view_list = new visionflow.props.ViewList();
+                view_list.load(views_prop.dump());
+                foreach (var view_id in view_list.keys())
+                {
+                    var view = view_list.at(view_id) as visionflow.TaggedView;
+                    view.set_split_tag(visionflow.SplitTag.kTrain);
+                    view_list.update(view_id, view);
+                }
+                views_set.update(sample_id, view_list);
+            }
+        }
+
+
+在理解了属性集的功能和用法之后，添加标注本质上是将我们的标注数据更新到与标注数据节点相对应的属性集中：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto label_set = sample_set.property_set({segmentation_id, vflow::Segmentation::truth});
+
+        for (const auto &[sample_id, old_label] : label_set) {
+            // 你可以使用你自定义的函数替换下面的流程，例如：
+            // auto new_label = show_and_modify_label(image_prop, old_label);
+            if (old_label) {
+                auto new_label = old_label->as<vflow::props::PolygonRegionList>();
+                for (auto &[region_id, region] : new_label) {
+                    region.set_name("MyClass");
+                }
+                label_set.update(sample_id, new_label);
+            }
+        }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        label_set = sample_set.property_set(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.truth))
+        for sample_id, label in label_set:
+            if label:
+                for region_id, region in label:
+                    region.set_name("MyClass")
+
+                label_set.update(sample_id, label)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var label_set = sample_set.property_set(new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.truth));
+
+        foreach (var (sample_id, old_label) in label_set)
+        {
+            // 你可以使用你自定义的函数替换下面的流程
+            if (old_label != null)
+            {
+                var new_label = new visionflow.props.PolygonRegionList();
+                new_label.load(old_label.dump());
+                foreach (var region_id in new_label.keys())
+                {
+                    var region = new_label.at(region_id) as visionflow.PolygonRegion;
+                    region.set_name("MyClass");
+                    new_label.update(region_id, region);
+                }
+                label_set.update(sample_id, new_label);
+            }
+        }
+
+
+设置训练参数
+---------------
+
+不同的工具在不同的阶段需要不同的参数集。对于我们示例中的分割工具，在训练之前，我们需要设置以下参数组：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 设置标注的类别清单.
+        vflow::param::LabelClasses classes;
+        classes.add("MyClass");
+        project->set_param({segmentation_id, vflow::Segmentation::classes}, classes);
+
+        // 设置用于训练的图像颜色.
+        vflow::param::BaseColor color;
+        color.set_color(vflow::param::kGray);
+        project->set_param({segmentation_id, vflow::Segmentation::base_color}, color);
+
+        // 设置训练参数.
+        vflow::param::SegmentationTrainingParameters train_param;
+        train_param.set_epoch(10)
+            .get_augmentations()
+            .get_geometry_augmentation()
+            .set_flip_horizontal(true)
+            .set_flip_vertical(true);
+        project->set_param({segmentation_id, vflow::Segmentation::trainer_args}, train_param);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        classes = vflow.param.LabelClasses()
+        classes.add("MyClass")
+        project.set_param(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.classes), classes)
+
+        color = vflow.param.BaseColor()
+        color.set_color(vflow.param.kGray)
+        project.set_param(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.base_color), color)
+
+        train_param = vflow.param.SegmentationTrainingParameters()
+        train_param.set_epoch(10).get_augmentations().get_geometry_augmentation().set_flip_horizontal(True).set_flip_vertical(True)
+        project.set_param(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.trainer_args), train_param)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // 设置标注的类别清单.
+        var classes = new visionflow.param.LabelClasses();
+        classes.add("MyClass");
+        project.set_param(new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.classes), classes);
+
+        // 设置用于训练的图像颜色.
+        var color = new visionflow.param.BaseColor();
+        color.set_color(visionflow.param.ColorType.kGray);
+        project.set_param(new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.base_color), color);
+
+        // 设置训练参数.
+        var train_param = new visionflow.param.SegmentationTrainingParameters();
+        // 设置训练参数.
+        var train_param = new visionflow.param.SegmentationTrainingParameters();
+        train_param.set_epoch(10);
+        train_param.get_augmentations()
+            .get_geometry_augmentation()
+            .set_flip_horizontal(true)
+            .set_flip_vertical(true);
+        project.set_param(new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.trainer_args), train_param);
+
+训练和配置参数
+----------------
+
+一旦所有数据准备好，训练模型非常简单：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 创建训练器的策略，你可以通过阅读有关类型的详细接口文档.
+        // 详细了解这些参数的作用.
+        vflow::runtime::StrategyOptions strategy;
+        strategy.allow_auto_update = true;
+        strategy.allow_auto_update_rely_on_prop = true;
+        // 你可以通过设置自定义的回调函数来接收训练进度信息.
+        strategy.call_back = nullptr;
+
+        // 创建训练执行器.
+        auto trainer = project->create_config_runtime({segmentation_id, vflow::Segmentation::trainer}, strategy);
+
+        // 为训练执行器创建数据服务.
+        auto data_server = vflow::adapt(project.get(), trainer);
+
+        // 初始化和执行训练，训练成功后模型会自动保存到工程中.
+        trainer.initialize(data_server);
+        trainer.execute(data_server);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        strategy = vflow.runtime.StrategyOptions()
+        strategy.allow_auto_update = True
+        strategy.allow_auto_update_rely_on_prop = True
+        strategy.call_back = None
+
+        trainer = project.create_config_runtime(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.trainer), strategy)
+        data_server = vflow.adapt(project, trainer)
+
+        trainer.initialize(data_server)
+        trainer.execute(data_server)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // 创建训练器的策略，你可以通过阅读有关类型的详细接口文档
+        // 详细了解这些参数的作用.
+        var strategy = new visionflow.runtime.StrategyOptions();
+        strategy.allow_auto_update = true;
+        strategy.allow_auto_update_rely_on_prop = true;
+
+        // 创建训练执行器.
+        var trainer = project.create_config_runtime(new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.trainer), strategy);
+        // 为训练执行器创建数据服务.
+        var data_server = new visionflow.ConfigureRuntimeProjectAdapter(project, trainer);
+
+        // 初始化和执行训练，训练成功后模型会自动保存到工程中.
+        trainer.initialize(data_server);
+        trainer.execute(data_server);
+
+
+导出模型
+-----------
+
+在配置好参数并训练好模型之后，您可能希望将模型部署到其他主机。一种方法是通过直接将工程复制到另一台
+主机，并使用复制的工程来部署您的检测检测流程。但是，由于工程包含了用于训练和验证模型的所有数据，
+其体积可能相当大，导致直接复制非常不方便。为了便于部署，您可以将所有模型和配置的参数导出到一个独立
+的文件中，如下所示：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        project->export_model("D:/path/to/save/my_first_project.vfmodel");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        project.export_model("D:/path/to/save/my_first_project.vfmodel")
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        project.export_model("D:/path/to/save/my_first_project.vfmodel");
+
+如果一切顺利，现在您应该能够在 ``D:/path/to/save/`` 目录中找到名为 ``my_first_project.vfmodel``
+的文件。您可以将此文件复制到需要部署检测流程的机器上，并继续按照以下的部署步骤来完成模型的部署。
+
+加载导出的模型
+-----------------
+
+在加载导出的模型之前，请确保 VisionFlow 依赖库已经初始化。有关初始化依赖库的详细过程，请参阅
+`初始化VisionFlow`_ 部分。
+
+之后，您可以按照下面的代码示例打开导出的模型：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        vflow::Model model("D:/path/to/my_first_project.vfmodel");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        model = vflow.Model("D:/path/to/my_first_project.vfmodel")
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        visionflow.Model model = new visionflow.Model("D:/path/to/my_first_project.vfmodel");
+
+
+设置推理参数
+---------------
+
+在部署阶段，我们提供了一些便捷的接口，允许您读取和修改模型中的某些参数。虽然在实际情况中，部署阶段
+可以修改的参数是有限的，但在接口上，我们仍然允许通过接口修改模型中的任何参数。打开模型后，您可以通
+过从模型中读取参数、进行必要的更改，然后将其保存回模型中来修改参数，如下所示：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 根据你的工程中的工具的名称读取相应工具中参数.
+        std::string segmentation_id = "Segmentation";
+        auto filter_param = model.get_param({segmentation_id, vflow::Segmentation::filter_args});
+        if (!filter_param) {
+            std::cerr << "Filter parameter for Segmentation not exist." << std::endl;
+            exit(-1);
+        }
+
+        // 在这里，我们修改了类别名为"MyClass"的缺陷的过滤参数.
+        filter_param->as<vflow::param::PolygonsFilterParameters>()
+            .get_class_thresholds("MyClass")
+            .set_enable(true)
+            .set_area_range({100, 50000});
+
+        // 然后, 你可以将修改后的参数重新保存到模型中.
+        model.set_param({segmentation_id, vflow::Segmentation::filter_args}, *filter_param);
+
+
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        filter_param_id = vflow.ToolNodeId(segmentation_id, vflow.Segmentation.filter_args)
+        filter_param = model.get_param(filter_param_id)
+
+        class_polygon_filter_param = vflow.param.SingleClassPolygonsFilterParameters()
+        class_polygon_filter_param.set_enable(True).set_area_range([100, 50000])
+        filter_param.set_class_thresholds("MyClass", class_polygon_filter_param)
+
+        model.set_param(filter_param_id, filter_param)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // 根据你的工程中的工具的名称读取相应工具中参数.
+        string segmentation_id = "Segmentation";
+        // 这里读取了推理结果之后的过滤参数.
+        var tool_node_id = new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.filter_args);
+        var param = model.get_param(tool_node_id);
+
+        // 可以序列化为json文件并输出.
+        // 注意这里是 `to_string()` 而不是 `ToString()`.
+        Console.WriteLine(param.to_json().to_string());
+
+        // 注意这里的类型的必须和节点的类型一致.
+        // 否则之后反序列化会出现问题.
+        var filter_args = new visionflow.param.PolygonsFilterParameters();
+
+        // 也可以反序列化输入内容.
+        filter_args.load(param.dump());
+
+        // 在这里，我们修改了类别名为"1"的缺陷的过滤参数.
+        var area_range = new std.VectorInt {100, 5000};
+        filter_args.get_class_thresholds("1").set_enable(true).set_area_range(area_range);
+
+        // 然后, 你可以将修改后的参数重新保存到模型中.
+        model.set_param(tool_node_id, filter_args);
+
+        // 确认是否保存成功.
+        param = model.get_param(tool_node_id);
+        Console.WriteLine(param.to_json().to_string());
+
+.. warning::
+    使用 `model.set_param(***)` 接口设置的参数或其他任何对于导出模型的修改，都仅在当前打开的模型
+    中生效。在关闭此模型并重新打开时，这些修改将丢失。如果您想要永久保存这些修改，您需要创建一个打
+    开模型的备份，如下面的代码所示：
+
+    .. tab:: C++
+
+        .. code-block:: cpp
+
+            model.resave_to("D:/other/path/model_2.vfmodel");
+
+
+    .. tab:: Python
+
+        .. code-block:: python
+
+            model.resave_to("D:/other/path/model_2.vfmodel")
+
+    .. tab:: C#
+
+        .. code-block:: csharp
+
+            model.resave_to("D:/other/path/model_2.vfmodel");
+
+.. _execute_model:
+
+执行模型
+--------------
+在开始执行模型之前，我们需要创建一个可以基于模型数据执行的运行时。创建运行时有各种策略，
+但在这里，为了简单起见，我们将使用 ``所有工具`` 策略来运行模型中的所有工具：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        vflow::runtime::AllTools strategy;
+        auto runtime = model.create_runtime(strategy);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        strategy = vflow.runtime.AllTools()
+        runtime = model.create_runtime(strategy)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var strategy = new visionflow.runtime.AllTools();
+        var runtime = model.create_runtime(strategy);
+
+创建了运行时之后，我们可以使用它来检测我们想要检测的图像。运行时需要一个 :term:`Sample`
+来存储输入图像、中间结果以及整个检测过程的最终输出。因此，我们需要创建一个 :term:`Sample`，
+并将我们需要检测的数据添加到其中，如下所示，然后我们可以在这个样本上执行我们的处理流程：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string input_id = "Input"; // The id of the Input tool.
+
+        auto sample = runtime.create_sample();
+        auto image = vflow::Image::FromFile("D:/path/to/image.png");
+        vflow::helper::add_image_to_sample(sample, image, input_id);
+
+        // Then we can execute the processing flow on the sample.
+        runtime.execute(sample);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        input_id = "Input" # The id of the Input tool.
+
+        sample = runtime.create_sample()
+        image  = vflow.img.Image.FromFile("D:/path/to/image.png")
+        vflow.helper.add_image_to_sample(sample, image, input_id)
+
+        runtime.execute(sample)
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        string input_id = "Input"; // The id of the Input tool.
+
+        var sample1 = runtime.create_sample();
+        var image1 = visionflow.img.Image.FromFile("D:/path/to/save/1.bmp");
+        visionflow_helper_global.add_image_to_sample(sample1, image1, input_id);
+
+        // Then we can execute the processing flow on the sample.
+        runtime.execute(sample1);
+
+在执行之后，我们可以从样本中检索每个工具的检测结果（及中间结果），并根据我们的要求处理这些结果
+（你可以通过查阅每个 :doc:`工具的详细流程图 <auto_docs/tools>` 获得每个中间或最终结果的ID）：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto result = sample.get({segmentation_id, vflow::Segmentation::pred});
+        std::cout << "Result: " << result->to_json().to_string() << std::endl;
+
+        const auto &segment_pred = result->as<vflow::props::PolygonRegionList>();
+        for (const auto &[id, region] : segment_pred) {
+            std::cout << "Found a defect: " << id
+                      << ", name: " << region.name()
+                      << ", area: " << region.area() << std::endl;
+        }
+
+        // Draw the defects on the image and show the image:
+        segment_pred.draw_on(image);
+        image.show();
+
+
+.. tab:: Python
+
+    .. code-block:: python
+
+        segment_pred  = sample.get(vflow.ToolNodeId(segmentation_id, vflow.Segmentation.pred))
+        print("Result: ", segment_pred.to_json().to_string())
+
+        for id, region in segment_pred:
+            print(
+                f"Found a defect: {id}, name: {region.name()}, area: {region.area()}"
+            )
+        segment_pred.draw_on(image)
+        image.show()
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var pred_node_id = new visionflow.ToolNodeId(segmentation_id, visionflow.Segmentation.pred);
+        var result = sample1.get(pred_node_id);
+        var segment_pred = new visionflow.props.PolygonRegionList();
+        segment_pred.load(result.dump());
+
+        // 输出推理结果的json内容.
+        // 注意这里是 `to_string()` 而不是 `ToString()`.
+        Console.WriteLine(segment_pred.to_json().to_string());
+
+        // 遍历推理结果.
+        var ids = segment_pred.keys();
+        foreach (var id in ids) {
+            // 对照C++接口确定对应类型.
+            var region = segment_pred.at(id) as visionflow.PolygonRegion;
+            Console.WriteLine("id = {0}, region_name = {1}, region_area = {2}", id, region.name(), region.area());
+        }
+
+        // 在原图上画上推理结果并延时展示一会儿.
+        segment_pred.draw_on(image1);
+        image1.show(2000);
+
+完整的示例
+-------------
+
+我们维护了一个从创建工程、添加图像、标注、设置参数到训练和导出模型，并用导出的模型进行推理的
+完整的C++示例工程，详情请查看这个仓库：`vflow-example <https://git.aqrose.com/aidi/vflow-example>`_ 。
+
+下面还提供了一个部署导出的模型的完整示例代码：
+
+
+.. tab:: C++
+
+    .. literalinclude:: examples/cpp/online_inference_usage.cpp
+       :language: cpp
+       :linenos:
+       :caption: Online Inference Usage
+
+.. tab:: Python
+
+    .. literalinclude:: examples/python/online_inference_usage.py
+       :language: python
+       :linenos:
+       :caption: Online Inference Usage
+
+.. tab:: C#
+
+    .. literalinclude:: examples/csharp/online_inference_usage.cs
+       :language: csharp
+       :linenos:
+       :caption: Online Inference Usage
+
+.. tab:: cabi
+
+    .. literalinclude:: examples/cabi/online_inference_usage.c
+       :language: c
+       :linenos:
+       :caption: Online Inference Usage
+
+.. tab:: cppabi
+
+    .. literalinclude:: examples/cppabi/online_inference_usage.cpp
+       :language: cpp
+       :linenos:
+       :caption: Online Inference Usage

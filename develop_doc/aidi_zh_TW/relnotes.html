@@ -1,0 +1,623 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Changelog" href="changelog.html" /><link rel="prev" title="常见问题及解决方案" href="faq.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Release Notes - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading">#</a></h1>
+<section id="v0-9-1-release">
+<h2>v0.9.1-release<a class="headerlink" href="#v0-9-1-release" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>🐞问题修复<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复检测工具在没有GPU的环境下训练会报错的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-9-0-release">
+<h2>v0.9.0-release<a class="headerlink" href="#v0-9-0-release" title="Link to this heading">#</a></h2>
+<p>在此版本中，我们对VisionFlow的功能、效率、稳定性和易用性进行了全面升级，以下是主要更新内容，更多细节请查阅文档中的 Changelog。</p>
+<section id="id2">
+<h3>💪新功能实现<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>图像处理增强</strong>：新增多曝光/多焦点图像融合功能（输入需同分辨率）；优化智能标注算法的效率和效果；</p></li>
+<li><p><strong>测量工具升级</strong>：添加卡尺/找圆/找直线/凹凸点检测算子；支持条件性脚本（if-else逻辑）；输出支持椭圆图形及MultiPoint2f类型；</p></li>
+<li><p><strong>多页图像支持</strong>：检测、定位、分割、OCR等工具支持选择处理指定图像页，默认处理所有页面；</p></li>
+<li><p><strong>C#接口完善</strong>：C#接口支持GPU信息获取及全流程开发（导入数据、标注、训练、推理）；</p></li>
+<li><p><strong>Python接口完善</strong>: 添加较为完整的Python接口，支持全流程开发（导入数据、标注、训练、推理）；</p></li>
+<li><p><strong>工程与视图优化</strong>：工程支持只读模式打开；视图转换器支持保留掩码传递；视图过滤新增前缀匹配模式；属性对象默认按添加顺序排序；</p></li>
+<li><p><strong>硬件兼容性</strong>：升级NVIDIA依赖库以支持50系列显卡；</p></li>
+<li><p><strong>其他功能</strong>：IDReader优化矩形ECC 200 DM码识别率；添加区域重复去重机制；支持通过标签管理测量项。</p></li>
+</ol>
+</section>
+<section id="id3">
+<h3>🐞问题修复<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>核心库修复</strong>：修正几何库多边形求交/求并计算错误、直线交点错误、精度问题导致的训练漏检； 修复buffer函数错误导致的计算效果问题；</p></li>
+<li><p><strong>工具级修复</strong>：修复检测工具结果过滤失效、分割统计指标计算偏差、EL非监督分割掩码边缘误检；</p></li>
+<li><p><strong>接口问题</strong>：修复C#接口命名空间错误、Python接口不完整、C/C++跨编译器接口参数传递BUG；</p></li>
+<li><p><strong>数据安全</strong>：修复删除数据集时未检查备份导致的工程损坏；优化文件写入以部分防止断电/闪退损坏工程数据；</p></li>
+<li><p><strong>硬件兼容性</strong>：解决V100S GPU及计算能力6.0+显卡的兼容性问题；修复加密狗偶然超时错误。</p></li>
+</ol>
+</section>
+<section id="id4">
+<h3>🚀性能优化<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>多曝光图像融合效率提升：单线程耗时降低40%，多线程（≥4）降低50%；</p></li>
+<li><p>EL非监督分割工具推理效率提升30%，支持大批量训练数据；</p></li>
+<li><p>几何匹配工具优化彩色图像处理速度，训练耗时降低25%；</p></li>
+<li><p>智能标注功能初始化速度提升20%，异常处理机制完善；</p></li>
+<li><p>各算法工具推理速度提升20%~40%；</p></li>
+<li><p>几何库多边形求交集、求并集、buffer算子计算速度提升90%。</p></li>
+</ol>
+</section>
+<section id="id5">
+<h3>⚠️重大变更<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>接口变更</strong>：部分C/C++接口参数传递方式变化，改为引用或指针（需修改调用代码，具体变化可参考文档示例）；</p></li>
+<li><p><strong>数据迁移</strong>：缩略图接口转移至<code class="docutils literal notranslate"><span class="pre">props::ImageUserData</span></code>，旧接口已废弃；</p></li>
+<li><p><strong>硬件兼容性</strong>: 显卡驱动版本要求更新到572以上版本，并不再兼容 GeForce GTX 1050 ~ GeForce GTX 1080 Ti 等计算能力低于6.1的显卡。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-8-2-release">
+<h2>v0.8.2-release<a class="headerlink" href="#v0-8-2-release" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h3>🐞问题修复<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复C#接口无法使用的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-8-1-release">
+<h2>v0.8.1-release<a class="headerlink" href="#v0-8-1-release" title="Link to this heading">#</a></h2>
+<p>在此版本中，我们完善了EL算法工具，优化了接口易用性，以下是其中主要的一些更新内容，更多详细变更请查看文档中的Changelog。</p>
+<section id="id7">
+<h3>💪新功能实现<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>完善EL分类、EL无监督分类、EL-OCR等EL工具的算法，优化检测效果、推理速度和使用体验；</p></li>
+<li><p>添加绘制文本的接口 <code class="docutils literal notranslate"><span class="pre">visionflow::img::draw</span></code> ，支持绘制Unicode字符集中的多数字符；</p></li>
+<li><p>添加 <code class="docutils literal notranslate"><span class="pre">RegionList::draw_on</span></code> 接口将绝大多数标注、检测结果直接绘制到图像上，并提供更美观的默认样式；</p></li>
+<li><p>Python接口中添加 <code class="docutils literal notranslate"><span class="pre">Image.to_numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">Image.from_numpy</span></code> 支持直接将图像转换为Numpy对象；</p></li>
+<li><p>cppabi中标准库对应类型的c++接口支持直接和对应的原生C++类型互相转换；</p></li>
+<li><p>提供Project相关调用接口的C#封装；</p></li>
+<li><p>推理接口提供批量推理功能和超时中断的功能。</p></li>
+</ol>
+</section>
+<section id="id8">
+<h3>🐞问题修复<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复Python接口返回引用时， 父对象析构导致数据错误的问题；</p></li>
+<li><p>修复未引入python内置模块导致某些使用的内置函数的python脚本执行报错的问题；</p></li>
+<li><p>修复GeometrySearch工具的一些问题；</p></li>
+<li><p>更多问题修复请查看文档中的 ChangeLog 部分。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-8-0-release">
+<h2>v0.8.0-release<a class="headerlink" href="#v0-8-0-release" title="Link to this heading">#</a></h2>
+<p>在此版本中，我们对VisionFlow的功能、效率和稳定性、易用性都进行了多处增强，以下是其中主要的一些更新内容，更多细节请查看文档中的 Changelog。</p>
+<section id="id9">
+<h3>💪新功能实现<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>添加EL-分类、EL无监督分类等工具，需要的训练数据更少，能够快速解决轻量场景下的分类问题；添加IDReader等新工具；</p></li>
+<li><p>完善C#接口功能：最低支持.NET Framework 4.0版本；支持捕获C++异常并获得其中的具体异常类型和异常信息；C#接口中支持自定义日志接收对象；支持获取当前库版本号和模型兼容信息等；</p></li>
+<li><p>优化跨编译器C++接口形式和完善功能，简化接口形态；</p></li>
+<li><p>添加区域计算工具，支持更加灵活的区域组合等逻辑；完善综合判定工具，支持返回更加丰富的判定信息；及优化判定标准管理机制，支持将判定逻辑和判定预置分离存储，便于修改判定阈值；</p></li>
+<li><p>优化Runtime：添加跨进程和模型的Runtime构建缓存机制以优化模型初始化速度。默认启用Runtime构建缓存机制，用户可通过将库初始化配置中的runtime_timing_cache_path设置为空路径以禁用Runtime构建缓存机制；添加全局切换推理引擎类型选项，便于在创建Runtime时试试控制推理方式；</p></li>
+<li><p>添加支持多种图像排布格式的转换函数，优化用户调用时的图像数据转换速度；</p></li>
+<li><p>更多更新内容请查阅文档中的 ChangeLog 部分。</p></li>
+</ol>
+</section>
+<section id="id10">
+<h3>🐞问题修复<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复多种问题，具体修复内容请查阅文档中的 ChangeLog 部分。</p></li>
+</ol>
+</section>
+<section id="id11">
+<h3>🚀性能优化<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>大幅度优化各个工具的CPU推理速度，（单位时间吞吐量提升10倍以上，具体提升数值视不同硬件及训练推理参数有所差异）；</p></li>
+<li><p>优化各个工具的GPU推理速度 15%~20%（推理时占用显存会增加5%~10%）；</p></li>
+<li><p>优化分割工具、非监督分割工具在检出大而复杂缺陷时推理速度显著变慢的问题；</p></li>
+<li><p>优化PNG格式图像编解码速度，编解码速度提升20%~30%；影响：提升图像导入速度、训练启动速度、数据包导出速度及一般的样本访问速度。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-5-release">
+<h2>v0.7.5-release<a class="headerlink" href="#v0-7-5-release" title="Link to this heading">#</a></h2>
+<section id="id12">
+<h3>🐞问题修复<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复部分特定情况下Python脚本可能崩溃的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-4-release">
+<h2>v0.7.4-release<a class="headerlink" href="#v0-7-4-release" title="Link to this heading">#</a></h2>
+<section id="id13">
+<h3>🐞问题修复<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复同一进程中同时运行的多个综合判定工具会相互影响导致判定结果错误的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-3-release">
+<h2>v0.7.3-release<a class="headerlink" href="#v0-7-3-release" title="Link to this heading">#</a></h2>
+<section id="id14">
+<h3>🐞问题修复<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复OCR工具只有一个样本时增量训练模型效果较差的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-2-release">
+<h2>v0.7.2-release<a class="headerlink" href="#v0-7-2-release" title="Link to this heading">#</a></h2>
+<section id="id15">
+<h3>🐞问题修复<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复分割、分类、OCR工具重复训练时存在内存泄漏的问题；</p></li>
+<li><p>修复当不同样本中存在不同数量的视图时，多卡训练可能卡住的问题；该问题影响范围为所有AI工具；</p></li>
+<li><p>修复工程和模型使用极速推理模式推理后在移动到不同的操作系统平台下再次推理会失败的问题；</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-1-release">
+<h2>v0.7.1-release<a class="headerlink" href="#v0-7-1-release" title="Link to this heading">#</a></h2>
+<section id="id16">
+<h3>💪新功能实现<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>添加几何定位工具。</p></li>
+</ol>
+</section>
+<section id="id17">
+<h3>🐞问题修复<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>修复非监督分类工具推理时可能崩溃的问题。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-7-0-release">
+<h2>v0.7.0-release<a class="headerlink" href="#v0-7-0-release" title="Link to this heading">#</a></h2>
+<p>经过多个中间小版本的迭代，与AIDI2.4相比，此版本中VisionFlow已经具备了比较完整的功能和比较稳定的指标，并在性能和易用性方面相比aidi_vision有一定优势。欢迎试用、反馈。</p>
+<section id="id18">
+<h3>💪新功能实现<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>完成所有AIDI2.4支持的算法工具的适配，并提供更加灵活易用的使用接口及组合搭配使用方式；支持复杂的分支、组合流程；</p></li>
+<li><p>优化各个算法工具检测效果及易用性；</p></li>
+<li><p>提供数据包功能，支持将图像和标注数据导出独立保存，长久维护数据资产；支持通过数据包在相同或不同工具之间迁移标注数据；</p></li>
+<li><p>二次开发接口提供更易用的调用的推理接口；实验性支持C/跨编译器C++接口；</p></li>
+</ol>
+</section>
+<section id="id19">
+<h3>🚀性能优化<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>全面优化了各个工具的训练、推理速度，相比于AIDI2.4.4推理速度最高提升10%~40%；</p></li>
+<li><p>优化极速推理模式下在同型号GPU上重复加载同一模型的启动速度；</p></li>
+<li><p>默认使用异步推理模式，异步推理模式下自动为多分支工程启动并行推理，自动优化复杂工程推理速度。</p></li>
+</ol>
+</section>
+</section>
+<section id="v0-0-1-alpha">
+<h2>v0.0.1-alpha<a class="headerlink" href="#v0-0-1-alpha" title="Link to this heading">#</a></h2>
+<p>VisionFlow 的第一个版本已经发布，在此版本中，我们已经完成了工程数据管理等基础数据管理功能，并提供了初步的工程数据访问接口。欢迎试用并提出宝贵的意见和建议。</p>
+<p>当前版本还不是完整版本，缺少相应的算法工具，我们正在紧张的开发中，如果您有任何建议，欢迎反馈给我们。</p>
+<section id="id20">
+<h3>💪新功能实现<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>实现样本集的集中管理，开发者无需再自行开发数据管理相关功能，只需通过VisionFlow提供的接口即可完成整个数据集的管理；</p></li>
+<li><p>完成流程图框架搭建，支持后续添加不同的相互独立的算法工具，VisionFlow能够自动根据项目实际情况将他们组织为互相配合的缺陷检测流程</p></li>
+<li><p>流程图支持分支结构，之后我们将不断迁移原AIDI所拥有的各种算法工具以及添加新的算法工具，你可以通过VisionFlow非常方便的处理各种不同的检测需求，一个流程搞定所有检测任务</p></li>
+<li><p>提供基础的集合计算库接口（C++），方便的计算出你所关心检测结果的各种属性</p></li>
+</ol>
+</section>
+<section id="id21">
+<h3>🧳内部修改<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>规范研发管理流程和代码结构，提高代码可读性和可维护性;</p></li>
+<li><p>严格的代码质量控制，通过规范的设计和详尽的测试，消除一切可能遇到的Bug;</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="changelog.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Changelog</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="faq.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">常见问题及解决方案</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Release Notes</a><ul>
+<li><a class="reference internal" href="#v0-9-1-release">v0.9.1-release</a><ul>
+<li><a class="reference internal" href="#id1">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-9-0-release">v0.9.0-release</a><ul>
+<li><a class="reference internal" href="#id2">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id3">🐞问题修复</a></li>
+<li><a class="reference internal" href="#id4">🚀性能优化</a></li>
+<li><a class="reference internal" href="#id5">⚠️重大变更</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-8-2-release">v0.8.2-release</a><ul>
+<li><a class="reference internal" href="#id6">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-8-1-release">v0.8.1-release</a><ul>
+<li><a class="reference internal" href="#id7">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id8">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-8-0-release">v0.8.0-release</a><ul>
+<li><a class="reference internal" href="#id9">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id10">🐞问题修复</a></li>
+<li><a class="reference internal" href="#id11">🚀性能优化</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-5-release">v0.7.5-release</a><ul>
+<li><a class="reference internal" href="#id12">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-4-release">v0.7.4-release</a><ul>
+<li><a class="reference internal" href="#id13">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-3-release">v0.7.3-release</a><ul>
+<li><a class="reference internal" href="#id14">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-2-release">v0.7.2-release</a><ul>
+<li><a class="reference internal" href="#id15">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-1-release">v0.7.1-release</a><ul>
+<li><a class="reference internal" href="#id16">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id17">🐞问题修复</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-7-0-release">v0.7.0-release</a><ul>
+<li><a class="reference internal" href="#id18">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id19">🚀性能优化</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#v0-0-1-alpha">v0.0.1-alpha</a><ul>
+<li><a class="reference internal" href="#id20">💪新功能实现</a></li>
+<li><a class="reference internal" href="#id21">🧳内部修改</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=bd972503"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

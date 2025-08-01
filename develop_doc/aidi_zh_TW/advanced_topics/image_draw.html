@@ -1,0 +1,461 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="工具清单及详细流程图" href="../auto_docs/tools.html" /><link rel="prev" title="版本兼容性与自动升级" href="compatibility_rule.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>图片绘制几何图形和文字 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">更多细节</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>图片绘制几何图形和文字<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>VisionFlow 提供了基本的几何图形和文字绘制接口，方便在图片上面渲染几何图形或者一些文字。</p>
+<section id="id2">
+<h2>绘制几何图形<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>VisionFlow 提供了绘制多种几何类型的函数，具体接口请参考 <a class="reference internal" href="../cpp_api/image.html"><span class="doc">工具清单及详细流程图</span></a> 中 <a class="reference internal" href="../cpp_api/image.html#image-draw-geo"><span class="std std-ref">Image绘制几何图形</span></a>。
+函数定义中的参数 <strong>thickness</strong> 表示线条粗线，如果为负数代表填充几何图形；</p>
+<p>以下示例代码将会绘制一个填充的圆形：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/image/draw.hpp&quot;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">color</span><span class="p">{</span><span class="mi">255</span><span class="p">};</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">Zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">});</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Circle2f</span><span class="w"> </span><span class="n">circle</span><span class="p">{{</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">},</span><span class="w"> </span><span class="mi">25</span><span class="p">};</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">draw</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">kLine8</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>绘制文字<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>接口定义请参考 <a class="reference internal" href="../cpp_api/image.html"><span class="doc">工具清单及详细流程图</span></a> 中 <a class="reference internal" href="../cpp_api/image.html#image-draw-text"><span class="std std-ref">Image绘制文字</span></a>。
+函数定义中的参数 <strong>pos</strong> 表示要绘制文字的起始点；参数 <strong>pos_mode</strong> 为0表示基线base_line、为1表示左上角点、为2表示左下角点(详见下图)；</p>
+<a class="reference internal image-reference" href="../_images/image-draw-text.png"><img alt="../_images/image-draw-text.png" class="align-center" src="../_images/image-draw-text.png" style="width: 792.4px; height: 286.29999999999995px;" /></a>
+<dl class="simple">
+<dt>参数 <strong>font_name</strong> 用于指定渲染文字时使用的字体名称：</dt><dd><ul class="simple">
+<li><p>Windows上可直接查看注册表中 <strong>计算机/HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Fonts</strong> 表中的各个字体名称，
+例如微软雅黑为 <cite>“Microsoft YaHei &amp; Microsoft YaHei UI (TrueType)”</cite> ；</p></li>
+<li><p>Linux上可通过 <cite>fc-list –brief</cite> 命令查看所有字体信息并传入 <strong>fullname</strong> 字段的字符串，例如某开源字体DejaVu的衬线版字体为 <cite>“DejaVu Serif”</cite> ；</p></li>
+</ul>
+</dd>
+<dt>如果 <strong>font_name</strong> 为空则会按顺序查找并使用常用的三种字体，并使用第一个找到的字体进行渲染，如果都没找到则会报错。</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Windows</dt><dd><ul>
+<li><p>Microsoft YaHei</p></li>
+<li><p>Segoe UI</p></li>
+<li><p>Microsoft JhengHei</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Linux</dt><dd><ul>
+<li><p>DejaVu Sans</p></li>
+<li><p>DejaVu Sans Mono</p></li>
+<li><p>Source Han Sans</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>渲染文字时如果选择的字体文件并不支持某个字符，则会使用 <strong>‘?’</strong> 代替并给出警告信息。</p>
+<p>参数 <strong>font_height_pixel</strong> 用于描述渲染字体时的理想最大高度，对大多数字体而言是 <strong>‘|’</strong> 的长度；</p>
+<p>参数 <strong>angle</strong> 表示整个字符串从起始点沿x轴正方向的旋转角度；</p>
+<p>以下示例代码将会绘制一个字符串：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/image/draw.hpp&quot;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">color</span><span class="p">{</span><span class="mi">150</span><span class="p">};</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">Zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">});</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Point2f</span><span class="w"> </span><span class="n">pos</span><span class="p">{</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">};</span>
+<span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;阿丘科技&quot;</span><span class="p">;</span>
+<span class="n">draw</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">);</span>
+
+<span class="c1">// 改变旋转角度:angle 以及起始点和字符的相对位置:pos_mode</span>
+<span class="n">draw</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+<span class="w">    </span><span class="n">text</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pos</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">visionflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Radian</span><span class="o">::</span><span class="n">FromDegree</span><span class="p">(</span><span class="mi">90</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>将属性绘制到图片上<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>接口定义请参考 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow7IRegion7draw_onERN10visionflow3img5ImageERK11DrawOptions" title="visionflow::IRegion::draw_on"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IRegion::draw_on()</span></code></a> 和 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow5props11IRegionList7draw_onERN10visionflow3img5ImageERK11DrawOptions" title="visionflow::props::IRegionList::draw_on"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::props::IRegionList::draw_on()</span></code></a>。</p>
+<dl class="simple">
+<dt>对于每一个 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow7IRegionE" title="visionflow::IRegion"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::IRegion</span></code></a> 规定的区域，该函数会绘制三个元素：</dt><dd><ul class="simple">
+<li><p>一个多边形，表示区域本身，如同 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow7IRegion7polygonEv" title="visionflow::IRegion::polygon"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IRegion::polygon()</span></code></a> 所返回的；</p></li>
+<li><p>多边形的旋转外接矩形，旋转角度与 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow7IRegion5angleEv" title="visionflow::IRegion::angle"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IRegion::angle()</span></code></a> 所返回的一致；</p></li>
+<li><p>一个字符串，位于外接矩形旋转方向的左上角，内容为 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow7IRegion4nameEv" title="visionflow::IRegion::name"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IRegion::name()</span></code></a>
+和 <a class="reference internal" href="../cpp_api/props.html#_CPPv4NK10visionflow7IRegion5scoreEv" title="visionflow::IRegion::score"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IRegion::score()</span></code></a> 的值，用一个冒号连接，后者保留三位小数。</p></li>
+</ul>
+</dd>
+</dl>
+<p>对于 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props11IRegionListE" title="visionflow::props::IRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::IRegionList</span></code></a>，函数会将其中的每个区域分别绘制。</p>
+<dl class="simple">
+<dt>通过参数 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow11DrawOptionsE" title="visionflow::DrawOptions"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">visionflow::DrawOptions</span></code></a> <strong>options</strong> 可以控制绘制行为。默认构造的 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow11DrawOptionsE" title="visionflow::DrawOptions"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">visionflow::DrawOptions</span></code></a> 对象给出了一些自适应的绘制行为，即：</dt><dd><ul class="simple">
+<li><p>随机使用以下六种颜色之一：红色、蓝色、绿色、黄色、洋红色、青色；</p></li>
+<li><p>多边形的线条粗细根据图像的大小自适应，且最小是 2 个像素；</p></li>
+<li><p>字符高度是线宽的 16 倍，且最小是 32 个像素；</p></li>
+<li><p>使用上文所述的默认字体。</p></li>
+</ul>
+</dd>
+</dl>
+<p>只接受一个 <cite>image</cite> 参数的函数重载将使用上述默认行为。</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../auto_docs/tools.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">工具清单及详细流程图</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="compatibility_rule.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">版本兼容性与自动升级</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">图片绘制几何图形和文字</a><ul>
+<li><a class="reference internal" href="#id2">绘制几何图形</a></li>
+<li><a class="reference internal" href="#id3">绘制文字</a></li>
+<li><a class="reference internal" href="#id4">将属性绘制到图片上</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

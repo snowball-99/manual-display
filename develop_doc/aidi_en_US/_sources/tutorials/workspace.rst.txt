@@ -1,0 +1,196 @@
+工作区
+######
+
+工作区是什么？
+***************
+可以理解为工程的集合（以便对工程进行集中管理）。
+
+工作区有本地工作区和云端工作区（暂未实现）两种类型。
+
+工作区下亦可以创建子工作区，形如如下的目录结构：
+::
+
+   工作区
+   ├── 子工作区_A
+   │   ├── 工程_1
+   │   └── 工程_2
+   ├── 子工作区_B
+   │   ├── 子工作区_C
+   │   └── 工程_3
+   └── 工程_4
+
+工作区的管理
+************
+
+工作区的创建、管理可通过 :cpp:class:`visionflow::WorkSpace` 类来完成。
+
+工作区的创建
+============
+
+创建工作区需要指定工作区的 token（也即工作区的完整路径）：
+  - 对于本地工作区：是工作区文件夹所在位置的完整路径，eg: "D:/workspace"；
+  - 对于云端工作区：是代表着工作区位置的完整 url，eg: "https://www.example.com"。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string token = "D:/workspace"; // 或云端 url: "https://www.example.com"
+
+        // 1.通过构造函数创建
+        auto workspace = visionflow::WorkSpace(token);
+
+        // 2.通过静态函数创建
+        visionflow::CreateWorkSpace(token);
+
+
+.. _is-valid-workspace-token-note:
+
+.. note::
+
+    token 需要遵守 :cpp:func:`visionflow::ProjectDescriptor::IsValidWorkSpaceToken` 的约束规范：
+      - 不能为空；
+      - 不能以空字符开始或结尾；
+      - 不能包含这些特殊字符：{'*', '?', '"', '<', '>', '|'}（因为我们需要兼容 windows 平台，而在 windows 平台下这些字符是被禁止用于文件夹名称的）。
+
+工作区 token，name 和 file_size 的获取
+======================================
+
+- 工作区 token：工作区所在位置的完整路径，eg："D:/workspace"；
+
+- 工作区 name：也即工作区的名称，对于本地工作区其即为所在目录的文件夹名称（token 为 "D:/workspace" 的工作区名称即为 "workspace"）；
+
+- 工作区 file_size：也即当前工作区中所有文件的总大小。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 1.工作区 token 的获取
+        auto token = workspace.token();
+
+        // 2.工作区 name 的获取
+        auto name = workspace.name();
+
+        // 3.工作区 size 的获取
+        auto file_size = workspace.file_size();
+
+
+工作区的移除，拷贝与移动
+========================
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string source_token = "D:/source_workspace"; // 或云端 url: https://www.example.com
+        std::string target_token = "D:/target_workspace"; // 或云端 url: https://www.example.com
+
+        // 1.工作区的移除
+        visionflow::WorkSpace::RemoveWorkSpace(source_token);
+
+        // 2.工作区的拷贝
+        visionflow::WorkSpace::CopyWorkSpace(source_token, target_token);
+
+        // 3.工作区的移动
+        visionflow::WorkSpace::MoveWorkSpace(source_token, target_token);
+
+:ref:`token 需要遵守约束规范<is-valid-workspace-token-note>`
+
+.. note::
+
+    执行 :cpp:func:`visionflow::WorkSpace::CopyWorkSpace` 与 :cpp:func:`visionflow::WorkSpace::MoveWorkSpace` 时，如果源工作区不存在，则会抛出 :cpp:class:`visionflow::excepts::WorkSpaceNotExists`
+    类型的异常。
+
+.. note::
+
+    执行 :cpp:func:`visionflow::WorkSpace::CopyWorkSpace` 与 :cpp:func:`visionflow::WorkSpace::MoveWorkSpace` 时，如果目标工作区已存在，则会抛出 :cpp:class:`visionflow::excepts::WorkSpaceAlreadyExists`
+    类型的异常。
+
+
+子工作区的管理
+===================
+
+于当前工作区下创建子工作区。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        std::string sub_workspace_name = "sub_workspace_name";
+
+        // 1.子工作区的创建
+        auto sub_workspace_token = workspace.create_sub_workspace(sub_workspace_name);
+
+        // 2.子工作区的移除
+        workspace.remove_sub_workspace(sub_workspace_name);
+
+        // 3.获取所有一级子工作区名称
+        auto sub_workspace_names = workspace.sub_workspace_names();
+
+        // 4.获取子工作区的 token
+        auto sub_workspace_token_2 = workspace.sub_workspace_token(sub_workspace_name);
+
+.. note::
+
+    sub_workspace_name 需要遵守 :cpp:func:`visionflow::ProjectDescriptor::IsValidWorkSpaceName` 的约束规范：
+      - 不能为空；
+      - 不能以空字符开始或结尾；
+      - 不能包含这些特殊字符：{'\', '/', ':', '*', '?', '"', '<', '>', '|'}（因为我们需要兼容 windows 平台，而在 windows 平台下这些字符是被禁止用于文件夹名称的）；
+      - 长度不能超过 200 字节。
+
+.. note::
+
+    执行 :cpp:func:`visionflow::WorkSpace::create_sub_workspace` 时，如果子工作区已存在，则会抛出 :cpp:class:`visionflow::excepts::SubWorkSpaceAlreadyExists`
+    类型的异常。
+
+通过工作区管理工程
+******************
+
+工程的创建，打开与移除
+======================
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 1.在当前工作区下创建一个工程
+        auto pro_desc = workspace.create_project("project_name", "project_remark");
+
+        // 2.打开当前工作区下的一个工程
+        auto pro_ptr = workspace.open_project("project_name");
+
+        // 3.移除当前工作区下的一个工程
+        workspace.remove_project("project_name");
+
+.. note::
+
+    project_name 需要遵守 :cpp:func:`visionflow::ProjectDescriptor::IsValidProjectName` 的约束规范：
+      - 不能为空；
+      - 不能以空字符开始或结尾；
+      - 不能包含这些特殊字符：{'\', '/', ':', '*', '?', '"', '<', '>', '|'}（因为我们需要兼容 windows 平台，而在 windows 平台下这些字符是被禁止用于文件夹名称的）；
+      - 长度不能超过 200 字节。
+
+.. note::
+
+    执行 :cpp:func:`visionflow::WorkSpace::create_project` 时，如果工程已存在，则会抛出 :cpp:class:`visionflow::excepts::ProjectAlreadyExists`
+    类型的异常。
+
+.. note::
+
+    执行 :cpp:func:`visionflow::WorkSpace::open_project` 时，如果工程不已存在，则会抛出 :cpp:class:`visionflow::excepts::ProjectNotExists`
+    类型的异常。
+
+工程列表的获取
+==============
+
+你可以通过 :cpp:func:`visionflow::WorkSpace::project_descriptors` 获取到 workspace 一级目录下所有的工程描述信息 :cpp:class:`visionflow::ProjectDescriptor`。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 获取一级目录下所有工程的描述信息
+        auto pro_descs = workspace.project_descriptors();
+        for(const auto& pro_desc : pro_descs){ // 遍历获取每一个工程描述信息
+            const auto pro_name = pro_desc.project_name;
+        }

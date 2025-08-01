@@ -1,0 +1,102 @@
+工程备份
+===========
+当你想要验证某些更改对训练模型以及其最终结果的影响时(例如修改一些标注或者掩膜)，但是又不想覆盖之前的数据或模型参数和结果，
+你可以选择进行备份。在新的备份中大胆尝试这些更改而不担心影响备份前的工程数据。
+你也可以在不同备份版本之间来回切换来分析不同数据或计算流程图的效果差异。
+备份保证将工程某一时刻的数据集、计算流程和参数等数据完整保存，并且备份后的数据可以随时恢复回来。
+
+.. note::
+    备份可以简单理解为某一时刻的工程的数据快照。我们对文件使用引用计数进行了优化处理，
+    因此单纯备份不会大幅增加工程占用空间。但如果你在不同的备份之间大幅度修改了数据
+    （例如删除数据并重新导入完全不同的数据）则会由于每个备份中的数据都各不相同而需要占用更多空间。
+
+创建备份
+###############
+通过接口 :cpp:func:`std::string visionflow::Project::create_backup(const std::string &backup_name, const std::string &remark)` 创建一个备份，
+该接口会返回创建的备份的实际名称，其中参数 **backup_name** 是备份的名称，如果调用时给定的值为空，
+则会自动以当前时间进行命名，其格式形如："2023-08-10 11:14:37.785"。备份名称是你访问备份的主要ID，
+切换、删除备份时都需要指定备份名称。你可以通过参数参数 **remark** 为备份设置任意备注信息。你也可以通过接口
+:cpp:func:`void visionflow::Project::set_backup_remark(const std::string &backup_name, const std::string &remark)`
+在创建备份后再设置备份信息。
+
+.. warning::
+    如果传入的备份名称已存在，将会抛出异常 :cpp:class:`visionflow::excepts::BackupAlreadyExists` 。
+
+查看备份列表
+#####################
+你通过接口 :cpp:func:`std::vector<std::string> visionflow::Project::backup_names() const` 可以查询到
+工程中存在的所有的备份名称。
+备份的描述信息存储在 **.vflow** 工程信息文件中，包含了备份名称、备份uuid、备份创建的时间以及备份的备注信息。
+你可以通过接口 :cpp:func:`BackupDescriptor visionflow::Project::get_backup_descriptor(const std::string &backup_name) const`
+获得特定备份的备份描述信息。
+
+.. warning::
+    如果该备份不存在，会抛出异常 :cpp:class:`visionflow::excepts::BackupNotExists` 。
+
+切换备份
+###############
+通过接口 :cpp:func:`void visionflow::Project::restore_backup(const std::string &backup_name)`
+从当前的工程版本切换到特定的备份版本。切换备份后，此工程将使用指定备份版本的数据和计算流程图，
+而切换备份前的工程数据都将被覆盖。如果你不想丢失旧数据，确保先将其备份好后再进行切换。如果要切换的备份不存在，会抛出异常。
+
+移除备份
+###############
+通过接口 :cpp:func:`void visionflow::Project::remove_backup(const std::string &backup_name)` 移除某个特定的备份版本。
+如果给定的备份不存在则不会发生任何事情。
+
+
+以下示例代码展示了如何创建两个备份，并进行备份切换：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // create Project
+        visionflow::ProjectDescriptor desc;
+        desc.workspace_token = "D:/the/path/to/workspace";
+        desc.project_name = "example";
+        auto out_desc = visionflow::Project::Create(desc);
+
+        auto project = visionflow::Project::Open(desc);
+
+        // add some tool to Project
+        std::string input_id = project->add_tool("Input");
+        std::string segmentation_id = project->add_tool("Segmentation");
+
+        // create backup_1
+        std::string backup_1 = project->create_backup();
+
+        project->remove_tool(input_id);
+        project->remove_tool(segmentation_id);
+
+        // create backup_2
+        auto backup_2 = project->create_backup();
+        // now Project has no tool
+
+        // view all backups
+        assert(project->backup_names() ==
+           std::vector<std::string>{backup_1, backup_2});
+
+        // switch to backup_1, which contains Input tool and Segmentation tool
+        project->restore_backup(backup_1);
+        auto tools = project->tool_list();
+        assert(std::find(tools.begin(), tools.end(), input_id) !=
+                tools.end());
+        assert(std::find(tools.begin(), tools.end(), segmentation_id) !=
+                tools.end());
+
+        // switch to backup_2, which contains no tool
+        project->restore_backup(backup_2);
+        assert(project->tool_list().empty());
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO

@@ -1,0 +1,11 @@
+# 快捷方式
+
+入口：帮助-快捷键提示  
+
+![](./image/kjfs/kjj01.png)
+
+![](./image/kjfs/kjj02.png)
+
+![](./image/kjfs/kjj03.png)
+
+![](./image/kjfs/kjj04.png)

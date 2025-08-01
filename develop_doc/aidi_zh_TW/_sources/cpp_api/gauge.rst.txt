@@ -1,0 +1,99 @@
+Gauge Parameters and Tools
+===============================================================================
+
+
+Gauge Parameters
+-------------------------------------------------------------------------------
+
+.. doxygenstruct:: visionflow::gauge::AnnularSection
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::OneSideScoreFunc
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::TwoSideScoreFunc
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::CaliperSingleEdgeScoreFunc
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::CaliperEdgePairScoreFunc
+   :members:
+
+.. doxygenenum:: visionflow::gauge::ExecuteStatus
+
+.. doxygenenum:: visionflow::gauge::AnnularDirectionMode
+
+.. doxygenenum:: visionflow::gauge::FitType
+
+.. doxygenenum:: visionflow::gauge::EdgePolarityMode
+
+.. doxygenenum:: visionflow::gauge::EdgeOrderMode
+
+Gauge Tools
+-------------------------------------------------------------------------------
+
+.. doxygenstruct:: visionflow::gauge::CaliperedSingleEdgePoint
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::CaliperedSingleEdgePointSet
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::caliper_single_edge
+
+.. doxygenstruct:: visionflow::gauge::CaliperedEdgePairPoint
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::CaliperedEdgePairPointSet
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::caliper_edge_pair
+
+.. doxygenstruct:: visionflow::gauge::CaliperedAnnularPoint
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::CaliperedAnnularPointSet
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::caliper_annular
+
+.. doxygenstruct:: visionflow::gauge::EdgePointWithStatus
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::FoundLine
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::find_line
+
+.. doxygenstruct:: visionflow::gauge::FoundCircle
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::find_circle
+
+.. doxygenstruct:: visionflow::gauge::FoundTipPointPostion
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::find_tip_point_position
+
+.. doxygenstruct:: visionflow::gauge::FittedLine
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::fit_line
+
+.. doxygenstruct:: visionflow::gauge::FittedCircle
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::fit_circle
+
+.. doxygenstruct:: visionflow::gauge::FittedEllipse
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::fit_ellipse
+
+.. doxygenstruct:: visionflow::gauge::Pitch
+   :members:
+
+.. doxygenstruct:: visionflow::gauge::PitchSet
+   :members:
+
+.. doxygenfunction:: visionflow::gauge::gauge_pitch

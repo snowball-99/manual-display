@@ -1,0 +1,24 @@
+C++ API Reference
+########################################################################
+
+.. toctree::
+   :maxdepth: 1
+
+   namespace.rst
+   global_setting.rst
+   core.rst
+   common.rst
+   helpers.rst
+   compatible.rst
+   sampleset.rst
+   props.rst
+   param.rst
+   confs.rst
+   opers.rst
+   tools.rst
+   node_names.rst
+   image.rst
+   geometry.rst
+   gauge.rst
+   excepts.rst
+   datapack.rst

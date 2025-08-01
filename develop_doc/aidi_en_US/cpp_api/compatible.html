@@ -1,0 +1,480 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Sample Set Management" href="sampleset.html" /><link rel="prev" title="Helper Utilities" href="helpers.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Compatibility - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="cpp_index.html">C++ API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="compatibility">
+<h1>Compatibility<a class="headerlink" href="#compatibility" title="Link to this heading">#</a></h1>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevelE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevelE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevelE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow10compatibleE" title="visionflow::compatible"><span class="n"><span class="pre">compatible</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">CompatLevel</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevelE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Compatibility level. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel16kFullyCompatibleE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel16kFullyCompatibleE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel16kFullyCompatibleE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553a7732c7762a908f621c2316e04b60509f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kFullyCompatible</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel16kFullyCompatibleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L1, Fully Compatible - The new version of the library is not only fully compatible with the data from the old version, but also the main processing logic of the data has not changed at all. This usually means that the new version has only fixed some bugs that have no negative impact whatsoever or added some new features unrelated to the data. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel15kDataCompatibleE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel15kDataCompatibleE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel15kDataCompatibleE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553a31ecd22b8f2a2f17fac87b49842d9e1e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kDataCompatible</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel15kDataCompatibleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L2, Data Compatible - The new version of the library is capable of being fully compatible with data from the old version, but some processing logic has changed, which may lead to slightly different outcomes for the same data. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel20kAutoLogicCompatibleE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel20kAutoLogicCompatibleE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel20kAutoLogicCompatibleE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553ae40d8b77f0fec0c22f4a6d8aaf23011d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kAutoLogicCompatible</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel20kAutoLogicCompatibleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L3, Auto Logic Compatible - The data content written by the new version of the library has changed, but the new version has automatically implemented compatibility measures to ensure that the new library can directly read data from the old version without requiring any additional processing. However, the data that has been opened and modified by the new version of the library may have undergone incompatible changes in format and content, making it no longer suitable for use with the old version of the library. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel18kUpgradeCompatibleE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel18kUpgradeCompatibleE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel18kUpgradeCompatibleE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553a19f9cbe377c731d321451ac493808715"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kUpgradeCompatible</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel18kUpgradeCompatibleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L4, Upgrade Compatible - The new version of the library can no longer directly read data from the old version. However, we have provided an additional automatic upgrade feature. This feature involves making proactive modifications to certain parts of the old version’s data, enabling it to be recognized and utilized by the new version of the library. It’s important to note that automatic upgrading might involve the removal of outdated content from the old data and the inclusion of default values for data required by the new version of the library. These modifications could result in the upgraded data no longer maintaining the same effects and performance as the old data. You may need to edit the upgraded data according to your requirements (such as adjusting annotations, modifying parameters, or retraining models) to ensure that your project functions correctly with the upgraded data. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel13kIncompatibleE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel13kIncompatibleE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel13kIncompatibleE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553aaf9866b009d67f2ddaee808631095fd7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kIncompatible</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel13kIncompatibleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L5, Incompatible - The new version of the library no longer supports reading data from the old version, and direct upgrading is not possible. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible11CompatLevel15kUnrecognizableE">
+<span id="_CPPv3N10visionflow10compatible11CompatLevel15kUnrecognizableE"></span><span id="_CPPv2N10visionflow10compatible11CompatLevel15kUnrecognizableE"></span><span class="target" id="namespacevisionflow_1_1compatible_1aceeab3cd541ca7b0004966dc24cbc553a1a6d20af3822d10175454095bc7b1fe6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kUnrecognizable</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><a class="headerlink" href="#_CPPv4N10visionflow10compatible11CompatLevel15kUnrecognizableE" title="Link to this definition">#</a><br /></dt>
+<dd><p>L6, Unrecognizable - Unrecognized project data. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible18query_upgrade_pathERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N10visionflow10compatible18query_upgrade_pathERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N10visionflow10compatible18query_upgrade_pathERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="visionflow::compatible::query_upgrade_path__ssCR.ssCR.std::vector:ss:CR"></span><span class="target" id="namespacevisionflow_1_1compatible_1afe79512338698605db64722815ca409a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow10compatibleE" title="visionflow::compatible"><span class="n"><span class="pre">compatible</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">query_upgrade_path</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">old_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">new_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modules</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow10compatible18query_upgrade_pathERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Query the update path from the old version to the new version. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_version</strong> – The old library version which the project created by. </p></li>
+<li><p><strong>new_version</strong> – The new library version which the project will be upgraded to. </p></li>
+<li><p><strong>modules</strong> – The modules list in the project. All modules will be include if this list is empty. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>std::vector&lt;std::string&gt; The upgrade path. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible19compatibility_levelERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N10visionflow10compatible19compatibility_levelERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N10visionflow10compatible19compatibility_levelERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="visionflow::compatible::compatibility_level__ssCR.ssCR.std::vector:ss:CR"></span><span class="target" id="namespacevisionflow_1_1compatible_1a9477e87390d500e1f7c4b07404632ae7"></span><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevelE" title="visionflow::compatible::CompatLevel"><span class="n"><span class="pre">CompatLevel</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow10compatibleE" title="visionflow::compatible"><span class="n"><span class="pre">compatible</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">compatibility_level</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">old_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">new_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modules</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow10compatible19compatibility_levelERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get Compatibility level between two versions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_version</strong> – The old version (The project data version). </p></li>
+<li><p><strong>new_version</strong> – The new library version. </p></li>
+<li><p><strong>modules</strong> – The modules list in the project. All modules will be include if this list is empty. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CompatLevel The compatibility level. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible18compatibility_infoERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N10visionflow10compatible18compatibility_infoERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N10visionflow10compatible18compatibility_infoERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"></span><span id="visionflow::compatible::compatibility_info__ssCR.ssCR.std::vector:ss:CR"></span><span class="target" id="namespacevisionflow_1_1compatible_1a7db0239651ddc381a41ba7f3ad58c39a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow10compatibleE" title="visionflow::compatible"><span class="n"><span class="pre">compatible</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">compatibility_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">old_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">new_version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modules</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow10compatible18compatibility_infoERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the compatibility information between two versions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_version</strong> – The old version (The project data version). </p></li>
+<li><p><strong>new_version</strong> – The new library version. </p></li>
+<li><p><strong>modules</strong> – The modules list in the project. All modules will be include if this list is empty. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>std::string The compatibility information encoded in JSON format, for example: <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10compatible21compatibility_historyERKNSt6stringE">
+<span id="_CPPv3N10visionflow10compatible21compatibility_historyERKNSt6stringE"></span><span id="_CPPv2N10visionflow10compatible21compatibility_historyERKNSt6stringE"></span><span id="visionflow::compatible::compatibility_history__ssCR"></span><span class="target" id="namespacevisionflow_1_1compatible_1a44de33f584b565c599dc2e0108bb37cf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace.html#_CPPv4N10visionflow10compatibleE" title="visionflow::compatible"><span class="n"><span class="pre">compatible</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">compatibility_history</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">version</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow10compatible21compatibility_historyERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the whole compatibility records(with json format) about all history versions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version</strong> – The version of the compatibility records. If this parameter is not set, all versions will be returned. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>std::string The compatibility records encoded in JSON format. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="sampleset.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Sample Set Management</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="helpers.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Helper Utilities</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Compatibility</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevelE"><code class="docutils literal notranslate"><span class="pre">CompatLevel</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel16kFullyCompatibleE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kFullyCompatible</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel15kDataCompatibleE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kDataCompatible</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel20kAutoLogicCompatibleE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kAutoLogicCompatible</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel18kUpgradeCompatibleE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kUpgradeCompatible</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel13kIncompatibleE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kIncompatible</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible11CompatLevel15kUnrecognizableE"><code class="docutils literal notranslate"><span class="pre">CompatLevel::kUnrecognizable</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible18query_upgrade_pathERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">query_upgrade_path()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible19compatibility_levelERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">compatibility_level()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible18compatibility_infoERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">compatibility_info()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10compatible21compatibility_historyERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">compatibility_history()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

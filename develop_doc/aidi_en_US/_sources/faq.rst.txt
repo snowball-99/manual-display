@@ -1,0 +1,85 @@
+常见问题及解决方案
+##################
+
+推理时如何能够快速传递图像数据?
+-----------------------------------------
+
+:cpp:class:`visionflow::img::Image` 支持直接接受数据指针传递内存中的图像数据，你可以像下面这样直接将
+内存中的图像数据指针传递给 :cpp:class:`visionflow::img::Image` ，从而实现零拷贝传递图像数据：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        void * data_ptr = get_image_data_ptr(); // 获取数据指针
+
+        vflow::img::Image image(data_ptr, // 数据指针
+                                height, //图像高度/行数
+                                width, // 图像宽度/列数
+                                channel, // 图像通道数
+                                flow::img::Image::kDepthU8, // 图像数据类型
+                                0); // 图像行之间间隔的长度，以字节为单位
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        // 假设已有内存数据byte[]，其中存储了图像的数据内容：
+        byte[] array = new byte[length];
+
+        // 你可以获取byte array的数据指针，也可以是其他指向图像数据的指针
+        // 在C#中这是一个unsafe的行为，因此需要在工程“属性->生成”中勾选“允许不安全代码”。
+        IntPtr data_ptr = System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(array, 0);
+
+        var image2 = new visionflow.img.Image(
+                                data_ptr, // 数据指针
+                                height, //图像高度/行数
+                                width, // 图像宽度/列数
+                                channel, // 图像通道数
+                                visionflow.img.Image.Depth.kDepthU8,
+                                0); // 图像行之间间隔的长度，以字节为单位
+
+值得注意的是，使用上面的方法传递数据，需要注意以下几点：
+
+1. :cpp:class:`visionflow::img::Image` 不会管理传入数据指针的释放，用户需要自行合理维护构造得到的图像对象和数据指针的生存期关系
+   确保数据指针晚于构造的图像对象释放，以免发生错误。以及确保数据指针指向的数据不会被外部错误修改导致产生预期外的结果。
+2. 一般情况下，VisionFlow在推理过程中不会修改样本中的图像数据，但用户需要避免自行将图像传递给可能会修改图像内容的函数
+   （例如 :cpp:func:`visionflow::img::draw`），以免图像数据被错误修改；
+3. VisionFlow中图像数据内容是按照 H x W x C 的形式排列的，且对于彩色图像，数据需要以 ``BGRBGR`` 的顺序排列，
+   用户需要确保传入的数据内容的排布方式与VisionFlow要求的数据排布方式一致，且数据长与给定图像的的大小匹配。
+
+如果你的数据在内存中不是按照 ``BGRBGR`` 的形式排布的，而是以其他例如 ``RGBRGB`` 或 ``RGBARGBA`` 等形式排列的，对于这些情况，
+我们提供了转换函数 :cpp:func:`visionflow::img::data_to_image` 用于转换数据格式，你可以像下面这样使用它：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        void * data_ptr = get_image_data_ptr(); // 获取数据指针
+
+        uint32_t padding_size = 0;
+        // 如果数据指针指向的是一个大图像中的某个ROI，则需设置ROI中每行数据尾部扩充的像素数。
+        // uint32_t padding_size = raw_width - roi_width;
+
+        vflow::Image image = vflow::img::data_to_image(data_ptr, // 数据指针
+                                               height, //图像高度/行数
+                                               width, // 图像宽度/列数
+                                               vflow::img::kColorRGBA, // 数据指针中的图像数据排布方式
+                                               vflow::img::kBGR, // 目标图像格式，支持 kBGR 和 kGray
+                                               padding_size); // 原图像数据中每行尾部扩充的像素数，以像素为单位
+.. tab:: C#
+
+    .. code-block:: csharp
+
+        var data_ptr = get_image_data_ptr(); // 获取数据指针
+
+        uint padding_size = 0;
+        // 如果数据指针指向的是一个大图像中的某个ROI，则需设置ROI中每行数据尾部扩充的像素数。
+        // uint padding_size = raw_width - roi_width;
+
+        var image = visionflow_img_global.data_to_image(
+                        data_ptr, // 数据指针
+                        height, //图像高度/行数
+                        width, // 图像宽度/列数
+                        visionflow.img.ColorSpace.kColorRGBA, // 数据指针中的图像数据排布方式
+                        visionflow.img.ColorType.kBGR, // 目标图像格式，支持 kBGR 和 kGray
+                        padding_size); // 原图像数据中每行尾部扩充的像素数，以像素为单位

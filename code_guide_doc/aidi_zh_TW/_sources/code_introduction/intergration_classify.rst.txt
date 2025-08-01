@@ -1,0 +1,64 @@
+Comprehensive judgment script editing guide
+######################################################
+
+Basic instructions
+*********************
+
+The script currently only supports Python language and supports Python versions 3.10 and above
+
+Basic Principles
+************************
+
+The judgment script processes each Sample through an entry function and returns a unique str type judgment result.
+
+How to write a judgment script
+**************************************
+
+Determine entry function
++++++++++++++++++++++++++++
+
+ .. code-block:: python
+
+        def integration_classifier(sample: vf.ISample) -> Tuple[str, Dict[str, str]]
+
+Basic examples
+++++++++++++++++++++++++
+
+Requirement: A project consisting of detection and segmentation tools, with the detection tool name Loc-1 and segmentation tool name Seg-2. If the segmentation tool detects defects with an area greater than 250 and an average grayscale value greater than 20 in the NG category, it is judged as NG; otherwise, it is judged as OK
+    
+.. tab:: Python
+
+    .. code-block:: python
+
+        #coding=utf-8
+        # First, import the file into the database
+        import visionflow as vf
+
+        # Introducing a geometric calculation library
+        from visionflow import geometry as geo
+
+        # Introducing Image Computing Library
+        from visionflow.img import *
+
+        # Calculate the average grayscale of the region
+        def image_mean_gray(prop_img, poly, min_gray, max_gray):
+            polys = geo.MultiPolygon2f([poly])
+            return min_gray < mean(prop_img.image(), polys) < max_gray
+
+        # Define the entry function integration_classifier
+        def integration_classifier(sample : vf.ISample) -> Tuple[str, Dict[str, str]]:
+            extension_data: Dict[str, str] = {}
+            # Obtain the inference results of the specified tool
+            region_list = sample.get(vf.ToolNodeId("Seg-2/pred"))
+            # Obtain the corresponding image. If image attribute judgment is not required, it can be omitted
+            img = sample.get(vf.ToolNodeId("Input/image"))
+            # Judge all inference result regions
+            for id, region in region_list : 
+                if region.area() > 250 and region.name() == "NG" and image_mean_gray(img,region.polygon(), 20, 255):
+                    return "NG"
+            extension_data["judge_condition"] = "area>250, name=NG"
+            return "OK", extension_data
+
+List of commonly used functions
+++++++++++++++++++++++++++++++++++++
+List of commonly used functions during script editing process, please refer to: :doc:`common use funtion list <../common_function>`

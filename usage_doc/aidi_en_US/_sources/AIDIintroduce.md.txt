@@ -1,0 +1,9 @@
+# Introduction to AIDI
+AIDI (Artificial Intelligent Defect Inspection) is a platform software developed by Aqrose Technology for industrial visual inspection, used to solve complex defect location, detection, classification and character recognition problems. The software has several built-in application modules that require no programming experience, helping users to quickly build and iterate models. It can meet the distinct needs of different application scenarios, supports quality control and yield improvement, and has strong detection capabilities.
+    
+
+
+
+Business cooperation: contact@aqrose.com
+
+Company website: www.aqrose.com

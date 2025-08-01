@@ -1,0 +1,98 @@
+Property Types
+===============
+
+.. doxygenclass:: visionflow::props::IProperty
+   :members:
+
+.. doxygenclass:: visionflow::props::Image
+   :members:
+
+.. doxygenclass:: visionflow::props::ImageUserData
+   :members:
+
+.. doxygenclass:: visionflow::props::RawImageInfo
+   :members:
+
+.. doxygenclass:: visionflow::props::ViewList
+   :members:
+
+.. doxygenclass:: visionflow::props::TaggedPolygonList
+   :members:
+
+.. doxygenstruct:: visionflow::props::IRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::PolygonRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::MultiNamesPolygonRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::IDReaderRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::PolygonWithStringMapRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::RotateRectRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::GaugeRegionList
+   :members:
+
+.. doxygenclass:: visionflow::props::FeatureMap
+   :members:
+
+.. doxygenenum:: visionflow::props::MatchResult
+
+.. doxygenclass:: visionflow::props::RegionMatchResultList
+   :members:
+
+.. doxygenclass:: visionflow::props::StringMessage
+   :members:
+
+Property Base Types
+--------------------
+
+.. doxygenclass:: visionflow::View
+   :members:
+
+.. doxygenenum:: visionflow::SplitTag
+
+.. doxygenclass:: visionflow::Tags
+   :members:
+
+.. doxygenclass:: visionflow::TaggedView
+   :members:
+
+.. doxygenclass:: visionflow::TaggedPolygon
+   :members:
+
+.. doxygenclass:: visionflow::IRegion
+   :members:
+
+.. doxygenclass:: visionflow::PolygonRegion
+   :members:
+
+.. doxygenclass:: visionflow::MultiNamesPolygonRegion
+   :members:
+
+.. doxygenclass:: visionflow::PolygonWithStringMapRegion
+   :members:
+
+.. doxygenclass:: visionflow::RotateRectRegion
+   :members:
+
+.. doxygenclass:: visionflow::IDReaderRegion
+   :members:
+
+.. doxygenenum:: visionflow::IDReaderType
+
+.. doxygenclass:: visionflow::GaugeRegion
+   :members:
+
+Drawing Properties on Image
+----------------------------
+
+.. doxygenstruct:: visionflow::DrawOptions
+   :members:

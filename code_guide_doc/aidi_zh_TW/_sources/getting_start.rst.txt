@@ -1,0 +1,63 @@
+Script Editor Getting Started Guide
+#####################################
+
+Function template
+*********************
+
+Function template function description
++++++++++++++++++++++++++++++++++++++++++++++++++
+The AIDI Script Editor provides some commonly used auxiliary functions that can be directly inserted into scripts as Function templates. At the same time, it provides a Function template management function, so that users can encapsulate commonly used functions as templates for reuse during subsequent script editing. Built in Function Template, please refer to :doc:`Instructions for Built in Function Template<helper_function>`
+
+How to view existing Function templates
+++++++++++++++++++++++++++++++++++++++++++++++++
+Click the "Function Template Management" button in the upper right corner to open the function management template interface, where the list on the left displays the list of existing template functions.
+
+Custom Function Template
+++++++++++++++++++++++++++++++++++
+.. image:: images/cs_help_judgment_standard_function_management_cn.png
+
+
+.. image:: images/cs_help_add_function_cn.png
+
+#. Script Editor - Function template management in the upper right corner
+#. New - Enter function alias - Enter function description - Enter edited function content - Click register
+#. Registration check: Functions have no duplicate names, no single functions, and other unknown non runnable reasons. If it does not meet the requirements, it needs to be modified and registered (if you want to temporarily check to the next step through registration, you can use Ctrl+Z to restore to the initial state, or comment out all current function contents)
+
+
+Batch Export - Batch Import Function Template
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+AIDI supports exporting Function templates in bulk and then importing them on other machines to achieve multi person sharing of Function templates.
+
+.. image:: images/cs_help_batch_import_and_batch_export_cn.png
+
+#. Script Editor - Function template management in the upper right corner
+#. Select the function export label next to the "Function List" - Select the export path - Complete batch export
+#. At the comprehensive judgment node of any AIDI project that needs to be imported, select the function import label next to the "Function List" - Batch select the address where the function is located - Complete batch import (function import will perform function alias and name deduplication) - Complete batch import
+
+How to Insert Function Template into Script Editing Area
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Select the code line for inserting the Function template in the script editing area, and enter ``templ.``, The script editor will list all Function templates, and then select the Function template that needs to be inserted to directly insert it.
+
+User variables
+*********************
+
+User variables function description
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+After exporting the AIDI model, in order to facilitate the modification of script variables during secondary development, it is recommended that users manage all variables that may need to be set using User variables instead of directly writing them into the script code. The current User variables only support Number, String, and Bool types.
+
+How to set User variables
++++++++++++++++++++++++++++
+
+Click on Add User variables in the User variables settings section on the left and set the value.
+
+How to use User variables in scripts
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+User variables are stored in the global variable ``VFLOW_USER_VARS``, which is a Python dict. Assuming you want to access User variables with the name var0, you can directly use ``VFLOW_USER_VARS ["var0"]`` in the script to access them.
+
+Convenient debugging
+**************************
+
+AIDI scripts support printing variables directly to the log area through the ``print`` function, and can be viewed directly in the script log area in the bottom left corner.
+

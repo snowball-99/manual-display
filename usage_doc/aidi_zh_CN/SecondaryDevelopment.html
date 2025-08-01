@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>二次开发指南 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="快捷方式" href="Shortcut.html" />
+    <link rel="prev" title="最优性能指南" href="UserGuide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">软件安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">软件介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">实操教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最优性能指南</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">二次开发指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">建议开发运行环境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualstudio">导出可直接运行的VisualStudio示例工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">导出示例代码</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#c">C++依赖准备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">C#依赖准备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aidi">AIDI 二次开发模块使用指南</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">业务联系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律声明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">二次开发指南</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/SecondaryDevelopment.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>二次开发指南<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>引言<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>AIDI 3.2 提供了一个用户友好的二次开发辅助功能，使得用户可以在 GUI 界面上根据自己的AI模块和参数配置导出定制化的示例代码、模型与文档。这一过程不仅简化了集成流程，还确保了用户能够针对其特定的业务需求进行高效的二次开发，加速了 AI 技术在实际产业应用中的落地。</p>
+</section>
+<section id="id3">
+<h2>建议开发运行环境<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>开发系统： Win 10​/11
+编译工具： Visual Studio 2022（最小支持Visual Studio 2013）
+目标框架：支持.NET Framework 4.5以上</p>
+</section>
+<section id="visualstudio">
+<h2>导出可直接运行的VisualStudio示例工程<a class="headerlink" href="#visualstudio" title="Link to this heading"></a></h2>
+<p>第一步：</p>
+<p><img alt="Alt text" src="_images/image-267.png" /></p>
+<p>第二步：</p>
+<p><img alt="Alt text" src="_images/image-268.png" /></p>
+<p>第三步：</p>
+<p><img alt="Alt text" src="_images/image-269.png" /></p>
+<p>第四步：
+选择开发语言以及模块</p>
+<p><img alt="Alt text" src="_images/image-270.png" /></p>
+<p>第五步：
+选择导出路径，定义模型名称
+第六步：
+点击导出即可</p>
+</section>
+<section id="id4">
+<h2>导出示例代码<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="c">
+<h3>C++依赖准备<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<p>第一步：创建VS工程</p>
+<p><img alt="Alt text" src="_images/image-279.png" /></p>
+<p><img alt="Alt text" src="_images/image-280.png" /></p>
+<p>第二步：复制 CPP 文件到你的本地项目中
+将导出的 example.cpp 文件内容粘贴到 VS 中的 .cpp 文件中。</p>
+<p>第三步：配置项目
+打开 Visual Studio 并加载您的项目。在“解决方案资源管理器”中，找到您想要配置的项目。右键单击项目名称，从弹出的上下文菜单中选择“属性”选项。</p>
+<p><img alt="Alt text" src="_images/image-281.png" /></p>
+<p>在“属性页”窗口中，导航到“配置属性” -&gt; “VC++目录”。</p>
+<p><img alt="Alt text" src="_images/image-282.png" /></p>
+<p>在“包含目录”字段中，添加 AIDI 安装包内的“develop/C++/include”文件夹的路径。 这个文件夹包含必要的头文件。你可以手动输入路径，也可以使用右侧“下拉”按钮浏览并选择文件夹。</p>
+<p><img alt="Alt text" src="_images/image-283.png" /></p>
+<p>在“库目录”字段中，添加 AIDI 安装包内的“develop/C++/lib”文件夹的路径。 这个文件夹包含必要的库文件。同样，你可以手动输入路径，也可以使用“下拉”按钮浏览并选择文件夹。</p>
+<p><img alt="Alt text" src="_images/image-284.png" /></p>
+<p>转到“配置属性” -&gt; “链接器” -&gt; “输入”，在“附加依赖项”字段中，添加“visionflow.if.lib”。</p>
+<p><img alt="Alt text" src="_images/image-285.png" /></p>
+<p>如使用Debug模式，转到“配置属性” -&gt; “链接器” -&gt; “调试”，需确认“生成调试信息”字段选择“生成调试信息（/DEBUG）”。</p>
+<p><img alt="Alt text" src="_images/image-286.png" /></p>
+<p>如使用中文工具名或中文路径名，转到“配置属性” -&gt; “高级“，需确认”字符集“字段<strong>不要</strong>选择”未设置“。</p>
+<p><img alt="Alt text" src="_images/image-287.png" /></p>
+<p>注：环境变量，需注意环境变量的优先级，上面的环境变量优先级高于下面的环境变量。</p>
+</section>
+<section id="id5">
+<h3>C#依赖准备<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>第一步：创建VS工程</p>
+<p><img alt="Alt text" src="_images/image-288.png" /></p>
+<p><img alt="Alt text" src="_images/image-289.png" /></p>
+<p>第二步：将导出的 example.cs 文件内容粘贴到你自己的 .cs 文件中。
+第三步：配置项目</p>
+<ol class="simple">
+<li><p>将 AIDI 安装目录内的“develop/csharp/visionflow.cs”文件复制到你的 C# 项目中的所需位置。</p></li>
+<li><p>在“解决方案资源管理器”中点击“显示所有文件”，找到“visionflow.cs”并右键点击，选择“包括在项目中”。</p></li>
+<li><p>对于目标框架为.NET Framework的 C# 项目，需要额外的配置。在“解决方案资源管理器”中，右键点击你的项目， 从上下文菜单中选择“属性”。选择“生成”，确保“首选32位”未选中。
+注：环境变量，需注意环境变量的优先级，上面的环境变量优先级高于下面的环境变量。</p></li>
+</ol>
+</section>
+<section id="aidi">
+<h3>AIDI 二次开发模块使用指南<a class="headerlink" href="#aidi" title="Link to this heading"></a></h3>
+<p>1.打开AIDI软件
+启动 AIDI 软件，进入主界面。</p>
+<p><img alt="Alt text" src="_images/image-290.png" /></p>
+<p>2.访问具体的工程并选择“模型与示例代码导出”</p>
+<p><img alt="Alt text" src="_images/image-291.png" /></p>
+<p>在 GUI 界面中，在菜单栏“模型”中选择“模型与示例代码导出”。</p>
+<p><img alt="Alt text" src="_images/image-292.png" /></p>
+<p>3.选择所需导出的 AI 配置</p>
+<p>开发语言
+模块
+导出路径
+模型名称</p>
+<p>4.导出二次开发示例
+完成导出配置后，点击“导出”按钮。本地将生成二次开发所需的示例代码，包括CPP文件、模型文件等和相应的Readme文档。</p>
+<p>5.阅读Readme文档
+导出完成后，打开Readme文档。该文档包含了如何使用导出的CPP示例代码以及如何将AI模块集成到您的业务系统中的详细说明和准备步骤。（其中 C# 和 C++ 的要求不同！）</p>
+<p><img alt="Alt text" src="_images/image-293.png" /></p>
+<p>6.集成到业务系统
+按照Readme文档中的指导，将CPP示例代码集成到您的业务系统或产线中。您可能需要根据自己的系统环境和需求对代码进行适当的修改和调整，具体可参照示例中的注释等。</p>
+<p>7.测试和验证
+在集成了AI模块代码后，进行充分的产线测试以确保一切工作正常。同时验证AI模块的功能是否符合您的业务需求，并确保其在实际产线环境中稳定运行。
+请注意，具体的操作步骤可能会根据AIDI软件的版本和界面设计有所不同。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="UserGuide.html" class="btn btn-neutral float-left" title="最优性能指南" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Shortcut.html" class="btn btn-neutral float-right" title="快捷方式" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

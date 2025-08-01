@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIDI3.2使用说明文档 &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="版本更新說明" href="Release.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">產品簡介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">軟體安裝說明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">軟體介紹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介紹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">實操教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最優效能指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次開發指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">業務聯繫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律聲明</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AIDI3.2使用说明文档</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aidi3-2">
+<h1>AIDI3.2使用说明文档<a class="headerlink" href="#aidi3-2" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Release.html">版本更新說明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id2">3.3.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id3">演算法升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id4">軟體升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id5">優化及易用性提升</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id6">3.2.2版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id7">軟體升級</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id8">3.2.1版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id9">軟體升級</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id10">3.2.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id11">二次開發升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id12">軟體升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id13">算法升級</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id14">3.1.3版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id15">3.1.2版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id16">3.1.1版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id17">3.1.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id18">算法升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id19">重點軟體升級：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id20">二次開發升級：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id21">3.0.2版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id22">3.0.1版本更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id23">3.0.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id24">重點演算法優化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id25">其他算法升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id26">重點軟體功能升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id27">其他軟體功能升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id28">二次開發升級</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id29">2.4.5版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id30">軟體優化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id31">修復：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id32">2.4.4版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id33">演算法優化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id34">軟體優化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id35">修復：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id36">二次開發：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id37">修復：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id38">2.4.3版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id39">優化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id40">修復：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id41">2.4.2版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id42">優化：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id43">2.4.1版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id44">優化：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id45">修復：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Release.html#id46">2.4.0版本更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id47">算法升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id48">算法流程升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id49">軟體功能升級</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Release.html#id50">二次開發更新</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AQROSEintroduce.html">公司概述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AQROSEintroduce.html#id2">企業精神</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AQROSEintroduce.html#id3">使命</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AQROSEintroduce.html#id4">願景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AQROSEintroduce.html#id5">價值觀</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">產品簡介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#aidi">AIDI介紹</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id2">系統要求</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AIDIintroduce.html#id3">運行版系統要求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AIDIintroduce.html#id4">開發版系統要求</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id5">AIDI各算法塊場景介紹</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AIDIintroduce.html#ai">AI算法模組</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AIDIintroduce.html#id6">工具</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id7">關鍵產品流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html#id8">軟體安裝說明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id9">安裝步驟</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id10">AIDI許可說明：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AIDIintroduce.html#id11">初始化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Moreintro.html">軟體介紹</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id2">功能佈局</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id3">術語概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id4">專案管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id5">專案管理示範使用方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id6">圖像操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id7">導入圖像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id8">數據匯出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id9">數據導入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id10">不同模組之間標註互相支援：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id11">相容舊版本標註</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id12">相容說明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id13">操作步驟</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id14">協力廠商標註導入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id15">圖像列表功能</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id16">添加工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id17">數據標註</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id18">畫筆工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id19">多邊形繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id20">矩形繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id21">單點繪製工具：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id22">內容系統：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id23">標註模式</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id24">缺陷標註模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id25">重點學習區域繪製模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id26">不學習區域繪製模式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id27">標籤管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id28">標註篩選</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id29">標註分佈</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#tag">Tag管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id30">視圖操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id31">視圖過濾</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id32">視圖變換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id33">視圖掩膜</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id34">視圖轉換-圖像列表篩選</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id35">添加訓練集</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id36">自動劃分（模型訓練助手）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id37">數據劃分</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Moreintro.html#id38">訓練集推薦</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id39">手動劃分：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id40">訓練</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id41">訓練調參</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id42">執行訓練</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id43">推理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id44">推理調參</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id45">執行推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id46">評估結果</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id47">混淆矩陣</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id48">類別概覽</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id49">模型詳情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id50">訓練過程曲線</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id51">更多</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id52">圖像篩選</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id53">篩選</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id54">排序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id55">清單右鍵菜單</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id56">功能表列</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id57">文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id58">版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id59">工具</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id60">圖像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id61">訓練推理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id62">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id63">設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id64">視窗</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id65">幫助</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html#id66">版本升級工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Moreintro.html#id67">使用方法：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="moduleintro.html">工具使用介紹</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id2">使用分割工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id3">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id4">步驟2：添加標籤類別</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id5">步驟3: 對缺陷區域進行標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id6">步驟4： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id7">步驟5：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id8">步驟6：調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id9">步驟7：開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id10">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id11">更多</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id12">使用檢測工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id13">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id14">步驟2：添加標籤類別</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id15">步驟3: 對檢測區域進行標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id16">步驟4： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id17">步驟5：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id18">步驟6：開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id19">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id20">更多</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id21">使用定位工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id22">步驟1：選擇算法類型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#ai">步驟2：AI 定位</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id23">單點定位</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id24">設定模板</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id25">步驟2.4： AI 定位 - 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id26">步驟2.5：AI 定位 - 調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id27">步驟2.6：AI 定位 - 調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id28">步驟2.7：AI 定位 - 開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id29">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id30">更多</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id31">步驟 3： 幾何匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id32">步驟 3.1： 幾何匹配 - 設置視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id33">步驟 3.2：幾何匹配 - 添加標籤類別</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id34">步驟 3.3：幾何匹配 - 對檢測區域進行標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id35"><strong>步骤 3.4：幾何匹配 - 劃分訓練集</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id36">步骤 3.5：幾何匹配 - 調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id37">步骤 3.6：幾何匹配 - 調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id38">步骤 3.7：幾何匹配 - 調整推理 參數</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id39">使用裝配檢查工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id40">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id41">步驟2：添加標籤類別</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id42">步驟3: 對檢測區域進行標註</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id43">單點定位</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id44">設定模板</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id45">步驟4： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id46">步驟5：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id47">步驟6：調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id48">步驟7：開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id49">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id50">更多</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id51">使用字元識別工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id52">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id53">步驟2: 調整字元標準框</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id54">步驟3: 直接推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id55">手動標註【推薦啟用待定標籤，可以快速標註一串字元】</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id56">通用模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id57">設定模板</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id58">步驟4： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id59">步驟5：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id60">步驟6：調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id61">步驟7：開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id62">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id63">更多</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#ocr">OCR混淆矩陣</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id64">使用非監督分割工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id65">步驟 1：選擇非監督分割算法類型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#dl">步驟 2：DL 非監督分割</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id66">步驟 2.1：DL 非監督分割 - 設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#dl-ok">步驟 2.2：DL 非監督分割 - 保存 OK 圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id67">步驟 2.3：DL 非監督分割 - 標注有缺陷的圖像作為測試集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id68">步驟 2.4：DL 非監督分割 - 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id69">步驟 2.5：DL 非監督分割 - 調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id70">步驟 2.6：DL 非監督分割 - 調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id71">步驟 2.7：DL 非監督分割 - 開啟訓練、推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id72">訓練過程曲線</a></li>
+<li class="toctree-l4"><a class="reference internal" href="moduleintro.html#id73">更多</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id74">步驟 2.8：DL 非監督分割 - 根據得分分布圖調整檢測閾值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#el">步驟 3：EL 非監督分割</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id75">步驟 3.1：EL 非監督分割 - 設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id76">步驟 3.2：EL 非監督分割 - 圖像標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id77">步驟 3.3：EL 非監督分割 - 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id78"><strong>步骤 3.4：EL 非監督分割 - 調整訓練參數</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id79">步骤 3.5：EL 非監督分割 - 調整推理參數</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id80">使用分類工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id81">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id82">步驟2：添加標籤類別</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id83">步驟3: 對檢測區域進行標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id84">步驟4： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id85">步驟5：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id86">步驟6：調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id87">步驟7：開啟訓練、推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id88">使用非監督分類工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id89">步驟1：設定視圖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id90">步驟2: 對檢測區域進行標註</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id91">步驟3： 劃分訓練集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id92">步驟4：調整訓練參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id93">步驟5：調整推理參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id94">步驟6：開啟訓練、推理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id95">步驟7：根據得分分佈圖調整檢測閾值</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id96">使用工廠模式：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id97">適用場景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id98">操作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id99">使用區域提取工具：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id100">應用場景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id101">使用方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html#id102">區域建模工具應用:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id103">應用場景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleintro.html#id104">操作步驟</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">實操教程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id2">1.用戶檢測需求確認</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#aidi">2.AIDI專案建立建立</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id3">3.數據導入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id4">4.選擇模組</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id5">5.視圖視窗設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id6">6.數據標註</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id7">7.訓練參數</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id8">8.推理參數設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id9">9.在評估頁面，查看測試效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id10">10.新增模組</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id11">11.綜合判定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id12">12.工廠模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id13">13.匯出模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opintro.html#id14">14.二次開發：</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="UserGuide.html">最優效能指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id2">系統電源設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#nvidia">Nvidia 驅動設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id3">低時延模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id4">鎖定顯卡頻率</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id5">開啟計算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id6">速度測試建議</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id7">極速推理模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserGuide.html#id8">附錄</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="UserGuide.html#windows">Windows 腳本開機自啟</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">二次開發指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SecondaryDevelopment.html#id2">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SecondaryDevelopment.html#id3">建議開發運行環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SecondaryDevelopment.html#visualstudio">匯出可直接運行的VisualStudio範例專案</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SecondaryDevelopment.html#id4">匯出範例代碼</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SecondaryDevelopment.html#c">C++相依性準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SecondaryDevelopment.html#id5">C#相依性準備</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Shortcut.html">快捷方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">業務聯繫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="law.html">法律聲明</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Release.html" class="btn btn-neutral float-right" title="版本更新說明" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

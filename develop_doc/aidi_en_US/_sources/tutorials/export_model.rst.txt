@@ -1,0 +1,254 @@
+导出模型与使用
+##############
+
+在训练完模型并配置参数后，你可能希望将模型部署到其他主机上。
+一种方法是直接将工程 :term:`Project` 复制到另一台主机上，
+然后用它来部署你的检测流程 :term:`Flow`。
+然而工程 :term:`Project` 通常包含用于训练和验证模型的所有数据。
+它的大小可能相当大，因此不便于直接复制使用。
+`VisionFlow` 支持将模型导出为一个单独文件，并去除不必要的数据，以方便部署使用。
+
+导出模型
+========
+
+例如，你有一个训练好的工程 :cpp:class:`visionflow::Project` `my_first_project`，
+那么你可以轻松导出模型到需要的地方。
+:cpp:func:`visionflow::Project::export_model` 同时也支持加密功能。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        my_first_project->export_model("D:/path/to/save/my_first_project.vfmodel");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+如果成功，你可以在 `D:/path/to/save/` 目录下找到文件 `my_first_project.vfmodel`。
+你可以复制模型文件到想部署检测流程 :term:`Flow` 的其他主机上。
+
+.. _model-extension-note:
+
+.. note::
+
+    模型文件的扩展名必须为 `.vfmodel`。
+    如果导出模型路径扩展名不为 `.vfmodel`，会自动补充扩展名 `.vfmodel`。
+
+打开导出模型
+============
+
+当你部署检测流程 :term:`Flow` 时，你可能需要在主机上对模型做一些调整。
+此时，你首先需要加载导出的模型，
+这次不再需要工程类 :cpp:class:`visionflow::Project`。
+与导出一样方便，
+`VisionFlow` 提供了模型类 :cpp:class:`visionflow::Model` 来支持加载模型和模型调整。
+请确保模型文件的路径有效，并且文件扩展名是符合要求的。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        visionflow::ModelOptions options;
+        // 自动保存修改的参数并且缓存极速推理的中间缓存物，进而加速极速推理下模型 create_runtime 的速度
+        options.auto_resave_on_change = true;
+        options.password = "";
+        visionflow::Model model("D:/path/to/save/my_first_project.vfmodel", options);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+直接修改模型中的参数
+====================
+
+现在，你可以通过模型类 :cpp:class:`visionflow::Model` 来像工程类 :cpp:class:`visionflow::Project` 一样修改模型参数。
+虽然在实际场景中，
+在部署阶段可修改的参数有限，
+`VisionFlow` 仍然允许通过接口修改模型中的任何参数。
+在打开模型后，
+你可以通过从模型中读取参数来修改参数，
+并将修改后的参数重新保存回模型中。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 根据工程中的工具名称读取工具参数。
+        std::string segmentation_id = "Segmentation";
+        auto batch_size = model.get_param({segmentation_id, visionflow::Segmentation::batch_size});
+
+        // 转换为工具参数的对应类型，这里修改了一次推理的样本大小。
+        batch_size->as<visionflow::param::InferenceBatchSize>()
+            .set_batch_size(2);
+
+        // 将修改后的参数重新保存回模型中。
+        model.set_param({segmentation_id, visionflow::Segmentation::batch_size}, *batch_size);
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+.. note::
+
+    对于 :cpp:enumerator:`visionflow::DataEdge::kParam` 使用接口 :cpp:func:`visionflow::Model::get_param`，
+    对于 :cpp:enumerator:`visionflow::DataEdge::kProp` 使用接口 :cpp:func:`visionflow::Model::get_context`。
+    同样，对于 :cpp:enumerator:`visionflow::DataEdge::kParam` 使用接口 :cpp:func:`visionflow::Model::set_param`，
+    对于 :cpp:enumerator:`visionflow::DataEdge::kProp` 使用 :cpp:func:`visionflow::Model::set_context`。
+
+.. warning::
+    使用 :cpp:func:`visionflow::Model::get_param` 接口设置的新参数仅在当前打开的模型中有效。
+    关闭此模型并重新打开后，这些改动都会丢失。
+    如果你希望永久保存这些修改，
+    需要将当前模型重新保存为一个新模型。
+
+重新保存模型
+=============
+
+直接修改模型中的参数只会对当前打开的模型生效，
+对于模型的重要修改可以通过重新保存模型来永久保留，以便后续使用。
+:cpp:func:`visionflow::Model::resave_to` 同样支持加密功能。
+注意遵守 :ref:`保存模型的规则 <model-extension-note>` 。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        model.resave_to("D:/other/path/resave.vfmodel");
+
+.. tab:: Python
+
+    .. code-block:: python
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+
+获取模型中的工具列表
+====================
+
+通过 :cpp:func:`visionflow::Model::tool_list` 即可获取到此模型中的所有工具的 id 列表。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 获取到所有工具的 ids
+        auto tool_list = model.tool_list();
+
+
+获取工具内节点信息以及工具间的连接关系
+=======================================
+
+- 首先获取到 tool list :cpp:func:`visionflow::Model::tool_list`；
+- 然后我们可以通过 :cpp:func:`visionflow::Model::tool_info` 获取到包含了工具名称、工具类型以及
+- 工具内各个输入、输出数据节点和计算节点信息的 :cpp:class:`visionflow::ToolInfo`：
+   - 通过 :cpp:func:`visionflow::ToolInfo::input_edges` 获取得到一个工具中都有哪些输入数据节点；
+- 最后我们可以通过 :cpp:class:`visionflow::DataEdge` 获取到一个数据节点的具体信息：
+   - 通过 :cpp:func:`visionflow::DataEdge::redirects` 我们便可以获取得到有哪些数据节点与之存在着连接关系。
+
+通过以上步骤，我们即可建立起不同工具间的节点连接关系，具体示例如下：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto tool_list = model.tool_list();
+
+        // 用于记录节点间的连接关系
+        // key: 一个节点的唯一标识
+        // value: 此节点后都连接了哪些节点
+        std::map<ToolNodeId, std::vector<ToolNodeId>> node_graph;
+
+        // 遍历 tool_list
+        for (const auto &tool_id : tool_list) {
+           // 获取到 tool 的具体信息: tool_info
+           auto tool_info = model.tool_info(tool_id);
+           // 遍历所有的输入节点 input_edges
+           for (const auto &node : tool_info.input_edges()) {
+              // 当前节点的 tool_node_id (唯一标识)
+              auto current_tool_node_id = ToolNodeId(tool_id, node.id());
+              // 如果 real_id
+              // 的返回值不是其自身，则说明此输入节点与其他工具的输出节点间存在连接关系
+              if (model.real_id(current_tool_node_id) == current_tool_node_id)
+                  continue;
+
+              // 遍历所有与此输入节点有连接关系的节点（也即其他工具的输出节点）
+              for (const auto &tool_node_id : node.redirects()) {
+              // tool_node_id 的后面连接了 current_tool_node_id
+                node_graph[tool_node_id].emplace_back(current_tool_node_id);
+              }
+           }
+        }
+
+.. note::
+   - 关于 :cpp:func:`visionflow::Model::real_id` 需要注意的是，对于综合判断工具中的输入节点其可能对应多个不同工具的输出节点，因此对于 :cpp:class:`visionflow::ToolNodeId` 其有一个后缀的概念，在执行 :cpp:func:`visionflow::Model::real_id` 时可以通过 :cpp:func:`visionflow::ToolNodeId::operator[]` 接口添加一个下标后缀，应精确标识用于获取哪一个连接节点
+   - 关于一个 :cpp:class:`visionflow::ToolNodeId` 对象是否有后缀？具体下标后缀是什么？可以分别通过 :cpp:func:`visionflow::ToolNodeId::has_index` 和 :cpp:func:`visionflow::ToolNodeId::index` 获取得到
+
+节点信息的获取
+==============
+
+.. note::
+    虽然visionflow中各个工具内部的节点名称是基本是固定的，但目前只能通过 :cpp:class:`visionflow::DataEdge` 访问，后续会提供获取节点名常量的接口。
+
+节点信息的获取：
+   - 输入节点：可通过 :cpp:func:`visionflow::ToolInfo::input_edges` 获取得到；
+   - 输出节点：可通过 :cpp:func:`visionflow::ToolInfo::output_edges` 获取得到；
+   - 数据节点：可通过 :cpp:func:`visionflow::ToolInfo::data_edges` 获取得到；
+   - 计算节点：可通过 :cpp:func:`visionflow::ToolInfo::compute_nodes` 获取得到。
+
+数据节点
+--------
+
+什么是数据节点？
+^^^^^^^^^^^^^^^^^
+工具由节点和边组成。边是节点之间的数据流，节点是数据处理单元。我们的数据包括两类：用于配置数据处理单元的参数，以及数据处理单元生成的样本 :cpp:class:`visionflow::Sample` 的属性。
+
+数据节点详细信息的获取
+^^^^^^^^^^^^^^^^^^^^^^
+可通过 :cpp:class:`visionflow::DataEdge` 获取得到数据节点的详细信息：
+   - 获取数据节点的 id：:cpp:func:`visionflow::DataEdge::id`
+   - 获取数据节点的数据类型：:cpp:func:`visionflow::DataEdge::type`
+   - 获取数据节点的 concept type :cpp:enum:`visionflow::DataEdge::DataCptTag` ：:cpp:func:`visionflow::DataEdge::cpt_tag`
+   - 获取数据节点的最大连接数：:cpp:func:`visionflow::DataEdge::allow_max_connect`
+   - 获取数据节点的最后一次更新时间：:cpp:func:`visionflow::DataEdge::last_update_time`
+   - 判断数据节点是否是输出节点：:cpp:func:`visionflow::DataEdge::is_tool_output`
+   - 判断数据节点是否是虚拟节点（虚拟节点：其是一个工具的输入数据节点但又只能由其他工具生成）：:cpp:func:`visionflow::DataEdge::is_virtual_port`
+       - 当节点为虚拟节点时才有效的方法（对于非虚拟节点返回数据为空）：
+          - 获取节点所需要的 feature names，只有提供了所需特征类型的节点才能够与之相连接 :cpp:func:`visionflow::DataEdge::required_features`
+          - 获取哪些工具中的哪些输出节点连接到了此数据节点 :cpp:func:`visionflow::DataEdge::redirects`
+       - 当节点为非虚拟节点时才有效的方法（对于虚拟节点返回数据为空）：
+          - 获取哪些计算节点可以生成此数据节点：:cpp:func:`visionflow::DataEdge::used_by`
+          - 获取哪些计算节点用到了此数据节点：:cpp:func:`visionflow::DataEdge::generated_by`
+          - 获取数据节点是否处于可用状态：:cpp:func:`visionflow::DataEdge::is_active`
+
+计算节点
+----------
+
+什么是计算节点？
+^^^^^^^^^^^^^^^^
+计算节点是工具中的核心数据处理单元。计算节点将接收其他计算节点生成的参数和属性，并处理数据以生成新的参数或属性。
+
+计算节点详细信息的获取
+^^^^^^^^^^^^^^^^^^^^^^
+可通过 :cpp:class:`visionflow::ComputeNode` 获取得到计算节点的详细信息：
+   - 获取计算节点的 id： :cpp:func:`visionflow::ComputeNode::id`
+   - 获取计算节点的数据类型：:cpp:func:`visionflow::ComputeNode::type`
+   - 获取计算节点的最后一次更新时间：:cpp:func:`visionflow::ComputeNode::last_update_time`
+   - 获取计算节点所需要的参数数据节点：:cpp:func:`visionflow::ComputeNode::param_nodes`
+   - 获取计算节点所需要的属性数据节点：:cpp:func:`visionflow::ComputeNode::input_nodes`
+   - 获取计算节点所生成的数据节点：:cpp:func:`visionflow::ComputeNode::output_nodes`
+   - 获取计算节点的 concept type :cpp:enum:`visionflow::ComputeNode::ComputeCptTag` ：:cpp:func:`visionflow::ComputeNode::cpt_tag`

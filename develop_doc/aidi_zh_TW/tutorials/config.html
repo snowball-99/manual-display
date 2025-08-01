@@ -1,0 +1,545 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="评估算法模型的效果" href="eval_model.html" /><link rel="prev" title="通过数据集管理工程数据" href="data_visit.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>设置参数及训练模型 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="id1">
+<h1>设置参数及训练模型<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>在Visionflow中，训练模型是通过执行一个叫训练器的配置器节点(<a class="reference internal" href="../core_concepts.html#term-Configurator"><span class="xref std std-term">Configurator</span></a>)来实现的。</p>
+<p>配置器节点需要经过参数节点(<a class="reference internal" href="../core_concepts.html#term-Parameter"><span class="xref std std-term">Parameter</span></a>)初始化，然后输入一些属性 (<a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a>)作为输入数据，并且创建出 <strong>ConfigureRuntime</strong> 来执行。
+与 <strong>Runtime</strong> 可以包含多个 <strong>Operator</strong> 相比， <strong>ConfigureRuntime</strong> 仅包含一个配置器算子。</p>
+<section id="id2">
+<h2>查看配置器需要配置哪些参数<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>通过 <a class="reference internal" href="../auto_docs/tools.html"><span class="doc">工具清单及详细流程图</span></a> 查看具体的配置器依赖的输入参数。</p>
+<p>除此之外，如果工程中已经加入了某个工具，可以通过接口 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project11to_graphvizERKN5graph14DotInfoOptionsE" title="visionflow::Project::to_graphviz"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::to_graphviz()</span></code></a> 将流程图转换成Graphviz的dot语言查看。
+详见 <a class="reference internal" href="tool_manage.html#check-graphviz"><span class="std std-ref">获取Graphviz结构图</span></a> 。</p>
+<dl class="simple">
+<dt>你还可以通过接口：</dt><dd><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Project9tool_infoERKNSt6stringE" title="visionflow::Project::tool_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::tool_info()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8ToolInfo13compute_nodesEv" title="visionflow::ToolInfo::compute_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ToolInfo::compute_nodes()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow11ComputeNode11param_nodesEv" title="visionflow::ComputeNode::param_nodes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::ComputeNode::param_nodes()</span></code></a>
+<a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow8DataEdge4typeEv" title="visionflow::DataEdge::type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::DataEdge::type()</span></code></a></p>
+</dd>
+</dl>
+<p>查看 <strong>Configurator</strong> 节点的输入参数节点的类型。</p>
+<p>关于 <strong>ToolInfo</strong> 相关的内容详见：<a class="reference internal" href="tool_manage.html#tool-info"><span class="std std-ref">ToolInfo 对象的详细用法</span></a>。</p>
+</section>
+<section id="id3">
+<h2>为配置器配置参数<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>确定了配置器需要的参数类型后，需要将合适的值设置到参数节点内，以便配置器是按照你的要求进行初始化的。</p>
+<p>这里我们以分割工具的训练器节点”<strong>Segmentation/trainer</strong>”为例，介绍如何设置参数。</p>
+<p>节点”<strong>Segmentation/trainer</strong>”需要四个输入参数，分别是：
+1. BaseColor: 图片类型(灰度图或彩色图)；
+2. ImageMean: 图片各个通道的像素均值；
+3. LabelClasses: 标注类别；
+4. SegmentationTrainingParameters: 分割工具的训练参数，下文会稍作介绍： <a class="reference internal" href="#seg-train-param"><span class="std std-ref">分割工具的训练参数</span></a>；</p>
+</section>
+<section id="seg-train-param">
+<span id="id4"></span><h2>分割工具的训练参数示例<a class="headerlink" href="#seg-train-param" title="Link to this heading">#</a></h2>
+<p>SegmentationTrainingParameters为分割工具的训练参数，包含了：
+1. 训练轮数 <strong>epoch</strong> ：模型的迭代次数；
+2. 训练批次 <strong>batch size</strong> ：每次迭代参与训练的图像数量；
+3. 训练模式 <strong>TrainMode</strong> ：普通训练或增量训练；
+4. 数据采样策略 <strong>SegmentationTrainingSampleStrategy</strong> ：包含难例采样的参数和图像缩放的参数；
+5. 模型参数 <strong>SegmentationModelParameters</strong> ：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>模型架构 <strong>model_arch</strong> ：小缺陷模型或综合模型；</p></li>
+<li><p>是否启用稳定变换 <strong>shift_stable</strong> ；</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>数据增广 <strong>DataAugmentation</strong>：</p>
+<ul class="simple">
+<li><p>几何增广 <strong>model_arch</strong> ：小缺陷模型或综合模型；</p></li>
+<li><p>图像增广 <strong>shift_stable</strong> ；</p></li>
+</ul>
+</li>
+</ol>
+<p>更详细的训练参数介绍，请查阅具体工具的说明文档。</p>
+<p>以下示例代码展示了如何设置这四个参数：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 假设工程已打开，添加了Input工具和分割工具并正确地建立连接</span>
+<span class="c1">// 加入图片后</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">segmentation_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">add_tool</span><span class="p">(</span><span class="s">&quot;Segmentation&quot;</span><span class="p">);</span>
+
+<span class="c1">// 设置图片基准通道为彩色图</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">BaseColor</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
+<span class="n">color</span><span class="p">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">kBGR</span><span class="p">);</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">set_param</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">base_color</span><span class="p">},</span><span class="w"> </span><span class="n">color</span><span class="p">);</span>
+
+<span class="c1">// 设置具体的类别</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">LabelClasses</span><span class="w"> </span><span class="n">classes</span><span class="p">;</span>
+<span class="n">classes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Ng&quot;</span><span class="p">);</span>
+<span class="n">classes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Ok&quot;</span><span class="p">);</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">set_param</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">classes</span><span class="p">},</span><span class="w"> </span><span class="n">classes</span><span class="p">);</span>
+
+<span class="c1">// 设置训练参数.</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">SegmentationTrainingParameters</span><span class="w"> </span><span class="n">train_param</span><span class="p">;</span>
+
+<span class="c1">// 由于接口返回的都是自身引用，所以可以进行连续赋值</span>
+<span class="n">train_param</span><span class="p">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">=</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_batch_size</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">get_augmentations</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">get_geometry_augmentation</span><span class="p">()</span><span class="w"> </span><span class="c1">// 数据增强</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_flip_horizontal</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_flip_vertical</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="c1">// 设置采样策略</span>
+<span class="n">train_param</span><span class="o">-&gt;</span><span class="n">get_sampling_strategy</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_hard_case_rate</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">get_input_shape</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_enable</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_base_input_height</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">set_base_input_width</span><span class="p">(</span><span class="mi">256</span><span class="p">);</span>
+
+<span class="c1">// 将训练参数保存到工程中</span>
+<span class="n">project</span><span class="o">-&gt;</span><span class="n">set_param</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">trainer_args</span><span class="p">},</span><span class="w"> </span><span class="n">train_param</span><span class="p">);</span>
+
+<span class="c1">// ImageMean参数一般需要通过ImageMeanConf计算得出</span>
+<span class="c1">// 我们需要构建 ConfigureRuntime 来实现此目的</span>
+<span class="c1">// 假设在此之前我们已经把图片以及视图加入到了工程，并且划分了视图的训练集测试集</span>
+
+<span class="c1">// 设置ConfigureRuntime的策略(如何设置策略将在下面介绍)</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">runtime</span><span class="o">::</span><span class="n">StrategyOptions</span><span class="w"> </span><span class="n">strategy</span><span class="p">;</span>
+<span class="n">strategy</span><span class="p">.</span><span class="n">ignore_update_time_requirement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="c1">// 创建计算图像均值的ConfigRuntime</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">img_mean_conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">create_config_runtime</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">image_mean_conf</span><span class="p">},</span><span class="w"> </span><span class="n">strategy</span><span class="p">);</span>
+
+<span class="c1">// 为img_mean_conf的执行过程创建数据服务</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">conf_adapt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">adapt</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">img_mean_conf</span><span class="p">);</span>
+
+<span class="c1">// 初始化和执行计算图像均值，计算结果会通过数据服务自动保存到工程中</span>
+<span class="n">img_mean_conf</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">conf_adapt</span><span class="p">);</span>
+<span class="n">img_mean_conf</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">conf_adapt</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>训练同时也是配置参数<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>在上面的示例代码中，我们通过创建一个配置器运行时，计算出了图像均值 <strong>ImageMean</strong> 这个参数。
+图像均值又作为分割工具训练器的参数对配置器节点”<strong>Segmentation/trainer</strong>”进行初始化。</p>
+<p>与计算图像均值类似，训练也是在配置参数。通过训练，我们获得了一个模型。
+而模型又作为输入参数对推理的运行时进行初始化，因而训练就是在配置运行时的参数。</p>
+</section>
+<section id="id6">
+<h2>训练模型<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>正如上述示例代码所写的，执行配置器需要通过接口 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project21create_config_runtimeERK10ToolNodeIdRKN7runtime15StrategyOptionsE" title="visionflow::Project::create_config_runtime"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::create_config_runtime()</span></code></a>
+创建出某个配置器节点的 <strong>ConfigureRuntime</strong> (配置器运行时)。</p>
+<p>创建训练节点的 <strong>ConfigureRuntime</strong> 与之前示例代码中计算图像均值类似，此处就不再赘述。</p>
+<section id="id7">
+<h3>设置创建的策略<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>运行时策略包含很多参数，每个参数具体的功能详见： <a class="reference internal" href="runtime.html#strategyoptions"><span class="std std-ref">创建运行时的策略</span></a> 。</p>
+<p>创建 <strong>ConfigureRuntime</strong> 时一般需要设置的有如下参数：</p>
+<ol class="arabic simple">
+<li><p><strong>ignore_update_time_requirement</strong></p>
+<ul class="simple">
+<li><p>启用此项会自动帮你检查参数和属性的依赖关系是否满足节点连接的拓扑顺序；</p></li>
+<li><p>如果你想确保你的训练结果是按照最新的数据产生的，而不是旧数据，那么请启用它(例如，当你本次训练时依赖了前序模块产生的视图，但是你又修改过前序模块的训练参数且没有重新进行训练，如果直接训练使用的视图将不是新的训练参数训出来的模型产生的)；</p></li>
+</ul>
+</li>
+<li><p><strong>allow_auto_update</strong> 启用此项可以自动帮你更新依赖链上的参数；</p></li>
+<li><p><strong>allow_auto_update_rely_on_prop</strong> 此项是在启用 <strong>allow_auto_update</strong> 的情况下，允许依赖属性节点的参数也可以更新(属性不能为空，否则抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts22CannotConstructRuntimeE" title="visionflow::excepts::CannotConstructRuntime"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::CannotConstructRuntime</span></code></a> )；</p></li>
+</ol>
+<p>以下示例代码展示如何通过设置 <strong>StrategyOptions</strong> 省略之前示例代码中手动获得图像均值的逻辑：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 假设我们只剩 ImageMean 参数还没有设置</span>
+<span class="c1">// BaseColor, LabelClasses 和 SegmentationTrainingParameters 都已经设置好了</span>
+
+<span class="c1">// 配置允许ImageMean自动更新的策略</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">runtime</span><span class="o">::</span><span class="n">StrategyOptions</span><span class="w"> </span><span class="n">strategy_auto_update</span><span class="p">;</span>
+<span class="n">strategy_auto_update</span><span class="p">.</span><span class="n">allow_auto_update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w">              </span><span class="c1">// 启用自动更新</span>
+<span class="n">strategy_auto_update</span><span class="p">.</span><span class="n">allow_auto_update_rely_on_prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// 由于ImageMean依赖属性节点所以需要启用</span>
+
+<span class="c1">// 此时我们无需创建 ImageMean 的ConfigureRuntime</span>
+<span class="c1">// 直接创建分割工具训练器的ConfigRuntime将会自动帮你更新图像均值参数</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">trainer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="o">-&gt;</span><span class="n">create_config_runtime</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">trainer</span><span class="p">},</span><span class="w"> </span><span class="n">strategy_auto_update</span><span class="p">);</span>
+
+<span class="c1">// 为训练执行器创建数据服务.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">trainer_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">adapt</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">trainer</span><span class="p">);</span>
+
+<span class="c1">// 初始化和执行训练，训练成功后模型会自动保存到工程中.</span>
+<span class="n">trainer</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">trainer_server</span><span class="p">);</span>
+<span class="n">trainer</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">trainer_server</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="eval_model.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">评估算法模型的效果</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="data_visit.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">通过数据集管理工程数据</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">设置参数及训练模型</a><ul>
+<li><a class="reference internal" href="#id2">查看配置器需要配置哪些参数</a></li>
+<li><a class="reference internal" href="#id3">为配置器配置参数</a></li>
+<li><a class="reference internal" href="#seg-train-param">分割工具的训练参数示例</a></li>
+<li><a class="reference internal" href="#id5">训练同时也是配置参数</a></li>
+<li><a class="reference internal" href="#id6">训练模型</a><ul>
+<li><a class="reference internal" href="#id7">设置创建的策略</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

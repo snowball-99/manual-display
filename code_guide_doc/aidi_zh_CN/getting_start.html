@@ -1,0 +1,405 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜索" href="search.html" /><link rel="next" title="代码编辑指南" href="code_introduction/index.html" /><link rel="prev" title="AIDI 开发参考文件" href="index.html" />
+
+    <!-- Generated with Sphinx 6.2.1 and Furo 2023.09.10 -->
+        <title>脚本编辑器入门指南 - AIDI Script Editing Guidance</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=369552022d0b975c8e74270ce6eabe0fb7978f24" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">AIDI Script Editing Guidance</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/aidi-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">AIDI Script Editing Guidance</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">脚本编辑器入门指南</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="code_introduction/index.html">代码编辑指南</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 代码编辑指南</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/intergration_classify.html">综合评判脚本编辑指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/view_transform.html">视图转换脚本编辑指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_introduction/region_calculation.html">区域计算脚本编辑指南</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helper_function.html">内置函数模板说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common_function.html">常用函数列表</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cpp_api/index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp_api/excepts.html">Exception Handling</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div><script>
+    // Execute when the page is loaded.
+    window.onload = function () {
+        // Get the URL of the current directory.
+        var currentDirectory = window.location.pathname;
+
+        // Original language set.
+        var langs = ["en_US", "zh_CN", "zh_TW"]
+        var origin_lang;
+
+        for (var i = 0; i < langs.length; i++) {
+            var lang = langs[i];
+            if (currentDirectory.includes(lang + '/')) {
+                origin_lang = lang;
+                break
+            }
+        }
+
+        // Find all links with 'dynamic-link' class.
+        var links = document.querySelectorAll('.dynamic-link');
+
+        // Updating the 'href' attribute of each link.
+        links.forEach(function (link) {
+            var target_lang = link.getAttribute('data-lang');
+            link.href = currentDirectory.replace(origin_lang + '/', target_lang + '/');
+        });
+    };
+</script>
+
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <div class="rst-other-versions">
+        
+        <dl>
+            <dt>Languages</dt>
+            
+            <dd><a class="dynamic-link" data-lang="en_US">en_US</a></dd>
+            
+            <dd><a class="dynamic-link" data-lang="zh_CN">zh_CN</a></dd>
+            
+            <dd><a class="dynamic-link" data-lang="zh_TW">zh_TW</a></dd>
+            
+        </dl>
+        
+        <br>
+        </dl>
+    </div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="script-editor-getting-started-guide">
+<h1>脚本编辑器入门指南<a class="headerlink" href="#script-editor-getting-started-guide" title="此标题的永久链接">#</a></h1>
+<section id="function-template">
+<h2>函数模板<a class="headerlink" href="#function-template" title="此标题的永久链接">#</a></h2>
+<section id="function-template-function-description">
+<h3>函数模板功能说明<a class="headerlink" href="#function-template-function-description" title="此标题的永久链接">#</a></h3>
+<p>AIDI脚本编辑器提供了一些常用的辅助函数，可以直接作为函数模板插入脚本中。同时提供了函数模板管理功能，以便用户可以将常用的函数封装为模板在后续编辑脚本时复用。内置函数模板请参考 <a class="reference internal" href="helper_function.html"><span class="doc">内置函数模板说明</span></a></p>
+</section>
+<section id="how-to-view-existing-function-templates">
+<h3>如何查看已有函数模板<a class="headerlink" href="#how-to-view-existing-function-templates" title="此标题的永久链接">#</a></h3>
+<p>单击右上角“函数模板管理”按钮，即可打开函数管理模板界面，其中左侧列表中显示的便是当前已有的模板函数列表。</p>
+</section>
+<section id="custom-function-template">
+<h3>自定义函数模板<a class="headerlink" href="#custom-function-template" title="此标题的永久链接">#</a></h3>
+<img alt="_images/cs_help_judgment_standard_function_management_cn.png" src="_images/cs_help_judgment_standard_function_management_cn.png" />
+<img alt="_images/cs_help_add_function_cn.png" src="_images/cs_help_add_function_cn.png" />
+<ol class="arabic simple">
+<li><p>脚本编辑器-右上角函数模板管理</p></li>
+<li><p>新增-输入函数别名-输入函数描述-输入编辑好的函数内容-点击注册</p></li>
+<li><p>注册检查：函数无重名，无单函数，和其他未知不可运行原因。如不符合要求需进行修改后注册(如果希望暂时通过注册检查到下一步，可Ctrl+Z恢复到初始状态，或者注释掉所有当前函数内容)</p></li>
+</ol>
+</section>
+<section id="batch-export-batch-import-function-template">
+<h3>批量导出-批量导入函数模板<a class="headerlink" href="#batch-export-batch-import-function-template" title="此标题的永久链接">#</a></h3>
+<p>AIDI支持将函数模板批量导出然后在其他机器上导入以实现函数模板的多人共享。</p>
+<img alt="_images/cs_help_batch_import_and_batch_export_cn.png" src="_images/cs_help_batch_import_and_batch_export_cn.png" />
+<ol class="arabic simple">
+<li><p>脚本编辑器-右上角函数模板管理</p></li>
+<li><p>选择“函数列表”旁边的函数导出标识-选择导出路径-完成批量导出</p></li>
+<li><p>在需要导入的AIDI任意工程的综合判定节点，选择“函数列表”旁边的函数导入标识-批量选择函数所在地址-完成批量导入（函数导入会进行函数别名、函数名称去重）-完成批量导入</p></li>
+</ol>
+</section>
+<section id="how-to-insert-function-template-into-script-editing-area">
+<h3>如何将函数模板插入脚本编辑区<a class="headerlink" href="#how-to-insert-function-template-into-script-editing-area" title="此标题的永久链接">#</a></h3>
+<p>在脚本编辑区选定所需插入函数模板的代码行，输入 <code class="docutils literal notranslate"><span class="pre">templ.</span></code> ，脚本编辑器会列出所有的函数模板，然后选中需要插入的函数模板即可直接插入。</p>
+</section>
+</section>
+<section id="user-variables">
+<h2>用户变量<a class="headerlink" href="#user-variables" title="此标题的永久链接">#</a></h2>
+<section id="user-variables-function-description">
+<h3>用户变量功能说明<a class="headerlink" href="#user-variables-function-description" title="此标题的永久链接">#</a></h3>
+<p>AIDI模型导出后，为了方便二次开发时对脚本变量的修改，建议用户将所有可能需要设置的变量均使用用户变量进行管理而不是直接写入脚本代码中。当前用户变量仅支持Number，String，Bool类型。</p>
+</section>
+<section id="how-to-set-user-variables">
+<h3>如何设置用户变量<a class="headerlink" href="#how-to-set-user-variables" title="此标题的永久链接">#</a></h3>
+<p>在左侧用户变量设置区单击添加用户变量，并设值即可。</p>
+</section>
+<section id="how-to-use-user-variables-in-scripts">
+<h3>如何在脚本中使用用户变量<a class="headerlink" href="#how-to-use-user-variables-in-scripts" title="此标题的永久链接">#</a></h3>
+<p>用户变量均存储在全局变量 <code class="docutils literal notranslate"><span class="pre">VFLOW_USER_VARS</span></code> 中， <code class="docutils literal notranslate"><span class="pre">VFLOW_USER_VARS</span></code> 是一个python dict。假设要访问名称为var0的用户变量，可以直接在脚本中使用 <code class="docutils literal notranslate"><span class="pre">VFLOW_USER_VARS[&quot;var0&quot;]</span></code> 进行访问。</p>
+</section>
+</section>
+<section id="convenient-debugging">
+<h2>便捷调试<a class="headerlink" href="#convenient-debugging" title="此标题的永久链接">#</a></h2>
+<p>AIDI脚本支持直接将变量通过 <code class="docutils literal notranslate"><span class="pre">print</span></code> 函数打印到日志区，并可直接在左下角脚本日志区查看。</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="code_introduction/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">代码编辑指南</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2024, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">脚本编辑器入门指南</a><ul>
+<li><a class="reference internal" href="#function-template">函数模板</a><ul>
+<li><a class="reference internal" href="#function-template-function-description">函数模板功能说明</a></li>
+<li><a class="reference internal" href="#how-to-view-existing-function-templates">如何查看已有函数模板</a></li>
+<li><a class="reference internal" href="#custom-function-template">自定义函数模板</a></li>
+<li><a class="reference internal" href="#batch-export-batch-import-function-template">批量导出-批量导入函数模板</a></li>
+<li><a class="reference internal" href="#how-to-insert-function-template-into-script-editing-area">如何将函数模板插入脚本编辑区</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-variables">用户变量</a><ul>
+<li><a class="reference internal" href="#user-variables-function-description">用户变量功能说明</a></li>
+<li><a class="reference internal" href="#how-to-set-user-variables">如何设置用户变量</a></li>
+<li><a class="reference internal" href="#how-to-use-user-variables-in-scripts">如何在脚本中使用用户变量</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#convenient-debugging">便捷调试</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/tabs.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>

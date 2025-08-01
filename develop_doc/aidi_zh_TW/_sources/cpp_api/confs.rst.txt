@@ -1,0 +1,22 @@
+Configurator Types
+==================
+
+IConfigurator
+-------------
+.. doxygenclass:: visionflow::confs::IConfigurator
+   :members:
+
+IService
+-------------
+.. doxygenclass:: visionflow::confs::IService
+   :members:
+
+confs::Factory
+--------------
+.. doxygenclass:: visionflow::confs::Factory
+   :members:
+
+.. doxygenstruct:: visionflow::confs::Meta
+   :members:
+
+.. doxygentypedef:: visionflow::confs::Creator

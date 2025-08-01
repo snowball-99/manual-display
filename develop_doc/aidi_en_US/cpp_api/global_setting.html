@@ -1,0 +1,881 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Core Interface" href="core.html" /><link rel="prev" title="Namespace" href="namespace.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Global Settings - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="cpp_index.html">C++ API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="namespace.html">Namespace</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="global-settings">
+<h1>Global Settings<a class="headerlink" href="#global-settings" title="Link to this heading">#</a></h1>
+<p>The following settings are used to configure the global settings of the
+application. Generally, you’d better to configure them when you start the
+application and do not change them during the running time, although some
+of them can be changed at any time.</p>
+<section id="product-information">
+<h2>Product Information<a class="headerlink" href="#product-information" title="Link to this heading">#</a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfoE">
+<span id="_CPPv3N10visionflow11ProductInfoE"></span><span id="_CPPv2N10visionflow11ProductInfoE"></span><span id="visionflow::ProductInfo"></span><span class="target" id="structvisionflow_1_1_product_info"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ProductInfo</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfoE" title="Link to this definition">#</a><br /></dt>
+<dd><p>VisionFlow production infomation. </p>
+<p>This class is used to describe the production infomation of VisionFlow. include the version, build date, and so on. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo13version_majorE">
+<span id="_CPPv3N10visionflow11ProductInfo13version_majorE"></span><span id="_CPPv2N10visionflow11ProductInfo13version_majorE"></span><span id="visionflow::ProductInfo::version_major__i"></span><span class="target" id="structvisionflow_1_1_product_info_1ab2dfdef9991b6058b5812ea5c7ac94b8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version_major</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo13version_majorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The major version, such as 1. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo13version_minorE">
+<span id="_CPPv3N10visionflow11ProductInfo13version_minorE"></span><span id="_CPPv2N10visionflow11ProductInfo13version_minorE"></span><span id="visionflow::ProductInfo::version_minor__i"></span><span class="target" id="structvisionflow_1_1_product_info_1a290387062d37b318b9f189f64bd1b27c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version_minor</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo13version_minorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The minor version, such as 2. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo13version_patchE">
+<span id="_CPPv3N10visionflow11ProductInfo13version_patchE"></span><span id="_CPPv2N10visionflow11ProductInfo13version_patchE"></span><span id="visionflow::ProductInfo::version_patch__i"></span><span class="target" id="structvisionflow_1_1_product_info_1a93eda39026eefe1489fdb260b1c3771c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version_patch</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo13version_patchE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The patch version, such as 35. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo11version_numE">
+<span id="_CPPv3N10visionflow11ProductInfo11version_numE"></span><span id="_CPPv2N10visionflow11ProductInfo11version_numE"></span><span id="visionflow::ProductInfo::version_num__uint64_t"></span><span class="target" id="structvisionflow_1_1_product_info_1aa3b7f12f320782df36bac085098e45b6"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version_num</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo11version_numE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The version number, equal to (version_major * 1000000 + version_minor * 1000 + version_patch). e.g. 1.2.35 is 001002035. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo7versionE">
+<span id="_CPPv3N10visionflow11ProductInfo7versionE"></span><span id="_CPPv2N10visionflow11ProductInfo7versionE"></span><span id="visionflow::ProductInfo::version__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1afa803d1479306bed681dca559b653acb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo7versionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The version string, such as “1.2.35”. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo12version_fullE">
+<span id="_CPPv3N10visionflow11ProductInfo12version_fullE"></span><span id="_CPPv2N10visionflow11ProductInfo12version_fullE"></span><span id="visionflow::ProductInfo::version_full__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1afb15323224ab62bf2409ccca2e65d398"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version_full</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo12version_fullE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The full version string with revision, e.g. “1.2.35.beta.a0f8b8b.0”. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo9file_hashE">
+<span id="_CPPv3N10visionflow11ProductInfo9file_hashE"></span><span id="_CPPv2N10visionflow11ProductInfo9file_hashE"></span><span id="visionflow::ProductInfo::file_hash__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1a68d17027a2bd3e4a49f952a99a1c99ba"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">file_hash</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo9file_hashE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The file hash, e.g. “a0f8b8b.0”. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo14file_full_hashE">
+<span id="_CPPv3N10visionflow11ProductInfo14file_full_hashE"></span><span id="_CPPv2N10visionflow11ProductInfo14file_full_hashE"></span><span id="visionflow::ProductInfo::file_full_hash__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1a878c49d1f5366019864bce46244d9398"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">file_full_hash</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo14file_full_hashE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The full file hash. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo11release_tagE">
+<span id="_CPPv3N10visionflow11ProductInfo11release_tagE"></span><span id="_CPPv2N10visionflow11ProductInfo11release_tagE"></span><span id="visionflow::ProductInfo::release_tag__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1a8a78eade968b68e4547b3eac526f601b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">release_tag</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo11release_tagE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The release tag, one of “alpha”, “beta”, “preview”, “release”. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo15build_timestampE">
+<span id="_CPPv3N10visionflow11ProductInfo15build_timestampE"></span><span id="_CPPv2N10visionflow11ProductInfo15build_timestampE"></span><span id="visionflow::ProductInfo::build_timestamp__int64_t"></span><span class="target" id="structvisionflow_1_1_product_info_1a16f82c68d8b065711835b96d4cb47272"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">build_timestamp</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo15build_timestampE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The build timestamp, e.g. 1514098983. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo9copyrightE">
+<span id="_CPPv3N10visionflow11ProductInfo9copyrightE"></span><span id="_CPPv2N10visionflow11ProductInfo9copyrightE"></span><span id="visionflow::ProductInfo::copyright__ss"></span><span class="target" id="structvisionflow_1_1_product_info_1a8197db16e9b5a4c7a6974bebcfe0c7e0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copyright</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo9copyrightE" title="Link to this definition">#</a><br /></dt>
+<dd><p><p>The copyright, e.g. “Copyright (c) 2017-present, Aqrose Technology,</p>
+<p>Ltd. All rights reserved.”.</p>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11ProductInfo3GetEv">
+<span id="_CPPv3N10visionflow11ProductInfo3GetEv"></span><span id="_CPPv2N10visionflow11ProductInfo3GetEv"></span><span id="visionflow::ProductInfo::Get"></span><span class="target" id="structvisionflow_1_1_product_info_1a796c9ed54ba514d3ac36a9bc5a6f10f7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfoE" title="visionflow::ProductInfo"><span class="n"><span class="pre">ProductInfo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">Get</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11ProductInfo3GetEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the release version information of VisionFlow. With this function, you can get the release version information at runtime. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the version information. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="logging-settings">
+<h2>Logging Settings<a class="headerlink" href="#logging-settings" title="Link to this heading">#</a></h2>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv411LogSinkFunc">
+<span id="_CPPv311LogSinkFunc"></span><span id="_CPPv211LogSinkFunc"></span><span class="target" id="log__setting_8hpp_1a6436d0f36aeb3679bc135dbd6f9d59c3"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LogSinkFunc</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv411LogSinkFunc" title="Link to this definition">#</a><br /></dt>
+<dd><p>Log sink interface. with this interface, you can implement your own log sink to receive log messages. </p>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptionsE">
+<span id="_CPPv3N10visionflow13LoggerOptionsE"></span><span id="_CPPv2N10visionflow13LoggerOptionsE"></span><span id="visionflow::LoggerOptions"></span><span class="target" id="structvisionflow_1_1_logger_options"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LoggerOptions</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptionsE" title="Link to this definition">#</a><br /></dt>
+<dd><p>VisionFlow Logger Options. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions9file_sinkE">
+<span id="_CPPv3N10visionflow13LoggerOptions9file_sinkE"></span><span id="_CPPv2N10visionflow13LoggerOptions9file_sinkE"></span><span id="visionflow::LoggerOptions::file_sink__cCP"></span><span class="target" id="structvisionflow_1_1_logger_options_1a9901806bbbf85fc0b2606d3c4690fecb"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">file_sink</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions9file_sinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Log file path, should be encoded in utf-8; after setting this option, VisionFlow will write the log to the file; if the file does not exist, VisionFlow will try to create it automatically; if the file already exists , The log information will be appended to the file; the default path is empty, which means that the log will not be output to any file. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions9func_sinkE">
+<span id="_CPPv3N10visionflow13LoggerOptions9func_sinkE"></span><span id="_CPPv2N10visionflow13LoggerOptions9func_sinkE"></span><span id="visionflow::LoggerOptions::func_sink__LogSinkFunc"></span><span class="target" id="structvisionflow_1_1_logger_options_1ae45103a46dce1380235d0d7da55125a9"></span><a class="reference internal" href="#_CPPv411LogSinkFunc" title="LogSinkFunc"><span class="n"><span class="pre">LogSinkFunc</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">func_sink</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions9func_sinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pass in the function pointer used to receive the log, and output the log to your custom function. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions11stdout_sinkE">
+<span id="_CPPv3N10visionflow13LoggerOptions11stdout_sinkE"></span><span id="_CPPv2N10visionflow13LoggerOptions11stdout_sinkE"></span><span id="visionflow::LoggerOptions::stdout_sink__b"></span><span class="target" id="structvisionflow_1_1_logger_options_1a82625c9ed344ca91c56975518b8a8ee9"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stdout_sink</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions11stdout_sinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p>print the log to the standard output device, this option is enabled by default. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions9msvc_sinkE">
+<span id="_CPPv3N10visionflow13LoggerOptions9msvc_sinkE"></span><span id="_CPPv2N10visionflow13LoggerOptions9msvc_sinkE"></span><span id="visionflow::LoggerOptions::msvc_sink__b"></span><span class="target" id="structvisionflow_1_1_logger_options_1a8586c429c148501f8700a6590d322cb4"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">msvc_sink</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions9msvc_sinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p>When debugging on the Windows platform, you can enable this option to print the log to the debug output window of Visual Studio. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions11flush_levelE">
+<span id="_CPPv3N10visionflow13LoggerOptions11flush_levelE"></span><span id="_CPPv2N10visionflow13LoggerOptions11flush_levelE"></span><span id="visionflow::LoggerOptions::flush_level__unsigned-i"></span><span class="target" id="structvisionflow_1_1_logger_options_1a21ad50e18702c838df998e30571f803b"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flush_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions11flush_levelE" title="Link to this definition">#</a><br /></dt>
+<dd><p>control the refreshing level of log file. The flush_level range in [0, 6], include on_trace=0, on_debug=1, on_info=2, on_warn=3, on_error=4, on_critical=5, on_off=6. And the default value is 4 (on_error), which means the log file will be refreshed when error or more serious situation (eg:critical) occurring. When flush_level greater than or equal to 6 (on_off), the log file will not be refreshed. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow13LoggerOptions11custom_sinkE">
+<span id="_CPPv3N10visionflow13LoggerOptions11custom_sinkE"></span><span id="_CPPv2N10visionflow13LoggerOptions11custom_sinkE"></span><span id="visionflow::LoggerOptions::custom_sink__ILogSinkP"></span><span class="target" id="structvisionflow_1_1_logger_options_1a8901160693f1941c9753c9535834ad04"></span><a class="reference internal" href="#_CPPv4N10visionflow8ILogSinkE" title="visionflow::ILogSink"><span class="n"><span class="pre">ILogSink</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">custom_sink</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow13LoggerOptions11custom_sinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p>custom_sink is a pointer to an <a class="reference internal" href="#classvisionflow_1_1_i_log_sink"><span class="std std-ref">ILogSink</span></a> interface implementation, used for custom log handling. It defaults to nullptr, meaning no custom log sink is used. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11init_loggerERK13LoggerOptions">
+<span id="_CPPv3N10visionflow11init_loggerERK13LoggerOptions"></span><span id="_CPPv2N10visionflow11init_loggerERK13LoggerOptions"></span><span id="visionflow::init_logger__LoggerOptionsCR"></span><span class="target" id="namespacevisionflow_1a7c65bb421acbbbc5a7c18117d0de262f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">init_logger</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptionsE" title="visionflow::LoggerOptions"><span class="n"><span class="pre">LoggerOptions</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11init_loggerERK13LoggerOptions" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow8ILogSinkE">
+<span id="_CPPv3N10visionflow8ILogSinkE"></span><span id="_CPPv2N10visionflow8ILogSinkE"></span><span id="visionflow::ILogSink"></span><span class="target" id="classvisionflow_1_1_i_log_sink"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ILogSink</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow8ILogSinkE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1_i_log_sink"><span class="std std-ref">ILogSink</span></a> is an interface class designed to provide an abstraction for logging functionality. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow8ILogSink3logEiRKNSt6stringE">
+<span id="_CPPv3N10visionflow8ILogSink3logEiRKNSt6stringE"></span><span id="_CPPv2N10visionflow8ILogSink3logEiRKNSt6stringE"></span><span id="visionflow::ILogSink::log__i.ssCR"></span><span class="target" id="classvisionflow_1_1_i_log_sink_1ad07c9ff0bb94a1a8d965eee8373d95db"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">log</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">level</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">message</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N10visionflow8ILogSink3logEiRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pure virtual function log that must be implemented in derived classes for handling logging. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>level</strong> – The log level. </p></li>
+<li><p><strong>message</strong> – The content of the log message. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="init-settings">
+<h2>Init Settings<a class="headerlink" href="#init-settings" title="Link to this heading">#</a></h2>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow20LicenseErrorCallBackE">
+<span id="_CPPv3N10visionflow20LicenseErrorCallBackE"></span><span id="_CPPv2N10visionflow20LicenseErrorCallBackE"></span><span class="target" id="namespacevisionflow_1afe62057b70b8f5ccb6fa539c14b6c322"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">LicenseErrorCallBack</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">product_name</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">product_version</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">feature_name</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">error_message</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow20LicenseErrorCallBackE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow14LicenseOptionsE">
+<span id="_CPPv3N10visionflow14LicenseOptionsE"></span><span id="_CPPv2N10visionflow14LicenseOptionsE"></span><span id="visionflow::LicenseOptions"></span><span class="target" id="structvisionflow_1_1_license_options"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LicenseOptions</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow14LicenseOptionsE" title="Link to this definition">#</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow14LicenseOptions11server_addrE">
+<span id="_CPPv3N10visionflow14LicenseOptions11server_addrE"></span><span id="_CPPv2N10visionflow14LicenseOptions11server_addrE"></span><span id="visionflow::LicenseOptions::server_addr__ss"></span><span class="target" id="structvisionflow_1_1_license_options_1a3e6e0dbd402a4ba881af3e82b3c1e2be"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">server_addr</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow14LicenseOptions11server_addrE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Server IP address (127.0.0.1): 1.If it is empty, the local lock will be used; 2.If it is not empty, the network lock will be used. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow14LicenseOptions10license_idE">
+<span id="_CPPv3N10visionflow14LicenseOptions10license_idE"></span><span id="_CPPv2N10visionflow14LicenseOptions10license_idE"></span><span id="visionflow::LicenseOptions::license_id__ss"></span><span class="target" id="structvisionflow_1_1_license_options_1ab4bde3f6d65dc74ba3803ca2138e844f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">license_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow14LicenseOptions10license_idE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Dongle unique ID, The sn of the lock or the user_guid of the slock, you can get them with <a class="reference internal" href="helpers.html#namespacevisionflow_1_1helper_1ae60f24f19c5934b276262b97c39506f0"><span class="std std-ref">visionflow::helper::license_devices()</span></a>. 1. If it is empty, it will automatically find a lock that meets the conditions when logging in. 2. If it is not empty, it will only find and use the specified lock. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow14LicenseOptions12callback_funE">
+<span id="_CPPv3N10visionflow14LicenseOptions12callback_funE"></span><span id="_CPPv2N10visionflow14LicenseOptions12callback_funE"></span><span id="visionflow::LicenseOptions::callback_fun__LicenseErrorCallBack"></span><span class="target" id="structvisionflow_1_1_license_options_1a40563dbf2f3ecee3c8ef1ced0780ede5"></span><a class="reference internal" href="#_CPPv4N10visionflow20LicenseErrorCallBackE" title="visionflow::LicenseErrorCallBack"><span class="n"><span class="pre">LicenseErrorCallBack</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">callback_fun</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow14LicenseOptions12callback_funE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Callback function in case of an error in the authorization verification phase, if the return value is true, the login will be attempted again, otherwise the verification of this feature will be skipped. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptionsE">
+<span id="_CPPv3N10visionflow11InitOptionsE"></span><span id="_CPPv2N10visionflow11InitOptionsE"></span><span id="visionflow::InitOptions"></span><span class="target" id="structvisionflow_1_1_init_options"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitOptions</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptionsE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Global initialize options. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions12product_markE">
+<span id="_CPPv3N10visionflow11InitOptions12product_markE"></span><span id="_CPPv2N10visionflow11InitOptions12product_markE"></span><span id="visionflow::InitOptions::product_mark__ss"></span><span class="target" id="structvisionflow_1_1_init_options_1a81b4a90f2eb9f75d9eeadaef72a3016f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">product_mark</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions12product_markE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The product identifier, which is written to the project .vfpro file when a new project is created, identifies that the project was created with this product. Normally only projects with an identifier that matches the identifier of this product will be allowed to be opened (this means that it is a project that is recognized by the current product). If you open an old project (i.e. without a product identification field in the .vfpro file), it will be compatible by default and will write the current product’s identification upon successful opening of the project. Finally, it is advisable not to leave this field empty. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions24compatible_product_marksE">
+<span id="_CPPv3N10visionflow11InitOptions24compatible_product_marksE"></span><span id="_CPPv2N10visionflow11InitOptions24compatible_product_marksE"></span><span id="visionflow::InitOptions::compatible_product_marks__std::vector:ss:"></span><span class="target" id="structvisionflow_1_1_init_options_1a1df014a4ea386de19a95c48e110830d4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compatible_product_marks</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions24compatible_product_marksE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sometimes you may want to be able to open projects created by other products, and you can do this by writing the mark of those products to this list. If <a class="reference internal" href="#structvisionflow_1_1_init_options_1a81b4a90f2eb9f75d9eeadaef72a3016f"><span class="std std-ref">product_mark</span></a> is not empty, it will be added to this list automatically, if you don’t want to do the checking of the mark field, leave <a class="reference internal" href="#structvisionflow_1_1_init_options_1a81b4a90f2eb9f75d9eeadaef72a3016f"><span class="std std-ref">product_mark</span></a> and <a class="reference internal" href="#structvisionflow_1_1_init_options_1a1df014a4ea386de19a95c48e110830d4"><span class="std std-ref">compatible_product_marks</span></a> both empty. If you want to be compatible with products that have empty identifiers (i.e. they have an identifier field, but the identifier field is empty), you need to explicitly add an empty identifier (e.g. “”) to this list. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions6loggerE">
+<span id="_CPPv3N10visionflow11InitOptions6loggerE"></span><span id="_CPPv2N10visionflow11InitOptions6loggerE"></span><span id="visionflow::InitOptions::logger__LoggerOptions"></span><span class="target" id="structvisionflow_1_1_init_options_1a3322309c27d3a05da6d97165ff5eb7d7"></span><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptionsE" title="visionflow::LoggerOptions"><span class="n"><span class="pre">LoggerOptions</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">logger</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions6loggerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Logger options. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions8languageE">
+<span id="_CPPv3N10visionflow11InitOptions8languageE"></span><span id="_CPPv2N10visionflow11InitOptions8languageE"></span><span id="visionflow::InitOptions::language__cCP"></span><span class="target" id="structvisionflow_1_1_init_options_1ab82334ced809b64d5019a19bc0b7ff86"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">language</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions8languageE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Language used in VisionFlow. Currently, there are two language you can choose : Chinese (zh_CN) or English (en_US). By default, VisionFlow will use the language consistent with the operating system settings if you don’t set any language or set an empty string. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions7licenseE">
+<span id="_CPPv3N10visionflow11InitOptions7licenseE"></span><span id="_CPPv2N10visionflow11InitOptions7licenseE"></span><span id="visionflow::InitOptions::license__LicenseOptions"></span><span class="target" id="structvisionflow_1_1_init_options_1ac56b5c0880aa02afd57150806a7b67ce"></span><a class="reference internal" href="#_CPPv4N10visionflow14LicenseOptionsE" title="visionflow::LicenseOptions"><span class="n"><span class="pre">LicenseOptions</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">license</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions7licenseE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Configure license: server addr, license id and callback fun. <a class="reference internal" href="#structvisionflow_1_1_license_options"><span class="std std-ref">LicenseOptions</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions23cloud_project_cache_dirE">
+<span id="_CPPv3N10visionflow11InitOptions23cloud_project_cache_dirE"></span><span id="_CPPv2N10visionflow11InitOptions23cloud_project_cache_dirE"></span><span id="visionflow::InitOptions::cloud_project_cache_dir__cCP"></span><span class="target" id="structvisionflow_1_1_init_options_1afc3cb91a59f393f04fceacf0969b1af2"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cloud_project_cache_dir</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions23cloud_project_cache_dirE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Where the cloud project cache directory is located, which will be in the user home directory by default or set this option to empty string. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions24cloud_metadata_cache_dirE">
+<span id="_CPPv3N10visionflow11InitOptions24cloud_metadata_cache_dirE"></span><span id="_CPPv2N10visionflow11InitOptions24cloud_metadata_cache_dirE"></span><span id="visionflow::InitOptions::cloud_metadata_cache_dir__cCP"></span><span class="target" id="structvisionflow_1_1_init_options_1ae8be73cb83e8be4276524a63f32a967a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cloud_metadata_cache_dir</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions24cloud_metadata_cache_dirE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Where the cloud metadata cache directory is located, which will be in the user home directory by default or set this option to empty string. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions24runtime_timing_cache_dirE">
+<span id="_CPPv3N10visionflow11InitOptions24runtime_timing_cache_dirE"></span><span id="_CPPv2N10visionflow11InitOptions24runtime_timing_cache_dirE"></span><span id="visionflow::InitOptions::runtime_timing_cache_dir__cCP"></span><span class="target" id="structvisionflow_1_1_init_options_1a531d1c8829d335d754c67ad2bffc46b1"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">runtime_timing_cache_dir</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions24runtime_timing_cache_dirE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The directory where the runtime timing cache is located, which will be in the user home directory by default, or you can set this option to empty string to disable timing cache. </p>
+<p>The runtime timing cache is used to store the timing information of the runtime initialing, which can be used to analyze the performance of the runtime initialing. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions23global_thread_pool_sizeE">
+<span id="_CPPv3N10visionflow11InitOptions23global_thread_pool_sizeE"></span><span id="_CPPv2N10visionflow11InitOptions23global_thread_pool_sizeE"></span><span id="visionflow::InitOptions::global_thread_pool_size__s"></span><span class="target" id="structvisionflow_1_1_init_options_1a4cd5bbe405c85ddb9612168c2c2fe7c2"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">global_thread_pool_size</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions23global_thread_pool_sizeE" title="Link to this definition">#</a><br /></dt>
+<dd><p><p>The size of the global thread pool. VisionFlow will create a thread pool to running the asynchronous tasks such as inferring sample in asynchronous mode or synchronize data with the cloud. You can set the thread number of the global thread pool by this option. A value automatically determined based on hardware conditions(typically the</p>
+<p>number of CPU cores) will be set if the given value is 0 (by default).</p>
+</p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions31view_tagger_iou_upper_thresholdE">
+<span id="_CPPv3N10visionflow11InitOptions31view_tagger_iou_upper_thresholdE"></span><span id="_CPPv2N10visionflow11InitOptions31view_tagger_iou_upper_thresholdE"></span><span id="visionflow::InitOptions::view_tagger_iou_upper_threshold__double"></span><span class="target" id="structvisionflow_1_1_init_options_1a027000c4b0a72295467176ed57b4583c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">view_tagger_iou_upper_threshold</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.85</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions31view_tagger_iou_upper_thresholdE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The larger CIou threshold for opers::ViewTagger to automatically divide into training or testing sets and retain the tags of new views based on the TaggedPolygonList, which is generated from the old views. Default is 0.85. </p>
+<p>The input view will be compared with <a class="reference internal" href="props.html#classvisionflow_1_1_tagged_polygon"><span class="std std-ref">TaggedPolygon</span></a> to calculate the CIou value.<ul class="simple">
+<li><p>If the value is greater than view_tagger_iou_upper_threshold, the view will inherit the SplitTag and <a class="reference internal" href="props.html#classvisionflow_1_1_tags"><span class="std std-ref">Tags</span></a> from the <a class="reference internal" href="props.html#classvisionflow_1_1_tagged_polygon"><span class="std std-ref">TaggedPolygon</span></a>.</p></li>
+<li><p>If the value is between view_tagger_iou_lower_threshold and view_tagger_iou_upper_threshold, the view will be marked as Unknown and an additional “VFLOW-Candidate:=Train” or “VFLOW-Candidate:=Test” Tag will be added, suggesting that it should be added to the training or test set.</p></li>
+<li><p>If the value is less than view_tagger_iou_lower_threshold, the view will be marked as Unknown and no <a class="reference internal" href="props.html#classvisionflow_1_1_tags"><span class="std std-ref">Tags</span></a> will be added. </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions31view_tagger_iou_lower_thresholdE">
+<span id="_CPPv3N10visionflow11InitOptions31view_tagger_iou_lower_thresholdE"></span><span id="_CPPv2N10visionflow11InitOptions31view_tagger_iou_lower_thresholdE"></span><span id="visionflow::InitOptions::view_tagger_iou_lower_threshold__double"></span><span class="target" id="structvisionflow_1_1_init_options_1ae94fba90f6cd1fa13e6f0c64f66077e1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">view_tagger_iou_lower_threshold</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.1</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions31view_tagger_iou_lower_thresholdE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The smaller CIou threshold for opers::ViewTagger to automatically set new views as unknow tag (Unlabeled Dataset) based on the TaggedPolygonList, which is generated from the old views. Default is 0.1. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions23enable_training_serviceE">
+<span id="_CPPv3N10visionflow11InitOptions23enable_training_serviceE"></span><span id="_CPPv2N10visionflow11InitOptions23enable_training_serviceE"></span><span id="visionflow::InitOptions::enable_training_service__b"></span><span class="target" id="structvisionflow_1_1_init_options_1a3bd048f136d15498d67b0cad645cc8ad"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enable_training_service</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions23enable_training_serviceE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether to enable the training service. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions21training_service_portE">
+<span id="_CPPv3N10visionflow11InitOptions21training_service_portE"></span><span id="_CPPv2N10visionflow11InitOptions21training_service_portE"></span><span id="visionflow::InitOptions::training_service_port__i"></span><span class="target" id="structvisionflow_1_1_init_options_1a90ab7ba6feec1a2a00c2616df8690ed1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">training_service_port</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8670</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions21training_service_portE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Port number for the training service. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11InitOptions22use_python_environmentE">
+<span id="_CPPv3N10visionflow11InitOptions22use_python_environmentE"></span><span id="_CPPv2N10visionflow11InitOptions22use_python_environmentE"></span><span id="visionflow::InitOptions::use_python_environment__b"></span><span class="target" id="structvisionflow_1_1_init_options_1a86911a86e06d306aa3a80d298b9eab79"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">use_python_environment</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N10visionflow11InitOptions22use_python_environmentE" title="Link to this definition">#</a><br /></dt>
+<dd><p>If true, the Python interpreter will prefer using existing environment variables (such as PYTHONPATH, PYTHONHOME, etc.) if they are set; otherwise, it will fall back to the manually specified paths such as py_lib and third_party_base_path. If false, the interpreter will ignore environment variables and use only the provided paths. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow10initializeERK11InitOptions">
+<span id="_CPPv3N10visionflow10initializeERK11InitOptions"></span><span id="_CPPv2N10visionflow10initializeERK11InitOptions"></span><span id="visionflow::initialize__InitOptionsCR"></span><span class="target" id="namespacevisionflow_1a3ae74d5e0334223e93fb79d6e1a62d06"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="namespace.html#_CPPv410visionflow" title="visionflow"><span class="n"><span class="pre">visionflow</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow11InitOptionsE" title="visionflow::InitOptions"><span class="n"><span class="pre">InitOptions</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">options</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow10initializeERK11InitOptions" title="Link to this definition">#</a><br /></dt>
+<dd><p>Initialize the visionflow library. This function should be called before calling any other interface of the VisionFlow library. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="namespace.html#_CPPv4N10visionflow7exceptsE" title="visionflow::excepts"><span class="n">excepts</span></a><span class="p">::</span><a class="reference internal" href="excepts.html#_CPPv4N10visionflow7excepts12LicenseErrorE" title="visionflow::excepts::LicenseError"><span class="n">LicenseError</span></a></span></span> – Failed to Initialize authorization verification service or failed to open license client. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11EnvironmentE">
+<span id="_CPPv3N10visionflow11EnvironmentE"></span><span id="_CPPv2N10visionflow11EnvironmentE"></span><span id="visionflow::Environment"></span><span class="target" id="classvisionflow_1_1_environment"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Environment</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow11EnvironmentE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> stores the configurations of environmental variables with a global map. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment3GetERKNSt6stringE">
+<span id="_CPPv3N10visionflow11Environment3GetERKNSt6stringE"></span><span id="_CPPv2N10visionflow11Environment3GetERKNSt6stringE"></span><span id="visionflow::Environment::Get__ssCR"></span><span class="target" id="classvisionflow_1_1_environment_1a6eea3e6671cadd8b8eace98eec4761fb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">Get</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment3GetERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the value of the environment with key. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> – The environment key. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="namespace.html#_CPPv4N10visionflow7exceptsE" title="visionflow::excepts"><span class="n">excepts</span></a><span class="p">::</span><a class="reference internal" href="excepts.html#_CPPv4N10visionflow7excepts12DataNotFoundE" title="visionflow::excepts::DataNotFound"><span class="n">DataNotFound</span></a></span></span> – Throws if key not exists in the map. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>const std::string&amp; the environment value of the key. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment3SetERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N10visionflow11Environment3SetERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N10visionflow11Environment3SetERKNSt6stringERKNSt6stringE"></span><span id="visionflow::Environment::Set__ssCR.ssCR"></span><span class="target" id="classvisionflow_1_1_environment_1a21cb6c662c5d62ab6de958efe2f2ee9f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Set</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment3SetERKNSt6stringERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the environment variable. If the key not exists, it will be added into map. Otherwise, the map will be updated with the new value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – The key of the environment variable. </p></li>
+<li><p><strong>value</strong> – The value of the environment variable. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment6ExistsERKNSt6stringE">
+<span id="_CPPv3N10visionflow11Environment6ExistsERKNSt6stringE"></span><span id="_CPPv2N10visionflow11Environment6ExistsERKNSt6stringE"></span><span id="visionflow::Environment::Exists__ssCR"></span><span class="target" id="classvisionflow_1_1_environment_1ae3d7c2a15f381cff781edf452d42c849"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Exists</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment6ExistsERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the environment variable with the key exists. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> – The key of the environment variable. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment5EraseERKNSt6stringE">
+<span id="_CPPv3N10visionflow11Environment5EraseERKNSt6stringE"></span><span id="_CPPv2N10visionflow11Environment5EraseERKNSt6stringE"></span><span id="visionflow::Environment::Erase__ssCR"></span><span class="target" id="classvisionflow_1_1_environment_1ac1c096c5061a3b3501b13318da2eaa23"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Erase</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment5EraseERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Erase the environment variable in the map with the key. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Nothing will happen if the key not exists in the map.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> – The key of the environment variable. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment5ClearEv">
+<span id="_CPPv3N10visionflow11Environment5ClearEv"></span><span id="_CPPv2N10visionflow11Environment5ClearEv"></span><span id="visionflow::Environment::Clear"></span><span class="target" id="classvisionflow_1_1_environment_1a066af780f84a529bbd4bf45adb6bb305"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment5ClearEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Clear all the environmental variables. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment10AllEnvKeysEv">
+<span id="_CPPv3N10visionflow11Environment10AllEnvKeysEv"></span><span id="_CPPv2N10visionflow11Environment10AllEnvKeysEv"></span><span id="visionflow::Environment::AllEnvKeys"></span><span class="target" id="classvisionflow_1_1_environment_1a5385e04e76406bd553dc7fed554f4439"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllEnvKeys</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment10AllEnvKeysEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get all environment variables’ keys in the map. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::vector&lt;std::string&gt; </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment16MeetRequirementsERKNSt3mapINSt6stringENSt6stringEEE">
+<span id="_CPPv3N10visionflow11Environment16MeetRequirementsERKNSt3mapINSt6stringENSt6stringEEE"></span><span id="_CPPv2N10visionflow11Environment16MeetRequirementsERKNSt3mapINSt6stringENSt6stringEEE"></span><span id="visionflow::Environment::MeetRequirements__std::map:ss.ss:CR"></span><span class="target" id="classvisionflow_1_1_environment_1ac6dfd1618943af2b71f3bf30789180c9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MeetRequirements</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">env_vars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment16MeetRequirementsERKNSt3mapINSt6stringENSt6stringEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the current configurations of the <a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> Management System meets the environmental conditions with a map of environment variables. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current <a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> system meets requirements means all key-value pairs in the env_vars exist in <a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> system. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env_vars</strong> – The map of environment variables to be checked. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true The current environment system meets the requirements of the param’s environmental condition. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false The current environment system does not meet the requirements of the param’s environmental condition. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow11Environment26GetAllEnvironmentVariablesEv">
+<span id="_CPPv3N10visionflow11Environment26GetAllEnvironmentVariablesEv"></span><span id="_CPPv2N10visionflow11Environment26GetAllEnvironmentVariablesEv"></span><span id="visionflow::Environment::GetAllEnvironmentVariables"></span><span class="target" id="classvisionflow_1_1_environment_1abeebf247a36ab3da0ca0f899122ec616"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetAllEnvironmentVariables</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow11Environment26GetAllEnvironmentVariablesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the All <a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> Variables key-value pairs. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::map&lt;std::string, std::string&gt; The key-value pairs of all <a class="reference internal" href="#classvisionflow_1_1_environment"><span class="std std-ref">Environment</span></a> Variables. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="core.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Core Interface</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="namespace.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Namespace</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Global Settings</a><ul>
+<li><a class="reference internal" href="#product-information">Product Information</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfoE"><code class="docutils literal notranslate"><span class="pre">ProductInfo</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo13version_majorE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version_major</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo13version_minorE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version_minor</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo13version_patchE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version_patch</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo11version_numE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version_num</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo7versionE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo12version_fullE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::version_full</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo9file_hashE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::file_hash</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo14file_full_hashE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::file_full_hash</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo11release_tagE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::release_tag</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo15build_timestampE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::build_timestamp</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo9copyrightE"><code class="docutils literal notranslate"><span class="pre">ProductInfo::copyright</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11ProductInfo3GetEv"><code class="docutils literal notranslate"><span class="pre">ProductInfo::Get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logging-settings">Logging Settings</a><ul>
+<li><a class="reference internal" href="#_CPPv411LogSinkFunc"><code class="docutils literal notranslate"><span class="pre">LogSinkFunc</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptionsE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions9file_sinkE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::file_sink</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions9func_sinkE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::func_sink</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions11stdout_sinkE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::stdout_sink</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions9msvc_sinkE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::msvc_sink</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions11flush_levelE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::flush_level</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow13LoggerOptions11custom_sinkE"><code class="docutils literal notranslate"><span class="pre">LoggerOptions::custom_sink</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11init_loggerERK13LoggerOptions"><code class="docutils literal notranslate"><span class="pre">init_logger()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow8ILogSinkE"><code class="docutils literal notranslate"><span class="pre">ILogSink</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow8ILogSink3logEiRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">ILogSink::log()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#init-settings">Init Settings</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow20LicenseErrorCallBackE"><code class="docutils literal notranslate"><span class="pre">LicenseErrorCallBack</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow14LicenseOptionsE"><code class="docutils literal notranslate"><span class="pre">LicenseOptions</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow14LicenseOptions11server_addrE"><code class="docutils literal notranslate"><span class="pre">LicenseOptions::server_addr</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow14LicenseOptions10license_idE"><code class="docutils literal notranslate"><span class="pre">LicenseOptions::license_id</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow14LicenseOptions12callback_funE"><code class="docutils literal notranslate"><span class="pre">LicenseOptions::callback_fun</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptionsE"><code class="docutils literal notranslate"><span class="pre">InitOptions</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions12product_markE"><code class="docutils literal notranslate"><span class="pre">InitOptions::product_mark</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions24compatible_product_marksE"><code class="docutils literal notranslate"><span class="pre">InitOptions::compatible_product_marks</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions6loggerE"><code class="docutils literal notranslate"><span class="pre">InitOptions::logger</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions8languageE"><code class="docutils literal notranslate"><span class="pre">InitOptions::language</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions7licenseE"><code class="docutils literal notranslate"><span class="pre">InitOptions::license</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions23cloud_project_cache_dirE"><code class="docutils literal notranslate"><span class="pre">InitOptions::cloud_project_cache_dir</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions24cloud_metadata_cache_dirE"><code class="docutils literal notranslate"><span class="pre">InitOptions::cloud_metadata_cache_dir</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions24runtime_timing_cache_dirE"><code class="docutils literal notranslate"><span class="pre">InitOptions::runtime_timing_cache_dir</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions23global_thread_pool_sizeE"><code class="docutils literal notranslate"><span class="pre">InitOptions::global_thread_pool_size</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions31view_tagger_iou_upper_thresholdE"><code class="docutils literal notranslate"><span class="pre">InitOptions::view_tagger_iou_upper_threshold</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions31view_tagger_iou_lower_thresholdE"><code class="docutils literal notranslate"><span class="pre">InitOptions::view_tagger_iou_lower_threshold</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions23enable_training_serviceE"><code class="docutils literal notranslate"><span class="pre">InitOptions::enable_training_service</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions21training_service_portE"><code class="docutils literal notranslate"><span class="pre">InitOptions::training_service_port</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11InitOptions22use_python_environmentE"><code class="docutils literal notranslate"><span class="pre">InitOptions::use_python_environment</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow10initializeERK11InitOptions"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11EnvironmentE"><code class="docutils literal notranslate"><span class="pre">Environment</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment3GetERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Environment::Get()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment3SetERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Environment::Set()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment6ExistsERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Environment::Exists()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment5EraseERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Environment::Erase()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment5ClearEv"><code class="docutils literal notranslate"><span class="pre">Environment::Clear()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment10AllEnvKeysEv"><code class="docutils literal notranslate"><span class="pre">Environment::AllEnvKeys()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment16MeetRequirementsERKNSt3mapINSt6stringENSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">Environment::MeetRequirements()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow11Environment26GetAllEnvironmentVariablesEv"><code class="docutils literal notranslate"><span class="pre">Environment::GetAllEnvironmentVariables()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

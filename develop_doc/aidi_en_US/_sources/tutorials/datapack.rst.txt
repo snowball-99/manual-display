@@ -1,0 +1,490 @@
+
+VisionFlow的数据包
+====================
+
+VisionFlow中除了可以使用工程来管理数据外，我们还提供了数据包用于管理图像数据和标注。
+数据包和工程的主要区别在于：工程是为了处理一个特定的检测任务而创建的，工程中除了包含
+图像数据、图像信息、标注和检测结果外，更重要的是将这些数据安装检测流程组织起来。
+而数据包是一个存粹的图像和标注信息的数据管理管理工具，它仅仅将图像和标注保存在一起，和
+具体的检测流程或使用到的检测工具没有直接关系也不包含检测流程或检测工具的任何信息。
+
+你可以使用数据包来：
+#. 在未知检测工具和流程的情况下保存标注数据；
+#. 将工程中的标注和图像数据存储到独立的数据包中；
+#. 从数据包中导入数据到一个或多个工程中；
+#. 长久保存通用标注数据；
+
+工程和数据包的交互
+-------------------
+
+你可以将工程中的数据导出为数据包，再在其他工程中将这些数据导入。通过这一功能，你可以非常方便
+的在不同工程、不同工具、甚至不同类型的工具之间复制标注等数据。下面是一个简单的使用示例：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      #include "visionflow/helpers/datapack_project_io.hpp"
+
+      void export_to_datapack() {
+        auto proj = vflow::Project::Open("D://example.vflow");
+
+        std::string datapack_path = u8"D://example.vfpack";
+
+        vflow::helper::DatapackExportOptions export_opt;
+        /* 输入工具的名称，为空时会尝试自动查找 */
+        export_opt.input_tool_id = "InputTool";
+        /* 设置为空表示从主数据集导出 */
+        export_opt.sample_set_name = "";
+        /* 导出所有样本 */
+        export_opt.export_all_samples = true;
+        /* 同时导出图像 */
+        export_opt.with_image = true;
+        /* 要导出的属性集 */
+        export_opt.property_ids = {
+          {"SegmentationTool", visionflow::Segmentation::truth},
+          {"SegmentationTool", visionflow::Segmentation::pred},
+          {"InputTool", visionflow::Input::views},
+        };
+        export_opt.remark = "备注信息";
+        /* 进度回调 */
+        export_opt.progress_callback = nullptr;
+
+        vflow::helper::export_project_to_datapack(*proj, datapack_path, export_opt);
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+同上面一样，你也可以非常方面的将数据从数据包中将数据导入到工程中：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+      #include "visionflow/helpers/datapack_project_io.hpp"
+
+      void import_from_datapack() {
+
+        auto datapack = vflow::datapack::Datapack(u8"D://example.vfpack");
+
+        vflow::helper::DatapackImportOptions import_opt;
+        /* 要导入的数据项 */
+        import_opt.sample_ids = datapack.sample_ids();
+        /* 同导出一样，你可以设置为全部导入
+        // import_opt.import_all_samples = true;
+        /* 设置为空表示导入到主据集 */
+        import_opt.sample_set_name = "";
+        /* 输入工具的名称，为空时会尝试自动查找 */
+        export_opt.input_tool_id = "InputTool_1";
+        /* 同时导入图像 */
+        import_opt.with_image = true;
+        /* 导入时的映射关系 */
+        import_opt.property_column_map = {
+          {{"DetectionTool", visionflow::Detection::truth}, "SegmentationTool/pred"},
+          {{"InputTool_1", visionflow::Input::views}, "InputTool/views"},
+        };
+        /* 仅导入对应图像已在工程中的相关数据 */
+        import_ot.only_import_for_exist_sample = true;
+        /* 强制替换旧数据 */
+        import_ot.force_replace_old_data = true;
+        /* 进度回调 */
+        import_opt.progress_callback = nullptr;
+
+        vflow::helper::import_datapack_to_project(datapack, *proj, import_opt);
+      }
+
+.. tab:: Python
+
+    .. code-block:: python
+
+      .. TODO
+
+.. tab:: C#
+
+    .. code-block:: csharp
+
+      .. TODO
+
+直接操作数据包
+-------------------
+
+除上面提供的帮助快速在工程和数据包之间互导数据的方法外，数据包也提供了灵活的接口用于访问数据包中的任意数据项；
+这些接口通过 :cpp:class:`visionflow::datapack::DataPack` 及其相关类型提供。
+
+数据包的结构
+~~~~~~~~~~~~~~~~~~~
+
+与数据集类似，数据包采用 **样本** 和 **列** 的二维表结构组织数据。
+每个样本包含一些元数据、包含或不含图像、包含若干列的标注或视图数据。
+数据包中还有一些独立的元数据，包括数据包创建的版本、创建时的VisionFlow库版本、备注和一个可以自由编辑的 ``std::map<std::string, std::string>``。
+
+向数据包添加VisionFlow数据
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+如果你的标注和视图数据来自于VisionFlow，你可以很简单地将它们添加到数据包。
+
+以这样一个场景为例：你通过导出的模型推理样本得到了检测结果，你希望将结果保存到数据包中，然后导入到另外某个工程。
+接续 :ref:`execute_model` 的例子，假设你执行了一个分割工具，要将样本图、图的视图和分割工具上 ``pred`` 节点的推理结果保存下来。
+
+首先，创建一个数据包，并为要保存的数据分配数据包的列：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/datapack/datapack.hpp"
+
+        // 数据包的扩展名必须是 .vfpack
+        // 构造函数的第二个参数 create_if_not_exist 设置为 true 以在文件不存在时新建
+        vflow::datapack::DataPack datapack("D:/path/to/datapack.vfpack", true);
+        // 非必须：设置数据包的备注
+        datapack.set_remark("test datapack");
+        // 非必须：利用额外字段保存其他自定义信息
+        datapack.extra_fields()["key"] = "value";
+
+        // 这里将视图和推理结果在数据包中的列名设置为 "input/views" 和 "seg/pred"
+        // 列名可以自由设置, 确保它没有与数据包中其他列名重名, 在使用数据包中的数据时使用这里的列名
+        auto view_column = datapack.view_column("input/views");
+        auto pred_column = datapack.label_column("seg/pred");
+
+创建一个样本并将样本添加到数据包中。
+
+为了添加到数据包，必须有一个图像指纹。在调用 :cpp:func:`visionflow::helper::add_image_to_sample` 时第四个参数需要传入 ``true``。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/helpers/datapack_property_cvt.hpp"
+
+        auto sample = runtime.create_sample();
+        auto image = vflow::Image::FromFile("D:/path/to/image.png");
+
+        // 为了添加到数据包, 在此处必须计算图像指纹
+        // 创建的缩略图也会一起保存到数据包中, 可以视需要操作
+        vflow::helper::add_image_to_sample(sample, image, input_id, true, 512);
+
+        // 将VisionFlow类型转换为数据包中的类型
+        auto image_info = vflow::helper::convert_to_datapack_image_info(
+            sample.get({input_id, "image_info"})->as<vflow::props::RawImageInfo>(),
+            sample.get({input_id, "image_user_data"})->as<vflow::props::ImageUserData>()
+        );
+        // 在数据包中添加样本和图像
+        auto sample_id = datapack.create_sample(image_info);
+        datapack.set_image(sample_id, image);
+
+        // 将VisionFlow类型转换为数据包中的类型
+        auto view = vflow::helper::convert_to_datapack_view(
+            sample.get({input_id, "views"})->as<vflow::props::ViewList>()
+        );
+        // 添加图像的视图
+        view_column->set(sample_id, view);
+
+执行模型推理样本，将推理结果保存在数据包中：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        runtime.execute(sample);
+
+        // 将VisionFlow类型转换为数据包中的类型
+        auto pred = vflow::helper::convert_to_datapack_label(
+            sample.get({segmentation_id, "pred"})->as<vflow::props::PolygonRegionList>()
+        );
+        // 将推理结果保存到数据包中
+        pred_column->set(sample_id, pred);
+
+数据包在对象析构时会自动将数据保存到文件。
+
+你也可以调用 :cpp:func:`visionflow::datapack::DataPack::close` 提前保存数据并关闭数据包，
+这时你可以通过一个 :cpp:class:`visionflow::util::IProgressCallback` 来跟踪保存进度或取消保存。
+关于进度回调的详细说明，请参考 :doc:`/advanced_topics/training_callback`。
+
+.. warning::
+
+    一旦取消保存，之前添加的数据都会被丢弃。不论是否取消保存，数据包关闭后不能再做任何操作。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        vflow::util::IProgressCallback *progress = new CustomProgressCallback();
+        datapack.close(progress);
+        delete progress;
+
+注意到在上面的例子中，使用了来自 ``visionflow/helpers/datapack_property_cvt.hpp`` 的三个辅助函数。
+这些函数的作用是将VisionFlow的属性转换为数据包中的数据类型。通过这样的转换得到的数据可以无损地转换回原本的类型。
+
+推荐在你的数据是VisionFlow的属性类型时尽可能使用这些辅助函数，以确保数据能够完整地被保存和再使用。
+
+手动组装数据
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+你也可以手动将数据组装后添加到数据包。这时你需要处理以下3种类型：
+:cpp:class:`visionflow::datapack::ImageInfo`、
+:cpp:class:`visionflow::datapack::ViewList` 和
+:cpp:class:`visionflow::datapack::Label`。
+
+组装 ImageInfo
+####################
+
+:cpp:class:`visionflow::datapack::ImageInfo` 包含了图像的元数据。它被用于在数据包中创建样本，其中的图像指纹被用于在数据包中区分图像。
+这些数据在创建样本后就不能修改。
+
+如果使用上文所述的 :cpp:func:`visionflow::helper::import_datapack_to_project` 将组装的数据包导入工程，这里的数据会被用于替换输入工具
+``image_info`` 节点的图像数据。因此你应当确保组装的数据与图像对应。
+
+在下面例子中假设你已经有一个 :cpp:class:`visionflow::img::Image` 类型的图像，代码展示了如何利用图像的信息组装 ``ImageInfo``：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/datapack/image_info.hpp"
+
+        const std::string file_path = "D:/path/to/image.png";
+
+        vflow::Image image = vflow::Image::FromFile(file_path);
+        vflow::datapack::ImageInfo image_info;
+
+        // 记录图像指纹
+        image_info.set_image_fingerprint(vflow::img::fingerprint(image));
+        // 记录图像尺寸
+        image_info.set_image_size(image.size());
+        // 收集并记录图像通道数和深度
+        std::vector<uint32_t> channels;
+        std::vector<vflow::img::Image::Depth> depths;
+        for (size_t i = 0; i < image.visual_size(); i++) {
+            channels.emplace_back(image.channels(i));
+            depths.emplace_back(image.depth(i));
+        }
+        image_info.set_channels_and_depth(channels, depths);
+        // 记录图像来源
+        image_info.set_file_path(file_path);
+        image_info.set_from_camera(false);
+        // 记录缩略图
+        image_info.set_thumbnail_image(image.clone().resize({128, 128}));
+
+        // 如果你希望为图像上增加标签，也应记录
+        vflow::Tags tags;
+        tags.add("tag1").add("group:=value");
+        image_info.set_tags(tags);
+        // 也可以增加样本的标签
+        vflow::Tags descriptor_tags;
+        descriptor_tags.add("tag1").add("group:=value");
+        image_info.set_descriptor_tags(descriptor_tags);
+
+组装 ViewList
+####################
+
+:cpp:class:`visionflow::datapack::ViewList` 包含了图像的视图信息。
+它与VisionFlow中的 :cpp:class:`visionflow::props::ViewList` 对应。
+
+它是若干个 :cpp:class:`visionflow::datapack::View` 视图的字典，每个 ``View`` 拥有一个唯一ID作为键。
+
+在下面的例子中展示了如何组装一个只含有一个视图的 ``ViewList``。该视图是一个不带有掩膜、名称、评分或标签的全图视图，这也是导入图像时的默认视图。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto image = vflow::Image::FromFile("D:/path/to/image.png");
+
+        vflow::datapack::ViewList view_list;
+
+        vflow::datapack::View item;
+        // 设置变换矩阵为单位矩阵
+        vflow::geometry::Matrix3f transform_mat(1.0F);
+        item.set_transform_matrix(transform_mat);
+        // 设置掩膜为空
+        vflow::geometry::MultiPolygon2f mask;
+        item.set_mask(mask);
+        // 设置变换后尺寸为图像尺寸
+        vflow::geometry::Size2f size = image.size();
+        item.set_size(size);
+        // 设置名称和评分为空
+        item.set_name("");
+        item.set_score(0.0F);
+        // 设置标签和训练集区分为空
+        // 这里是为了展示如何设置额外字段，如果实际数据为空，直接略去这两个键即可
+        std::map<std::string, std::string> extra_fields;
+        // 标签在 extra_fields 中固定使用 "tags" 键，值为JSON格式的字符串数组
+        extra_fields["tags"] = "[]";
+        // 训练集区分在 extra_fields 中固定使用 "split_tag" 键，值为 "0" "1" 或 "2"，对应 visionflow::SplitTag 的三个枚举值
+        extra_fields["split_tag"] = "0";
+        item.set_extra_fields(extra_fields);
+
+        // 将单个视图添加到列表，调用 add 方法时将返回一个随机分配的ID
+        std::string added_id = view_list.add(item);
+        // 或者，通过 update 方法可以指定ID
+        view_list.update("view_id", item);
+
+组装 Label
+####################
+
+:cpp:class:`visionflow::datapack::Label` 包含了图像的标注信息。
+它与VisionFlow中的 :cpp:class:`visionflow::props::IProperty` 对应。
+
+由于VisionFlow中存在多种不同的标注属性， ``Label`` 将其抽象为标注区域 :cpp:class:`visionflow::datapack::LabelRegion`
+的字典，每个 ``LabelRegion`` 拥有一个唯一ID作为键。
+
+每个 ``LabelRegion`` 记录一个标注区域，记录的数据包括：一个多边形，表示区域的形状、一个角度，表示区域的方向、名称和评分；
+不同的标注属性独有的数据利用 ``extra_fields`` 字段来处理。
+
+在下面的例子中展示了如何组装一个只含一个区域的 ``Label``；
+并且，这个 ``Label`` 记录了额外数据，这些数据能够一起被转换为 :cpp:class:`visionflow::props::PolygonWithStringMapRegionList`。
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        vflow::datapack::Label label;
+
+        vflow::datapack::LabelRegion item;
+        // 设置代表标注区域的多边形，必须符合多边形的要求
+        vflow::geometry::Polygon2f polygon;
+        item.set_polygon(polygon);
+        // 设置标注区域的方向
+        item.set_angle(vflow::geometry::Radian::FromDegree(45.0F));
+        // 设置名称和评分
+        item.set_name("label_name");
+        item.set_score(0.9F);
+
+        // 在 extra_fields 中添加额外的数据
+        // 由于目标是转换为 PolygonWithStringMapRegionList，这里的键必须是 "additional_map"
+        // 值必须是JSON格式的字典，为实际数据内容。
+        std::map<std::string, std::string> extra_fields;
+        extra_fields["additional_map"] = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
+        item.set_extra_fields(extra_fields);
+
+        // 将单个区域添加到标注，调用 add 方法时将返回一个随机分配的ID
+        std::string added_id = label.add(item);
+        // 或者，通过 update 方法可以指定ID
+        label.update("region_id", item);
+
+如果你组装 ``Label`` 的目标是能够在将数据包导入工程时自动转换为VisionFlow的标注类型，并且在转换时带有每种标注类型的独有字段数据，
+你需要正确设置 ``extra_fields`` 字段。
+
+不同标注属性类型对 ``extra_fields`` 有不同要求。每一个标注类型独有的字段名作为 ``extra_fields`` 的键，
+字段值直接经JSON序列化后作为 ``extra_fields`` 的值。
+
+以下说明每种标注属性的 ``extra_fields`` 特定键名。下列键名均不是必须的，这时导入时将不设置对应字段。没有列出的键名可以自由设置，导入时被忽略。
+
+1. :cpp:class:`visionflow::props::TaggedPolygonList`：键名 ``tags`` 和 ``split_tag``；
+2. :cpp:class:`visionflow::props::MultiNamesPolygonRegionList`：键名 ``name_scores`` 和 ``logic_scores``；
+3. :cpp:class:`visionflow::props::PolygonRegionList`：不使用额外字段；
+4. :cpp:class:`visionflow::props::PolygonWithStringMapRegionList`：键名 ``additional_map``；
+5. :cpp:class:`visionflow::props::RotateRectRegionList`：不使用额外字段；
+6. :cpp:class:`visionflow::props::IDReaderRegionList`：键名 ``idreader_type``。
+
+从数据包中读取数据
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+下面的示例将接续前文的示例，从数据包的 ``input/views`` 列读取视图、从 ``seg/pred`` 列读取标注。
+
+打开数据包，读取数据包的元数据：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        #include "visionflow/datapack/datapack.hpp"
+
+        // 由于只是要从数据包中读取数据，不需要新建数据包，第二个参数设置为 false，不创建新文件
+        // 第三个参数设置为 true，以只读方式打开数据包，以提高读取和关闭的性能
+        vflow::datapack::DataPack datapack("D:/path/to/datapack.vfpack", false, true);
+
+        // 读取数据包的备注
+        std::cout << "Remark: " << datapack.remark() << std::endl;
+        // 读取创建数据包的VisionFlow库版本
+        std::cout << "SDK Version: " << datapack.sdk_version() << std::endl;
+        // 读取数据包创建的Unix时间戳（精度为秒）
+        std::cout << "Create Time: " << datapack.create_time() << std::endl;
+        // 读取数据包的额外字段
+        std::cout << "Extra Fields: \n";
+        for (const auto &[key, value] : datapack.extra_fields()) {
+            std::cout << key << ": " << value << std::endl;
+        }
+
+获取数据包中的列和样本ID：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        auto view_columns = datapack.view_column_ids();
+        if (view_columns.count("input/views") == 0) {
+            std::cout << "No column named 'input/views' in datapack" << std::endl;
+            return;
+        }
+        auto label_columns = datapack.label_column_ids();
+        if (label_columns.count("seg/pred") == 0) {
+            std::cout << "No column named 'seg/pred' in datapack" << std::endl;
+            return;
+        }
+        auto samples = datapack.sample_ids();
+
+获取每个样本的图像和图像信息：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        for (const auto &sample_id : samples) {
+            auto image_info = datapack.get_image_info();
+            std::cout << "Image ID " << sample_id << " Fingerprint: " << image_info.image_fingerprint() << std::endl;
+            // 数据包的样本中不一定包含图像，需先检查
+            if (datapack.has_image(sample_id)) {
+                auto image = datapack.get_image(sample_id);
+                image.to_file("D:/path/to/image.png");
+            } else {
+                std::cout << "No image in sample " << sample_id << std::endl;
+            }
+        }
+
+获取样本视图和标注，并且转为VisionFlow类型：
+
+.. tab:: C++
+
+    .. code-block:: cpp
+
+        // 获取列操作句柄
+        auto label_column = datapack.label_column("seg/pred");
+        for (const auto &sample_id : samples) {
+            // 数据包的每一列中不一定每个样本都有数据，需先检查
+            if (!label_column.has(sample_id)) {
+                continue;
+            }
+            auto label = label_column.get(sample_id);
+            // 将数据包中的标注转换为 VisionFlow 的属性类型
+            // 由于 VisionFlow 的标注属性类型是多态的，需要先创建一个目标类型的空对象
+            vflow::props::PolygonRegionList pred;
+            vflow::helper::convert_from_datapack_label(label, pred);
+
+            // 使用转换后的数据，这里以渲染在图像上为例
+            pred.draw_on(image);
+            image.show();
+        }
+
+        auto view_column = datapack.view_column("input/views");
+        for (const auto &sample_id : samples) {
+            // 数据包的每一列中不一定每个样本都有数据，需先检查
+            if (!view_column.has(sample_id)) {
+                continue;
+            }
+            auto view = view_column.get(sample_id);
+            // 将数据包中的视图转换为 VisionFlow 的属性类型
+            // 与标注不同，视图没有多态，可以直接创建目标类型
+            auto vf_view = vflow::helper::convert_from_datapack_view(view);
+        }

@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimal Performance Guidelines &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Shortcuts" href="Shortcut.html" />
+    <link rel="prev" title="Introduction to Tool Usage" href="moduleintro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">Introduction to AIDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opintro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">Secondary Development Guidelines</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Moreintro.html">Software Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleintro.html">Introduction to Tool Usage</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Optimal Performance Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-power-settings">System power settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nvidia-driver-settings">Nvidia driver settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#low-latency-mode">Low latency mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lock-graphics-card-frequency">Lock graphics card frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-calculation-mode">Enable calculation mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#speed-testing-recommendations">Speed testing recommendations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extreme-reasoning-mode">Extreme reasoning mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#windows-script-startup">Windows script startup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Shortcut.html">Shortcuts</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Reference.html">Reference</a></li>
+      <li class="breadcrumb-item active">Optimal Performance Guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/UserGuide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="optimal-performance-guidelines">
+<h1>Optimal Performance Guidelines<a class="headerlink" href="#optimal-performance-guidelines" title="Link to this heading"></a></h1>
+<p>The actual running speed of AIDI is closely related to the driver settings, deployment environment (hardware environment), and software settings of Nvidia GPU. <br>The following suggestions are given for this:</p>
+<ol class="simple">
+<li><p>Pay attention to heat dissipation; <br>The Nvidia driver sets a temperature wall of 85 degrees to protect the graphics card. <br>If the graphics card temperature exceeds 85 degrees, Nvidia will automatically reduce computational performance, resulting in slower inference speed; <br>For example, AIDI smart cameras do not have active cooling function and require users to add external cooling components, otherwise the inference speed will slow down after running for a period of time; <br>For example, if the deployment environment is relatively enclosed, due to heat dissipation issues, the inference speed will also slow down</p></li>
+<li><p>System power settings (details can be found below); <br>High performance mode needs to be enabled, otherwise there will be significant fluctuations in inference speed</p></li>
+<li><p>Nvidia driver settings (details can be found below); <br>This setting is beneficial for reducing speed fluctuations and improving inference speed</p></li>
+<li><p>The size of the inference batch affects the inference speed; <br>The larger the batch size for high-speed inference, the faster the inference speed of the model body (GPU function processing part). <br>However, AIDI’s forward image processing and backward processing are all on the CPU, and AIDI does not consider parallel processing of multiple batch sizes for forward or backward processing.<br> Therefore, as the batch size increases, in most cases, the speed improvement is not significant.</p></li>
+<li><p>In actual deployment scenarios or when testing speed, use the high-speed inference mode; <br>Extreme reasoning mode is generally more than twice as fast as fast start (excluding Locate modules)</p></li>
+</ol>
+<section id="system-power-settings">
+<h2>System power settings<a class="headerlink" href="#system-power-settings" title="Link to this heading"></a></h2>
+<p>Set the power to high-performance mode</p>
+<p><img alt="Alt text" src="_images/dysz.png" /></p>
+</section>
+<section id="nvidia-driver-settings">
+<h2>Nvidia driver settings<a class="headerlink" href="#nvidia-driver-settings" title="Link to this heading"></a></h2>
+<p>GPU power mode</p>
+<p><img alt="Alt text" src="_images/qdsz.png" /></p>
+</section>
+<section id="low-latency-mode">
+<h2>Low latency mode<a class="headerlink" href="#low-latency-mode" title="Link to this heading"></a></h2>
+<p>Nvidia control panel -&gt;low latency mode -&gt;ultra-high</p>
+<p><img alt="Alt text" src="_images/dsy.png" /></p>
+</section>
+<section id="lock-graphics-card-frequency">
+<h2>Lock graphics card frequency<a class="headerlink" href="#lock-graphics-card-frequency" title="Link to this heading"></a></h2>
+<p>Please note that this setting needs to be reset after shutdown, and it needs to be set every time the device is turned on<br />-Setting method 1:</p>
+<p>Method 1: Search for gpu_set_gpu_mem_clock.bat in the installation directory and run it with administrator privileges</p>
+<p><img alt="_images/xkpl.png" src="_images/xkpl.png" /></p>
+<p>-Setting method 2:<br />Method 2: If not found, you can generate a setup script by following these steps</p>
+<p>① Create a new txt file and copy the following code into the newly created txt file</p>
+<p><img alt="Alt text" src="_images/txt.png" /></p>
+<p>② Change the txt suffix to bat</p>
+<p><img alt="Alt text" src="_images/bat.png" /></p>
+<p>③ Run with administrator privileges<br />If you want to simplify the operation, you can set the startup and self start in Windows (see the appendix for how to set the startup and self start)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="nd">@echo</span> <span class="n">off</span>
+    <span class="o">%</span><span class="mi">1</span> <span class="n">mshta</span> <span class="n">vbscript</span><span class="p">:</span><span class="n">CreateObject</span><span class="p">(</span><span class="s2">&quot;Shell.Application&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ShellExecute</span><span class="p">(</span><span class="s2">&quot;cmd.exe&quot;</span><span class="p">,</span><span class="s2">&quot;/c %~s0 ::&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;runas&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)(</span><span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">exit</span>
+
+    <span class="n">Set</span> <span class="n">SuccessFindMaxClock</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">FOR</span> <span class="o">/</span><span class="n">F</span> <span class="s2">&quot;tokens=1,3&quot;</span>  <span class="o">%%</span><span class="n">i</span> <span class="n">IN</span> <span class="p">(</span><span class="s1">&#39;nvidia-smi -q -d SUPPORTED_CLOCKS&#39;</span><span class="p">)</span> <span class="n">DO</span> <span class="p">(</span>
+        <span class="k">if</span> <span class="s2">&quot;</span><span class="si">%%</span><span class="s2">i&quot;</span> <span class="o">==</span> <span class="s2">&quot;Memory&quot;</span> <span class="p">(</span>
+            <span class="n">echo</span> <span class="o">%%</span><span class="n">i</span> <span class="o">%%</span><span class="n">j</span>
+            <span class="n">Set</span> <span class="n">ClockValue</span><span class="o">=%%</span><span class="n">j</span>
+            <span class="n">Set</span> <span class="n">SuccessFindMaxClock</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">GOTO</span> <span class="n">SetClock</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="p">:</span><span class="n">SetClock</span>
+    <span class="n">echo</span> <span class="n">SuccessFindMaxClock</span> <span class="o">%</span><span class="n">SuccessFindMaxClock</span><span class="o">%</span>
+    <span class="n">IF</span> <span class="o">%</span><span class="n">SuccessFindMaxClock</span><span class="o">%==</span><span class="mi">1</span> <span class="p">(</span>
+        <span class="n">echo</span> <span class="s2">&quot;nvidia-smi -lgc %ClockValue%,%ClockValue%&quot;</span>
+        <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">lgc</span> <span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span><span class="p">,</span><span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span>
+        <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">lmc</span> <span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span><span class="p">,</span><span class="o">%</span><span class="n">ClockValue</span><span class="o">%</span>
+    <span class="p">)</span> <span class="k">else</span> <span class="p">(</span>
+        <span class="n">echo</span> <span class="s2">&quot;Failed to find max clock.&quot;</span>
+    <span class="p">)</span>
+
+
+    <span class="n">pause</span>
+</pre></div>
+</div>
+</section>
+<section id="enable-calculation-mode">
+<h2>Enable calculation mode<a class="headerlink" href="#enable-calculation-mode" title="Link to this heading"></a></h2>
+<p>If the GPU graphics card is a Quadro or Tesla series graphics card, computing mode can be enabled to maximize the performance of the graphics card
+If it is a GeForce graphics card, there is no need to set it up</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">dm</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="speed-testing-recommendations">
+<h2>Speed testing recommendations<a class="headerlink" href="#speed-testing-recommendations" title="Link to this heading"></a></h2>
+<p>Due to the influence of current and temperature, Nvidia graphics cards experience increased speed fluctuations in the first few dozen images of a client. It is recommended to skip the first 100 images during secondary development testing of speed.</p>
+</section>
+<section id="extreme-reasoning-mode">
+<h2>Extreme reasoning mode<a class="headerlink" href="#extreme-reasoning-mode" title="Link to this heading"></a></h2>
+<p>You can open the project through AIDI, then test parameters -&gt;display advanced parameters -&gt;inference mode -&gt;high-speed inference</p>
+<p><img alt="Alt text" src="_images/image-421.png" /></p>
+</section>
+<section id="appendix">
+<h2>Appendix<a class="headerlink" href="#appendix" title="Link to this heading"></a></h2>
+<section id="windows-script-startup">
+<h3>Windows script startup<a class="headerlink" href="#windows-script-startup" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p>Win+R input shell: startup, then press enter</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-422.png" /></p>
+<ol class="simple">
+<li><p>Copy the script to the file that appeared in the previous step</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-423.png" /></p>
+<ol class="simple">
+<li><p>Every time you start up, there will be a pop-up window. Click confirm</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-424.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="moduleintro.html" class="btn btn-neutral float-left" title="Introduction to Tool Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Shortcut.html" class="btn btn-neutral float-right" title="Shortcuts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

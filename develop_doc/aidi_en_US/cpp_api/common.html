@@ -1,0 +1,919 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Helper Utilities" href="helpers.html" /><link rel="prev" title="Core Interface" href="core.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Common - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">详细使用教程</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="cpp_index.html">C++ API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Interface</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="common">
+<h1>Common<a class="headerlink" href="#common" title="Link to this heading">#</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6BufferE">
+<span id="_CPPv3N10visionflow6BufferE"></span><span id="_CPPv2N10visionflow6BufferE"></span><span id="visionflow::Buffer"></span><span class="target" id="classvisionflow_1_1_buffer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow6BufferE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>, use to encapsulate the continuous data type of any other data area into a unified data transfer connection; support for packaging objects in managed and unmanaged ways. Among them, packaging an object in a managed manner requires that the shared smart pointer of the wrapped object be passed in, <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> will try to automatically deconstruct the data pointer when destructing; packaging in an unmanaged manner will not automatically destruct the data pointer, and requires the user to control the release of the data. packaging an object in a managed manner could be like this: </p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;*</span><span class="w"> </span><span class="n">vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">Buffer</span><span class="w"> </span><span class="nf">buffer</span><span class="p">(</span><span class="n">vec</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">vec</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="p">(</span><span class="n">vec</span><span class="p">));</span>
+<span class="c1">// Use the buffer</span>
+<span class="c1">// No need to delete vec manually.</span>
+</pre></div>
+</div>
+ packaging in an unmanaged manner could be like below: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;*</span><span class="w"> </span><span class="n">vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">Buffer</span><span class="w"> </span><span class="nf">buffer</span><span class="p">(</span><span class="n">vec</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">vec</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">());</span>
+<span class="c1">// Use the buffer</span>
+<span class="k">delete</span><span class="w"> </span><span class="n">vec</span><span class="p">;</span><span class="w"> </span><span class="c1">// delete to release vector</span>
+</pre></div>
+</div>
+ If resizer set, you can resize the buffer like below: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">my_str</span><span class="p">;</span>
+<span class="w"> </span><span class="n">my_str</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w"> </span><span class="n">Buffer</span><span class="w"> </span><span class="nf">buffer_1</span><span class="p">(</span><span class="n">my_str</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">my_str</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="c1">// buffer_1.resize(500); // May encounter an exception</span>
+
+<span class="n">Buffer</span><span class="w"> </span><span class="nf">buffer_2</span><span class="p">(</span><span class="n">my_str</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">my_str</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+<span class="w">                </span><span class="p">{},</span><span class="w"> </span><span class="c1">// unmanaged</span>
+<span class="w">                </span><span class="p">[</span><span class="o">&amp;</span><span class="n">my_str</span><span class="p">](</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                  </span><span class="n">my_str</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">                  </span><span class="k">return</span><span class="w"> </span><span class="n">my_str</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="n">buffer_2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">buffer_2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="c1">// 500</span>
+</pre></div>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer10Base64TypeE">
+<span id="_CPPv3N10visionflow6Buffer10Base64TypeE"></span><span id="_CPPv2N10visionflow6Buffer10Base64TypeE"></span><span class="target" id="classvisionflow_1_1_buffer_1a125827399f29bfc38adc5d5838b56f5c"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Base64Type</span></span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer10Base64TypeE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Base64 encoding formats. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer10Base64Type8kDefaultE">
+<span id="_CPPv3N10visionflow6Buffer10Base64Type8kDefaultE"></span><span id="_CPPv2N10visionflow6Buffer10Base64Type8kDefaultE"></span><span class="target" id="classvisionflow_1_1_buffer_1a125827399f29bfc38adc5d5838b56f5ca1e6c8dd627ccb1bf85840f72e10693a7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kDefault</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer10Base64Type8kDefaultE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The default Base64 type. </p>
+<p>This type uses the standard Base64 character set, which includes 64 characters: A-Z, a-z, 0-9, +, and /. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer10Base64Type8kUrlSafeE">
+<span id="_CPPv3N10visionflow6Buffer10Base64Type8kUrlSafeE"></span><span id="_CPPv2N10visionflow6Buffer10Base64Type8kUrlSafeE"></span><span class="target" id="classvisionflow_1_1_buffer_1a125827399f29bfc38adc5d5838b56f5ca4c84f7e5ede6a73d292f7b000cf58c60"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kUrlSafe</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer10Base64Type8kUrlSafeE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The URL-safe Base64 type. </p>
+<p>This type uses a modified Base64 character set that is safe for use in URLs, which replaces + and / with - and _ respectively. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer7ResizerE">
+<span id="_CPPv3N10visionflow6Buffer7ResizerE"></span><span id="_CPPv2N10visionflow6Buffer7ResizerE"></span><span class="target" id="classvisionflow_1_1_buffer_1a858e5709da7ad767af75abbf001ae0c6"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Resizer</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer7ResizerE" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> resizer function type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6BufferE6size_t">
+<span id="_CPPv3N10visionflow6Buffer6BufferE6size_t"></span><span id="_CPPv2N10visionflow6Buffer6BufferE6size_t"></span><span id="visionflow::Buffer::Buffer__s"></span><span class="target" id="classvisionflow_1_1_buffer_1a19334ec138ac51319fee6d6f50d8b427"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6BufferE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a new buffer with given data, default size is 0, which means the buffer is empty. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – buffer size. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6BufferEPv6size_tNSt10shared_ptrIvEE7Resizer">
+<span id="_CPPv3N10visionflow6Buffer6BufferEPv6size_tNSt10shared_ptrIvEE7Resizer"></span><span id="_CPPv2N10visionflow6Buffer6BufferEPv6size_tNSt10shared_ptrIvEE7Resizer"></span><span id="visionflow::Buffer::Buffer__voidP.s.std::shared_ptr:void:.Resizer"></span><span class="target" id="classvisionflow_1_1_buffer_1a4ed90eb743b40f7b84c3c6ca5d791286"></span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">owner</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span>, <a class="reference internal" href="#_CPPv4N10visionflow6Buffer7ResizerE" title="visionflow::Buffer::Resizer"><span class="n"><span class="pre">Resizer</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">resizer</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6BufferEPv6size_tNSt10shared_ptrIvEE7Resizer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a new <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> object with given data pointer and size. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – data pointer. </p></li>
+<li><p><strong>size</strong> – data size. </p></li>
+<li><p><strong>owner</strong> – whether the data pointer is managed by this buffer. If owner shared_pointer is not empty, the data pointer will be deleted when this buffer is destructed. </p></li>
+<li><p><strong>resizer</strong> – resizer function, if resizer is not empty, the buffer will be resized when the buffer size is changed. otherwise, the buffer will be a fixed size buffer and can not be resized. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6BufferERK6Buffer">
+<span id="_CPPv3N10visionflow6Buffer6BufferERK6Buffer"></span><span id="_CPPv2N10visionflow6Buffer6BufferERK6Buffer"></span><span id="visionflow::Buffer::Buffer__BufferCR"></span><span class="target" id="classvisionflow_1_1_buffer_1afbf590e13b45cddaf373df9a17013ade"></span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferERK6Buffer" title="visionflow::Buffer::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6BufferERK6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy constructor, only copy the data pointer and size, not the data. If you want to copy the data, you should use <a class="reference internal" href="#classvisionflow_1_1_buffer_1a3f6735ed3cf72921e3f23e13f97c5135"><span class="std std-ref">Buffer::clone_data()</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – other buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6BufferaSERK6Buffer">
+<span id="_CPPv3N10visionflow6BufferaSERK6Buffer"></span><span id="_CPPv2N10visionflow6BufferaSERK6Buffer"></span><span id="visionflow::Buffer::assign-operator__BufferCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a1d9ed5d11a60988f1d01722619f22b74"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N10visionflow6BufferaSERK6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Assign operator, only copy the data pointer and size, not the data. If you want to copy the data, you should use <a class="reference internal" href="#classvisionflow_1_1_buffer_1a3f6735ed3cf72921e3f23e13f97c5135"><span class="std std-ref">Buffer::clone_data()</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – other buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6BufferERR6Buffer">
+<span id="_CPPv3N10visionflow6Buffer6BufferERR6Buffer"></span><span id="_CPPv2N10visionflow6Buffer6BufferERR6Buffer"></span><span id="visionflow::Buffer::Buffer__BufferRR"></span><span class="target" id="classvisionflow_1_1_buffer_1adfeaf3bfc3078bfaee70b10a5a18028d"></span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferERR6Buffer" title="visionflow::Buffer::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rvalue</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6BufferERR6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Move constructor. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rvalue</strong> – other rvalue buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6BuffereqERK6Buffer">
+<span id="_CPPv3NK10visionflow6BuffereqERK6Buffer"></span><span id="_CPPv2NK10visionflow6BuffereqERK6Buffer"></span><span id="visionflow::Buffer::eq-operator__BufferCRC"></span><span class="target" id="classvisionflow_1_1_buffer_1accbdf26b6d71ef023e8c067e46d44075"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6BuffereqERK6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check whether the buffer data is equal to the given buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – other buffer. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if the buffer data is equal to the given buffer. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false if the buffer data is not equal to the given buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6BufferneERK6Buffer">
+<span id="_CPPv3NK10visionflow6BufferneERK6Buffer"></span><span id="_CPPv2NK10visionflow6BufferneERK6Buffer"></span><span id="visionflow::Buffer::neq-operator__BufferCRC"></span><span class="target" id="classvisionflow_1_1_buffer_1a2b9f2faecc5915025fee1dce38adc60c"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6BufferneERK6Buffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check whether the buffer data is not equal to the given buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – other buffer. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if the buffer data is not equal to the given buffer. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false if the buffer data is equal to the given buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6resizeE6size_t">
+<span id="_CPPv3N10visionflow6Buffer6resizeE6size_t"></span><span id="_CPPv2N10visionflow6Buffer6resizeE6size_t"></span><span id="visionflow::Buffer::resize__s"></span><span class="target" id="classvisionflow_1_1_buffer_1a7e58c41a30e2d73599db6bde98181c8c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">resize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6resizeE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resize the buffer with given size. </p>
+<p>Exception will be thrown if the buffer is not resizable, so you’d better to check the buffer is resizable before resize by call <a class="reference internal" href="#classvisionflow_1_1_buffer_1a8a230b643df167a98a04685fb2d99d61"><span class="std std-ref">Buffer::is_resizable()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – new size. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="namespace.html#_CPPv4N10visionflow7exceptsE" title="visionflow::excepts"><span class="n">excepts</span></a><span class="p">::</span><a class="reference internal" href="excepts.html#_CPPv4N10visionflow7excepts10LogicErrorE" title="visionflow::excepts::LogicError"><span class="n">LogicError</span></a></span></span> – if the buffer is not resizable. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>void* new data pointer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer6appendEPKv6size_t">
+<span id="_CPPv3N10visionflow6Buffer6appendEPKv6size_t"></span><span id="_CPPv2N10visionflow6Buffer6appendEPKv6size_t"></span><span id="visionflow::Buffer::append__voidCP.s"></span><span class="target" id="classvisionflow_1_1_buffer_1ae71f119a42510ea95cc928137b618090"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">append</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer6appendEPKv6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append the given data at the end of the buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – data pointer. </p></li>
+<li><p><strong>size</strong> – data size. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="namespace.html#_CPPv4N10visionflow7exceptsE" title="visionflow::excepts"><span class="n">excepts</span></a><span class="p">::</span><a class="reference internal" href="excepts.html#_CPPv4N10visionflow7excepts10LogicErrorE" title="visionflow::excepts::LogicError"><span class="n">LogicError</span></a></span></span> – if append data out of the buffer reserved size and the buffer is not resizable. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer7reserveE6size_t">
+<span id="_CPPv3N10visionflow6Buffer7reserveE6size_t"></span><span id="_CPPv2N10visionflow6Buffer7reserveE6size_t"></span><span id="visionflow::Buffer::reserve__s"></span><span class="target" id="classvisionflow_1_1_buffer_1a8fdbb6103a8f5fe27bc062442e816496"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">reserve</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer7reserveE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reserve the buffer with given size. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – new size. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>void* new data pointer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer4dataEv">
+<span id="_CPPv3N10visionflow6Buffer4dataEv"></span><span id="_CPPv2N10visionflow6Buffer4dataEv"></span><span id="visionflow::Buffer::data"></span><span class="target" id="classvisionflow_1_1_buffer_1a5189afaa4a34c3221fec9cd010118d1f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer4dataEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the data pointer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>void* data pointer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer4dataEv">
+<span id="_CPPv3NK10visionflow6Buffer4dataEv"></span><span id="_CPPv2NK10visionflow6Buffer4dataEv"></span><span id="visionflow::Buffer::dataC"></span><span class="target" id="classvisionflow_1_1_buffer_1afa41119b28b81133346d27a32b50fd41"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer4dataEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the const data pointer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>void const* const data pointer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer9from_fileERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer9from_fileERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer9from_fileERKNSt6stringE"></span><span id="visionflow::Buffer::from_file__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1ac5c49dc081bb45a90f4564a026447b77"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">from_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer9from_fileERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read buffer content from the given file path. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classvisionflow_1_1_buffer_1a038ea394dbc2ed79e32ba51b550b2a60"><span class="std std-ref">Buffer::FromFile</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – file path, should encoded in UTF-8. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>&amp; The current buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer8from_hexERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer8from_hexERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer8from_hexERKNSt6stringE"></span><span id="visionflow::Buffer::from_hex__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1acd18281a7d85928daadab85ca1508200"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">from_hex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">hex_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer8from_hexERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read buffer content from the given hex string. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classvisionflow_1_1_buffer_1a76de28709f2f6171c6e52b9761d5ce9d"><span class="std std-ref">Buffer::FromHex</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hex_str</strong> – hex string, should only contains 0-9, a-f, A-F. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>&amp; The current buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer11from_base32ERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer11from_base32ERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer11from_base32ERKNSt6stringE"></span><span id="visionflow::Buffer::from_base32__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a3480b479fb6292c2b9cd05fdbc7412b6"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">from_base32</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">base32_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer11from_base32ERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read buffer content from the given base32 string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base32_str</strong> – the base32(clockwork_base32) string, should only contains 0-9, A-Z(exclude I, L, O, U). </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>&amp; The current buffer object decode from base32 string. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer11from_base64ERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer11from_base64ERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer11from_base64ERKNSt6stringE"></span><span id="visionflow::Buffer::from_base64__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a3a2834a0f500fd6ff8e6acc5bc5622c1"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">from_base64</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">base64_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer11from_base64ERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read buffer content from the given base64 string. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classvisionflow_1_1_buffer_1a42ea3c46d19663814fd7540fd72e5d97"><span class="std std-ref">Buffer::FromBase64</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base64_str</strong> – base64 string, should only contains 0-9, a-z, A-Z, +, /, =. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>&amp; The current buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer7to_fileERKNSt6stringE">
+<span id="_CPPv3NK10visionflow6Buffer7to_fileERKNSt6stringE"></span><span id="_CPPv2NK10visionflow6Buffer7to_fileERKNSt6stringE"></span><span id="visionflow::Buffer::to_file__ssCRC"></span><span class="target" id="classvisionflow_1_1_buffer_1af11864ce4ce8e05b3ad45ce207c61a6b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer7to_fileERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Save the buffer content into the given file path with binary mode. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – file path, should encoded in UTF-8. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if the buffer content is saved successfully. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false if the buffer content is not saved successfully. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer6to_hexEv">
+<span id="_CPPv3NK10visionflow6Buffer6to_hexEv"></span><span id="_CPPv2NK10visionflow6Buffer6to_hexEv"></span><span id="visionflow::Buffer::to_hexC"></span><span class="target" id="classvisionflow_1_1_buffer_1aca04d3693e8f5f776d56126971118fc8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_hex</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer6to_hexEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert the buffer content to a hex string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::string hex string. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer9to_base32Ev">
+<span id="_CPPv3NK10visionflow6Buffer9to_base32Ev"></span><span id="_CPPv2NK10visionflow6Buffer9to_base32Ev"></span><span id="visionflow::Buffer::to_base32C"></span><span class="target" id="classvisionflow_1_1_buffer_1abc2e8091f71f2c1eff4a3c9bdaf1f0b4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_base32</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer9to_base32Ev" title="Link to this definition">#</a><br /></dt>
+<dd><p>Encode the buffer data into base32 string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::string the encode base32 string. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer9to_base64E10Base64Type">
+<span id="_CPPv3NK10visionflow6Buffer9to_base64E10Base64Type"></span><span id="_CPPv2NK10visionflow6Buffer9to_base64E10Base64Type"></span><span id="visionflow::Buffer::to_base64__Base64TypeC"></span><span class="target" id="classvisionflow_1_1_buffer_1a3d8df210c37cd5e9b1b36344f406fdf4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_base64</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64TypeE" title="visionflow::Buffer::Base64Type"><span class="n"><span class="pre">Base64Type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">encoding_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64TypeE" title="visionflow::Buffer::Base64Type"><span class="n"><span class="pre">Base64Type</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64Type8kDefaultE" title="visionflow::Buffer::Base64Type::kDefault"><span class="n"><span class="pre">kDefault</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer9to_base64E10Base64Type" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert the buffer content to a base64 string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>encoding_type</strong> – The Base64 encoding type. see <a class="reference internal" href="#classvisionflow_1_1_buffer_1a125827399f29bfc38adc5d5838b56f5c"><span class="std std-ref">Base64Type</span></a> for more details. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>std::string base64 string. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer3md5Ev">
+<span id="_CPPv3NK10visionflow6Buffer3md5Ev"></span><span id="_CPPv2NK10visionflow6Buffer3md5Ev"></span><span id="visionflow::Buffer::md5C"></span><span class="target" id="classvisionflow_1_1_buffer_1a182e9f09c0aad7b9c6342e09a503a3cd"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">md5</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer3md5Ev" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the MD5 hash of the buffer data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> MD5 hash content </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer9to_stringEv">
+<span id="_CPPv3NK10visionflow6Buffer9to_stringEv"></span><span id="_CPPv2NK10visionflow6Buffer9to_stringEv"></span><span id="visionflow::Buffer::to_stringC"></span><span class="target" id="classvisionflow_1_1_buffer_1a5d325c765e99af8e1c431899d521a50f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_string</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer9to_stringEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy data in <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> into std::string. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Not all data in <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> can be converted into a string. The developer who calls this function needs to make sure that the content in the <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> is a string, otherwise the data may not be displayed normally. If you have a <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> with binary data, we recommend that you use the <a class="reference internal" href="#classvisionflow_1_1_buffer_1aca04d3693e8f5f776d56126971118fc8"><span class="std std-ref">to_hex()</span></a> or <a class="reference internal" href="#classvisionflow_1_1_buffer_1a3d8df210c37cd5e9b1b36344f406fdf4"><span class="std std-ref">to_base64()</span></a>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>std::string which contains copied data in <a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer10clone_dataEv">
+<span id="_CPPv3NK10visionflow6Buffer10clone_dataEv"></span><span id="_CPPv2NK10visionflow6Buffer10clone_dataEv"></span><span id="visionflow::Buffer::clone_dataC"></span><span class="target" id="classvisionflow_1_1_buffer_1a3f6735ed3cf72921e3f23e13f97c5135"></span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clone_data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer10clone_dataEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Clone data in buffer, Only promise that the cloned data is consistent with the original data, and the managed objects are not guaranteed to be consistent. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> buffer with cloned data. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer10is_managedEv">
+<span id="_CPPv3NK10visionflow6Buffer10is_managedEv"></span><span id="_CPPv2NK10visionflow6Buffer10is_managedEv"></span><span id="visionflow::Buffer::is_managedC"></span><span class="target" id="classvisionflow_1_1_buffer_1a49ef5ab888dab3ff9a38ca7351322842"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_managed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer10is_managedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the buffer data is managed by this buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if the buffer data is managed by this buffer. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>false if the buffer data is not managed by this buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer12is_resizableEv">
+<span id="_CPPv3NK10visionflow6Buffer12is_resizableEv"></span><span id="_CPPv2NK10visionflow6Buffer12is_resizableEv"></span><span id="visionflow::Buffer::is_resizableC"></span><span class="target" id="classvisionflow_1_1_buffer_1a8a230b643df167a98a04685fb2d99d61"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_resizable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer12is_resizableEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the buffer data is resizable. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if the buffer data is resizable. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>false if the buffer data is not resizable. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer4sizeEv">
+<span id="_CPPv3NK10visionflow6Buffer4sizeEv"></span><span id="_CPPv2NK10visionflow6Buffer4sizeEv"></span><span id="visionflow::Buffer::sizeC"></span><span class="target" id="classvisionflow_1_1_buffer_1a364e5aeb7c5ecac440aa9b4723de827a"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer4sizeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the buffer size. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>size_t buffer size. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer5emptyEv">
+<span id="_CPPv3NK10visionflow6Buffer5emptyEv"></span><span id="_CPPv2NK10visionflow6Buffer5emptyEv"></span><span id="visionflow::Buffer::emptyC"></span><span class="target" id="classvisionflow_1_1_buffer_1a7e7d85f84253beb4ec3115badc8d8c7c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">empty</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer5emptyEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the buffer is empty. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool true if the buffer is empty. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK10visionflow6Buffer8capacityEv">
+<span id="_CPPv3NK10visionflow6Buffer8capacityEv"></span><span id="_CPPv2NK10visionflow6Buffer8capacityEv"></span><span id="visionflow::Buffer::capacityC"></span><span class="target" id="classvisionflow_1_1_buffer_1a0a6bf5c4d6ceb1551efd1747640c72ac"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">capacity</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK10visionflow6Buffer8capacityEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the buffer reserved size. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>size_t buffer reserved size. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer8FromUUIDEv">
+<span id="_CPPv3N10visionflow6Buffer8FromUUIDEv"></span><span id="_CPPv2N10visionflow6Buffer8FromUUIDEv"></span><span id="visionflow::Buffer::FromUUID"></span><span class="target" id="classvisionflow_1_1_buffer_1a2c84ff150b997489ea5904ce6d3fcd77"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FromUUID</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer8FromUUIDEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Generate UUID data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer8FromFileERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer8FromFileERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer8FromFileERKNSt6stringE"></span><span id="visionflow::Buffer::FromFile__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a038ea394dbc2ed79e32ba51b550b2a60"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FromFile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer8FromFileERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read buffer from a file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – file path, should encoded in UTF-8. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer7FromHexERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer7FromHexERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer7FromHexERKNSt6stringE"></span><span id="visionflow::Buffer::FromHex__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a76de28709f2f6171c6e52b9761d5ce9d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FromHex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">hex_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer7FromHexERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Decode a hex string to a buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hex_str</strong> – hex string, should only contains 0-9, A-F. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> Decoded buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer10FromBase32ERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer10FromBase32ERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer10FromBase32ERKNSt6stringE"></span><span id="visionflow::Buffer::FromBase32__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1ad30289d905cf74ddb5af08ce082d4fdc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FromBase32</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">base32_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer10FromBase32ERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Decode a base64 string to a buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base32_str</strong> – the base32(clockwork_base32) string, should only contains 0-9, A-Z(exclude I, L, O, U). </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> Decoded buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10visionflow6Buffer10FromBase64ERKNSt6stringE">
+<span id="_CPPv3N10visionflow6Buffer10FromBase64ERKNSt6stringE"></span><span id="_CPPv2N10visionflow6Buffer10FromBase64ERKNSt6stringE"></span><span id="visionflow::Buffer::FromBase64__ssCR"></span><span class="target" id="classvisionflow_1_1_buffer_1a42ea3c46d19663814fd7540fd72e5d97"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N10visionflow6BufferE" title="visionflow::Buffer"><span class="n"><span class="pre">Buffer</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FromBase64</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">base64_str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N10visionflow6Buffer10FromBase64ERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Decode a base64 string to a buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base64_str</strong> – base64 string, should only contains 0-9, a-z, A-Z, +, /, =. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#classvisionflow_1_1_buffer"><span class="std std-ref">Buffer</span></a> Decoded buffer object. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="helpers.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Helper Utilities</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="core.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Core Interface</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Common</a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6BufferE"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64TypeE"><code class="docutils literal notranslate"><span class="pre">Buffer::Base64Type</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64Type8kDefaultE"><code class="docutils literal notranslate"><span class="pre">Buffer::Base64Type::kDefault</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10Base64Type8kUrlSafeE"><code class="docutils literal notranslate"><span class="pre">Buffer::Base64Type::kUrlSafe</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer7ResizerE"><code class="docutils literal notranslate"><span class="pre">Buffer::Resizer</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferE6size_t"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferEPv6size_tNSt10shared_ptrIvEE7Resizer"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferERK6Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6BufferaSERK6Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer::operator=()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6BufferERR6Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6BuffereqERK6Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer::operator==()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6BufferneERK6Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer::operator!=()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6resizeE6size_t"><code class="docutils literal notranslate"><span class="pre">Buffer::resize()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer6appendEPKv6size_t"><code class="docutils literal notranslate"><span class="pre">Buffer::append()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer7reserveE6size_t"><code class="docutils literal notranslate"><span class="pre">Buffer::reserve()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer4dataEv"><code class="docutils literal notranslate"><span class="pre">Buffer::data()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer4dataEv"><code class="docutils literal notranslate"><span class="pre">Buffer::data()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer9from_fileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::from_file()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer8from_hexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::from_hex()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer11from_base32ERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::from_base32()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer11from_base64ERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::from_base64()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer7to_fileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::to_file()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer6to_hexEv"><code class="docutils literal notranslate"><span class="pre">Buffer::to_hex()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer9to_base32Ev"><code class="docutils literal notranslate"><span class="pre">Buffer::to_base32()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer9to_base64E10Base64Type"><code class="docutils literal notranslate"><span class="pre">Buffer::to_base64()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer3md5Ev"><code class="docutils literal notranslate"><span class="pre">Buffer::md5()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer9to_stringEv"><code class="docutils literal notranslate"><span class="pre">Buffer::to_string()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer10clone_dataEv"><code class="docutils literal notranslate"><span class="pre">Buffer::clone_data()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer10is_managedEv"><code class="docutils literal notranslate"><span class="pre">Buffer::is_managed()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer12is_resizableEv"><code class="docutils literal notranslate"><span class="pre">Buffer::is_resizable()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer4sizeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::size()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer5emptyEv"><code class="docutils literal notranslate"><span class="pre">Buffer::empty()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK10visionflow6Buffer8capacityEv"><code class="docutils literal notranslate"><span class="pre">Buffer::capacity()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer8FromUUIDEv"><code class="docutils literal notranslate"><span class="pre">Buffer::FromUUID()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer8FromFileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::FromFile()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer7FromHexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::FromHex()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10FromBase32ERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::FromBase32()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N10visionflow6Buffer10FromBase64ERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Buffer::FromBase64()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

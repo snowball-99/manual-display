@@ -1,0 +1,825 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="工程备份" href="project_backup.html" /><link rel="prev" title="导出模型与使用" href="export_model.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>运行时（Runtime） - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datapack.html">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="runtime">
+<h1>运行时（Runtime）<a class="headerlink" href="#runtime" title="Link to this heading">#</a></h1>
+<p>运行时 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7RuntimeE" title="visionflow::Runtime"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Runtime</span></code></a> 是检测流程 <a class="reference internal" href="../core_concepts.html#term-Flow"><span class="xref std std-term">FLow</span></a> 中若干算子 <a class="reference internal" href="../core_concepts.html#term-Operator"><span class="xref std std-term">Operator</span></a> 执行的句柄。
+而运行时策略 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime9IStrategyE" title="visionflow::runtime::IStrategy"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::IStrategy</span></code></a> 是算子如何执行的配置，
+尤其是用户没有明确指定，但对于能正确执行又必须的配置。</p>
+<p>通过运行时和运行时策略，你可以在不清楚检测流程 <a class="reference internal" href="../core_concepts.html#term-Flow"><span class="xref std std-term">FLow</span></a> 中算子细节和样本 <a class="reference internal" href="../core_concepts.html#term-Sample"><span class="xref std std-term">Sample</span></a> 属性 <a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a> 细节的情况下推理样本。</p>
+<section id="id1">
+<h2>创建运行时<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>例如，你有一个已经训练好的工程 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7ProjectE" title="visionflow::Project"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Project</span></code></a> <cite>my_project</cite>，
+通过预设的运行时策略，那么你可以方便创建对应的运行时。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 预设的运行时策略，下面会详细介绍。</span>
+<span class="n">visionflow</span><span class="o">::</span><span class="n">runtime</span><span class="o">::</span><span class="n">AllTools</span><span class="w"> </span><span class="n">strategy</span><span class="p">;</span>
+<span class="c1">// 大部分情况下这么配置即可。</span>
+<span class="n">strategy</span><span class="p">.</span><span class="n">options</span><span class="p">.</span><span class="n">allow_auto_update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_project</span><span class="o">-&gt;</span><span class="n">create_runtime</span><span class="p">(</span><span class="n">strategy</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>运行时也可以在正确参数配置和完善样本数据下，自动依次完成训练和推理两部分，并不强制要求是已训练的工程。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>create_runtime 在极速推理下耗时较多，<a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7ProjectE" title="visionflow::Project"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Project</span></code></a> 会自动缓存中间生成物，来加速下一次 create_runtime 的构建过程，
+如果参数运行环境没有变化没有修改，使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7ProjectE" title="visionflow::Project"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Project</span></code></a> create_runtime 耗时明显小于第一次 create_runtime 的耗时。
+但 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow5ModelE" title="visionflow::Model"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Model</span></code></a> 不会自动缓存中间生成物，所以需要在 create_runtime 后手动调用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow5Model9resave_toERKNSt6stringERKNSt6stringEb" title="visionflow::Model::resave_to"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Model::resave_to()</span></code></a>
+缓存中间生成物，来加速下一次 create_runtime 过程;
+由于缓存中间生成物会依据显卡或者参数修改等信息重新生成，所以需要辅助接口 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow5Model10is_changedEv" title="visionflow::Model::is_changed"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Model::is_changed()</span></code></a> 来判断中间生成物是否重新生成，
+进而决定是否调用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow5Model9resave_toERKNSt6stringERKNSt6stringEb" title="visionflow::Model::resave_to"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Model::resave_to()</span></code></a> 来保存中间生成物。</p>
+</div>
+</section>
+<section id="strategyoptions">
+<span id="id2"></span><h2>创建运行时的策略<a class="headerlink" href="#strategyoptions" title="Link to this heading">#</a></h2>
+<p><cite>VisionFlow</cite> 提供了若干预设策略方便用户使用，它们共同使用 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptionsE" title="visionflow::runtime::StrategyOptions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions</span></code></a> 来作为策略的共同部分:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions30ignore_update_time_requirementE" title="visionflow::runtime::StrategyOptions::ignore_update_time_requirement"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::ignore_update_time_requirement</span></code></a> 是否忽略参数更新时间。</p>
+<ul class="simple">
+<li><p>运行时通过参数 <a class="reference internal" href="../core_concepts.html#term-Parameter"><span class="xref std std-term">Parameter</span></a> 更新时间来判断是否为最新的有效数据。</p></li>
+<li><p>允许则忽略参数更新时间，运行时会采用旧数据或者空数据来执行。
+对于空数据则会在创建运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts22CannotConstructRuntimeE" title="visionflow::excepts::CannotConstructRuntime"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::CannotConstructRuntime</span></code></a> 。</p></li>
+<li><p>否则会根据 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_auto_updateE" title="visionflow::runtime::StrategyOptions::allow_auto_update"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_auto_update</span></code></a> ，决定是否在运行时自动更新参数。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_auto_updateE" title="visionflow::runtime::StrategyOptions::allow_auto_update"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_auto_update</span></code></a> 是否允许参数自动更新。</p>
+<ul class="simple">
+<li><p>对于算子 <a class="reference internal" href="../core_concepts.html#term-Operator"><span class="xref std std-term">Operator</span></a> 而言，依赖的参数 <a class="reference internal" href="../core_concepts.html#term-Parameter"><span class="xref std std-term">Parameter</span></a> 节点可能为空，或者因为依赖链上的节点更新而导致该节点失效。</p></li>
+<li><p>允许则会在运行时对失效参数节点自动更新节点值。</p></li>
+<li><p>否则会在创建运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts18NodeNotFullUpdatedE" title="visionflow::excepts::NodeNotFullUpdated"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::NodeNotFullUpdated</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions30allow_auto_update_rely_on_propE" title="visionflow::runtime::StrategyOptions::allow_auto_update_rely_on_prop"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_auto_update_rely_on_prop</span></code></a> 是否允许依赖属性的参数自动更新。</p>
+<ul class="simple">
+<li><p>只有当 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_auto_updateE" title="visionflow::runtime::StrategyOptions::allow_auto_update"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_auto_update</span></code></a> 启用时才会生效。</p></li>
+<li><p>对于依赖属性 <a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a> 的参数 <a class="reference internal" href="../core_concepts.html#term-Parameter"><span class="xref std std-term">Parameter</span></a> 节点，允许则会在运行时对失效参数节点自动更新节点值。</p></li>
+<li><p>否则会在创建运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts35AutoExecuteRequirementsNotSatisfiedE" title="visionflow::excepts::AutoExecuteRequirementsNotSatisfied"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::AutoExecuteRequirementsNotSatisfied</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions21allow_unrealized_operE" title="visionflow::runtime::StrategyOptions::allow_unrealized_oper"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_unrealized_oper</span></code></a> 是否允许执行虚拟算子。</p>
+<ul class="simple">
+<li><p>一次运行时允许执行多个算子，自然不乏 <a class="reference internal" href="#virtual-operator"><span class="std std-ref">虚拟算子</span></a> 。
+允许则创建运行时会跳过对于虚拟算子的检查。</p></li>
+<li><p>否则会在创建运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts20UnregisteredOperatorE" title="visionflow::excepts::UnregisteredOperator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::UnregisteredOperator</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_max_gpu_numE" title="visionflow::runtime::StrategyOptions::allow_max_gpu_num"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_max_gpu_num</span></code></a> 允许使用的最大GPU数目。</p>
+<ul class="simple">
+<li><p>如果GPU实际数量小于等于该值，运行时将使用全部GPU。</p></li>
+<li><p>如果允许使用的GPU为0，或者实际GPU数量为0，
+会根据 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions16allow_run_on_cpuE" title="visionflow::runtime::StrategyOptions::allow_run_on_cpu"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_run_on_cpu</span></code></a> 来决定是否在CPU上运行。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17specified_gpu_idsE" title="visionflow::runtime::StrategyOptions::specified_gpu_ids"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::specified_gpu_ids</span></code></a> 指定优先使用的GPU编号。</p>
+<ul class="simple">
+<li><p>对于无效的GPU编号会自动去除并输出对应日志信息。</p></li>
+<li><p>如果 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_max_gpu_numE" title="visionflow::runtime::StrategyOptions::allow_max_gpu_num"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_max_gpu_num</span></code></a> 数量超过了优先使用GPU的数量，
+将自动查找并选择其他可用的GPU。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions16allow_run_on_cpuE" title="visionflow::runtime::StrategyOptions::allow_run_on_cpu"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_run_on_cpu</span></code></a> 是否允许在CPU上运行。</p>
+<ul class="simple">
+<li><p>运行时会尽可能地在GPU上运行。</p></li>
+<li><p>允许则当不能在GPU上运行时，会改为在CPU上运行。</p></li>
+<li><p>否则会在创建运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts14CpuEnableErrorE" title="visionflow::excepts::CpuEnableError"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::CpuEnableError</span></code></a> 。</p></li>
+<li><p>但在某些情况下用户可能希望强制在CPU上运行，
+这时需要配置 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions17allow_max_gpu_numE" title="visionflow::runtime::StrategyOptions::allow_max_gpu_num"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::allow_max_gpu_num</span></code></a> 为0。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions9call_backE" title="visionflow::runtime::StrategyOptions::call_back"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::call_back</span></code></a> 回调函数。</p>
+<ul class="simple">
+<li><p>这里不做过多介绍，具体可以看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow4util17IProgressCallbackE" title="visionflow::util::IProgressCallback"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::util::IProgressCallback</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions10infer_typeE" title="visionflow::runtime::StrategyOptions::infer_type"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::infer_type</span></code></a> 设置全局推理类型 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime9InferTypeE" title="visionflow::runtime::InferType"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">visionflow::runtime::InferType</span></code></a> 。</p>
+<ul class="simple">
+<li><p>当设置了全局推理类型，Runtime所执行的所有推理算子都将使用该推理类型。</p></li>
+<li><p>该选项不影响工程或模型的原始参数数据。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime9InferType10kNonGlobalE" title="visionflow::runtime::InferType::kNonGlobal"><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">visionflow::runtime::InferType::kNonGlobal</span></code></a> 表示不使用全局推理类型，且继续使用各模块设置的推理类型参数。</p></li>
+<li><p>具体可以看 <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param9InferTypeE" title="visionflow::param::InferType"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">visionflow::param::InferType</span></code></a> <a class="reference internal" href="../cpp_api/param.html#_CPPv4N10visionflow5param18InferenceBatchSize14set_infer_modeE9InferType" title="visionflow::param::InferenceBatchSize::set_infer_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::param::InferenceBatchSize::set_infer_mode()</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions35redirect_python_script_print_to_logE" title="visionflow::runtime::StrategyOptions::redirect_python_script_print_to_log"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::redirect_python_script_print_to_log</span></code></a> 是否将python脚本中的print输出到visionflow日志系统中。</p>
+<ul class="simple">
+<li><p>visionflow中某些算子允许执行python脚本，开启此选项将会把python脚本中的print重定向到visionflow的日志中。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15StrategyOptions9oper_sinkE" title="visionflow::runtime::StrategyOptions::oper_sink"><code class="xref cpp cpp-var docutils literal notranslate"><span class="pre">visionflow::runtime::StrategyOptions::oper_sink</span></code></a> 为算子自定义python脚本print重定向sink。</p>
+<ul class="simple">
+<li><p>visionflow中某些算子允许执行python脚本，此参数用于为某些特定算子自定义python print的重定向sink。</p></li>
+<li><p>你需要继承接口类 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow14IScriptStdSinkE" title="visionflow::IScriptStdSink"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::IScriptStdSink</span></code></a> ，自行实现 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow14IScriptStdSink5writeEPKc" title="visionflow::IScriptStdSink::write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IScriptStdSink::write()</span></code></a> 和 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow14IScriptStdSink5flushEv" title="visionflow::IScriptStdSink::flush"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::IScriptStdSink::flush()</span></code></a> 方法，然后通过算子名称设置给特定的算子。</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note" id="virtual-operator">
+<p class="admonition-title">Note</p>
+<p>虚拟算子，即是未实现，未注册的算子 <a class="reference internal" href="../core_concepts.html#term-Operator"><span class="xref std std-term">Operator</span></a> 。
+<cite>VisionFlow</cite> 中有部分属性 <a class="reference internal" href="../core_concepts.html#term-Property"><span class="xref std std-term">Property</span></a> 依赖用户在使用时给出，例如图片和视窗等信息。
+输出这类属性的算子即为虚拟算子。
+<cite>VisionFlow</cite> 允许用户通过注册虚拟算子来在运行时自动输出对应属性，或者用户保证在创建运行时前给出该属性值即可。</p>
+</div>
+<section id="id3">
+<h3>各种Runtime策略<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>具体到每种策略，描述了运行时的执行算子的范围：</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime8AllToolsE" title="visionflow::runtime::AllTools"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::AllTools</span></code></a> 执行所有工具。</p>
+<ul class="simple">
+<li><p>自动执行工程内所有工具的输出及其依赖链上的所有算子。</p></li>
+<li><p>适用于大部分情况。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime10SingleToolE" title="visionflow::runtime::SingleTool"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::SingleTool</span></code></a> 执行单个工具。</p>
+<ul class="simple">
+<li><p>自动执行指定工具输出及其依赖链上的工具内算子。</p></li>
+<li><p>依赖链限定在指定工具内，因此不能自动处理对于工具与工具之间的输入输出依赖关系。</p></li>
+<li><p>对于缺少输入的工具，会在运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12DataNotFoundE" title="visionflow::excepts::DataNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DataNotFound</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15ToolsAndDependsE" title="visionflow::runtime::ToolsAndDepends"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::ToolsAndDepends</span></code></a> 执行指定工具集及其依赖工具。</p>
+<ul class="simple">
+<li><p>自动执行指定工具集输出及其依赖链上的所有算子。</p></li>
+<li><p>ToolsAndDepneds会自动找到并执行你输入的工具和这个工具直接或间接依赖的所有工具，因此只需要设置最后的工具即可，不用将依赖链上的全部工具都列出。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime10SingleNodeE" title="visionflow::runtime::SingleNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::SingleNode</span></code></a> 执行指定算子。</p>
+<ul class="simple">
+<li><p>单独执行指定算子。</p></li>
+<li><p>有些算子的执行结果并不作为工具的输出，SingleTool、AllTools、ToolsAndDepends等策略不会执行这些算子，因此需要由用户创建SingleNode策略的Runtime来执行它们。例如各个模块用来计算评价指标的 <code class="docutils literal notranslate"><span class="pre">visionflow::opers::RegionsMatcher</span></code> 算子。</p></li>
+<li><p>该算子需要的所有输入属性都需要用户输入。</p></li>
+<li><p>否则会在运行时抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12DataNotFoundE" title="visionflow::excepts::DataNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DataNotFound</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime5ToolsE" title="visionflow::runtime::Tools"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::Tools</span></code></a> 允许用户自行指定执行的工具。</p>
+<ul class="simple">
+<li><p>用户自行设置想要执行哪些工具。</p></li>
+<li><p>这些工具的输入属性需要用户提供。</p></li>
+<li><p>对于缺少输入的工具(即用户无法提供某些的工具的输入，且这些输入也不能由此Tools策略中指定的其他工具产生)，则运行时会抛出异常 <a class="reference internal" href="../cpp_api/excepts.html#_CPPv4N10visionflow7excepts12DataNotFoundE" title="visionflow::excepts::DataNotFound"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::excepts::DataNotFound</span></code></a> 。</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>对于以工具为范围的策略而言，所需执行的算子为工具输出及其依赖链上的所有算子。
+但如果某些算子并不在工具输出的依赖链上（例如只依赖某工具输出，却又不在其他工具输出的依赖链上），则不会自动执行。
+这时候需要通过 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime10SingleNodeE" title="visionflow::runtime::SingleNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::SingleNode</span></code></a> 来单独执行。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>目前 <cite>VisionFlow</cite> 只支持上述预设策略，并不允许用户自定义实现注册运行时策略。</p>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>获取运行时信息<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>成功创建运行时后， <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7RuntimeE" title="visionflow::Runtime"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::Runtime</span></code></a> 还提供了方便获取相关信息的接口：</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime11used_deviceEv" title="visionflow::Runtime::used_device"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::used_device()</span></code></a> 允许使用的GPU编号。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime16input_propertiesEv" title="visionflow::Runtime::input_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::input_properties()</span></code></a> 运行时需要的输入属性，需要用户给出。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime25virtual_output_propertiesEv" title="visionflow::Runtime::virtual_output_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::virtual_output_properties()</span></code></a> <a class="reference internal" href="#virtual-operator"><span class="std std-ref">虚拟算子</span></a> 输出的属性，需要用户给出。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime23final_output_propertiesEv" title="visionflow::Runtime::final_output_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::final_output_properties()</span></code></a> 运行时最终输出的属性，不包括中间结果。</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime25virtual_output_propertiesEv" title="visionflow::Runtime::virtual_output_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::virtual_output_properties()</span></code></a> 同样属于输出的属性。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime21all_output_propertiesEv" title="visionflow::Runtime::all_output_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::all_output_properties()</span></code></a> 运行时输出的所有属性，包括中间结果。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime19required_propertiesEv" title="visionflow::Runtime::required_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::required_properties()</span></code></a> 运行时所需的所有属性，
+为 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime16input_propertiesEv" title="visionflow::Runtime::input_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::input_properties()</span></code></a> 和 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime21all_output_propertiesEv" title="visionflow::Runtime::all_output_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::all_output_properties()</span></code></a> 的并集。</p></li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime17register_observerEPN7runtime16IRuntimeObserverE" title="visionflow::Runtime::register_observer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::register_observer()</span></code></a> 方便用户观察运行时。</p>
+<ul class="simple">
+<li><p>例如评估算子和运行时的执行时间 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime15RuntimeProfilerE" title="visionflow::runtime::RuntimeProfiler"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::RuntimeProfiler</span></code></a> 。</p></li>
+<li><p>具体可以看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7runtime16IRuntimeObserverE" title="visionflow::runtime::IRuntimeObserver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::runtime::IRuntimeObserver</span></code></a> 。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime13create_sampleEv" title="visionflow::Runtime::create_sample"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::create_sample()</span></code></a> 创建出一个满足运行时所需的样本 <a class="reference internal" href="../core_concepts.html#term-Sample"><span class="xref std std-term">Sample</span></a> 。</p>
+<ul class="simple">
+<li><p>即包含 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime19required_propertiesEv" title="visionflow::Runtime::required_properties"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::required_properties()</span></code></a> 的样本。</p></li>
+<li><p>方便用户输入需要给出的属性。</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime22is_meeting_requirementERK7ISamplePNSt6stringE" title="visionflow::Runtime::is_meeting_requirement"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::is_meeting_requirement()</span></code></a> 判断样本是否满足运行时。</p>
+<ul class="simple">
+<li><p>满足运行时即样本拥有所需的所有属性，并且需要用户给出的属性都已有数据。</p></li>
+</ul>
+</li>
+</ol>
+<p>通过运行时信息，可以方便创建一个满足运行时要求的样本：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建满足运行时的样本，它需要用户输入图片。</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runtime</span><span class="p">.</span><span class="n">create_sample</span><span class="p">();</span>
+<span class="c1">// 从外部读取图片。</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/image.png&quot;</span><span class="p">);</span>
+<span class="c1">// 在样本中输入属性。</span>
+<span class="n">sample</span><span class="p">.</span><span class="n">get_or_create</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">Image</span><span class="o">&gt;</span><span class="p">({</span><span class="s">&quot;Input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">image</span><span class="p">})</span>
+<span class="w">    </span><span class="o">-&gt;</span><span class="n">set_image</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+<span class="c1">// 判断样本是否满足运行时。</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">runtime</span><span class="p">.</span><span class="n">is_meeting_requirement</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+<span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>使用运行时进行推理<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>对于样本集 <a class="reference internal" href="../core_concepts.html#term-SampleSet"><span class="xref std std-term">SampleSet</span></a> 而言，其中的样本可能并不同时满足同一个运行时，
+<cite>VisionFlow</cite> 提供了 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow23RuntimeSampleSetAdapterE" title="visionflow::RuntimeSampleSetAdapter"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::RuntimeSampleSetAdapter</span></code></a> 来帮助用户自动从样本集中过滤不符合运行时要求的样本。
+对于符合要求的样本，只读取运行时所需要的属性。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 这里以工程主数据集为例，推理自然也可以使用别的数据集。</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">dataset_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_project</span><span class="o">-&gt;</span><span class="n">main_sample_set_name</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">sample_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_project</span><span class="o">-&gt;</span><span class="n">get_sample_set</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">);</span>
+
+<span class="c1">// 帮助用户直接适配数据集和运行时。</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adapt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sample_set</span><span class="p">,</span><span class="w"> </span><span class="n">runtime</span><span class="p">);</span>
+
+<span class="c1">// 简单遍历执行后将结果存回数据集即可。</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">sample</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">adapter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+<span class="w">    </span><span class="n">adapter</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">sample</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>超时机制<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>在产线上，有时你可能希望推理过程保持稳定的节拍，为了节拍稳定可以放弃部分超时的推理结果。为了支持这种情况，Runtime提供了样本推理的超时机制。
+你可以在每次推理样本时设置最大允许的超时时间。当推理时长超过给定的时间后，函数会放弃运行尚未开始推理的工具，尽快返回，超时返回后，
+样本中尚未推理的节点可能没有有效的推理结果数据，请注意检查是否超时再使用数据。如果你希望样本总是被推理完成，可以将超时时间设置为0，
+更多细节请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime7executeER7ISampleb" title="visionflow::Runtime::execute"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::execute()</span></code></a> 的接口说明。</p>
+</section>
+<section id="id7">
+<h2>异步推理和多线程调用<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>Runtime支持两种不同的推理模式：同步模式和异步模式。对于具有多个分支的流程，使用异步模式推理能够通过分支并行提高推理速度。对于仅有单个分支
+的处理流程而言，异步模式不能直接取得加速效果，并可能由于线程同步等问题发生轻微的速度退化。异步模式和同步模式的切换方法如下（我们已经将异步
+推理设置为默认的推理模式，更多细节请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4NK10visionflow7Runtime7executeER7ISampleb" title="visionflow::Runtime::execute"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Runtime::execute()</span></code></a> 的接口说明。）：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Set the third argument to true to inferring the sample in asynchronous mode.</span>
+<span class="c1">// Or set to false to inferring in synchronous mode</span>
+<span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="w"> </span><span class="cm">/*, 0, true*/</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the second argument to True to inferring the sample in asynchronous mode.</span>
+<span class="c1"># Or set to False to inferring in synchronous mode</span>
+<span class="n">runtime</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Set the third argument to true to inferring the sample in asynchronous mode.</span>
+<span class="c1">// Or set to false to inferring in synchronous mode</span>
+<span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="w"> </span><span class="cm">/*, 0, true*/</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>在异步模式下，你可以用多个线程同时调用同一个Runtime推理多个不同的样本：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">infer_task</span><span class="p">(</span><span class="n">vflow</span><span class="o">::</span><span class="n">Runtime</span><span class="o">*</span><span class="w"> </span><span class="n">runtime</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">camera_id</span><span class="p">){</span>
+
+<span class="w">   </span><span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">vflow</span><span class="o">::</span><span class="n">Sample</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_sample</span><span class="p">();</span>
+
+<span class="w">      </span><span class="c1">// get image from camera_id and put into sample</span>
+
+<span class="w">      </span><span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">task_dispatch</span><span class="p">(</span><span class="n">vflow</span><span class="o">::</span><span class="n">Runtime</span><span class="o">*</span><span class="w"> </span><span class="n">runtime</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="w"> </span><span class="n">th_1</span><span class="p">(</span><span class="n">infer_task</span><span class="p">,</span><span class="w"> </span><span class="n">runtime</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="w"> </span><span class="n">th_2</span><span class="p">(</span><span class="n">infer_task</span><span class="p">,</span><span class="w"> </span><span class="n">runtime</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">   </span><span class="n">th_1</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="w">   </span><span class="n">th_2</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>多个线程同时调用同一个Runtime推理不同的样本时，由于资源竞争和样本之间的乱序执行，对于单一样本的推理时间可能会产生波动。
+但一般情况下，系统的整体吞吐量可以提升（实际情况取决于硬件配置）。</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>同步模式下不建议使用多个不同的线程同时调用同一Runtime，尤其是 <strong>禁止不断创建不同的线程通过同步模式调用同一Runtime</strong> ，
+否则可能发生资源泄露等影响系统稳定运行的问题。</p>
+</div>
+</section>
+<section id="id8">
+<h2>批量推理样本<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>从0.8.1版本开始，我们支持批量推理样本，以简化调用接口的复杂度和提升推理效率。你可以像下面这样调用相关接口：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">infer_task</span><span class="p">(</span><span class="n">vflow</span><span class="o">::</span><span class="n">Runtime</span><span class="o">*</span><span class="w"> </span><span class="n">runtime</span><span class="p">){</span>
+
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sample_vec</span><span class="p">;</span>
+
+<span class="w">   </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_sample</span><span class="p">();</span>
+
+<span class="w">      </span><span class="c1">// get image from camera_id and put into sample</span>
+<span class="w">      </span><span class="c1">// add_image_to_sample(sample, image);</span>
+
+<span class="w">      </span><span class="n">sample_vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
+
+<span class="w">   </span><span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">(</span><span class="n">sample_vec</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>批量推理时，Runtime内部会自动使用异步推理，因此无需设置是否使用异步推理的参数。</p>
+</div>
+</section>
+<section id="id9">
+<h2>快速更新Runtime<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>visionflow支持在已有的Runtime上快速创建新的Runtime，新的Runtime会和原Runtime共享无需更新的算子。使用方法如下（更多细节请查看 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow7Project14update_runtimeERKN10visionflow7RuntimeE" title="visionflow::Project::update_runtime"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::Project::update_runtime()</span></code></a> 的接口说明）：</p>
+</div></blockquote>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">update_runtime_and_execute</span><span class="p">(</span><span class="n">visionflow</span><span class="o">::</span><span class="n">Project</span><span class="w"> </span><span class="o">*</span><span class="n">proj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">set_area_filter_param</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">filter_param</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proj</span><span class="o">-&gt;</span><span class="n">get_param</span><span class="p">({</span><span class="sa">u8</span><span class="s">&quot;分割&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">filter_args</span><span class="p">})</span>
+<span class="w">                              </span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">param</span><span class="o">::</span><span class="n">PolygonsFilterParameters</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">filter_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filter_param</span><span class="p">.</span><span class="n">get_class_thresholds</span><span class="p">();</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">u8</span><span class="s">&quot;标注类别&quot;</span><span class="p">;</span>
+<span class="w">      </span><span class="n">filter_map</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">         </span><span class="n">filter_param</span><span class="p">.</span><span class="n">get_class_thresholds</span><span class="p">(</span><span class="n">label</span><span class="p">).</span><span class="n">set_area_range</span><span class="p">({</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">});</span>
+<span class="w">      </span><span class="n">proj</span><span class="o">-&gt;</span><span class="n">set_param</span><span class="p">({</span><span class="sa">u8</span><span class="s">&quot;分割&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">filter_args</span><span class="p">},</span><span class="w"> </span><span class="n">filter_param</span><span class="p">);</span>
+<span class="w">   </span><span class="p">};</span>
+
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">execute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">runtime</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runtime</span><span class="p">.</span><span class="n">create_sample</span><span class="p">();</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;image.png&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">visionflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">add_image_to_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;输入&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">sample</span><span class="p">;</span>
+<span class="w">   </span><span class="p">};</span>
+
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">check_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">pred_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">get</span><span class="p">({</span><span class="sa">u8</span><span class="s">&quot;分割&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">pred</span><span class="p">})</span>
+<span class="w">                           </span><span class="o">-&gt;</span><span class="k">template</span><span class="w"> </span><span class="n">as</span><span class="o">&lt;</span><span class="n">visionflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">PolygonRegionList</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">pred_set</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+<span class="w">   </span><span class="p">};</span>
+
+<span class="w">   </span><span class="c1">// 设置过滤参数</span>
+<span class="w">   </span><span class="n">set_area_filter_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">);</span>
+
+<span class="w">   </span><span class="c1">// 创建Runtime</span>
+<span class="w">   </span><span class="n">visionflow</span><span class="o">::</span><span class="n">runtime</span><span class="o">::</span><span class="n">AllTools</span><span class="w"> </span><span class="n">strategy</span><span class="p">({</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">});</span>
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proj</span><span class="o">-&gt;</span><span class="n">create_runtime</span><span class="p">(</span><span class="n">strategy</span><span class="p">);</span>
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">execute</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
+<span class="w">   </span><span class="n">check_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+
+<span class="w">   </span><span class="c1">// 更新过滤参数</span>
+<span class="w">   </span><span class="n">set_area_filter_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">   </span><span class="c1">// 更新Runtime</span>
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">new_runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proj</span><span class="o">-&gt;</span><span class="n">update_runtime</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">new_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">execute</span><span class="p">(</span><span class="n">new_runtime</span><span class="p">);</span>
+<span class="w">   </span><span class="n">check_sample</span><span class="p">(</span><span class="n">new_sample</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="project_backup.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">工程备份</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="export_model.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">导出模型与使用</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">运行时（Runtime）</a><ul>
+<li><a class="reference internal" href="#id1">创建运行时</a></li>
+<li><a class="reference internal" href="#strategyoptions">创建运行时的策略</a><ul>
+<li><a class="reference internal" href="#id3">各种Runtime策略</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">获取运行时信息</a></li>
+<li><a class="reference internal" href="#id5">使用运行时进行推理</a></li>
+<li><a class="reference internal" href="#id6">超时机制</a></li>
+<li><a class="reference internal" href="#id7">异步推理和多线程调用</a></li>
+<li><a class="reference internal" href="#id8">批量推理样本</a></li>
+<li><a class="reference internal" href="#id9">快速更新Runtime</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

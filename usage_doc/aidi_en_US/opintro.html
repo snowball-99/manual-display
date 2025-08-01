@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; AIDI 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Secondary Development Guidelines" href="SecondaryDevelopment.html" />
+    <link rel="prev" title="Introduction to AIDI" href="AIDIintroduce.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIDI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AIDIintroduce.html">Introduction to AIDI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#application-scenarios-of-the-segmentation-module">1. Application Scenarios of the Segmentation Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#segmentation-principle">1.1 Segmentation Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#segmentation-scenarios">1.2 Segmentation Scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-defect-labeling-for-segmentation-module-detection">1.3 Example of Defect Labeling for Segmentation Module Detection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#practical-getting-started">2. Practical Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#display-of-software-interface-areas">2.1 Display of Software Interface Areas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-project">2.2 Creating a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-images">2.3 Loading Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#selecting-the-module-segmentation">2.4 Selecting the Module - Segmentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#selecting-an-ai-module">2.4.1 Selecting an AI Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#view-window">2.4.2 View Window</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#defect-data-labeling">2.5 Defect Data Labeling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-labels">2.5.1 Setting Labels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps-for-using-the-defect-labeling-tool">2.5.2 Steps for Using the Defect Labeling Tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#precautions-for-defect-labeling">2.5.3 Precautions for Defect Labeling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#correct-examples-of-defect-annotation">2.5.4 Correct Examples of Defect Annotation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#training-set-partitioning-methods">2.6 Training Set Partitioning Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#training-parameter-settings">2.7 Training parameter settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#training-inference">2.8 Training/Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze-the-results-and-optimize">2.9 Analyze the results and optimize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#training-inference-inference-parameter-settings">2.9.1 Training Inference - Inference parameter settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluation-page">2.9.2 Evaluation page</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#export-ai-models-and-vs-projects">2.10 Export AI models and vs projects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-export">2.10.1 Model export</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-and-sample-code-export">2.10.2 Model and sample code export</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#practical-advancement">3、Practical advancement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#non-learning-area-usage-scenarios">3.1 Non-learning area usage scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#labeling-interference-items-to-reduce-interference">3.2 Labeling interference items to reduce interference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view-usage">3.3 View usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tag-application-scenarios">3.4 Tag application scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-name-modification">3.5 Module name modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shortcut-keys">3.6 Shortcut keys</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#examples-of-common-algorithm-schemes">4、Examples of common algorithm schemes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm-pre-processing-aidi-segmentation-example">4.1 Algorithm pre-processing + AIDI segmentation example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-aidi-segmentation-algorithmic-post-processing">4.2 Example of AIDI segmentation + algorithmic post-processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SecondaryDevelopment.html">Secondary Development Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIDI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/opintro.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<section id="application-scenarios-of-the-segmentation-module">
+<h2>1. Application Scenarios of the Segmentation Module<a class="headerlink" href="#application-scenarios-of-the-segmentation-module" title="Link to this heading"></a></h2>
+<section id="segmentation-principle">
+<h3>1.1 Segmentation Principle<a class="headerlink" href="#segmentation-principle" title="Link to this heading"></a></h3>
+<p>​	It classifies each pixel based on the texture features (gray value, contrast, texture, shape,  etc.) of the defects and is not sensitive to the geometric quantitative features such as the size, length, and width of the defects. However, defect standards often describe the quantitative geometric features of defects. Therefore, if defects with the same texture features are labeled into different categories according to their size, length, width, and position during labeling, confusion will occur during the model training process, and the final model metrics will be poor.</p>
+</section>
+<section id="segmentation-scenarios">
+<h3>1.2 Segmentation Scenarios<a class="headerlink" href="#segmentation-scenarios" title="Link to this heading"></a></h3>
+<p>​	Based on the pixel-level detection function, it can accurately identify defects (especially small defects). It is suitable for detecting fine appearance defects such as scratches, dents, and cracks.</p>
+<p><img alt="Alt text" src="_images/image-562.png" /></p>
+<p>image1：Detection of appearance defects of parts</p>
+</section>
+<section id="example-of-defect-labeling-for-segmentation-module-detection">
+<h3>1.3 Example of Defect Labeling for Segmentation Module Detection<a class="headerlink" href="#example-of-defect-labeling-for-segmentation-module-detection" title="Link to this heading"></a></h3>
+<p><img alt="Alt text" src="_images/image-530.png" /></p>
+<p>image1: Scratch - Irregular Defect</p>
+<p><img alt="Alt text" src="_images/image-531.png" /></p>
+<p>image 2: Stain - Low - Contrast Defect</p>
+<p><img alt="Alt text" src="_images/image-532.png" /></p>
+<p>image 3: Black Spot - Small Proportion in the Image</p>
+<p><img alt="Alt text" src="_images/image-533.png" /></p>
+<p>image 4: Product Counting - Detect obvious product features and calculate the number of products</p>
+<p><img alt="Alt text" src="_images/image-534.png" /></p>
+<p><img alt="Alt text" src="_images/image-535.png" /></p>
+<p>image 5: Product Edge Detection</p>
+</section>
+</section>
+<section id="practical-getting-started">
+<h2>2. Practical Getting Started<a class="headerlink" href="#practical-getting-started" title="Link to this heading"></a></h2>
+<section id="display-of-software-interface-areas">
+<h3>2.1 Display of Software Interface Areas<a class="headerlink" href="#display-of-software-interface-areas" title="Link to this heading"></a></h3>
+<p>1、<strong>Labeling Type Switch</strong><br>You can switch between display modes, defect labeling mode, key learning area labeling, and non - learning area labeling.</p>
+<p>2、<strong>Labeling Tool Options</strong> <br>You can select different labeling tools to facilitate the labeling of defects with different shapes.</p>
+<p>3、<strong>Project Management Area</strong><br> You can switch between different AIDI projects opened in the software.</p>
+<p>4、<strong>Module Operation Area</strong> <br>You can add and delete AI modules.</p>
+<p>5、<strong>Image List Area</strong><br> You can view the thumbnails of the imported images in the software and perform operations such as filtering the training set and test set.</p>
+<p>6、<strong>Image IO Area</strong><br> You can import and export image data.</p>
+<p>7、<strong>Three Major Functional Areas</strong></p>
+<p>​	7.1 Labeling Management Area</p>
+<p>​		You can manage the labels in the project.</p>
+<p>​	7.2 Training and Inference Area</p>
+<p>​		You can adjust the model training and inference parameters.</p>
+<p>​	7.3 Evaluation</p>
+<p>​		Here you can see the relevant metrics and tools for evaluating the model.</p>
+<p><img alt="Alt text" src="_images/image-483.png" /></p>
+</section>
+<section id="creating-a-project">
+<h3>2.2 Creating a Project<a class="headerlink" href="#creating-a-project" title="Link to this heading"></a></h3>
+<p>​	Open AIDI, click “File” in the upper - left corner of the software and select “New Project”. In the project management window, click “Load Others” to complete the creation of the workspace. Then, select the workspace in the project management window, right - click and select “New Project”, enter the project name and select the project type, and click “Confirm” to complete the project creation and enter the project.</p>
+<ul class="simple">
+<li><p><strong>Note</strong></p>
+<ul>
+<li><p>Create new projects in the workspace. On - site projects should be created in one workspace to improve maintenance and management efficiency.</p></li>
+<li><p>It is recommended to use PNG and BMP images instead of JPG images.</p></li>
+<li><p>The software supports the import of images within 30000 * 30000. If the size exceeds this range, it is recommended to use other traditional algorithm tools to crop the images before inputting them into the AIDI software.</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt text" src="_images/image-484.png" /></p>
+</section>
+<section id="loading-images">
+<h3>2.3 Loading Images<a class="headerlink" href="#loading-images" title="Link to this heading"></a></h3>
+<p>​	In the “Input” node, click “Import Images” to add the image data necessary for training the model. The images in the input node serve as the original data for all subsequent modules, so be cautious when deleting them.</p>
+<p><img alt="Alt text" src="_images/image-485.png" /></p>
+</section>
+<section id="selecting-the-module-segmentation">
+<h3>2.4 Selecting the Module - Segmentation<a class="headerlink" href="#selecting-the-module-segmentation" title="Link to this heading"></a></h3>
+<section id="selecting-an-ai-module">
+<h4>2.4.1 Selecting an AI Module<a class="headerlink" href="#selecting-an-ai-module" title="Link to this heading"></a></h4>
+<p>​	First, click the “+” on the right side of the “Input” node to open the add - module window, and then click the “+” on the right side of “Segment” to add the module.</p>
+<p><img alt="Alt text" src="_images/image-486.png" /></p>
+</section>
+<section id="view-window">
+<h4>2.4.2 View Window<a class="headerlink" href="#view-window" title="Link to this heading"></a></h4>
+<p>​	It is used to select the defect detection area. (If the defects may appear anywhere in the image, there is no need to change the detection area. Just click “Apply”.) After determining the detection area, click “Apply”. After entering the module, the area outside the view range will be masked to avoid interference from the area outside the view on the model recognition effect.</p>
+<p><img alt="Alt text" src="_images/image-487.png" /></p>
+<p><img alt="Alt text" src="_images/image-488.png" /></p>
+<p>Display of the Segmentation Module Interface</p>
+<p><img alt="Alt text" src="_images/image-489.png" /></p>
+</section>
+</section>
+<section id="defect-data-labeling">
+<h3>2.5 Defect Data Labeling<a class="headerlink" href="#defect-data-labeling" title="Link to this heading"></a></h3>
+<section id="setting-labels">
+<h4>2.5.1 Setting Labels<a class="headerlink" href="#setting-labels" title="Link to this heading"></a></h4>
+<p>​	In the label management section of the labeling management area, enter the label names and press Enter on the keyboard. Set the names of the defects or targets to be labeled one by one. Double - click on a label (annotation) to modify its name, click the delete icon behind the name to delete it, and change two annotations to the same name to merge the labels (annotations).</p>
+<p><img alt="Alt text" src="_images/image-490.png" /></p>
+</section>
+<section id="steps-for-using-the-defect-labeling-tool">
+<h4>2.5.2 Steps for Using the Defect Labeling Tool<a class="headerlink" href="#steps-for-using-the-defect-labeling-tool" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Select the “Defect Labeling Tool”.</p></li>
+<li><p>Select the “Circle Pen” (the use of the line pen and pen filling can refer to the user manual).</p></li>
+<li><p>Directly smear on the image to draw a semi - transparent annotation (green) and select the label.</p></li>
+<li><p>Modify the brush size by manually entering the value or using the A and D keys to increase or decrease it.</p></li>
+<li><p>Press CTRL + S or S to save the annotation. After saving, it will automatically jump to the next image.</p></li>
+<li><p>The eraser tool can clear the annotation (located on the left side of the brush size).</p></li>
+<li><p>Press CTRL + Z to undo the annotation.</p></li>
+<li><p>In addition to general labeling, the segmentation module also supports OK images for training positive samples. The usage method is select an image in the image list, right - click, and set it as an OK image.</p></li>
+<li><p>The quality of the labeling determines the upper limit of the model’s recognition. Incorrect labeling will lead to poor model learning results.</p></li>
+</ul>
+<p><img alt="Alt text" src="_images/image-491.png" /></p>
+</section>
+<section id="precautions-for-defect-labeling">
+<h4>2.5.3 Precautions for Defect Labeling<a class="headerlink" href="#precautions-for-defect-labeling" title="Link to this heading"></a></h4>
+<p>​	When annotating, keep the annotation close to the edge of the defect contour, with a deviation of about 3% in each direction. For example, if the long side of a defect is 100 pixels and the short side is 10 pixels, an error of 3 pixels is allowed in the long - side direction, while only 1 pixel of error is allowed in the short - side direction. For defects with blurred boundaries, annotate the clearest visible edge to the naked eye. Do not annotate based on the physical object, but on the image. Avoid over - annotation, under - annotation, and incorrect annotation of defect categories.</p>
+<p>​	The image data in the training set should preferably meet the following requirements:</p>
+<ol class="simple">
+<li><p>Comprehensive defect categories <br>The training set should include all types of defects.</p></li>
+<li><p>Complete defect morphology<br>The shape, size, position, angle, brightness, contrast, etc., of the defects should be as diverse as possible. <br>The minimum number of each morphology is 30 images.</p></li>
+<li><p>Consistent image sizes in a single project.</p></li>
+<li><p>Remove images with obviously identical defects.</p></li>
+</ol>
+</section>
+<section id="correct-examples-of-defect-annotation">
+<h4>2.5.4 Correct Examples of Defect Annotation<a class="headerlink" href="#correct-examples-of-defect-annotation" title="Link to this heading"></a></h4>
+<p><img alt="Alt text" src="_images/image-536.png" /> <img alt="Alt text" src="_images/image-537.png" /></p>
+<p><img alt="Alt text" src="_images/image-538.png" /><img alt="Alt text" src="_images/image-539.png" /></p>
+</section>
+</section>
+<section id="training-set-partitioning-methods">
+<h3>2.6 Training Set Partitioning Methods<a class="headerlink" href="#training-set-partitioning-methods" title="Link to this heading"></a></h3>
+<p><strong>Method 1</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">After</span> <span class="nb">all</span> <span class="n">images</span> <span class="n">are</span> <span class="n">annotated</span><span class="p">,</span> <span class="n">select</span> <span class="n">Data</span> <span class="n">Partitioning</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">Model</span> <span class="n">Training</span> <span class="n">Assistant</span><span class="o">.</span> <span class="n">According</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">set</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">test</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">ratio</span> <span class="n">are</span> <span class="n">randomly</span> <span class="n">selected</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">software</span><span class="o">.</span> <span class="n">As</span> <span class="n">shown</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">figure</span><span class="p">,</span> <span class="n">the</span> <span class="n">proportion</span> <span class="ow">is</span> <span class="mi">70</span><span class="o">%</span><span class="p">,</span> <span class="n">which</span> <span class="n">means</span> <span class="n">that</span> <span class="mi">70</span><span class="o">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">labeled</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">used</span> <span class="k">as</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span> <span class="ow">and</span> <span class="mi">30</span><span class="o">%</span> <span class="ow">is</span> <span class="n">used</span> <span class="k">as</span> <span class="n">the</span> <span class="n">test</span> <span class="nb">set</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><img alt="Alt text" src="_images/image-492.png" /></p>
+<p><strong>Method 2</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="n">the</span> <span class="n">image</span> <span class="nb">list</span><span class="p">,</span> <span class="n">right</span><span class="o">-</span><span class="n">click</span> <span class="n">the</span> <span class="n">image</span> <span class="n">to</span> <span class="n">add</span> <span class="n">it</span> <span class="n">to</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span><span class="o">.</span> <span class="n">After</span> <span class="n">the</span> <span class="n">first</span> <span class="n">training</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span> <span class="ow">is</span> <span class="n">completed</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">necessary</span> <span class="n">to</span> <span class="n">manually</span> <span class="n">select</span> <span class="mi">4</span><span class="o">-</span><span class="mi">5</span> <span class="n">representative</span> <span class="n">images</span> <span class="n">that</span> <span class="n">are</span> <span class="n">missed</span> <span class="n">by</span> <span class="o">/</span> <span class="n">after</span> <span class="n">using</span> <span class="s2">&quot;Method 2&quot;</span> <span class="ow">and</span> <span class="n">add</span> <span class="n">them</span> <span class="n">to</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span> <span class="k">for</span> <span class="n">optimization</span><span class="o">.</span> <span class="n">You</span> <span class="n">cannot</span> <span class="n">use</span> <span class="s2">&quot;Method 1&quot;</span> <span class="n">to</span> <span class="n">select</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span><span class="o">.</span> <span class="n">If</span> <span class="n">the</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">effective</span><span class="p">,</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">use</span> <span class="mi">2</span> <span class="n">methods</span> <span class="n">to</span> <span class="n">select</span> <span class="n">images</span> <span class="n">into</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span> <span class="n">multiple</span> <span class="n">times</span> <span class="n">to</span> <span class="n">optimize</span> <span class="n">the</span> <span class="n">model</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><img alt="Alt text" src="_images/image-493.png" /></p>
+<p>​	Test set, with red markings on the upper right corner of the thumbnail.</p>
+<p>​	Training set, with a green mark in the upper right corner of the thumbnail.</p>
+<p>​	It is recommended to label a minimum of 30 images in the training set of the segmentation module.</p>
+<p><img alt="Alt text" src="_images/image-494.png" /></p>
+</section>
+<section id="training-parameter-settings">
+<h3>2.7 Training parameter settings<a class="headerlink" href="#training-parameter-settings" title="Link to this heading"></a></h3>
+<p>Select the appropriate parameters for model training/inference.</p>
+<p><strong>After the training parameters are changed, you need to click the training button to take effect after completing the training</strong></p>
+<ol>
+<li><p>**Training rounds **<br>The commonly used settings range is between 400-3000, and the number of training rounds is gradually increased. If the training set is not effective, add 400 training times to the original number of training rounds each time. The number of commonly used training rounds on the spot is 1,200.</p></li>
+<li><p>**Training batch **<br>Set up several training images as a batch for model training . The larger the batch, the higher the video memory footprint, and the model effect can be improved . If it is prompted that the video memory is insufficient, reduce the training batch.</p></li>
+<li><p>**Training mode **</p>
+<ol>
+<li><p><strong>Regular mode</strong></p>
+<p>Use training sets for learning, a commonly used method on site.</p>
+</li>
+<li><p><strong>Incremental training</strong></p>
+<p>Add a new training set, which can be trained based on the previous model.</p>
+</li>
+</ol>
+</li>
+<li><p><strong>Accuracy level</strong></p>
+<ol class="simple">
+<li><p><strong>Auto-adaptation:</strong><br>The software automatically calculates the appropriate accuracy based on the proportion of the annotated defects in the image.</p></li>
+<li><p><strong>Manual settings:</strong><br>Change the Accuracy Level parameter to improve the accuracy of model recognition. It is recommended to start with 1 and gradually increase. The higher the accuracy level, the longer the training/inference time. (Common methods on site)</p></li>
+</ol>
+<p>​	For example, if the image size is 1024*512, the accuracy level is set to 1. The short side of the image is scaled to 256*1=256 in size, and the long side is scaled to 512 in equal proportions. The short side of this image is 512, so the accuracy is set to a maximum of 2. It is necessary to ensure that the image is scaled according to the set accuracy level, and that the defect has a size of 5*5 on the scaled image.</p>
+</li>
+<li><p><strong>Geometry/image augmentation：</strong></p>
+<p>​	By augmenting the training set pictures according to the settings, the training set is randomly transformed according to the parameters during the training process, increasing the model’s ability to identify defects in different states. Place the mouse in the “!” and “Gear” icons, and you can view the effect after parameter settings. A reference example of geometry/image augmentation settings is shown in the figure below：</p>
+</li>
+</ol>
+<p><strong>Example 1</strong></p>
+<p><img alt="Alt text" src="_images/image-540.png" /><img alt="Alt text" src="_images/image-541.png" /><img alt="Alt text" src="_images/image-542.png" /></p>
+<p>Detection defect product diagram</p>
+<p><img alt="Alt text" src="_images/image-495.png" /></p>
+<p>Example of corresponding geometric augmentation parameter setting</p>
+<p><strong>Example 2</strong></p>
+<p><img alt="Alt text" src="_images/image-543.png" /><img alt="Alt text" src="_images/image-544.png" /><img alt="Alt text" src="_images/image-545.png" /></p>
+<p>Detection defect product diagram</p>
+<p><img alt="Alt text" src="_images/image-496.png" /></p>
+<p>Example of corresponding geometric augmentation parameter setting</p>
+</section>
+<section id="training-inference">
+<h3>2.8 Training/Inference<a class="headerlink" href="#training-inference" title="Link to this heading"></a></h3>
+<p>​	After completing the training parameter setting, click the training button. After the training is completed, an inference will be automatically performed, or if you click the inference button, the inference result will be rendered as the shaded area in the figure.</p>
+<p>​	When the software counts the over- and under-checked indicators, the images that have been labeled are counted by the software for over- and under-checked indicators, and the images that have not been labeled need to be viewed manually for inference results.</p>
+<p><img alt="Alt text" src="_images/image-497.png" /></p>
+<p>​	During the training process, training needs to be stopped. You can click the “Stop” button in the training progress bar in the upper right corner to terminate model training. Try not to cancel model training in the project site, as the model cannot continue training after it is terminated, and stopping training in the middle may lead to poor final results.</p>
+<p><img alt="Alt text" src="_images/image-498.png" /></p>
+</section>
+<section id="analyze-the-results-and-optimize">
+<h3>2.9 Analyze the results and optimize<a class="headerlink" href="#analyze-the-results-and-optimize" title="Link to this heading"></a></h3>
+<section id="training-inference-inference-parameter-settings">
+<h4>2.9.1 Training Inference - Inference parameter settings<a class="headerlink" href="#training-inference-inference-parameter-settings" title="Link to this heading"></a></h4>
+<p>​	After the parameter is changed, you need to click the inference button to take effect after the inference is completed, and the inference parameters are described as follows.</p>
+<p>1.<strong>Inference Mode</strong></p>
+<p>​	(1).<strong>Quick start</strong> <br>	 fast start speed, average inference speed; (General scenario, usage mode).</p>
+<p>​	(2).<strong>Fast Processing</strong> <br>	The first time startup is slow, not the software is stuck, the reasoning speed is the fastest; (Using mode in high-speed scenarios. It may cause incomplete recognition results).</p>
+<p>​	(3).<strong>Fast-Precision</strong> <br>	The first time startup is slow, not the software is stuck, the inference speed is between fast startup and extreme inference; (It is recommended to use the mode on the project).</p>
+<p>2.<strong>Filtering parameters:</strong></p>
+<p>​	The area of different categories of defects can be filtered, the minimum external rectangle long side / short side, and the range.</p>
+<p><img alt="Alt text" src="_images/image-499.png" /></p>
+</section>
+<section id="evaluation-page">
+<h4>2.9.2 Evaluation page<a class="headerlink" href="#evaluation-page" title="Link to this heading"></a></h4>
+<p>​	After completing the training task, in the “Evaluation” page, you can visually obtain the training result data, which is convenient for the statistics of the model results.</p>
+<p><strong>Accuracy：</strong> The higher the accuracy, the fewer the region-level over-checks.</p>
+<p><strong>Recall Rate：</strong> The higher the Recall Rate, the lower the number of misses at the regional lev.</p>
+<p>​	You can also use the filter rules of the image list to quickly screen out images such as missed detection, over detection, and false detection, and select samples with representative features to be added to the training set to optimize the model effect.</p>
+<p><img alt="Alt text" src="_images/image-500.png" /></p>
+<p>​	Confusion matrix is a commonly used model evaluation tool, with vertical directions being manually annotated and horizontal directions being the result of reasoning. The region level can view the misjudgment situation between categories, and click the confusion matrix to quickly filter out data such as pass-check, missed, and misjudgment. The “regional-level” confusion matrix is commonly used at the project site to determine whether the model has passed/missed detection.</p>
+<p><strong>Confusion matrix horizontal:</strong> Manually mark defect categories</p>
+<p><strong>Confusion matrix Vertical:</strong> Model inference defect category</p>
+<p><strong>Confusion area level:</strong> Calculate the defect labeling area and the model identification area. The overlap rate is less than 0.3, which means that the model in this area is missed.</p>
+<p><strong>Confused picture level:</strong> Perform the result judgment on the entire image.</p>
+<p><img alt="Alt text" src="_images/image-501.png" /> <img alt="Alt text" src="_images/image-502.png" /></p>
+<p>​	The single-image test shown in the model details is used to evaluate the inference time of the project model, which is an important parameter to evaluate the ability to meet the on-site cycle requirements.</p>
+<p>Since other software on-site industrial control machines usually occupy part of the computer resources, during the project evaluation stage, it is necessary to add about 20% of the time margin based on the “single graph test time-average value”. When using one computer, reasoning for multiple models. The model inference time is the addition of multiple models “single graph test-average value”.</p>
+<p><img alt="Alt text" src="_images/image-503.png" /></p>
+<p>​	In the training process curve, since the calculated values are calculated according to pixels, the model recognition results and labeling results cannot reach pixel level alignment, so the index cannot reach 1. When the on-site training curve converges well, the defective pixel recall and accuracy are around 0.9.</p>
+<p><img alt="Alt text" src="_images/image-504.png" /></p>
+</section>
+</section>
+<section id="export-ai-models-and-vs-projects">
+<h3>2.10 Export AI models and vs projects<a class="headerlink" href="#export-ai-models-and-vs-projects" title="Link to this heading"></a></h3>
+<section id="model-export">
+<h4>2.10.1 Model export<a class="headerlink" href="#model-export" title="Link to this heading"></a></h4>
+<p>​	When the model effect meets the detection requirements, select the “Model Export” option and set the Directory and Model Name. The model file is saved to a specified path for on-site deployment and use. As shown in the figure below:</p>
+<p><img alt="Alt text" src="_images/image-505.png" /></p>
+<p><img alt="Alt text" src="_images/image-506.png" /></p>
+</section>
+<section id="model-and-sample-code-export">
+<h4>2.10.2 Model and sample code export<a class="headerlink" href="#model-and-sample-code-export" title="Link to this heading"></a></h4>
+<p>​	You can export a simple sample project. As shown in the figure below:</p>
+<p><img alt="Alt text" src="_images/image-507.png" /> <img alt="Alt text" src="_images/image-508.png" /></p>
+</section>
+</section>
+</section>
+<section id="practical-advancement">
+<h2>3、Practical advancement<a class="headerlink" href="#practical-advancement" title="Link to this heading"></a></h2>
+<section id="non-learning-area-usage-scenarios">
+<h3>3.1 Non-learning area usage scenarios<a class="headerlink" href="#non-learning-area-usage-scenarios" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p>Field images often have blurred areas where OK and NG cross each other. Labeling the fuzzy region as NG, the model may over-detect the OK region, labeling the fuzzy region as OK, the model may under-detect the NG region.</p></li>
+<li><p>Different people have different categories for determining the same defect, so different people have different standards for labeling. As shown in the figure below.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-509.png" /></p>
+<p>Defect distribution</p>
+<p><img alt="Alt text" src="_images/image-510.png" /></p>
+<p>Non-learning area labeling tool</p>
+<p><strong>Example of a non-study area project:</strong></p>
+<p>​	Detect dirty areas on the image because there is dirty interference in the product itself. Therefore, AIDI can be used to mark the obviously dirty areas as NG, and the fuzzy areas are marked with no learning tools.</p>
+<p>​	The marking criteria for areas not learning: cover the target area, label the defect edge, and the deviation direction is about 10%. As shown in the figure below</p>
+<p><img alt="Alt text" src="_images/image-546.png" /></p>
+<p>image 1 : Original image</p>
+<p><img alt="Alt text" src="_images/image-547.png" /></p>
+<p>image 2 : Label images in non-learning areas</p>
+</section>
+<section id="labeling-interference-items-to-reduce-interference">
+<h3>3.2 Labeling interference items to reduce interference<a class="headerlink" href="#labeling-interference-items-to-reduce-interference" title="Link to this heading"></a></h3>
+<p><strong>Method 1:</strong> As shown in the figure below, the steel plate is divided into two upper and lower areas. The shaded area on the upper side is a non-use area and defects are allowed, The bright white area on the lower side is a use area and defects are not allowed.</p>
+<p><strong>The reference scheme is as follows</strong></p>
+<ol class="simple">
+<li><p>Add a “NoDetectionArea” label to the segmentation module to mark the undetected area, the red area in the picture.</p></li>
+<li><p>Set a larger filter parameter for the area of the “NoDetectionArea” in the test parameters to filter out the undetectable area.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-548.png" />  <img alt="Alt text" src="_images/image-511.png" /></p>
+</section>
+<section id="view-usage">
+<h3>3.3 View usage<a class="headerlink" href="#view-usage" title="Link to this heading"></a></h3>
+<p><strong>1.Block interference</strong></p>
+<p>​	The product fixes the area on the image, reduces the area of the model detection, and then uses the mask function in the view to block out areas outside of the defect detection.</p>
+<p><img alt="Alt text" src="_images/image-549.png" /></p>
+<p><strong>2.Large-size image detection</strong></p>
+<p>AIDI software only supports image import within 30000*30000. If the image exceeds this size, first use traditional algorithms to crop the image into this size. When the view area on the project is larger than the size of 2000*2000, and the defect is relatively small, the model training time will be relatively long. Therefore, it is necessary to cut the large picture into multiple parts in the view, and then give the model to learn.</p>
+<p><strong>The specific method is as follows：</strong></p>
+<ol class="simple">
+<li><p>Select the view box in the AIDI software view tool.</p></li>
+<li><p>Select the “Divide” button to crop the view into multiple copies equally, and set the horizontal/vertical interval to a negative value to avoid the situation where the defect is exactly on the clipping line.</p></li>
+<li><p>After cropping, the maximum size of each view should be about 2000*2000 as much as possible.</p></li>
+<li><p>When the model is online, the user will pass the image to AIDI normally to the model inference, and the result coordinates are the passed original image coordinates.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-512.png" /></p>
+<p><strong>3.Normalization of images of different sizes</strong></p>
+<p>​	If you use AI model training on the project, it is recommended to use the same image for model training /inference. When training tasks for images of different sizes cannot be avoided, the view size should be adjusted based on the maximum image size imported, and the view area will be input into the AI model. If the image size is smaller than the view, the software will automatically fill black pixels around the image, so that images of different sizes can achieve normalization effect.</p>
+<p><strong>Refer to the following steps:</strong></p>
+<ol class="simple">
+<li><p>Select the view area</p></li>
+<li><p>At the top of the view, according to the maximum size image you imported, set “By pixel, width, height, lateral offset, vertical offset, offset angle” to ensure that all images are within the view, and then click “Apply”.</p></li>
+</ol>
+</section>
+<section id="tag-application-scenarios">
+<h3>3.4 Tag application scenarios<a class="headerlink" href="#tag-application-scenarios" title="Link to this heading"></a></h3>
+<p>​	If you tag “Image/View” in the software, you can use the “Image/View Tag Search” function in the image list area to filter out the category “Image/View”.</p>
+<p><strong>Common usage scenarios are as follows:</strong></p>
+<p><strong>1.Date marking</strong></p>
+<p>​	In the early stage, due to the adjustment of the machine, the defect form of the model training is quite different from that of the later stage. Label the time tags of the images imported at different times, and the time points of the imported image data can be filtered out, thereby deleting the images that are more different from the defects in the production process.</p>
+<p><strong>2.Test set filtering</strong></p>
+<p>​	In the test set, it is necessary to focus on model identification effects. After labeling as tags, you can quickly filter out images and view effects after each training.</p>
+<p><strong>The image /view tag annotation method is as follows:</strong></p>
+<ol class="simple">
+<li><p>Right-click the image in the list and select “Set Image /View Tag”.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-513.png" /></p>
+<p>​	2.Select the “Add Tag” button, “Enter/Select tag” name, click “OK”, “Setting is complete! “. The final realization of the tag settings.</p>
+<p><img alt="Alt text" src="_images/image-514.png" /></p>
+<p>​	3.Filter tag search in the image list, set filter conditions, and quickly filter out tags of this category.</p>
+<p><img alt="Alt text" src="_images/image-515.png" /></p>
+</section>
+<section id="module-name-modification">
+<h3>3.5 Module name modification<a class="headerlink" href="#module-name-modification" title="Link to this heading"></a></h3>
+<p>Usage scenario: After creating a new AI module, the module name is generally the default name. There may be multiple AI modules at the same level in the project, and the module name can be changed to defect name to facilitate maintenance and management of on-site personnel. Right-click the module name and select rename to complete the modification. The software is modified before and after as shown in the following figure.</p>
+<p><strong>Note: After modifying the module name in the software, the “model name” filled in by the secondary development call model should also be modified.</strong></p>
+<p><img alt="Alt text" src="_images/image-516.png" />  <img alt="Alt text" src="_images/image-517.png" /></p>
+</section>
+<section id="shortcut-keys">
+<h3>3.6 Shortcut keys<a class="headerlink" href="#shortcut-keys" title="Link to this heading"></a></h3>
+<p>​	There are various shortcut keys in the software for easy user operation. For example, in “Annotation Mode”, press the spacebar to “Mask” and “Show Inference Results”, which is convenient for users to view the model effect. For more shortcut keys, see “<strong>AIDI - Help - Shortcut Information</strong>”.</p>
+<p><img alt="Alt text" src="_images/image-519.png" />    <img alt="Alt text" src="_images/image-520.png" /></p>
+</section>
+</section>
+<section id="examples-of-common-algorithm-schemes">
+<h2>4、Examples of common algorithm schemes<a class="headerlink" href="#examples-of-common-algorithm-schemes" title="Link to this heading"></a></h2>
+<section id="algorithm-pre-processing-aidi-segmentation-example">
+<h3>4.1 Algorithm pre-processing + AIDI segmentation example<a class="headerlink" href="#algorithm-pre-processing-aidi-segmentation-example" title="Link to this heading"></a></h3>
+<p>​	The “pre-processing” method is usually used on the project site to reduce the interference of the background area to the model and improve the model recognition rate.</p>
+<p><strong>The common pre-processing methods are as follows：</strong></p>
+<ol class="simple">
+<li><p><strong>Other AI modules:</strong> detection module, positioning module and segmentation module to identify product areas.</p></li>
+<li><p><strong>AIDI software:</strong> View window</p></li>
+<li><p><strong>Traditional algorithm methods:</strong> polar coordinate conversion, background consistency, etc.</p></li>
+</ol>
+<p><strong>Example 1:</strong> First use the detection module to identify the location of the product, and then use the segmentation module for defect identification. As shown in the figure below.</p>
+<p><img alt="Alt text" src="_images/image-518.png" /> <img alt="Alt text" src="_images/image-550.png" /></p>
+<p><strong>Example 2:</strong> First use the positioning module to identify the location of the product, and then use the segmentation module for defect identification .As shown in the figure below.</p>
+<p><img alt="Alt text" src="_images/image-521.png" /> <img alt="Alt text" src="_images/image-551.png" /></p>
+<p><strong>Use (detection /positioning) to identify the product detection area. Notes:</strong></p>
+<p>​	1、As shown in the figure below, the results of the rectangular frame of detection and positioning recognition will fluctuate. In the (Detection/Positioning) module back view window, you need to set the result width/height. Once all results are set to the same size, the effect of size fluctuations on the second module is reduced.</p>
+<p><img alt="Alt text" src="_images/image-522.png" />  <img alt="Alt text" src="_images/image-523.png" /></p>
+<p><img alt="Alt text" src="_images/image-524.png" /></p>
+<p>​	2、Detect the / positioning to identify two results appear in one position. You can set a lower target overlap rate and maximum target number in the inference parameters that detect / positioning.</p>
+<p><img alt="Alt text" src="_images/image-5.PNG" /><img alt="Alt text" src="_images/image-525.png" /></p>
+<p><strong>Example 3:</strong> Use the segmentation module to identify the location of the product, and then use the segmentation module to identify defects.  As shown in the figure below:</p>
+<p><img alt="Alt text" src="_images/image-552.png" /> <img alt="Alt text" src="_images/image-553.png" /></p>
+<p><strong>Example 4:</strong> When each product is fixed in the image position, you can use the AIDI view function to set the fixed area, extract the product for use, and then use the segmentation module for defect identification. As shown in the figure below.</p>
+<p><img alt="Alt text" src="_images/image-554.png" />      <img alt="Alt text" src="_images/image-555.png" /></p>
+<p><strong>Example 5:</strong> When the image is relatively large, use the AIDI view function to crop the image into multiple copies, and then use the segmentation module to identify defects on the small image, which can improve detection accuracy. The length and width of the image input model on the project site generally will not exceed 4,000. As shown in the figure below.</p>
+<p><img alt="Alt text" src="_images/image-556.png" /></p>
+<p><strong>Example 6:</strong> When detecting a circular (torus) product, first use polar coordinate conversion, and then use the AIDI segmentation module to detect it. Advantages of polar coordinate conversion.</p>
+<ol class="simple">
+<li><p>After the polar coordinates of products of different sizes are converted, the model interference caused by different sizes can be blocked.</p></li>
+<li><p>Avoid defects without various angle changes in the image and improve model recognition rate.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-557.png" /></p>
+<p>image1: Image of the product before polar conversion</p>
+<p><img alt="Alt text" src="_images/image-558.png" /></p>
+<p>image 2: Image of the effect after polar conversion<img alt="Alt text" src="_images/image-527.png" /></p>
+<p>image 3: AIDI annotation polar conversion image effect</p>
+<p><strong>Example 7:</strong> When the background of the detection product is complex, the traditional algorithm is used to harmonize the background first, and then the AIDI segmentation module is used to detect the product, which can improve the detection effect. Advantages after background consistency:</p>
+<ol class="simple">
+<li><p>Remove the background and calibrate the angle of the product. Reduce model interference caused by product background changes.</p></li>
+<li><p>The defect form is consistent, and products of different sizes are shared in one model, reducing deployment costs.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-528.png" /></p>
+<p>Background consistency renderings</p>
+<p><img alt="Alt text" src="_images/image-529.png" /></p>
+<p>Example of AIDI segmentation annotation</p>
+</section>
+<section id="example-of-aidi-segmentation-algorithmic-post-processing">
+<h3>4.2 Example of AIDI segmentation + algorithmic post-processing<a class="headerlink" href="#example-of-aidi-segmentation-algorithmic-post-processing" title="Link to this heading"></a></h3>
+<p>​	The project needs to calculate the curvature of the wire and determine whether it is NG by curvature. First, use the AIDI segmentation module to detect the wire, and then the traditional algorithm calculates the wire curvature value. Advantages of the algorithm:</p>
+<ol class="simple">
+<li><p>Segmentation and detection of welded wires can effectively avoid reflection, weakness and blackening of welded wires, which leads to misjudgment problems of traditional algorithms.</p></li>
+<li><p>The traditional algorithm calculates the degree of bending of the straight line by segmenting the detected contour information.</p></li>
+</ol>
+<p><img alt="Alt text" src="_images/image-559.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="AIDIintroduce.html" class="btn btn-neutral float-left" title="Introduction to AIDI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SecondaryDevelopment.html" class="btn btn-neutral float-right" title="Secondary Development Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aqrose.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

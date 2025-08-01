@@ -1,0 +1,9 @@
+Exception Handling
+===================
+
+.. doxygenclass:: visionflow::excepts::DefaultException
+
+.. doxygengroup:: derived_exceptions
+   :content-only:
+   :members:
+   :outline:

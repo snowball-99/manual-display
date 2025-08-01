@@ -1,0 +1,826 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="脚本流程" href="script_pipeline.html" /><link rel="prev" title="产品标识" href="product_mark.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>VisionFlow的数据包 - VisionFlow</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">VisionFlow</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/visionflow-logo-cb.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">VisionFlow</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about_visionflow.html">关于 VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">在开发环境中引入VisionFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core_concepts.html">VisionFlow 中的概念及其关系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">VisionFlow 入门教程</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">详细使用教程</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of 详细使用教程</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">工程的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workspace.html">工作区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool_manage.html">管理工程中的工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_visit.html">通过数据集管理工程数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">设置参数及训练模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eval_model.html">评估算法模型的效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_model.html">导出模型与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">运行时（Runtime）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_backup.html">工程备份</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">授权</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_mark.html">产品标识</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">VisionFlow的数据包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="script_pipeline.html">脚本流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../whitepapers/index.html">算法工具白皮书</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of 算法工具白皮书</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../whitepapers/el_unsuper_seg.html">EL非监督分割白皮书</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tool_introduction/index.html">算法工具说明</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of 算法工具说明</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/segmentation.html">分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_segmentation.html">非监督分割工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/unsuper_classification.html">非监督分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/location.html">定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/assemblyverification.html">装配检查工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/detection.html">检测工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/classification.html">分类工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/incremental_check.html">增量训练检查（分割、分类）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/OCR.html">OCR工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/geometry_search.html">几何定位工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/camera_calibration.html">相机标定工具介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tool_introduction/el_unsuper_seg.html">EL非监督分割工具使用说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/index.html">更多细节</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of 更多细节</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/command_line.html">命令行工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/training_callback.html">训练进度回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/compatibility_rule.html">版本兼容性与自动升级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/image_draw.html">图片绘制几何图形和文字</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/tools.html">工具清单及详细流程图</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cpp_api/cpp_index.html">C++ API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of C++ API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/namespace.html">Namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/global_setting.html">Global Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/core.html">Core Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/helpers.html">Helper Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/compatible.html">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/sampleset.html">Sample Set Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/props.html">Property Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/param.html">Parameter Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/confs.html">Configurator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/opers.html">Operator Types and Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/node_names.html">Constant String Node Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/image.html">Image type and image algorithm interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/geometry.html">Geometry Structure and Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/gauge.html">Gauge Parameters and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/excepts.html">Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_api/datapack.html">Data Package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_docs/compatibility.html">Version Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">已知问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题及解决方案</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../old_versions.html">Historic versions</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="visionflow">
+<h1>VisionFlow的数据包<a class="headerlink" href="#visionflow" title="Link to this heading">#</a></h1>
+<p>VisionFlow中除了可以使用工程来管理数据外，我们还提供了数据包用于管理图像数据和标注。
+数据包和工程的主要区别在于：工程是为了处理一个特定的检测任务而创建的，工程中除了包含
+图像数据、图像信息、标注和检测结果外，更重要的是将这些数据安装检测流程组织起来。
+而数据包是一个存粹的图像和标注信息的数据管理管理工具，它仅仅将图像和标注保存在一起，和
+具体的检测流程或使用到的检测工具没有直接关系也不包含检测流程或检测工具的任何信息。</p>
+<p>你可以使用数据包来：
+#. 在未知检测工具和流程的情况下保存标注数据；
+#. 将工程中的标注和图像数据存储到独立的数据包中；
+#. 从数据包中导入数据到一个或多个工程中；
+#. 长久保存通用标注数据；</p>
+<section id="id1">
+<h2>工程和数据包的交互<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>你可以将工程中的数据导出为数据包，再在其他工程中将这些数据导入。通过这一功能，你可以非常方便
+的在不同工程、不同工具、甚至不同类型的工具之间复制标注等数据。下面是一个简单的使用示例：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/helpers/datapack_project_io.hpp&quot;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">export_to_datapack</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">proj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">Project</span><span class="o">::</span><span class="n">Open</span><span class="p">(</span><span class="s">&quot;D://example.vflow&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">datapack_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">u8</span><span class="s">&quot;D://example.vfpack&quot;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">DatapackExportOptions</span><span class="w"> </span><span class="n">export_opt</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 输入工具的名称，为空时会尝试自动查找 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">input_tool_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;InputTool&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 设置为空表示从主数据集导出 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">sample_set_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 导出所有样本 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">export_all_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 同时导出图像 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">with_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 要导出的属性集 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">property_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="s">&quot;SegmentationTool&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">truth</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="s">&quot;SegmentationTool&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Segmentation</span><span class="o">::</span><span class="n">pred</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="s">&quot;InputTool&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">views</span><span class="p">},</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">remark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;备注信息&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 进度回调 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">progress_callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">export_project_to_datapack</span><span class="p">(</span><span class="o">*</span><span class="n">proj</span><span class="p">,</span><span class="w"> </span><span class="n">datapack_path</span><span class="p">,</span><span class="w"> </span><span class="n">export_opt</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>同上面一样，你也可以非常方面的将数据从数据包中将数据导入到工程中：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/helpers/datapack_project_io.hpp&quot;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">import_from_datapack</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">datapack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">Datapack</span><span class="p">(</span><span class="sa">u8</span><span class="s">&quot;D://example.vfpack&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">DatapackImportOptions</span><span class="w"> </span><span class="n">import_opt</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 要导入的数据项 */</span>
+<span class="w">  </span><span class="n">import_opt</span><span class="p">.</span><span class="n">sample_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">sample_ids</span><span class="p">();</span>
+<span class="w">  </span><span class="cm">/* 同导出一样，你可以设置为全部导入</span>
+<span class="cm">  // import_opt.import_all_samples = true;</span>
+<span class="cm">  /* 设置为空表示导入到主据集 */</span>
+<span class="w">  </span><span class="n">import_opt</span><span class="p">.</span><span class="n">sample_set_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 输入工具的名称，为空时会尝试自动查找 */</span>
+<span class="w">  </span><span class="n">export_opt</span><span class="p">.</span><span class="n">input_tool_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;InputTool_1&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 同时导入图像 */</span>
+<span class="w">  </span><span class="n">import_opt</span><span class="p">.</span><span class="n">with_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 导入时的映射关系 */</span>
+<span class="w">  </span><span class="n">import_opt</span><span class="p">.</span><span class="n">property_column_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{{</span><span class="s">&quot;DetectionTool&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Detection</span><span class="o">::</span><span class="n">truth</span><span class="p">},</span><span class="w"> </span><span class="s">&quot;SegmentationTool/pred&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{{</span><span class="s">&quot;InputTool_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">visionflow</span><span class="o">::</span><span class="n">Input</span><span class="o">::</span><span class="n">views</span><span class="p">},</span><span class="w"> </span><span class="s">&quot;InputTool/views&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="w">  </span><span class="cm">/* 仅导入对应图像已在工程中的相关数据 */</span>
+<span class="w">  </span><span class="n">import_ot</span><span class="p">.</span><span class="n">only_import_for_exist_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 强制替换旧数据 */</span>
+<span class="w">  </span><span class="n">import_ot</span><span class="p">.</span><span class="n">force_replace_old_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 进度回调 */</span>
+<span class="w">  </span><span class="n">import_opt</span><span class="p">.</span><span class="n">progress_callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">import_datapack_to_project</span><span class="p">(</span><span class="n">datapack</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">proj</span><span class="p">,</span><span class="w"> </span><span class="n">import_opt</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">C#</label><div class="tab-content docutils">
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="p">..</span><span class="w"> </span><span class="n">TODO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h2>直接操作数据包<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>除上面提供的帮助快速在工程和数据包之间互导数据的方法外，数据包也提供了灵活的接口用于访问数据包中的任意数据项；
+这些接口通过 <a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack8DataPackE" title="visionflow::datapack::DataPack"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::DataPack</span></code></a> 及其相关类型提供。</p>
+<section id="id3">
+<h3>数据包的结构<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>与数据集类似，数据包采用 <strong>样本</strong> 和 <strong>列</strong> 的二维表结构组织数据。
+每个样本包含一些元数据、包含或不含图像、包含若干列的标注或视图数据。
+数据包中还有一些独立的元数据，包括数据包创建的版本、创建时的VisionFlow库版本、备注和一个可以自由编辑的 <code class="docutils literal notranslate"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></code>。</p>
+</section>
+<section id="id4">
+<h3>向数据包添加VisionFlow数据<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>如果你的标注和视图数据来自于VisionFlow，你可以很简单地将它们添加到数据包。</p>
+<p>以这样一个场景为例：你通过导出的模型推理样本得到了检测结果，你希望将结果保存到数据包中，然后导入到另外某个工程。
+接续 <a class="reference internal" href="../getting_started.html#execute-model"><span class="std std-ref">执行模型</span></a> 的例子，假设你执行了一个分割工具，要将样本图、图的视图和分割工具上 <code class="docutils literal notranslate"><span class="pre">pred</span></code> 节点的推理结果保存下来。</p>
+<p>首先，创建一个数据包，并为要保存的数据分配数据包的列：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/datapack/datapack.hpp&quot;</span>
+
+<span class="c1">// 数据包的扩展名必须是 .vfpack</span>
+<span class="c1">// 构造函数的第二个参数 create_if_not_exist 设置为 true 以在文件不存在时新建</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">DataPack</span><span class="w"> </span><span class="n">datapack</span><span class="p">(</span><span class="s">&quot;D:/path/to/datapack.vfpack&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="c1">// 非必须：设置数据包的备注</span>
+<span class="n">datapack</span><span class="p">.</span><span class="n">set_remark</span><span class="p">(</span><span class="s">&quot;test datapack&quot;</span><span class="p">);</span>
+<span class="c1">// 非必须：利用额外字段保存其他自定义信息</span>
+<span class="n">datapack</span><span class="p">.</span><span class="n">extra_fields</span><span class="p">()[</span><span class="s">&quot;key&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">;</span>
+
+<span class="c1">// 这里将视图和推理结果在数据包中的列名设置为 &quot;input/views&quot; 和 &quot;seg/pred&quot;</span>
+<span class="c1">// 列名可以自由设置, 确保它没有与数据包中其他列名重名, 在使用数据包中的数据时使用这里的列名</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">view_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">view_column</span><span class="p">(</span><span class="s">&quot;input/views&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">pred_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">label_column</span><span class="p">(</span><span class="s">&quot;seg/pred&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>创建一个样本并将样本添加到数据包中。</p>
+<p>为了添加到数据包，必须有一个图像指纹。在调用 <a class="reference internal" href="../cpp_api/helpers.html#_CPPv4N10visionflow6helper19add_image_to_sampleER7ISampleRK5ImageRKNSt6stringEb6size_t" title="visionflow::helper::add_image_to_sample"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::helper::add_image_to_sample()</span></code></a> 时第四个参数需要传入 <code class="docutils literal notranslate"><span class="pre">true</span></code>。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/helpers/datapack_property_cvt.hpp&quot;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runtime</span><span class="p">.</span><span class="n">create_sample</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/image.png&quot;</span><span class="p">);</span>
+
+<span class="c1">// 为了添加到数据包, 在此处必须计算图像指纹</span>
+<span class="c1">// 创建的缩略图也会一起保存到数据包中, 可以视需要操作</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">add_image_to_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="n">input_id</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">);</span>
+
+<span class="c1">// 将VisionFlow类型转换为数据包中的类型</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">image_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">convert_to_datapack_image_info</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">get</span><span class="p">({</span><span class="n">input_id</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;image_info&quot;</span><span class="p">})</span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">vflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">RawImageInfo</span><span class="o">&gt;</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">get</span><span class="p">({</span><span class="n">input_id</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;image_user_data&quot;</span><span class="p">})</span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">vflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">ImageUserData</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="p">);</span>
+<span class="c1">// 在数据包中添加样本和图像</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">sample_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">create_sample</span><span class="p">(</span><span class="n">image_info</span><span class="p">);</span>
+<span class="n">datapack</span><span class="p">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">);</span>
+
+<span class="c1">// 将VisionFlow类型转换为数据包中的类型</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">convert_to_datapack_view</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">get</span><span class="p">({</span><span class="n">input_id</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;views&quot;</span><span class="p">})</span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">vflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">ViewList</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="p">);</span>
+<span class="c1">// 添加图像的视图</span>
+<span class="n">view_column</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span><span class="w"> </span><span class="n">view</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>执行模型推理样本，将推理结果保存在数据包中：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">runtime</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+
+<span class="c1">// 将VisionFlow类型转换为数据包中的类型</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">pred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">convert_to_datapack_label</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">get</span><span class="p">({</span><span class="n">segmentation_id</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pred&quot;</span><span class="p">})</span><span class="o">-&gt;</span><span class="n">as</span><span class="o">&lt;</span><span class="n">vflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">PolygonRegionList</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="p">);</span>
+<span class="c1">// 将推理结果保存到数据包中</span>
+<span class="n">pred_column</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span><span class="w"> </span><span class="n">pred</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>数据包在对象析构时会自动将数据保存到文件。</p>
+<p>你也可以调用 <a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack8DataPack5closeEPN4util17IProgressCallbackE" title="visionflow::datapack::DataPack::close"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::datapack::DataPack::close()</span></code></a> 提前保存数据并关闭数据包，
+这时你可以通过一个 <a class="reference internal" href="../cpp_api/core.html#_CPPv4N10visionflow4util17IProgressCallbackE" title="visionflow::util::IProgressCallback"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::util::IProgressCallback</span></code></a> 来跟踪保存进度或取消保存。
+关于进度回调的详细说明，请参考 <a class="reference internal" href="../advanced_topics/training_callback.html"><span class="doc">训练进度回调</span></a>。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>一旦取消保存，之前添加的数据都会被丢弃。不论是否取消保存，数据包关闭后不能再做任何操作。</p>
+</div>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vflow</span><span class="o">::</span><span class="n">util</span><span class="o">::</span><span class="n">IProgressCallback</span><span class="w"> </span><span class="o">*</span><span class="n">progress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomProgressCallback</span><span class="p">();</span>
+<span class="n">datapack</span><span class="p">.</span><span class="n">close</span><span class="p">(</span><span class="n">progress</span><span class="p">);</span>
+<span class="k">delete</span><span class="w"> </span><span class="n">progress</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>注意到在上面的例子中，使用了来自 <code class="docutils literal notranslate"><span class="pre">visionflow/helpers/datapack_property_cvt.hpp</span></code> 的三个辅助函数。
+这些函数的作用是将VisionFlow的属性转换为数据包中的数据类型。通过这样的转换得到的数据可以无损地转换回原本的类型。</p>
+<p>推荐在你的数据是VisionFlow的属性类型时尽可能使用这些辅助函数，以确保数据能够完整地被保存和再使用。</p>
+</section>
+<section id="id5">
+<h3>手动组装数据<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>你也可以手动将数据组装后添加到数据包。这时你需要处理以下3种类型：
+<a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack9ImageInfoE" title="visionflow::datapack::ImageInfo"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::ImageInfo</span></code></a>、
+<a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack8ViewListE" title="visionflow::datapack::ViewList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::ViewList</span></code></a> 和
+<a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack5LabelE" title="visionflow::datapack::Label"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::Label</span></code></a>。</p>
+<section id="imageinfo">
+<h4>组装 ImageInfo<a class="headerlink" href="#imageinfo" title="Link to this heading">#</a></h4>
+<p><a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack9ImageInfoE" title="visionflow::datapack::ImageInfo"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::ImageInfo</span></code></a> 包含了图像的元数据。它被用于在数据包中创建样本，其中的图像指纹被用于在数据包中区分图像。
+这些数据在创建样本后就不能修改。</p>
+<p>如果使用上文所述的 <a class="reference internal" href="../cpp_api/helpers.html#_CPPv4N10visionflow6helper26import_datapack_to_projectERKN10visionflow8datapack8DataPackER7Project21DatapackImportOptions" title="visionflow::helper::import_datapack_to_project"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">visionflow::helper::import_datapack_to_project()</span></code></a> 将组装的数据包导入工程，这里的数据会被用于替换输入工具
+<code class="docutils literal notranslate"><span class="pre">image_info</span></code> 节点的图像数据。因此你应当确保组装的数据与图像对应。</p>
+<p>在下面例子中假设你已经有一个 <a class="reference internal" href="../cpp_api/image.html#_CPPv4N10visionflow3img5ImageE" title="visionflow::img::Image"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::img::Image</span></code></a> 类型的图像，代码展示了如何利用图像的信息组装 <code class="docutils literal notranslate"><span class="pre">ImageInfo</span></code>：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/datapack/image_info.hpp&quot;</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">file_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;D:/path/to/image.png&quot;</span><span class="p">;</span>
+
+<span class="n">vflow</span><span class="o">::</span><span class="n">Image</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">ImageInfo</span><span class="w"> </span><span class="n">image_info</span><span class="p">;</span>
+
+<span class="c1">// 记录图像指纹</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_image_fingerprint</span><span class="p">(</span><span class="n">vflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">fingerprint</span><span class="p">(</span><span class="n">image</span><span class="p">));</span>
+<span class="c1">// 记录图像尺寸</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_image_size</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="c1">// 收集并记录图像通道数和深度</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">channels</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vflow</span><span class="o">::</span><span class="n">img</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">Depth</span><span class="o">&gt;</span><span class="w"> </span><span class="n">depths</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">visual_size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">channels</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">channels</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="w">    </span><span class="n">depths</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">depth</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_channels_and_depth</span><span class="p">(</span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">depths</span><span class="p">);</span>
+<span class="c1">// 记录图像来源</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_from_camera</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="c1">// 记录缩略图</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_thumbnail_image</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">resize</span><span class="p">({</span><span class="mi">128</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">}));</span>
+
+<span class="c1">// 如果你希望为图像上增加标签，也应记录</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">Tags</span><span class="w"> </span><span class="n">tags</span><span class="p">;</span>
+<span class="n">tags</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;tag1&quot;</span><span class="p">).</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;group:=value&quot;</span><span class="p">);</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_tags</span><span class="p">(</span><span class="n">tags</span><span class="p">);</span>
+<span class="c1">// 也可以增加样本的标签</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">Tags</span><span class="w"> </span><span class="n">descriptor_tags</span><span class="p">;</span>
+<span class="n">descriptor_tags</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;tag1&quot;</span><span class="p">).</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;group:=value&quot;</span><span class="p">);</span>
+<span class="n">image_info</span><span class="p">.</span><span class="n">set_descriptor_tags</span><span class="p">(</span><span class="n">descriptor_tags</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="viewlist">
+<h4>组装 ViewList<a class="headerlink" href="#viewlist" title="Link to this heading">#</a></h4>
+<p><a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack8ViewListE" title="visionflow::datapack::ViewList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::ViewList</span></code></a> 包含了图像的视图信息。
+它与VisionFlow中的 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props8ViewListE" title="visionflow::props::ViewList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::ViewList</span></code></a> 对应。</p>
+<p>它是若干个 <a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack4ViewE" title="visionflow::datapack::View"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::View</span></code></a> 视图的字典，每个 <code class="docutils literal notranslate"><span class="pre">View</span></code> 拥有一个唯一ID作为键。</p>
+<p>在下面的例子中展示了如何组装一个只含有一个视图的 <code class="docutils literal notranslate"><span class="pre">ViewList</span></code>。该视图是一个不带有掩膜、名称、评分或标签的全图视图，这也是导入图像时的默认视图。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">Image</span><span class="o">::</span><span class="n">FromFile</span><span class="p">(</span><span class="s">&quot;D:/path/to/image.png&quot;</span><span class="p">);</span>
+
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">ViewList</span><span class="w"> </span><span class="n">view_list</span><span class="p">;</span>
+
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">View</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="c1">// 设置变换矩阵为单位矩阵</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Matrix3f</span><span class="w"> </span><span class="nf">transform_mat</span><span class="p">(</span><span class="mf">1.0F</span><span class="p">);</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_transform_matrix</span><span class="p">(</span><span class="n">transform_mat</span><span class="p">);</span>
+<span class="c1">// 设置掩膜为空</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">MultiPolygon2f</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
+<span class="c1">// 设置变换后尺寸为图像尺寸</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Size2f</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_size</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="c1">// 设置名称和评分为空</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_score</span><span class="p">(</span><span class="mf">0.0F</span><span class="p">);</span>
+<span class="c1">// 设置标签和训练集区分为空</span>
+<span class="c1">// 这里是为了展示如何设置额外字段，如果实际数据为空，直接略去这两个键即可</span>
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">extra_fields</span><span class="p">;</span>
+<span class="c1">// 标签在 extra_fields 中固定使用 &quot;tags&quot; 键，值为JSON格式的字符串数组</span>
+<span class="n">extra_fields</span><span class="p">[</span><span class="s">&quot;tags&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[]&quot;</span><span class="p">;</span>
+<span class="c1">// 训练集区分在 extra_fields 中固定使用 &quot;split_tag&quot; 键，值为 &quot;0&quot; &quot;1&quot; 或 &quot;2&quot;，对应 visionflow::SplitTag 的三个枚举值</span>
+<span class="n">extra_fields</span><span class="p">[</span><span class="s">&quot;split_tag&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">;</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_extra_fields</span><span class="p">(</span><span class="n">extra_fields</span><span class="p">);</span>
+
+<span class="c1">// 将单个视图添加到列表，调用 add 方法时将返回一个随机分配的ID</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">added_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view_list</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="c1">// 或者，通过 update 方法可以指定ID</span>
+<span class="n">view_list</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">&quot;view_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="label">
+<h4>组装 Label<a class="headerlink" href="#label" title="Link to this heading">#</a></h4>
+<p><a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack5LabelE" title="visionflow::datapack::Label"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::Label</span></code></a> 包含了图像的标注信息。
+它与VisionFlow中的 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props9IPropertyE" title="visionflow::props::IProperty"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::IProperty</span></code></a> 对应。</p>
+<p>由于VisionFlow中存在多种不同的标注属性， <code class="docutils literal notranslate"><span class="pre">Label</span></code> 将其抽象为标注区域 <a class="reference internal" href="../cpp_api/datapack.html#_CPPv4N10visionflow8datapack11LabelRegionE" title="visionflow::datapack::LabelRegion"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::datapack::LabelRegion</span></code></a>
+的字典，每个 <code class="docutils literal notranslate"><span class="pre">LabelRegion</span></code> 拥有一个唯一ID作为键。</p>
+<p>每个 <code class="docutils literal notranslate"><span class="pre">LabelRegion</span></code> 记录一个标注区域，记录的数据包括：一个多边形，表示区域的形状、一个角度，表示区域的方向、名称和评分；
+不同的标注属性独有的数据利用 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 字段来处理。</p>
+<p>在下面的例子中展示了如何组装一个只含一个区域的 <code class="docutils literal notranslate"><span class="pre">Label</span></code>；
+并且，这个 <code class="docutils literal notranslate"><span class="pre">Label</span></code> 记录了额外数据，这些数据能够一起被转换为 <a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props30PolygonWithStringMapRegionListE" title="visionflow::props::PolygonWithStringMapRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::PolygonWithStringMapRegionList</span></code></a>。</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">Label</span><span class="w"> </span><span class="n">label</span><span class="p">;</span>
+
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">LabelRegion</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="c1">// 设置代表标注区域的多边形，必须符合多边形的要求</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Polygon2f</span><span class="w"> </span><span class="n">polygon</span><span class="p">;</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">);</span>
+<span class="c1">// 设置标注区域的方向</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_angle</span><span class="p">(</span><span class="n">vflow</span><span class="o">::</span><span class="n">geometry</span><span class="o">::</span><span class="n">Radian</span><span class="o">::</span><span class="n">FromDegree</span><span class="p">(</span><span class="mf">45.0F</span><span class="p">));</span>
+<span class="c1">// 设置名称和评分</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">&quot;label_name&quot;</span><span class="p">);</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_score</span><span class="p">(</span><span class="mf">0.9F</span><span class="p">);</span>
+
+<span class="c1">// 在 extra_fields 中添加额外的数据</span>
+<span class="c1">// 由于目标是转换为 PolygonWithStringMapRegionList，这里的键必须是 &quot;additional_map&quot;</span>
+<span class="c1">// 值必须是JSON格式的字典，为实际数据内容。</span>
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">extra_fields</span><span class="p">;</span>
+<span class="n">extra_fields</span><span class="p">[</span><span class="s">&quot;additional_map&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{</span><span class="se">\&quot;</span><span class="s">key1</span><span class="se">\&quot;</span><span class="s">: </span><span class="se">\&quot;</span><span class="s">value1</span><span class="se">\&quot;</span><span class="s">, </span><span class="se">\&quot;</span><span class="s">key2</span><span class="se">\&quot;</span><span class="s">: </span><span class="se">\&quot;</span><span class="s">value2</span><span class="se">\&quot;</span><span class="s">}&quot;</span><span class="p">;</span>
+<span class="n">item</span><span class="p">.</span><span class="n">set_extra_fields</span><span class="p">(</span><span class="n">extra_fields</span><span class="p">);</span>
+
+<span class="c1">// 将单个区域添加到标注，调用 add 方法时将返回一个随机分配的ID</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">added_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="c1">// 或者，通过 update 方法可以指定ID</span>
+<span class="n">label</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">&quot;region_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>如果你组装 <code class="docutils literal notranslate"><span class="pre">Label</span></code> 的目标是能够在将数据包导入工程时自动转换为VisionFlow的标注类型，并且在转换时带有每种标注类型的独有字段数据，
+你需要正确设置 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 字段。</p>
+<p>不同标注属性类型对 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 有不同要求。每一个标注类型独有的字段名作为 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 的键，
+字段值直接经JSON序列化后作为 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 的值。</p>
+<p>以下说明每种标注属性的 <code class="docutils literal notranslate"><span class="pre">extra_fields</span></code> 特定键名。下列键名均不是必须的，这时导入时将不设置对应字段。没有列出的键名可以自由设置，导入时被忽略。</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props17TaggedPolygonListE" title="visionflow::props::TaggedPolygonList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::TaggedPolygonList</span></code></a>：键名 <code class="docutils literal notranslate"><span class="pre">tags</span></code> 和 <code class="docutils literal notranslate"><span class="pre">split_tag</span></code>；</p></li>
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props27MultiNamesPolygonRegionListE" title="visionflow::props::MultiNamesPolygonRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::MultiNamesPolygonRegionList</span></code></a>：键名 <code class="docutils literal notranslate"><span class="pre">name_scores</span></code> 和 <code class="docutils literal notranslate"><span class="pre">logic_scores</span></code>；</p></li>
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props17PolygonRegionListE" title="visionflow::props::PolygonRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::PolygonRegionList</span></code></a>：不使用额外字段；</p></li>
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props30PolygonWithStringMapRegionListE" title="visionflow::props::PolygonWithStringMapRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::PolygonWithStringMapRegionList</span></code></a>：键名 <code class="docutils literal notranslate"><span class="pre">additional_map</span></code>；</p></li>
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props20RotateRectRegionListE" title="visionflow::props::RotateRectRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::RotateRectRegionList</span></code></a>：不使用额外字段；</p></li>
+<li><p><a class="reference internal" href="../cpp_api/props.html#_CPPv4N10visionflow5props18IDReaderRegionListE" title="visionflow::props::IDReaderRegionList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">visionflow::props::IDReaderRegionList</span></code></a>：键名 <code class="docutils literal notranslate"><span class="pre">idreader_type</span></code>。</p></li>
+</ol>
+</section>
+</section>
+<section id="id6">
+<h3>从数据包中读取数据<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>下面的示例将接续前文的示例，从数据包的 <code class="docutils literal notranslate"><span class="pre">input/views</span></code> 列读取视图、从 <code class="docutils literal notranslate"><span class="pre">seg/pred</span></code> 列读取标注。</p>
+<p>打开数据包，读取数据包的元数据：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;visionflow/datapack/datapack.hpp&quot;</span>
+
+<span class="c1">// 由于只是要从数据包中读取数据，不需要新建数据包，第二个参数设置为 false，不创建新文件</span>
+<span class="c1">// 第三个参数设置为 true，以只读方式打开数据包，以提高读取和关闭的性能</span>
+<span class="n">vflow</span><span class="o">::</span><span class="n">datapack</span><span class="o">::</span><span class="n">DataPack</span><span class="w"> </span><span class="n">datapack</span><span class="p">(</span><span class="s">&quot;D:/path/to/datapack.vfpack&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+
+<span class="c1">// 读取数据包的备注</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Remark: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">remark</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="c1">// 读取创建数据包的VisionFlow库版本</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;SDK Version: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">sdk_version</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="c1">// 读取数据包创建的Unix时间戳（精度为秒）</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Create Time: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">create_time</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="c1">// 读取数据包的额外字段</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Extra Fields: </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">extra_fields</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>获取数据包中的列和样本ID：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">view_columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">view_column_ids</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">view_columns</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;input/views&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;No column named &#39;input/views&#39; in datapack&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">label_columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">label_column_ids</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">label_columns</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;seg/pred&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;No column named &#39;seg/pred&#39; in datapack&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">sample_ids</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>获取每个样本的图像和图像信息：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample_id</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">samples</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">image_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">get_image_info</span><span class="p">();</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Image ID &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sample_id</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; Fingerprint: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">image_info</span><span class="p">.</span><span class="n">image_fingerprint</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// 数据包的样本中不一定包含图像，需先检查</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">datapack</span><span class="p">.</span><span class="n">has_image</span><span class="p">(</span><span class="n">sample_id</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">sample_id</span><span class="p">);</span>
+<span class="w">        </span><span class="n">image</span><span class="p">.</span><span class="n">to_file</span><span class="p">(</span><span class="s">&quot;D:/path/to/image.png&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;No image in sample &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sample_id</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>获取样本视图和标注，并且转为VisionFlow类型：</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 获取列操作句柄</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">label_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">label_column</span><span class="p">(</span><span class="s">&quot;seg/pred&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample_id</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">samples</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 数据包的每一列中不一定每个样本都有数据，需先检查</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">label_column</span><span class="p">.</span><span class="n">has</span><span class="p">(</span><span class="n">sample_id</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label_column</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">sample_id</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// 将数据包中的标注转换为 VisionFlow 的属性类型</span>
+<span class="w">    </span><span class="c1">// 由于 VisionFlow 的标注属性类型是多态的，需要先创建一个目标类型的空对象</span>
+<span class="w">    </span><span class="n">vflow</span><span class="o">::</span><span class="n">props</span><span class="o">::</span><span class="n">PolygonRegionList</span><span class="w"> </span><span class="n">pred</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">convert_from_datapack_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">pred</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 使用转换后的数据，这里以渲染在图像上为例</span>
+<span class="w">    </span><span class="n">pred</span><span class="p">.</span><span class="n">draw_on</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+<span class="w">    </span><span class="n">image</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">view_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datapack</span><span class="p">.</span><span class="n">view_column</span><span class="p">(</span><span class="s">&quot;input/views&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample_id</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">samples</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 数据包的每一列中不一定每个样本都有数据，需先检查</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">view_column</span><span class="p">.</span><span class="n">has</span><span class="p">(</span><span class="n">sample_id</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view_column</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">sample_id</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// 将数据包中的视图转换为 VisionFlow 的属性类型</span>
+<span class="w">    </span><span class="c1">// 与标注不同，视图没有多态，可以直接创建目标类型</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">vf_view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vflow</span><span class="o">::</span><span class="n">helper</span><span class="o">::</span><span class="n">convert_from_datapack_view</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="script_pipeline.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">脚本流程</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="product_mark.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">产品标识</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2025, Aqrose-Technology Co., Ltd. All rights reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">VisionFlow的数据包</a><ul>
+<li><a class="reference internal" href="#id1">工程和数据包的交互</a></li>
+<li><a class="reference internal" href="#id2">直接操作数据包</a><ul>
+<li><a class="reference internal" href="#id3">数据包的结构</a></li>
+<li><a class="reference internal" href="#id4">向数据包添加VisionFlow数据</a></li>
+<li><a class="reference internal" href="#id5">手动组装数据</a><ul>
+<li><a class="reference internal" href="#imageinfo">组装 ImageInfo</a></li>
+<li><a class="reference internal" href="#viewlist">组装 ViewList</a></li>
+<li><a class="reference internal" href="#label">组装 Label</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">从数据包中读取数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=bd972503"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>

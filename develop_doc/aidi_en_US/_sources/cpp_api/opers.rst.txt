@@ -1,0 +1,16 @@
+Operator Types and Factory
+==========================
+
+.. doxygenclass:: visionflow::opers::IService
+   :members:
+
+.. doxygenclass:: visionflow::opers::IOperator
+   :members:
+
+.. doxygenclass:: visionflow::opers::Factory
+   :members:
+
+.. doxygenstruct:: visionflow::opers::Meta
+   :members:
+
+.. doxygentypedef:: visionflow::opers::Creator
