@@ -1,1 +1,1 @@
-# Munual-display
+# manual-display
